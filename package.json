@@ -1,0 +1,41 @@
+{
+  "name": "opentrials",
+  "version": "0.0.1",
+  "description": "OpenTrials.net website",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "posttest": "npm run lint",
+    "lint": "eslint *.js **/*.js",
+    "coverage": "istanbul cover _mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/opentrials/opentrials.git"
+  },
+  "keywords": [
+    "opentrials"
+  ],
+  "author": "Open Knowledge <info@okfn.org> (http://okfn.org)",
+  "contributors": [
+    "Vitor Baptista <vitor@vitorbaptista.com> (http://vitorbaptista.com)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/opentrials/opentrials/issues"
+  },
+  "homepage": "https://github.com/opentrials/opentrials#readme",
+  "devDependencies": {
+    "eslint": "^1.10.3",
+    "eslint-config-airbnb": "^5.0.0",
+    "istanbul": "^0.4.2",
+    "mocha": "^2.4.5"
+  },
+  "dependencies": {
+    "good": "^6.6.0",
+    "good-console": "^5.3.1",
+    "hapi": "^13.0.0",
+    "nunjucks-hapi": "^2.0.1",
+    "vision": "^4.0.1"
+  }
+}
