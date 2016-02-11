@@ -11,6 +11,10 @@ const config = {
           events: { log: '*', reponse: '*' },
         }],
       },
+    }, {
+      register: require('inert'),
+    }, {
+      register: require('vision'),
     }],
 
     views: {

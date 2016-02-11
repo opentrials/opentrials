@@ -35,3 +35,6 @@ config/runtime.yaml
 
 # Database files
 *.db
+
+# Compiled files
+dist/
