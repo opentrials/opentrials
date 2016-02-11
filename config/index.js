@@ -1,6 +1,7 @@
-const path = require('path');
+'use strict';
+
 const config = {
-  port: process.env.PORT || 3000,
+  port: process.env.PORT || 5000,
 
   hapi: {
     plugins: [{
@@ -17,12 +18,7 @@ const config = {
       register: require('vision'),
     }],
 
-    views: {
-      engines: {
-        html: require('nunjucks-hapi'),
-      },
-      path: path.join(__dirname, 'views'),
-    },
+    views: require('./nunjuck'),
   },
 };
 

@@ -19,8 +19,19 @@ gulp.task('styles', () => (
       .pipe(plugins.autoprefixer())
       .pipe(plugins.minifyCss())
     .pipe(plugins.sourcemaps.write())
+    .pipe(plugins.rename('index.min.css'))
     .pipe(gulp.dest('dist/styles'))
 ));
+
+gulp.task('rev', ['styles'], () => {
+  const revAll = new plugins.revAll();
+
+  return gulp.src(['dist/styles/*'])
+    .pipe(revAll.revision())
+    .pipe(gulp.dest('dist'))
+    .pipe(revAll.manifestFile())
+    .pipe(gulp.dest('dist'));
+});
 
 gulp.task('nodemon', () => {
   plugins.nodemon({
@@ -31,5 +42,5 @@ gulp.task('nodemon', () => {
 
 gulp.task('clean', () => del(['dist']));
 
-gulp.task('build', ['styles']);
+gulp.task('build', ['clean', 'styles', 'rev']);
 gulp.task('start', ['build', 'nodemon', 'watch']);

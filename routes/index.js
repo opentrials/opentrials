@@ -12,6 +12,11 @@ const routes = [
         path: './dist',
       },
     },
+    config: {
+      cache: {
+        expiresIn: 7 * 24 * 60 * 60 * 1000,
+      },
+    },
   },
 ];
 

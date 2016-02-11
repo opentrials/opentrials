@@ -36,9 +36,12 @@
     "gulp-load-plugins": "^1.2.0",
     "gulp-minify-css": "^1.2.3",
     "gulp-nodemon": "^2.0.6",
+    "gulp-rename": "^1.2.2",
+    "gulp-rev-all": "^0.8.22",
     "gulp-sourcemaps": "^1.6.0",
     "istanbul": "^0.4.2",
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "should": "^8.2.2"
   },
   "dependencies": {
     "good": "^6.6.0",
