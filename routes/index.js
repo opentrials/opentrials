@@ -1,10 +1,5 @@
 const routes = [
   {
-    path: '/',
-    method: 'GET',
-    handler: require('../handlers/homepage'),
-  },
-  {
     path: '/static/{param*}',
     method: 'GET',
     handler: {
@@ -17,6 +12,16 @@ const routes = [
         expiresIn: 7 * 24 * 60 * 60 * 1000,
       },
     },
+  },
+  {
+    path: '/',
+    method: 'GET',
+    handler: require('../handlers/homepage'),
+  },
+  {
+    path: '/about',
+    method: 'GET',
+    handler: require('../handlers/about'),
   },
 ];
 

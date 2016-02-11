@@ -15,3 +15,5 @@ server.register(config.hapi.plugins)
       console.info('Server started at', server.info.uri); // eslint-disable-line no-console
     });
   });
+
+module.exports = server;

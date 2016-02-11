@@ -24,7 +24,7 @@ gulp.task('styles', () => (
 ));
 
 gulp.task('rev', ['styles'], () => {
-  const revAll = new plugins.revAll();
+  const revAll = new plugins.revAll(); // eslint-disable-line new-cap
 
   return gulp.src(['dist/styles/*'])
     .pipe(revAll.revision())
