@@ -1,5 +1,3 @@
-'use strict';
-
 const Swagger = require('swagger-client');
 
 module.exports = new Swagger({

@@ -1,2 +1,3 @@
+--use_strict
 --require test/common.js
 --recursive
