@@ -3,6 +3,8 @@
 const config = {
   port: process.env.PORT || 5000,
 
+  opentrialsApi: require('./opentrials-api'),
+
   hapi: {
     plugins: [{
       register: require('good'),

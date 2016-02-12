@@ -1,0 +1,90 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: OpenTrials API
+host: localhost:10010
+basePath: /
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /swagger.yaml:
+    x-swagger-pipe: swagger_raw
+  /trials:
+    x-swagger-router-controller: trials
+    get:
+      tags:
+        - trials
+      description: Returns list of trials
+      # used as the method name of the controller
+      operationId: list
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/TrialsList"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /trials/{id}:
+    x-swagger-router-controller: trials
+    get:
+      tags:
+        - trials
+      description: Returns list of trials
+      # used as the method name of the controller
+      operationId: get
+      parameters:
+        - name: id
+          in: path
+          description: ID of the trial
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/Trial"
+        # responses may fall through to errors
+        "404":
+          description: Trial not found
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+# complex objects have schema definitions
+definitions:
+  Trial:
+    required:
+      - id
+      - created_at
+      - updated_at
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+  TrialsList:
+    type: array
+    items:
+      $ref: '#/definitions/Trial'
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
