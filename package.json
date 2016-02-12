@@ -4,6 +4,7 @@
   "description": "OpenTrials.net website",
   "main": "server.js",
   "scripts": {
+    "pretest": "gulp build",
     "test": "mocha",
     "posttest": "npm run lint",
     "lint": "eslint *.js **/*.js",
