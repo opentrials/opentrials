@@ -5,13 +5,13 @@ const trials = require('../../agents/trials');
 describe('Trials', () => {
   describe('#get', () => {
     it('returns the trial', () => {
-      const trial = {
+      const data = {
         id: 1,
         title: 'foo',
       };
-      apiServer.get('/trials/1').reply(200, trial);
+      apiServer.get('/trials/1').reply(200, data);
 
-      return trials.get(1).should.be.fulfilledWith(trial);
+      return trials.get(1).should.be.fulfilledWith(data);
     });
 
     it('rejects if trialId is inexistent', () => {
@@ -25,13 +25,13 @@ describe('Trials', () => {
 
   describe('#list', () => {
     it('returns the list of trials', () => {
-      const trials = [
+      const data = [
         { id: 1, title: 'foo' },
         { id: 2, title: 'bar' },
       ];
-      apiServer.get('/trials').reply(200, trials);
+      apiServer.get('/trials').reply(200, data);
 
-      return trials.list().should.be.fulfilledWith(trials);
+      return trials.list().should.be.fulfilledWith(data);
     });
   });
 });
