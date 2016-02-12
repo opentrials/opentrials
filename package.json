@@ -8,6 +8,8 @@
     "posttest": "npm run lint",
     "lint": "eslint *.js **/*.js",
     "coverage": "istanbul cover _mocha",
+    "precoveralls": "npm run coverage",
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
     "start": "gulp start"
   },
   "repository": {
@@ -27,6 +29,7 @@
   },
   "homepage": "https://github.com/opentrials/opentrials#readme",
   "devDependencies": {
+    "coveralls": "^2.11.6",
     "del": "^2.2.0",
     "eslint": "^1.10.3",
     "eslint-config-airbnb": "^5.0.0",
