@@ -1,6 +1,11 @@
+const trials = require('../agents/trials');
+
 function homepage(request, reply) {
-  reply.view('index', {
-    title: 'OpenTrials.net',
+  trials.list().then((_trials) => {
+    reply.view('index', {
+      title: 'OpenTrials.net',
+      trials: _trials,
+    });
   });
 }
 
