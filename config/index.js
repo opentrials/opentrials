@@ -1,5 +1,8 @@
+require('dotenv').config();
+
 const config = {
-  port: process.env.PORT || 5000,
+  host: process.env.HOST,
+  port: process.env.PORT,
 
   opentrialsApi: require('./opentrials-api'),
 

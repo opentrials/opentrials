@@ -39,6 +39,8 @@
     "should": "^8.2.2"
   },
   "dependencies": {
+    "del": "^2.2.0",
+    "dotenv": "^2.0.0",
     "good": "^6.6.0",
     "good-console": "^5.3.1",
     "gulp": "^3.9.1",
@@ -46,11 +48,10 @@
     "gulp-less": "^3.0.5",
     "gulp-load-plugins": "^1.2.0",
     "gulp-minify-css": "^1.2.3",
+    "gulp-nodemon": "^2.0.6",
     "gulp-rename": "^1.2.2",
     "gulp-rev-all": "^0.8.22",
     "gulp-sourcemaps": "^1.6.0",
-    "gulp-nodemon": "^2.0.6",
-    "del": "^2.2.0",
     "hapi": "^13.0.0",
     "inert": "^3.2.0",
     "nunjucks-hapi": "^2.0.1",
