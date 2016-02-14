@@ -35,6 +35,7 @@ gulp.task('nodemon', () => {
   plugins.nodemon({
     script: 'server.js',
     ext: 'js html',
+    execMap: 'node --use_strict',
   });
 });
 
