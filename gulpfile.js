@@ -15,7 +15,7 @@ gulp.task('styles', () => (
     .pipe(plugins.sourcemaps.init())
       .pipe(plugins.less())
       .pipe(plugins.autoprefixer())
-      .pipe(plugins.minifyCss())
+      .pipe(plugins.cssnano())
     .pipe(plugins.sourcemaps.write())
     .pipe(plugins.rename('index.min.css'))
     .pipe(gulp.dest('dist/styles'))
