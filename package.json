@@ -36,6 +36,7 @@
     "eslint-config-airbnb": "^5.0.0",
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5",
+    "nock": "^7.0.2",
     "should": "^8.2.2"
   },
   "dependencies": {
