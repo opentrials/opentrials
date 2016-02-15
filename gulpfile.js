@@ -42,4 +42,4 @@ gulp.task('nodemon', () => {
 gulp.task('clean', () => del(['dist'], { force: true }));
 
 gulp.task('build', ['clean', 'styles', 'rev']);
-gulp.task('start', ['build', 'nodemon', 'watch']);
+gulp.task('dev', ['build', 'nodemon', 'watch']);
