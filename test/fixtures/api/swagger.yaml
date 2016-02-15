@@ -3,7 +3,7 @@ info:
   version: "0.0.1"
   title: OpenTrials API
 host: localhost:10010
-basePath: /
+basePath: /v1
 schemes:
   - http
   - https
