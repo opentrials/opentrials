@@ -6,4 +6,4 @@ cache:
     - node_modules
     - .nvm
 before_script: touch .env
-after_script: npm run coveralls
+script: npm run coveralls
