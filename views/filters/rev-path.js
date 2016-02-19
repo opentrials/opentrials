@@ -6,7 +6,7 @@ function revPath(filename) {
 
   assert(filePath, `File "${filename}" doesn't exist in the rev-manifest.json`);
 
-  return '/static/' + filePath;
+  return '/assets/' + filePath;
 }
 
 module.exports = revPath;

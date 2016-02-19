@@ -1,6 +1,6 @@
 const routes = [
   {
-    path: '/static/{param*}',
+    path: '/assets/{param*}',
     method: 'GET',
     handler: {
       directory: {
