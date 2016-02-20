@@ -41,6 +41,7 @@
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5",
     "nock": "^7.0.2",
+    "node-uuid": "^1.4.7",
     "should": "^8.2.2"
   },
   "dependencies": {
@@ -61,6 +62,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "hapi": "^13.0.0",
     "inert": "^3.2.0",
+    "moment": "^2.11.2",
     "nunjucks-hapi": "^2.0.1",
     "swagger-client": "^2.1.11",
     "vision": "^4.0.1"

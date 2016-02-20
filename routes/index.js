@@ -23,6 +23,11 @@ const routes = [
     method: 'GET',
     handler: require('../handlers/about'),
   },
+  {
+    path: '/trials/{id?}',
+    method: 'GET',
+    handler: require('../handlers/trials'),
+  },
 ];
 
 module.exports = routes;

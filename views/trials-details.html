@@ -1,0 +1,15 @@
+{% extends "layouts/base.html" %}
+
+{% block main %}
+<article>
+  <header>
+    <h2>Overview</h2>
+    <dl>
+      <dt>Description:</dt>
+      <dd>{{ trial.brief_summary }}</dd>
+      <dt>Registration date:</dt>
+      <dd>{{ trial.registration_date | formatDate }}</dd>
+    </dl>
+  </header>
+</article>
+{% endblock %}
