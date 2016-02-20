@@ -8,6 +8,8 @@ function trialsDetails(request, reply) {
       title: _trial.public_title,
       trial: _trial,
     });
+  }).catch((err) => {
+    reply('Trial not found.').code(err.status);
   });
 }
 
@@ -17,6 +19,8 @@ function trialsList(request, reply) {
       title: 'Trials',
       trials: _trials,
     });
+  }).catch((err) => {
+    reply('Failure listing trials.').code(err.status);
   });
 }
 

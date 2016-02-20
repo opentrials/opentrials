@@ -33,6 +33,15 @@ describe('trials handler', () => {
         return trial;
       }).should.deepEqual(trials);
     });
+
+    it('returns api status code when there was a problem with it', () => {
+      apiServer.get('/trials').reply(500);
+
+      return server.inject('/trials')
+        .then((_response) => {
+          _response.statusCode.should.equal(500);
+        });
+    });
   });
 
   describe('GET /trials/{id}', () => {
@@ -65,6 +74,24 @@ describe('trials handler', () => {
     it('sets the title to the trial.public_title', () => {
       const context = response.request.response.source.context;
       context.title.should.equal(trial.public_title);
+    });
+
+    it('returns 404 when trial doesnt exist', () => {
+      apiServer.get('/trials/foo').reply(404);
+
+      return server.inject('/trials/foo')
+        .then((_response) => {
+          _response.statusCode.should.equal(404);
+        });
+    });
+
+    it('returns api status code when there was a problem with it', () => {
+      apiServer.get('/trials/foo').reply(500);
+
+      return server.inject('/trials/foo')
+        .then((_response) => {
+          _response.statusCode.should.equal(500);
+        });
     });
   });
 });
