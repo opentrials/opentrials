@@ -39,7 +39,7 @@ gulp.task('nodemon', () => {
   });
 });
 
-gulp.task('clean', () => del(['dist'], { force: true }));
+gulp.task('clean', () => del.sync(['dist']));
 
 gulp.task('build', ['clean', 'styles', 'rev']);
 gulp.task('dev', ['build', 'nodemon', 'watch']);
