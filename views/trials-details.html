@@ -9,7 +9,23 @@
       <dd>{{ trial.brief_summary }}</dd>
       <dt>Registration date:</dt>
       <dd>{{ trial.registration_date | formatDate }}</dd>
+      <dt>Locations:</dt>
+      {% for location in trial.locations %}
+        <dd>{{ location.attributes.name }}</dd>
+      {% endfor %}
     </dl>
   </header>
+  <section>
+    <dl>
+      <dt>Interventions:</dt>
+      {% for intervention in trial.interventions %}
+        <dd>{{ intervention.attributes.name }}</dd>
+      {% endfor %}
+      <dt>People:</dt>
+      {% for person in trial.persons %}
+        <dd>{{ person.attributes.name }}</dd>
+      {% endfor %}
+    </dl>
+  </section>
 </article>
 {% endblock %}
