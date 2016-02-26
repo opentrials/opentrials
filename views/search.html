@@ -1,0 +1,26 @@
+{% extends 'layouts/base.html' %}
+
+{% block main %}
+  <form action="/search" method="get">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Query" name="q" label="Search" value="{{ query }}">
+      <span class="input-group-btn">
+        <button type="submit" class="btn btn-primary">Search</button>
+      </span>
+    </div>
+  </form>
+  {% if results %}
+  <section class='search-results'>
+    <h1>Results</h1>
+    Found {{ results.total_count }} trials.
+
+    {% for trial in results.items %}
+      {% if loop.first %}<ol>{% endif %}
+      <li>
+        {% include "partials/trial-search-result.html" %}
+      </li>
+      {% if loop.last %}</ol>{% endif %}
+    {% endfor %}
+  {% endif %}
+  </section>
+{% endblock %}

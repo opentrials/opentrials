@@ -32,4 +32,33 @@ describe('Trials', () => {
       return trials.list().should.be.fulfilledWith(data);
     });
   });
+
+  describe('#search', () => {
+    const response = {
+      total_count: 2,
+      items: [
+        fixtures.getTrial(),
+        fixtures.getTrial(),
+      ]
+    };
+    const expectedResponse = JSON.parse(JSON.stringify(response));
+
+    it('returns the response from the search API', () => {
+      apiServer.get('/search').reply(200, response);
+
+      return trials.search().should.be.fulfilledWith(expectedResponse);
+    });
+
+    it('encodes the query string', () => {
+      apiServer.get('/search?q=foo%20bar').reply(200, response);
+
+      return trials.search('foo bar').should.be.fulfilledWith(expectedResponse);
+    });
+
+    it('rejects the promise if there was some problem with the API call', () => {
+      apiServer.get('/search').reply(500);
+
+      return trials.search().should.be.rejected();
+    });
+  });
 });

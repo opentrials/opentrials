@@ -2,7 +2,6 @@ swagger: "2.0"
 info:
   version: "0.0.1"
   title: OpenTrials API
-host: localhost:10010
 basePath: /v1
 schemes:
   - http
@@ -14,6 +13,28 @@ produces:
 paths:
   /swagger.yaml:
     x-swagger-pipe: swagger_raw
+  /search:
+    x-swagger-router-controller: search
+    get:
+      tags:
+        - trials
+      description: Search stuff
+      operationId: search
+      parameters:
+        - name: q
+          in: query
+          description: The search query
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SearchResults"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /trials:
     x-swagger-router-controller: trials
     get:
@@ -46,7 +67,7 @@ paths:
           in: path
           description: ID of the trial
           required: true
-          type: integer
+          type: string
       responses:
         "200":
           description: Success
@@ -65,23 +86,130 @@ definitions:
   Trial:
     required:
       - id
-      - created_at
-      - updated_at
+      - public_title
+      - brief_summary
+      - registration_date
+      - locations
+      - interventions
+      - persons
     properties:
       id:
-        type: integer
-      title:
         type: string
-      created_at:
+      public_title:
+        type: string
+      brief_summary:
+        type: string
+      registration_date:
         type: string
         format: date-time
-      updated_at:
-        type: string
-        format: date-time
+      locations:
+        type: array
+        items:
+          $ref: '#/definitions/TrialLocation'
+      interventions:
+        type: array
+        items:
+          $ref: '#/definitions/TrialIntervention'
+      persons:
+        type: array
+        items:
+          $ref: '#/definitions/TrialPerson'
   TrialsList:
     type: array
     items:
       $ref: '#/definitions/Trial'
+
+  TrialLocation:
+    required:
+      - attributes
+    properties:
+      role:
+        type: string
+        enum:
+          - recruitment_countries
+          - other
+      attributes:
+        $ref: '#/definitions/Location'
+  Location:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+        enum:
+          - country
+          - city
+          - other
+
+  TrialIntervention:
+    required:
+      - attributes
+    properties:
+      role:
+        type: string
+        enum:
+          - other
+      attributes:
+        $ref: '#/definitions/Intervention'
+  Intervention:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+        enum:
+          - drug
+          - other
+
+  TrialPerson:
+    required:
+      - attributes
+    properties:
+      role:
+        type: string
+        enum:
+          - principal_investigator
+          - public_queries
+          - scientific_queries
+          - other
+      attributes:
+        $ref: '#/definitions/Person'
+  Person:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+        enum:
+          - other
+
+  SearchResults:
+    required:
+      - total_count
+      - items
+    properties:
+      total_count:
+        type: integer
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/Trial'
+
   ErrorResponse:
     required:
       - message
