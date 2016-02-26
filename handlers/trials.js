@@ -1,3 +1,4 @@
+const Boom = require('boom');
 const trials = require('../agents/trials');
 
 function trialsDetails(request, reply) {
@@ -9,7 +10,11 @@ function trialsDetails(request, reply) {
       trial: _trial,
     });
   }).catch((err) => {
-    reply('Trial not found.').code(err.status);
+    if (err.status === 404) {
+      reply(Boom.notFound('Trial not found.', err));
+    } else {
+      reply(Boom.badGateway('Error accessing OpenTrials API.', err));
+    }
   });
 }
 
@@ -20,7 +25,7 @@ function trialsList(request, reply) {
       trials: _trials,
     });
   }).catch((err) => {
-    reply('Failure listing trials.').code(err.status);
+    reply(Boom.badGateway('Error accessing OpenTrials API.', err));
   });
 }
 
