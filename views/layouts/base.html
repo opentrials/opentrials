@@ -6,16 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ title }}</title>
 
+    <link href="{{ 'vendor.min.css' | revPath }}" rel="stylesheet">
+
+    <!-- OK Panel CSS -->
+    <link rel="stylesheet" href="//cdn.rawgit.com/okfn/ok-panel/v1.0.0/assets/css/frontend.css">
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="//cdn.rawgit.com/okfn/app-theme/924b03098a3d0fcaa5acf573f51571f519f80c94/css/main.min.css">
+
     <link href="{{ 'index.min.css' | revPath }}" rel="stylesheet">
 
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <link rel="shortcut icon" type="image/png" href="/assets/images/favicon.png">
+    <link rel="apple-touch-icon" type="image/png" href="/assets/images/apple-touch-icon.png">
   </head>
   <body>
-    <main>
+    {% include "partials/navigation.html"  %}
+
+    <div class="jumbotron inverse ot-header-jumbotron">
+      <div class="container">
+        {% block title %}<h1>{{ title }}</h1>{% endblock %}
+        {% block subtitle %}<p>{{ subtitle }}</p>{% endblock %}
+      </div>
+    </div>
+
+    <main class="container">
       {% block main %}{% endblock %}
     </main>
+
+    {% include "partials/footer.html"  %}
   </body>
 </html>

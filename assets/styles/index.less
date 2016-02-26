@@ -1,3 +1,34 @@
-body {
-  color: blue;
+@import '_constants';
+
+.jumbotron.inverse.ot-header-jumbotron {
+  background: @blue url('/assets/images/header-background.jpg') right top no-repeat;
+}
+
+.glyphicon.ot-logo {
+  line-height: 27px;
+  padding: 4px;
+  background: @blue;
+}
+
+.ot-logo img {
+  max-width: 27px;
+  max-height: 27px;
+  vertical-align: top;
+}
+
+.navbar-brand .text::before,
+.navbar-brand:hover {
+  color: @blue;
+}
+
+.ok-ribbon::before {
+  background-color: @blue;
+}
+
+a {
+  color: @blue;
+}
+
+a:hover, a:focus {
+  color: @dark-blue;
 }

@@ -1,6 +1,6 @@
 const routes = [
   {
-    path: '/static/{param*}',
+    path: '/assets/{param*}',
     method: 'GET',
     handler: {
       directory: {
@@ -22,6 +22,11 @@ const routes = [
     path: '/about',
     method: 'GET',
     handler: require('../handlers/about'),
+  },
+  {
+    path: '/trials/{id?}',
+    method: 'GET',
+    handler: require('../handlers/trials'),
   },
 ];
 

@@ -1,10 +1,5 @@
 {% extends 'layouts/base.html' %}
 
 {% block main %}
-The index page. Trials coming from the API:
-<ul>
-  {% for trial in trials %}
-    <li>{{ trial.title }}</li>
-  {% endfor %}
-<ul>
+The index page. See <a href="/trials">list of trials</a>.
 {% endblock %}
