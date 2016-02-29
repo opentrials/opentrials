@@ -1,0 +1,7 @@
+<ol class="pagination">
+  {% for page in pagination %}
+  <li {% if currentPage == page.label %} class="active" {% endif %}>
+    <a href="{{ page.url }}">{{ page.label }}</a>
+  </li>
+  {% endfor %}
+</ol>

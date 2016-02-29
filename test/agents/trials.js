@@ -55,6 +55,12 @@ describe('Trials', () => {
       return trials.search('foo bar').should.be.fulfilledWith(expectedResponse);
     });
 
+    it('passes the page number to the query', () => {
+      apiServer.get('/search?q=foo&page=2').reply(200, response);
+
+      return trials.search('foo', 2).should.be.fulfilledWith(expectedResponse);
+    });
+
     it('rejects the promise if there was some problem with the API call', () => {
       apiServer.get('/search').reply(500);
 

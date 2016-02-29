@@ -12,9 +12,14 @@ function listTrials() {
     .then((response) => response.obj);
 }
 
-function searchTrials(query) {
+function searchTrials(query, page) {
+  const searchQuery = {
+    q: query,
+    page,
+  };
+
   return opentrialsApi
-    .then((client) => client.trials.search({ q: query }))
+    .then((client) => client.trials.search(searchQuery))
     .then((response) => response.obj);
 }
 

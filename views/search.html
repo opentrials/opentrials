@@ -10,9 +10,12 @@
     </div>
   </form>
   {% if results %}
-  <section class='search-results'>
+  <section class="search-results">
     <h1>Results</h1>
     Found {{ results.total_count }} trials.
+    <nav>
+      {% include "partials/search-pagination.html" %}
+    </nav>
 
     {% for trial in results.items %}
       {% if loop.first %}<ol>{% endif %}
@@ -21,6 +24,10 @@
       </li>
       {% if loop.last %}</ol>{% endif %}
     {% endfor %}
+
+    <nav>
+      {% include "partials/search-pagination.html" %}
+    </nav>
   {% endif %}
   </section>
 {% endblock %}
