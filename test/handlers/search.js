@@ -102,9 +102,8 @@ describe('search handler', () => {
     describe('single page', () => {
       it('returns empty pagination', () => {
         const apiResponseSinglePage = Object.assign(apiResponse, { total_count: 5 });
-        const page = 1;
-        apiServer.get('/search?page='+page+'&per_page=10').reply(200, apiResponseSinglePage);
-        return server.inject('/search?page='+page)
+        apiServer.get('/search?per_page=10').reply(200, apiResponseSinglePage);
+        return server.inject('/search')
           .then((_response) => {
             const pagination = _response.request.response.source.context.pagination;
             pagination.should.deepEqual([]);
@@ -115,9 +114,8 @@ describe('search handler', () => {
     describe('more than 1 and less than 10 pages', () => {
       it('works as expected', () => {
         const apiResponseLessThan10Pages = Object.assign(apiResponse, { total_count: 20 });
-        const page = 1;
-        apiServer.get('/search?page='+page+'&per_page=10').reply(200, apiResponseLessThan10Pages);
-        return server.inject('/search?page='+page)
+        apiServer.get('/search?per_page=10').reply(200, apiResponseLessThan10Pages);
+        return server.inject('/search')
           .then((_response) => {
             const pagination = _response.request.response.source.context.pagination;
             pagination.should.deepEqual([
