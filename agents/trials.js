@@ -12,10 +12,11 @@ function listTrials() {
     .then((response) => response.obj);
 }
 
-function searchTrials(query, page) {
+function searchTrials(query, page, perPage) {
   const searchQuery = {
     q: query,
     page,
+    per_page: perPage,
   };
 
   return opentrialsApi

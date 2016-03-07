@@ -61,6 +61,12 @@ describe('Trials', () => {
       return trials.search('foo', 2).should.be.fulfilledWith(expectedResponse);
     });
 
+    it('passes the number of items per page to the query', () => {
+      apiServer.get('/search?q=foo&page=2&per_page=12').reply(200, response);
+
+      return trials.search('foo', 2, 12).should.be.fulfilledWith(expectedResponse);
+    });
+
     it('rejects the promise if there was some problem with the API call', () => {
       apiServer.get('/search').reply(500);
 
