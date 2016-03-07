@@ -87,6 +87,18 @@ describe('search handler', () => {
   });
 
   describe('pagination', () => {
+    describe('no results', () => {
+      it('returns empty pagination', () => {
+        const apiResponseNoResults = { total_count: 0, items: [] };
+        apiServer.get('/search?per_page=10').reply(200, apiResponseNoResults);
+        return server.inject('/search')
+          .then((_response) => {
+            const pagination = _response.request.response.source.context.pagination;
+            pagination.should.deepEqual([]);
+          });
+      });
+    });
+
     describe('single page', () => {
       it('returns empty pagination', () => {
         const apiResponseSinglePage = Object.assign(apiResponse, { total_count: 5 });

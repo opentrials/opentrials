@@ -35,7 +35,7 @@ function getPagination(url, currentPage, perPage, totalCount) {
     }
   ));
 
-  if (numberOfPages === 1) {
+  if (numberOfPages <= 1) {
     return [];
   }
 
