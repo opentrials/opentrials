@@ -21,18 +21,6 @@ describe('Trials', () => {
     });
   });
 
-  describe('#list', () => {
-    it('returns the list of trials', () => {
-      const data = [
-        { id: 1, title: 'foo' },
-        { id: 2, title: 'bar' },
-      ];
-      apiServer.get('/trials').reply(200, data);
-
-      return trials.list().should.be.fulfilledWith(data);
-    });
-  });
-
   describe('#search', () => {
     const response = {
       total_count: 2,

@@ -18,7 +18,7 @@ paths:
     get:
       tags:
         - trials
-      description: Search stuff
+      description: Search trials
       operationId: search
       parameters:
         - name: q
@@ -48,25 +48,6 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /trials:
-    x-swagger-router-controller: trials
-    get:
-      tags:
-        - trials
-      description: Returns list of trials
-      # used as the method name of the controller
-      operationId: list
-      responses:
-        "200":
-          description: Success
-          schema:
-            # a pointer to a definition
-            $ref: "#/definitions/TrialsList"
-        # responses may fall through to errors
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
   /trials/{id}:
     x-swagger-router-controller: trials
     get:
@@ -127,10 +108,6 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/TrialPerson'
-  TrialsList:
-    type: array
-    items:
-      $ref: '#/definitions/Trial'
 
   TrialLocation:
     required:

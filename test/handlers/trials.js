@@ -1,49 +1,6 @@
 const server = require('../../server');
 
 describe('trials handler', () => {
-  describe('GET /trials', () => {
-    const trials = [
-      fixtures.getTrial(),
-      fixtures.getTrial(),
-    ];
-    let response;
-
-    before(() => {
-      apiServer.get('/trials').reply(200, trials);
-
-      return server.inject('/trials')
-        .then((_response) => {
-          response = _response;
-        });
-    });
-
-    it('is successful', () => {
-      response.statusCode.should.equal(200)
-    });
-
-    it('uses the "trials-list" template', () => (
-      response.request.response.source.template.should.equal('trials-list')
-    ));
-
-    it('adds the trials into the context', () => {
-      const context = response.request.response.source.context;
-
-      context.trials.map((trial) => {
-        trial.registration_date = new Date(trial.registration_date);
-        return trial;
-      }).should.deepEqual(trials);
-    });
-
-    it('returns api status code when there was a problem with it', () => {
-      apiServer.get('/trials').reply(500);
-
-      return server.inject('/trials')
-        .then((_response) => {
-          _response.statusCode.should.equal(500);
-        });
-    });
-  });
-
   describe('GET /trials/{id}', () => {
     const trial = fixtures.getTrial();
     let response;
