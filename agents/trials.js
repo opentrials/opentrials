@@ -6,12 +6,6 @@ function getTrial(trialId) {
     .then((response) => response.obj);
 }
 
-function listTrials() {
-  return opentrialsApi
-    .then((client) => client.trials.list())
-    .then((response) => response.obj);
-}
-
 function searchTrials(query, page, perPage) {
   const searchQuery = {
     q: query,
@@ -26,6 +20,5 @@ function searchTrials(query, page, perPage) {
 
 module.exports = {
   get: getTrial,
-  list: listTrials,
   search: searchTrials,
 };
