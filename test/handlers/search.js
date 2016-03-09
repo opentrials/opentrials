@@ -8,12 +8,18 @@ describe('search handler', () => {
       fixtures.getTrial(),
     ],
   }));
-  let response;
+  const locationsResponse = [
+    fixtures.getLocation(),
+    fixtures.getLocation(),
+  ];
 
   describe('GET /search', () => {
+    let response;
+
     describe('API is OK', () => {
       before(() => {
         apiServer.get('/search?per_page=10').reply(200, apiResponse);
+        apiServer.get('/locations').reply(200, locationsResponse);
 
         return server.inject('/search')
           .then((_response) => {
@@ -32,7 +38,13 @@ describe('search handler', () => {
       it('adds the trials into the context', () => {
         const context = response.request.response.source.context;
 
-        context.results.should.deepEqual(apiResponse);
+        context.trials.should.deepEqual(apiResponse);
+      });
+
+      it('adds the locations into the context', () => {
+        const context = response.request.response.source.context;
+
+        context.locations.should.deepEqual(locationsResponse);
       });
 
       it('adds the page number 1 into the context', () => {
@@ -43,6 +55,7 @@ describe('search handler', () => {
     describe('API is not OK', () => {
       it('returns error 502', () => {
         apiServer.get('/search?per_page=10').reply(500);
+        apiServer.get('/locations').reply(500);
 
         return server.inject('/search')
           .then((_response) => {
@@ -54,9 +67,11 @@ describe('search handler', () => {
 
   describe('GET /search?q={query}', () => {
     const query = 'foo bar';
+    let response;
 
     before(() => {
       apiServer.get('/search?q='+encodeURI(query)+'&per_page=10').reply(200, apiResponse);
+      apiServer.get('/locations').reply(200, []);
 
       return server.inject('/search?q='+encodeURI(query))
         .then((_response) => {
@@ -71,9 +86,11 @@ describe('search handler', () => {
 
   describe('GET /search?page={page}', () => {
     const page = 51;
+    let response;
 
     before(() => {
       apiServer.get('/search?page='+page+'&per_page=10').reply(200, apiResponse);
+      apiServer.get('/locations').reply(200, []);
 
       return server.inject('/search?page='+page)
         .then((_response) => {
@@ -86,7 +103,26 @@ describe('search handler', () => {
     });
   });
 
+  describe('GET /search?location={locationID}', () => {
+    it('calls the API correctly', () => {
+      const searchResponse = { total_count: 0, items: [] };
+      apiServer.get('/locations').reply(200, []);
+      apiServer.get('/search?q=foo%20location%3ACzech%20Republic&per_page=10').reply(200, apiResponse);
+
+      return server.inject('/search?q=foo&location=Czech+Republic')
+        .then((_response) => {
+          const context = _response.request.response.source.context;
+
+          context.trials.should.deepEqual(apiResponse);
+        });
+    });
+  });
+
   describe('pagination', () => {
+    beforeEach(() => {
+      apiServer.get('/locations').reply(200, []);
+    })
+
     describe('no results', () => {
       it('returns empty pagination', () => {
         const apiResponseNoResults = { total_count: 0, items: [] };

@@ -4,6 +4,7 @@ const URL = require('url');
 const Boom = require('boom');
 const _ = require('lodash');
 const trials = require('../agents/trials');
+const locations = require('../agents/locations');
 
 function getPagination(url, currentPage, perPage, totalCount) {
   const getPageUrl = (pageNumber) => {
@@ -52,17 +53,27 @@ function searchPage(request, reply) {
   const query = request.query.q;
   const page = (request.query.page) ? parseInt(request.query.page, 10) : undefined;
   const perPage = 10;
+  const filters = {
+    location: request.query.location,
+  };
 
-  trials.search(query, page, perPage).then((response) => {
+  Promise.all([
+    trials.search(query, page, perPage, filters),
+    locations.list(),
+  ]).then((responses) => {
+    const trialsResponse = responses[0];
+    const locationsResponse = responses[1];
     const currentPage = page || 1;
-    const pagination = getPagination(request.url, currentPage, perPage, response.total_count);
+    const pagination = getPagination(request.url, currentPage, perPage, trialsResponse.total_count);
 
     reply.view('search', {
       title: 'Search',
       query,
       currentPage,
       pagination,
-      results: response,
+      filters,
+      trials: trialsResponse,
+      locations: locationsResponse,
     });
   }).catch((err) => (
     reply(

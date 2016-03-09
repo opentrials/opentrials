@@ -6,9 +6,20 @@ function getTrial(trialId) {
     .then((response) => response.obj);
 }
 
-function searchTrials(query, page, perPage) {
+function generateQueryString(query, filters) {
+  const queryValues = Object.keys(filters || {}).reduce((prev, filterName) => {
+    const value = filters[filterName];
+
+    return (value) ? [...prev, `${filterName}:${value}`] : prev;
+  }, []);
+  const queryString = [query, ...queryValues].join(' ').trim();
+
+  return queryString || undefined;
+}
+
+function searchTrials(query, page, perPage, filters) {
   const searchQuery = {
-    q: query,
+    q: generateQueryString(query, filters),
     page,
     per_page: perPage,
   };

@@ -8,16 +8,26 @@
         <button type="submit" class="btn btn-primary">Search</button>
       </span>
     </div>
+    {% for location in locations %}
+      {% if loop.first %}<select name="location">{% endif %}
+        <option
+          value="{{ location.name }}"
+          {% if filters.location == location.name %}selected{% endif %}
+          >
+          {{ location.name }}
+        </option>
+      {% if loop.last %}</select>{% endif %}
+    {% endfor %}
   </form>
-  {% if results %}
+  {% if trials %}
   <section class="search-results">
     <h1>Results</h1>
-    Found {{ results.total_count }} trials.
+    Found {{ trials.total_count }} trials.
     <nav>
       {% include "partials/search-pagination.html" %}
     </nav>
 
-    {% for trial in results.items %}
+    {% for trial in trials.items %}
       {% if loop.first %}<ol>{% endif %}
       <li>
         {% include "partials/trial-search-result.html" %}

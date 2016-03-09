@@ -40,7 +40,7 @@
     "eslint-config-airbnb": "^5.0.0",
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5",
-    "nock": "^7.0.2",
+    "nock": "^7.4.0",
     "node-uuid": "^1.4.7",
     "should": "^8.2.2"
   },

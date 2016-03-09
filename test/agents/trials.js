@@ -55,6 +55,13 @@ describe('Trials', () => {
       return trials.search('foo', 2, 12).should.be.fulfilledWith(expectedResponse);
     });
 
+    it('adds the filters to the query string', () => {
+      apiServer.get('/search?q=foo%20location%3ACzech%20Republic').reply(200, response);
+
+      return trials.search('foo', undefined, undefined, { location: 'Czech Republic' })
+        .should.be.fulfilledWith(expectedResponse);
+    });
+
     it('rejects the promise if there was some problem with the API call', () => {
       apiServer.get('/search').reply(500);
 
