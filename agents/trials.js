@@ -1,3 +1,4 @@
+'use strict';
 const opentrialsApi = require('../config').opentrialsApi;
 
 function getTrial(trialId) {
@@ -10,9 +11,15 @@ function generateQueryString(query, filters) {
   const queryValues = Object.keys(filters || {}).reduce((prev, filterName) => {
     const value = filters[filterName];
 
-    return (value) ? [...prev, `${filterName}:${value}`] : prev;
+    return (value) ? [...prev, `${filterName}:"${value}"`] : prev;
   }, []);
-  const queryString = [query, ...queryValues].join(' ').trim();
+  let queryString;
+
+  if (query) {
+    queryString = [query, ...queryValues].join(' AND ');
+  } else {
+    queryString = queryValues.join(' AND ');
+  }
 
   return queryString || undefined;
 }

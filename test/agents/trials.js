@@ -56,7 +56,8 @@ describe('Trials', () => {
     });
 
     it('adds the filters to the query string', () => {
-      apiServer.get('/search?q=foo%20location%3ACzech%20Republic').reply(200, response);
+      const expectedApiCall = `/search?q=${encodeURIComponent('foo AND location:"Czech Republic"')}`
+      apiServer.get(expectedApiCall).reply(200, response);
 
       return trials.search('foo', undefined, undefined, { location: 'Czech Republic' })
         .should.be.fulfilledWith(expectedResponse);
