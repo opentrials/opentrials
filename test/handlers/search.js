@@ -18,8 +18,14 @@ describe('search handler', () => {
 
     describe('API is OK', () => {
       before(() => {
-        apiServer.get('/search?per_page=10').reply(200, apiResponse);
-        apiServer.get('/locations').reply(200, locationsResponse);
+        mockApiResponses({
+          search: {
+            response: apiResponse,
+          },
+          locations: {
+            response: locationsResponse,
+          },
+        });
 
         return server.inject('/search')
           .then((_response) => {
@@ -54,8 +60,10 @@ describe('search handler', () => {
 
     describe('API is not OK', () => {
       it('returns error 502', () => {
-        apiServer.get('/search?per_page=10').reply(500);
-        apiServer.get('/locations').reply(500);
+        mockApiResponses({
+          search: { statusCode: 500 },
+          locations: { statusCode: 500 },
+        });
 
         return server.inject('/search')
           .then((_response) => {
@@ -65,22 +73,27 @@ describe('search handler', () => {
     });
   });
 
-  describe('GET /search?q={query}', () => {
-    const query = 'foo bar';
+  describe('GET /search?q={queryStr}', () => {
+    const queryStr = 'foo bar';
     let response;
 
     before(() => {
-      apiServer.get('/search?q='+encodeURI(query)+'&per_page=10').reply(200, apiResponse);
-      apiServer.get('/locations').reply(200, []);
+      mockApiResponses({
+        search: {
+          query: {
+            q: queryStr,
+          },
+        },
+      });
 
-      return server.inject('/search?q='+encodeURI(query))
+      return server.inject('/search?q='+encodeURIComponent(queryStr))
         .then((_response) => {
           response = _response;
         });
     });
 
     it('adds the query into the context', () => {
-      response.request.response.source.context.query.should.equal(query)
+      response.request.response.source.context.query.should.equal(queryStr)
     });
   });
 
@@ -89,8 +102,14 @@ describe('search handler', () => {
     let response;
 
     before(() => {
-      apiServer.get('/search?page='+page+'&per_page=10').reply(200, apiResponse);
-      apiServer.get('/locations').reply(200, []);
+      mockApiResponses({
+        search: {
+          query: {
+            page: page,
+          },
+          response: apiResponse,
+        },
+      });
 
       return server.inject('/search?page='+page)
         .then((_response) => {
@@ -106,28 +125,34 @@ describe('search handler', () => {
   describe('GET /search?location={locationID}', () => {
     it('calls the API correctly', () => {
       const searchResponse = { total_count: 0, items: [] };
-      const expectedSearchApiCall = `/search?q=${encodeURIComponent('(foo bar) AND location:"Czech Republic"')}&per_page=10`
-      apiServer.get('/locations').reply(200, []);
-      apiServer.get(expectedSearchApiCall).reply(200, apiResponse);
+      mockApiResponses({
+        search: {
+          query: {
+            q: '(foo bar) AND location:"Czech Republic"',
+          },
+          response: searchResponse,
+        },
+      });
 
       return server.inject('/search?q=foo+bar&location=Czech+Republic')
         .then((_response) => {
           const context = _response.request.response.source.context;
 
-          context.trials.should.deepEqual(apiResponse);
+          context.trials.should.deepEqual(searchResponse);
         });
     });
   });
 
   describe('pagination', () => {
-    beforeEach(() => {
-      apiServer.get('/locations').reply(200, []);
-    })
-
     describe('no results', () => {
       it('returns empty pagination', () => {
         const apiResponseNoResults = { total_count: 0, items: [] };
-        apiServer.get('/search?per_page=10').reply(200, apiResponseNoResults);
+        mockApiResponses({
+          search: {
+            response: apiResponseNoResults,
+          }
+        })
+
         return server.inject('/search')
           .then((_response) => {
             const pagination = _response.request.response.source.context.pagination;
@@ -139,7 +164,12 @@ describe('search handler', () => {
     describe('single page', () => {
       it('returns empty pagination', () => {
         const apiResponseSinglePage = Object.assign(apiResponse, { total_count: 5 });
-        apiServer.get('/search?per_page=10').reply(200, apiResponseSinglePage);
+        mockApiResponses({
+          search: {
+            response: apiResponseSinglePage,
+          }
+        })
+
         return server.inject('/search')
           .then((_response) => {
             const pagination = _response.request.response.source.context.pagination;
@@ -151,7 +181,12 @@ describe('search handler', () => {
     describe('more than 1 and less than 10 pages', () => {
       it('works as expected', () => {
         const apiResponseLessThan10Pages = Object.assign(apiResponse, { total_count: 20 });
-        apiServer.get('/search?per_page=10').reply(200, apiResponseLessThan10Pages);
+        mockApiResponses({
+          search: {
+            response: apiResponseLessThan10Pages,
+          }
+        })
+
         return server.inject('/search')
           .then((_response) => {
             const pagination = _response.request.response.source.context.pagination;
@@ -172,7 +207,14 @@ describe('search handler', () => {
 
       it('works on the beginning of the page list', () => {
         const page = 3;
-        apiServer.get('/search?page='+page+'&per_page=10').reply(200, apiResponseMoreThan10Pages);
+        mockApiResponses({
+          search: {
+            response: apiResponseMoreThan10Pages,
+            query: {
+              page,
+            },
+          }
+        })
 
         return server.inject('/search?page='+page)
           .then((_response) => {
@@ -198,7 +240,14 @@ describe('search handler', () => {
 
       it('works on the middle of the page list', () => {
         const page = 25;
-        apiServer.get('/search?page='+page+'&per_page=10').reply(200, apiResponseMoreThan10Pages);
+        mockApiResponses({
+          search: {
+            response: apiResponseMoreThan10Pages,
+            query: {
+              page,
+            },
+          }
+        })
 
         return server.inject('/search?page='+page)
           .then((_response) => {
@@ -224,7 +273,14 @@ describe('search handler', () => {
 
       it('works on the end of the page list', () => {
         const page = 50;
-        apiServer.get('/search?page='+page+'&per_page=10').reply(200, apiResponseMoreThan10Pages);
+        mockApiResponses({
+          search: {
+            response: apiResponseMoreThan10Pages,
+            query: {
+              page,
+            },
+          }
+        })
 
         return server.inject('/search?page='+page)
           .then((_response) => {

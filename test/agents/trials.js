@@ -38,26 +38,25 @@ describe('Trials', () => {
     });
 
     it('encodes the query string', () => {
-      apiServer.get('/search?q=foo%20bar').reply(200, response);
+      apiServer.get('/search').query({q: 'foo bar'}).reply(200, response);
 
       return trials.search('foo bar').should.be.fulfilledWith(expectedResponse);
     });
 
     it('passes the page number to the query', () => {
-      apiServer.get('/search?q=foo&page=2').reply(200, response);
+      apiServer.get('/search').query({page: 2}).reply(200, response);
 
-      return trials.search('foo', 2).should.be.fulfilledWith(expectedResponse);
+      return trials.search(undefined, 2).should.be.fulfilledWith(expectedResponse);
     });
 
     it('passes the number of items per page to the query', () => {
-      apiServer.get('/search?q=foo&page=2&per_page=12').reply(200, response);
+      apiServer.get('/search').query({per_page: 12}).reply(200, response);
 
-      return trials.search('foo', 2, 12).should.be.fulfilledWith(expectedResponse);
+      return trials.search(undefined, undefined, 12).should.be.fulfilledWith(expectedResponse);
     });
 
     it('adds the filters to the query string', () => {
-      const expectedApiCall = `/search?q=${encodeURIComponent('(foo bar) AND location:"Czech Republic"')}`
-      apiServer.get(expectedApiCall).reply(200, response);
+      apiServer.get('/search').query({q: '(foo bar) AND location:"Czech Republic"'}).reply(200, response);
 
       return trials.search('foo bar', undefined, undefined, { location: 'Czech Republic' })
         .should.be.fulfilledWith(expectedResponse);
