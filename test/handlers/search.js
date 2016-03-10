@@ -106,11 +106,11 @@ describe('search handler', () => {
   describe('GET /search?location={locationID}', () => {
     it('calls the API correctly', () => {
       const searchResponse = { total_count: 0, items: [] };
-      const expectedSearchApiCall = `/search?q=${encodeURIComponent('foo AND location:"Czech Republic"')}&per_page=10`
+      const expectedSearchApiCall = `/search?q=${encodeURIComponent('(foo bar) AND location:"Czech Republic"')}&per_page=10`
       apiServer.get('/locations').reply(200, []);
       apiServer.get(expectedSearchApiCall).reply(200, apiResponse);
 
-      return server.inject('/search?q=foo&location=Czech+Republic')
+      return server.inject('/search?q=foo+bar&location=Czech+Republic')
         .then((_response) => {
           const context = _response.request.response.source.context;
 

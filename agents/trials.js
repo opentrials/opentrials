@@ -12,16 +12,20 @@ function generateQueryString(query, filters) {
     const value = filters[filterName];
 
     return (value) ? [...prev, `${filterName}:"${value}"`] : prev;
-  }, []);
+  }, []).join(' AND ');
   let queryString;
 
   if (query) {
-    queryString = [query, ...queryValues].join(' AND ');
+    if (queryValues) {
+      queryString = `(${query}) AND ${queryValues}`;
+    } else {
+      queryString = query;
+    }
   } else {
-    queryString = queryValues.join(' AND ');
+    queryString = queryValues || undefined;
   }
 
-  return queryString || undefined;
+  return queryString;
 }
 
 function searchTrials(query, page, perPage, filters) {
