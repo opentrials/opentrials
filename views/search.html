@@ -3,39 +3,46 @@
 {% block main %}
   <form action="/search" method="get">
     <div class="input-group">
-      <input type="text" class="form-control" placeholder="Query" name="q" label="Search" value="{{ query.q }}">
+      <input type="search" class="form-control" title="Search" placeholder="Query" name="q" value="{{ query.q }}">
       <span class="input-group-btn">
         <button type="submit" class="btn btn-primary">Search</button>
       </span>
     </div>
-    <div class="input-group">
-      <label class="control-label" for="location">Location</label>
-      <select class="form-control" name="location">
-        <option></option>
-        {% for location in locations %}
-            <option
-              value="{{ location.name }}"
-              {% if query.location == location.name %}selected{% endif %}
-              >
-              {{ location.name }}
-            </option>
-        {% endfor %}
-      </select>
-    </div>
-    <div class="input-group">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Start date (e.g. 2015-01-01)"
-        name="registration_date_start"
-        value="{{ query.registration_date_start }}">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="End date (e.g. 2016-01-01)"
-        name="registration_date_end"
-        value="{{ query.registration_date_end }}">
-    </div>
+    <fieldset>
+      <legend>Filters</legend>
+      <div class="input-group">
+        <label class="control-label" for="location">Location</label>
+        <select class="form-control" name="location" id="location">
+          <option value="">All</option>
+          {% for location in locations %}
+              <option
+                value="{{ location.name }}"
+                {% if query.location == location.name %}selected{% endif %}
+                >
+                {{ location.name }}
+              </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <fieldset>
+        <legend>Registration date</legend>
+        <label for="registration_date_start">Start date</label>
+        <input
+          type="date"
+          class="form-control"
+          name="registration_date_start"
+          id="registration_date_start"
+          value="{{ query.registration_date_start }}">
+        <label for="registration_date_end">End date</label>
+        <input
+          type="date"
+          class="form-control"
+          name="registration_date_end"
+          id="registration_date_end"
+          value="{{ query.registration_date_end }}">
+      </fieldset>
+    </fieldset>
   </form>
   {% if trials %}
   <section class="search-results">

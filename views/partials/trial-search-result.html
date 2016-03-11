@@ -8,7 +8,6 @@
           {{ trial.registration_date | formatDate }}
         </time>
       </dd>
-      </dd>
       {% for location in trial.locations %}
         {% if loop.first %}<dt>Locations:</dt>{% endif %}
         <dd>{{ location.attributes.name }}</dd>
