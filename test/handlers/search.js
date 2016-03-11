@@ -156,6 +156,53 @@ describe('search handler', () => {
     });
   });
 
+  describe('GET /search?registration_date_start={start}&registration_date_end={end}', () => {
+    it('accepts just start date', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'registration_date:[2012-01-01 TO *]',
+          },
+        },
+      });
+
+      return server.inject('/search?registration_date_start=2012-01-01')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+        });
+    });
+
+    it('accepts just end date', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'registration_date:[* TO 2016-01-01]'
+          },
+        },
+      });
+
+      return server.inject('/search?registration_date_end=2016-01-01')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+        });
+    });
+
+    it('accepts start and end dates', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'registration_date:[2015-01-01 TO 2016-01-01]',
+          },
+        },
+      });
+
+      return server.inject('/search?registration_date_start=2015-01-01&registration_date_end=2016-01-01')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+        });
+    });
+  });
+
   describe('pagination', () => {
     describe('no results', () => {
       it('returns empty pagination', () => {

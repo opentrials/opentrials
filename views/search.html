@@ -22,6 +22,20 @@
         {% endfor %}
       </select>
     </div>
+    <div class="input-group">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Start date (e.g. 2015-01-01)"
+        name="registration_date_start"
+        value="{{ query.registration_date_start }}">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="End date (e.g. 2016-01-01)"
+        name="registration_date_end"
+        value="{{ query.registration_date_end }}">
+    </div>
   </form>
   {% if trials %}
   <section class="search-results">

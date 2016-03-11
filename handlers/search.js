@@ -49,14 +49,27 @@ function getPagination(url, currentPage, perPage, totalCount) {
   ];
 }
 
+function getFilters(query) {
+  const filters = {
+    location: (query.location) ? `"${query.location}"` : undefined,
+  };
+
+  const registrationDateStart = query.registration_date_start;
+  const registrationDateEnd = query.registration_date_end;
+  if (registrationDateStart || registrationDateEnd) {
+    const registrationDate = `[${registrationDateStart || '*'} TO ${registrationDateEnd || '*'}]`;
+    filters.registration_date = registrationDate;
+  }
+
+  return filters;
+}
+
 function searchPage(request, reply) {
   const query = request.query;
   const queryStr = query.q;
   const page = (query.page) ? parseInt(query.page, 10) : undefined;
   const perPage = 10;
-  const filters = {
-    location: query.location,
-  };
+  const filters = getFilters(query);
 
   Promise.all([
     trials.search(queryStr, page, perPage, filters),

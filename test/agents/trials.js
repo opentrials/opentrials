@@ -58,7 +58,7 @@ describe('Trials', () => {
     it('adds the filters to the query string', () => {
       apiServer.get('/search').query({q: '(foo bar) AND location:"Czech Republic"'}).reply(200, response);
 
-      return trials.search('foo bar', undefined, undefined, { location: 'Czech Republic' })
+      return trials.search('foo bar', undefined, undefined, { location: '"Czech Republic"' })
         .should.be.fulfilledWith(expectedResponse);
     });
 
