@@ -73,6 +73,19 @@ describe('search handler', () => {
     });
   });
 
+  describe('GET /search?{query}', () => {
+    it('adds the query into the context', () => {
+      mockApiResponses();
+      return server.inject('/search?foo=bar&baz=51')
+        .then((_response) => {
+          _response.request.response.source.context.query.should.deepEqual({
+            foo: 'bar',
+            baz: '51',
+          });
+        });
+    });
+  });
+
   describe('GET /search?q={queryStr}', () => {
     const queryStr = 'foo bar';
     let response;
@@ -93,7 +106,7 @@ describe('search handler', () => {
     });
 
     it('adds the query into the context', () => {
-      response.request.response.source.context.query.should.equal(queryStr)
+      response.request.response.source.context.query.q.should.equal(queryStr)
     });
   });
 

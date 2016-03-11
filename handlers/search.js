@@ -50,15 +50,16 @@ function getPagination(url, currentPage, perPage, totalCount) {
 }
 
 function searchPage(request, reply) {
-  const query = request.query.q;
-  const page = (request.query.page) ? parseInt(request.query.page, 10) : undefined;
+  const query = request.query;
+  const queryStr = query.q;
+  const page = (query.page) ? parseInt(query.page, 10) : undefined;
   const perPage = 10;
   const filters = {
-    location: request.query.location,
+    location: query.location,
   };
 
   Promise.all([
-    trials.search(query, page, perPage, filters),
+    trials.search(queryStr, page, perPage, filters),
     locations.list(),
   ]).then((responses) => {
     const trialsResponse = responses[0];
@@ -71,7 +72,6 @@ function searchPage(request, reply) {
       query,
       currentPage,
       pagination,
-      filters,
       trials: trialsResponse,
       locations: locationsResponse,
     });

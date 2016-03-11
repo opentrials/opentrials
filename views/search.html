@@ -3,7 +3,7 @@
 {% block main %}
   <form action="/search" method="get">
     <div class="input-group">
-      <input type="text" class="form-control" placeholder="Query" name="q" label="Search" value="{{ query }}">
+      <input type="text" class="form-control" placeholder="Query" name="q" label="Search" value="{{ query.q }}">
       <span class="input-group-btn">
         <button type="submit" class="btn btn-primary">Search</button>
       </span>
@@ -15,7 +15,7 @@
         {% for location in locations %}
             <option
               value="{{ location.name }}"
-              {% if filters.location == location.name %}selected{% endif %}
+              {% if query.location == location.name %}selected{% endif %}
               >
               {{ location.name }}
             </option>
