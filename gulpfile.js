@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 const plugins = require('gulp-load-plugins')();
 const del = require('del');
+const webpack = require('webpack-stream');
 
 const paths = {
   styles: ['./assets/styles/**/*.less'],
@@ -29,23 +30,31 @@ gulp.task('styles', ['styles:vendor'], () => (
     .pipe(gulp.dest('dist/styles'))
 ));
 
+gulp.task('js:vendor', () => (
+  gulp.src('./assets/js/**/*.js')
+    .pipe(webpack(require('./webpack.config.js')))
+    .pipe(gulp.dest('dist/js'))
+));
+
+gulp.task('js', ['js:vendor']);
+
 gulp.task('images', () => (
   gulp.src(paths.images)
     .pipe(plugins.imagemin({ optimizationLevel: 3, progressive: true, interlaced: true }))
     .pipe(gulp.dest('dist/images'))
 ));
 
-gulp.task('rev', ['styles'], () => {
+gulp.task('rev', ['js', 'styles'], () => {
   const revAll = new plugins.revAll(); // eslint-disable-line new-cap
 
-  return gulp.src(['dist/styles/*'])
+  return gulp.src(['dist/styles/*', 'dist/js/*'])
     .pipe(revAll.revision())
     .pipe(gulp.dest('dist'))
     .pipe(revAll.manifestFile())
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('nodemon', () => {
+gulp.task('dev', ['watch'], () => {
   plugins.nodemon({
     script: 'server.js',
     ext: 'js html',
@@ -55,5 +64,4 @@ gulp.task('nodemon', () => {
 
 gulp.task('clean', () => del.sync(['dist']));
 
-gulp.task('build', ['clean', 'styles', 'images', 'rev']);
-gulp.task('dev', ['build', 'nodemon', 'watch']);
+gulp.task('build', ['clean', 'images', 'rev']);

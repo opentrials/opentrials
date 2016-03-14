@@ -66,6 +66,8 @@
     "moment": "^2.11.2",
     "nunjucks-hapi": "^2.0.1",
     "swagger-client": "^2.1.11",
-    "vision": "^4.0.1"
+    "vision": "^4.0.1",
+    "webpack": "^1.12.14",
+    "webpack-stream": "^3.1.0"
   }
 }
