@@ -40,7 +40,7 @@
     "eslint-config-airbnb": "^5.0.0",
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5",
-    "nock": "^7.0.2",
+    "nock": "^7.4.0",
     "node-uuid": "^1.4.7",
     "should": "^8.2.2"
   },
@@ -63,9 +63,12 @@
     "gulp-sourcemaps": "^1.6.0",
     "hapi": "^13.0.0",
     "inert": "^3.2.0",
+    "lodash": "^4.6.1",
     "moment": "^2.11.2",
     "nunjucks-hapi": "^2.0.1",
     "swagger-client": "^2.1.11",
-    "vision": "^4.0.1"
+    "vision": "^4.0.1",
+    "webpack": "^1.12.14",
+    "webpack-stream": "^3.1.0"
   }
 }

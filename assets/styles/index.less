@@ -1,5 +1,7 @@
 @import '_constants';
 @import '_about';
+@import '_search';
+@import '_pagination';
 
 .jumbotron.inverse.ot-header-jumbotron {
   background: @blue url('/assets/images/header-background.jpg') right top no-repeat;
@@ -32,4 +34,14 @@ a {
 
 a:hover, a:focus {
   color: @dark-blue;
+}
+
+.btn-primary {
+  background-color: @blue;
+  border-color: @dark-blue;
+}
+
+.btn-primary:hover {
+  background-color: @dark-blue;
+  border-color: @dark-blue;
 }

@@ -2,7 +2,6 @@ swagger: "2.0"
 info:
   version: "0.0.1"
   title: OpenTrials API
-host: localhost:10010
 basePath: /v1
 schemes:
   - http
@@ -14,31 +13,47 @@ produces:
 paths:
   /swagger.yaml:
     x-swagger-pipe: swagger_raw
-  /trials:
-    x-swagger-router-controller: trials
+  /search:
+    x-swagger-router-controller: search
     get:
       tags:
         - trials
-      description: Returns list of trials
-      # used as the method name of the controller
-      operationId: list
+      description: Search trials
+      operationId: search
+      parameters:
+        - name: q
+          in: query
+          description: The search query
+          type: string
+        - name: page
+          in: query
+          description: The page number
+          type: integer
+          minimum: 1
+          default: 1
+        - name: per_page
+          in: query
+          description: Number of items per page
+          type: integer
+          minimum: 10
+          maximum: 100
+          default: 20
       responses:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
-            $ref: "#/definitions/TrialsList"
-        # responses may fall through to errors
+            $ref: "#/definitions/SearchResults"
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+
   /trials/{id}:
     x-swagger-router-controller: trials
     get:
       tags:
         - trials
-      description: Returns list of trials
+      description: Returns trial details
       # used as the method name of the controller
       operationId: get
       parameters:
@@ -46,7 +61,7 @@ paths:
           in: path
           description: ID of the trial
           required: true
-          type: integer
+          type: string
       responses:
         "200":
           description: Success
@@ -60,28 +75,154 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+
+  /locations:
+    x-swagger-router-controller: locations
+    get:
+      tags:
+        - locations
+      description: Returns list of locations
+      operationId: list
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/LocationList"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
 # complex objects have schema definitions
 definitions:
   Trial:
     required:
       - id
-      - created_at
-      - updated_at
+      - public_title
+      - brief_summary
+      - registration_date
+      - locations
+      - interventions
+      - persons
     properties:
       id:
+        type: string
+      public_title:
+        type: string
+      brief_summary:
+        type: string
+      registration_date:
+        type: string
+        format: date-time
+      locations:
+        type: array
+        items:
+          $ref: '#/definitions/TrialLocation'
+      interventions:
+        type: array
+        items:
+          $ref: '#/definitions/TrialIntervention'
+      persons:
+        type: array
+        items:
+          $ref: '#/definitions/TrialPerson'
+
+  TrialLocation:
+    required:
+      - attributes
+    properties:
+      role:
+        type: string
+        enum:
+          - recruitment_countries
+          - other
+      attributes:
+        $ref: '#/definitions/Location'
+  Location:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+        enum:
+          - country
+          - city
+          - other
+
+  TrialIntervention:
+    required:
+      - attributes
+    properties:
+      role:
+        type: string
+        enum:
+          - other
+      attributes:
+        $ref: '#/definitions/Intervention'
+  Intervention:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+        enum:
+          - drug
+          - other
+
+  TrialPerson:
+    required:
+      - attributes
+    properties:
+      role:
+        type: string
+        enum:
+          - principal_investigator
+          - public_queries
+          - scientific_queries
+          - other
+      attributes:
+        $ref: '#/definitions/Person'
+  Person:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+        enum:
+          - other
+
+  SearchResults:
+    required:
+      - total_count
+      - items
+    properties:
+      total_count:
         type: integer
-      title:
-        type: string
-      created_at:
-        type: string
-        format: date-time
-      updated_at:
-        type: string
-        format: date-time
-  TrialsList:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/Trial'
+
+  LocationList:
     type: array
     items:
-      $ref: '#/definitions/Trial'
+      $ref: '#/definitions/Location'
+
   ErrorResponse:
     required:
       - message

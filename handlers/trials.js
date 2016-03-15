@@ -18,23 +18,4 @@ function trialsDetails(request, reply) {
   });
 }
 
-function trialsList(request, reply) {
-  trials.list().then((_trials) => {
-    reply.view('trials-list', {
-      title: 'Trials',
-      trials: _trials,
-    });
-  }).catch((err) => {
-    reply(Boom.badGateway('Error accessing OpenTrials API.', err));
-  });
-}
-
-function handler(request, reply) {
-  if (request.params.id) {
-    trialsDetails(request, reply);
-  } else {
-    trialsList(request, reply);
-  }
-}
-
-module.exports = handler;
+module.exports = trialsDetails;

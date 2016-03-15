@@ -1,0 +1,70 @@
+{% extends 'layouts/base.html' %}
+
+{% block main %}
+  <form action="/search" method="get">
+    <div class="input-group">
+      <input type="search" class="form-control" title="Search" placeholder="Query" name="q" value="{{ query.q }}">
+      <span class="input-group-btn">
+        <button type="submit" class="btn btn-primary">Search</button>
+      </span>
+    </div>
+    <fieldset>
+      <legend>Filters</legend>
+      <div class="input-group">
+        <label class="control-label" for="location">Location</label>
+        <select class="form-control" name="location" id="location">
+          <option value="">All</option>
+          {% for location in locations %}
+              <option
+                value="{{ location.name }}"
+                {% if query.location == location.name %}selected{% endif %}
+                >
+                {{ location.name }}
+              </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <fieldset>
+        <legend>Registration date</legend>
+        <label for="registration_date_start">Start date</label>
+        <input
+          type="date"
+          data-format="dd/MMM/yyyy"
+          class="form-control"
+          name="registration_date_start"
+          id="registration_date_start"
+          value="{{ query.registration_date_start }}">
+        <label for="registration_date_end">End date</label>
+        <input
+          type="date"
+          data-format="dd/MMM/yyyy"
+          class="form-control"
+          name="registration_date_end"
+          id="registration_date_end"
+          value="{{ query.registration_date_end }}">
+      </fieldset>
+    </fieldset>
+  </form>
+  {% if trials %}
+  <section class="search-results">
+    <h1>Results</h1>
+    Found {{ trials.total_count }} trials.
+    <nav>
+      {% include "partials/search-pagination.html" %}
+    </nav>
+
+    {% for trial in trials.items %}
+      {% if loop.first %}<ol>{% endif %}
+      <li>
+        {% include "partials/trial-search-result.html" %}
+      </li>
+      {% if loop.last %}</ol>{% endif %}
+    {% endfor %}
+
+    <nav>
+      {% include "partials/search-pagination.html" %}
+    </nav>
+  {% endif %}
+  </section>
+{% endblock %}

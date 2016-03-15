@@ -1,50 +1,6 @@
 const server = require('../../server');
 
 describe('trials handler', () => {
-  describe('GET /trials', () => {
-    describe('API is OK', () => {
-      const trials = JSON.parse(JSON.stringify([
-        fixtures.getTrial(),
-        fixtures.getTrial(),
-      ]));
-      let response;
-
-      before(() => {
-        apiServer.get('/trials').reply(200, trials);
-
-        return server.inject('/trials')
-          .then((_response) => {
-            response = _response;
-          });
-      });
-
-      it('is successful', () => {
-        response.statusCode.should.equal(200)
-      });
-
-      it('uses the "trials-list" template', () => (
-        response.request.response.source.template.should.equal('trials-list')
-      ));
-
-      it('adds the trials into the context', () => {
-        const context = response.request.response.source.context;
-
-        context.trials.should.deepEqual(trials);
-      });
-    });
-
-    describe('API is not OK', () => {
-      it('returns error 502', () => {
-        apiServer.get('/trials').reply(500);
-
-        return server.inject('/trials')
-          .then((_response) => {
-            _response.statusCode.should.equal(502);
-          });
-      });
-    });
-  });
-
   describe('GET /trials/{id}', () => {
     describe('API is OK', () => {
       const trial = JSON.parse(JSON.stringify(

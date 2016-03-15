@@ -1,0 +1,17 @@
+<article class="search-result">
+  <h1><a href="/trials/{{ trial.id }}">{{ trial.public_title }}</a></h1>
+  <footer>
+    <dl>
+      <dt>Registration date:</dt>
+      <dd>
+        <time datetime="{{ trial.registration_date }}">
+          {{ trial.registration_date | formatDate }}
+        </time>
+      </dd>
+      {% for location in trial.locations %}
+        {% if loop.first %}<dt>Locations:</dt>{% endif %}
+        <dd>{{ location.attributes.name }}</dd>
+      {% endfor %}
+    </dl>
+  </footer>
+</article>
