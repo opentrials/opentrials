@@ -1,0 +1,10 @@
+*
+!agents/*
+!assets/*
+!config/*
+!handlers/*
+!routes/*
+!tools/*
+!views/*
+!*.js
+!*.json
