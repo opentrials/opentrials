@@ -1,9 +1,21 @@
 language: node_js
 node_js:
   - "5.6"
+services:
+  - docker
 cache:
   directories:
     - node_modules
     - .nvm
 before_script: touch .env
 script: npm run coveralls
+
+before_deploy:
+  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+  - docker build -t opentrials/opentrials:$TRAVIS_COMMIT .
+deploy:
+  provider: script
+  script: docker push opentrials/opentrials
+  on:
+    condition: "$TRAVIS_PULL_REQUEST == false"
+    branch: master
