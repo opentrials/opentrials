@@ -1,0 +1,7 @@
+web:
+  build: .
+  command: bash -c "./tools/wait-for-it.sh api:80 && npm run dev"
+  volumes:
+    - .:/app
+  environment:
+    NODE_ENV: 'development'

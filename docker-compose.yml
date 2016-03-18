@@ -2,7 +2,7 @@ web:
   image: opentrials/opentrials
   command: bash -c "./tools/wait-for-it.sh api:80 && npm start"
   environment:
-    - SWAGGER_API_URL=http://api/v1/swagger.yaml
+    SWAGGER_API_URL: http://api/v1/swagger.yaml
   links:
     - api
   ports:
@@ -13,8 +13,8 @@ api:
   image: opentrials/api
   command: bash -c "./tools/wait-for-it.sh db:5432 && ./tools/wait-for-it.sh elasticsearch:9200 && npm start"
   environment:
-    - DATABASE_URL=postgres://postgres@db:5432/postgres
-    - ELASTICSEARCH_URL=http://elasticsearch:9200
+    DATABASE_URL: postgres://postgres@db:5432/postgres
+    ELASTICSEARCH_URL: http://elasticsearch:9200
   links:
     - db
     - elasticsearch
