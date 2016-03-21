@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "OpenTrials.net website",
   "engines": {
-    "node": "5.6.0"
+    "node": "5.8"
   },
   "main": "server.js",
   "scripts": {
@@ -15,6 +15,7 @@
     "coverage": "node --use_strict ./node_modules/.bin/istanbul cover _mocha",
     "precoveralls": "npm run coverage",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "dev": "gulp dev",
     "prestart": "gulp build",
     "start": "node --use_strict server.js"
   },

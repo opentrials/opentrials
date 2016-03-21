@@ -12,7 +12,7 @@ const config = {
       options: {
         reporters: [{
           reporter: require('good-console'),
-          events: { log: '*', reponse: '*' },
+          events: { log: '*', response: '*' },
         }],
       },
     }, {
