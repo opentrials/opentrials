@@ -4,7 +4,7 @@ const del = require('del');
 const webpack = require('webpack-stream');
 
 const paths = {
-  styles: ['./assets/styles/**/*.less'],
+  styles: ['./assets/styles/**/*.scss'],
   images: ['./assets/images/**/*'],
 };
 
@@ -20,9 +20,9 @@ gulp.task('styles:vendor', () => (
 ));
 
 gulp.task('styles', ['styles:vendor'], () => (
-  gulp.src('./assets/styles/index.less')
+  gulp.src('./assets/styles/index.scss')
     .pipe(plugins.sourcemaps.init())
-      .pipe(plugins.less())
+      .pipe(plugins.sass().on('error', plugins.sass.logError))
       .pipe(plugins.autoprefixer())
       .pipe(plugins.cssnano())
     .pipe(plugins.sourcemaps.write())

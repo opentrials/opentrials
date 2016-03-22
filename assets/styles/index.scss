@@ -4,13 +4,13 @@
 @import '_pagination';
 
 .jumbotron.inverse.ot-header-jumbotron {
-  background: @blue url('/assets/images/header-background.jpg') right top no-repeat;
+  background: $blue url('/assets/images/header-background.jpg') right top no-repeat;
 }
 
 .glyphicon.ot-logo {
   line-height: 27px;
   padding: 4px;
-  background: @blue;
+  background: $blue;
 }
 
 .ot-logo img {
@@ -21,27 +21,27 @@
 
 .navbar-brand .text::before,
 .navbar-brand:hover {
-  color: @blue;
+  color: $blue;
 }
 
 .ok-ribbon::before {
-  background-color: @blue;
+  background-color: $blue;
 }
 
 a {
-  color: @blue;
+  color: $blue;
 }
 
 a:hover, a:focus {
-  color: @dark-blue;
+  color: $dark-blue;
 }
 
 .btn-primary {
-  background-color: @blue;
-  border-color: @dark-blue;
+  background-color: $blue;
+  border-color: $dark-blue;
 }
 
 .btn-primary:hover {
-  background-color: @dark-blue;
-  border-color: @dark-blue;
+  background-color: $dark-blue;
+  border-color: $dark-blue;
 }

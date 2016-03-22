@@ -6,11 +6,11 @@
 
 .pagination li a,
 .pagination li a:hover {
-  color: @blue;
+  color: $blue;
 }
 
 .pagination .active a {
   pointer-events: none;
-  background-color: @blue;
-  border-color: @blue;
+  background-color: $blue;
+  border-color: $blue;
 }
