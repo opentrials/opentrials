@@ -13,7 +13,8 @@ gulp.task('watch', ['build'], () => {
 });
 
 gulp.task('styles:vendor', () => (
-  gulp.src('./node_modules/bootstrap/dist/css/bootstrap.min.css')
+  gulp.src('./assets/styles/vendor.scss')
+    .pipe(plugins.sass().on('error', plugins.sass.logError))
     .pipe(plugins.cssnano())
     .pipe(plugins.rename('vendor.min.css'))
     .pipe(gulp.dest('dist/styles'))

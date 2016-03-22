@@ -66,6 +66,7 @@
     "inert": "^3.2.0",
     "lodash": "^4.6.1",
     "moment": "^2.11.2",
+    "normalize.css": "^4.0.0",
     "nunjucks-hapi": "^2.0.1",
     "swagger-client": "^2.1.11",
     "vision": "^4.0.1",
