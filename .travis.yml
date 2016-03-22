@@ -18,7 +18,7 @@ env:
 
 before_deploy:
   - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-  - docker build -t opentrials/opentrials:$TRAVIS_COMMIT .
+  - docker build -t opentrials/opentrials:$TRAVIS_COMMIT -t opentrials/opentrials:latest .
 deploy:
   provider: script
   script: docker push opentrials/opentrials
