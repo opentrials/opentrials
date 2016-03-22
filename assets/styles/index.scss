@@ -1,47 +1,11 @@
-@import '_constants';
-@import '_about';
-@import '_search';
-@import '_pagination';
-
-.jumbotron.inverse.ot-header-jumbotron {
-  background: $blue url('/assets/images/header-background.jpg') right top no-repeat;
-}
-
-.glyphicon.ot-logo {
-  line-height: 27px;
-  padding: 4px;
-  background: $blue;
-}
-
-.ot-logo img {
-  max-width: 27px;
-  max-height: 27px;
-  vertical-align: top;
-}
-
-.navbar-brand .text::before,
-.navbar-brand:hover {
-  color: $blue;
-}
-
-.ok-ribbon::before {
-  background-color: $blue;
-}
-
-a {
-  color: $blue;
-}
-
-a:hover, a:focus {
-  color: $dark-blue;
-}
-
-.btn-primary {
-  background-color: $blue;
-  border-color: $dark-blue;
-}
-
-.btn-primary:hover {
-  background-color: $dark-blue;
-  border-color: $dark-blue;
-}
+@import "normalize.css/normalize";
+@import "bourbon";
+@import "ot-scss/constants";
+@import "ot-scss/grid-settings";
+@import "neat";
+@import "mixins";
+@import "layout";
+@import "ot-scss/ot";
+@import "pagination";
+@import "search";
+@import "home";

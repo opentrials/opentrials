@@ -1,0 +1,230 @@
+ul,
+ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+dl {
+  margin-bottom: $small-spacing;
+
+  dt {
+    font-weight: 600;
+    margin-top: $small-spacing;
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+.overview-list,
+.registry-list,
+.document-list {
+  display: inline-block;
+  margin-right: 0.8em;
+
+  & + .overview-list,
+  & + .registry-list,
+  & + .document-list {
+    margin-top: 0.8em;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: em(14);
+    margin: 0;
+  }
+
+  li {
+    display: block;
+    float: left;
+    background-color: $light-gray;
+    padding: $small-spacing*0.75 $small-spacing;
+    font-size: em(13);
+    margin: em(10) em(10) 0 0;
+    min-height: 2.9em;
+    position: relative;
+
+    & > a {
+      color: inherit;
+      font-weight: bold;
+      display: inline-block;
+    }
+  }
+
+  .show-actions {
+    display: inline-block;
+    width: em(16);
+    white-space: nowrap;
+    height: 1em;
+    position: relative;
+    cursor: pointer;
+    opacity: 0.8;
+
+    span {
+      @include hide-text;
+      width: 0;
+      display: block;
+      position: absolute;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &:before {
+      @include icon-font();
+      content: "\e90e";
+      font-size: 1.5em;
+      position: absolute;
+      text-indent: 0;
+      left: 0;
+    }
+  }
+
+  .actions {
+    background-color: $dark-gray;
+    padding: 0.2em 0;
+    font-size: 1.1em;
+    position: absolute;
+    z-index: 1;
+    min-width: 7em;
+    margin-left: - em(15);
+    margin-bottom: - em(15);
+    display: none;
+    border-radius: $base-border-radius;
+    bottom:100%;
+    right: 0;
+
+    @include MQ(M) {
+      right: auto;
+      left: 100%;
+    }
+
+    &.active {
+      display: block;
+    }
+
+    li {
+      float: none;
+      background-color: inherit;
+      padding: 0;
+      margin: 0;
+      min-height: 0;
+      border-bottom: solid 1px rgba(#fff, 0.1);
+
+      &:last-child {
+        border: none;
+      }
+
+      a {
+        display: block;
+        background-color: inherit;
+        color: #fff;
+        margin: 0;
+        font-weight: normal;
+      }
+    }
+  }
+}
+
+.overview-list {
+  * {
+    position: relative;
+
+    &:before {
+      @include icon-font();
+      position: absolute;
+      left: 0;
+    }
+
+    &.drug {
+      padding-left: em(29);
+
+      &:before {
+        content: "\e905";
+        font-size: em(28);
+      }
+    }
+
+    &.date {
+      padding-left: em(28);
+
+      &:before {
+        content: "\e90d";
+        font-size: em(21);
+        top: em(2);
+      }
+    }
+
+    &.men {
+      padding-left: em(26);
+
+      &:before {
+        content: "\e906";
+        font-size: em(22);
+        top: em(1);
+      }
+    }
+
+    &.women {
+      padding-left: em(26);
+
+      &:before {
+        content: "\e908";
+        font-size: em(22);
+        top: em(1);
+      }
+    }
+
+    &.men-and-women {
+      padding-left: em(28);
+
+      &:before {
+        content: "\e907";
+        font-size: em(22);
+        top: em(1);
+      }
+    }
+  }
+
+  .number {
+    background-color: $base-font-color;
+    color: #fff;
+    border-radius: 0.8em;
+    font-size: 0.9em;
+    padding: em(1) em(8);
+  }
+}
+
+.document-list {
+  li {
+    background-color: rgba($green, 0.11);
+
+    &.needed {
+      background-color: rgba($red, 0.11);
+      color: $red;
+      padding-right: 0.8em + 2.9em;
+
+      &:after {
+        @include icon-font();
+        content: "\e90a";
+        border-left: solid 1px #fff;
+        position: absolute;
+        display: block;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        font-size: 1.3em;
+        width: (2.9em / 1.3);
+        text-align: center;
+        padding-top: 0.65em;
+      }
+    }
+  }
+}

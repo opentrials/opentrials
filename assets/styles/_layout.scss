@@ -1,0 +1,20 @@
+.main {
+  @include outer-container;
+  padding: $base-spacing;
+
+  article {
+    @include MQ(M) {
+      @include span-columns(8);
+    }
+  }
+
+  aside {
+    @include MQ(M) {
+      @include span-columns(4);
+    }
+    @include MQ(L) {
+      @include span-columns(3);
+      @include shift(1);
+    }
+  }
+}

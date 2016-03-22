@@ -1,0 +1,89 @@
+#{$all-buttons},
+.actions a {
+  appearance: none;
+  background-color: $action-color;
+  border: 0;
+  border-radius: $base-border-radius;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: em(15);
+  -webkit-font-smoothing: antialiased;
+  font-weight: 600;
+  line-height: 1;
+  padding: $small-spacing $base-spacing;
+  text-decoration: none;
+  transition: background-color $base-duration $base-timing;
+  user-select: none;
+  vertical-align: middle;
+
+  &:hover,
+  &:focus {
+    background-color: shade($action-color, 20%);
+    color: #fff;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+
+    &:hover {
+      background-color: $action-color;
+    }
+  }
+
+  &.upload,
+  &.download,
+  &.follow,
+  &.unfollow,
+  &.flag {
+    padding-left: $base-spacing * 0.75;
+
+    &:before {
+      @include icon-font();
+      font-size: em(22);
+      float: left;
+      margin-right: $small-spacing /2;
+      position: relative;
+      top: - em(2);
+    }
+  }
+
+  &.upload {
+    &:before {
+      content: "\e90a";
+    }
+  }
+
+  &.download {
+    &:before {
+      content: "\e909";
+    }
+  }
+
+  &.follow {
+    &:before {
+      content: "\e90c";
+      margin-right:0.27em;
+    }
+  }
+
+  &.unfollow {
+    &:before {
+      content: "\e90b";
+      margin-right:0.27em;
+    }
+  }
+
+  &.flag {
+    &:before {
+      content: "\e910";
+      margin-right:0.27em;
+    }
+  }
+}
+
+.actions a {
+  display: block;
+  margin-top: $small-spacing;
+}

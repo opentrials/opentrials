@@ -1,0 +1,45 @@
+.stars {
+  padding-bottom: 1.7em;
+  position: relative;
+  font-weight: bold;
+  font-size: em(15);
+  margin-bottom: $small-spacing;
+
+  &:before,
+  &:after {
+    position: absolute;
+    bottom: -0.1em;
+    left: 0;
+    color: $blue;
+    font-size: 1.3em;
+    cursor: default;
+  }
+
+  &:before {
+    content:'\2606 \2606 \2606 \2606 \2606';
+    color: $medium-gray;
+  }
+
+  &.one:after {
+    content:'\2605';
+  }
+  &.two:after {
+    content:'\2605 \2605';
+  }
+  &.three:after {
+    content:'\2605 \2605 \2605';
+  }
+  &.four:after {
+    content:'\2605 \2605 \2605 \2605';
+  }
+  &.five:after {
+    content:'\2605 \2605 \2605 \2605 \2605';
+  }
+
+  span {
+    @include hide-text;
+    width: 0;
+    height: 0;
+    display: block;
+  }
+}

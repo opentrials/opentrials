@@ -50,9 +50,6 @@
   <section class="search-results">
     <h1>Results</h1>
     Found {{ trials.total_count }} trials.
-    <nav>
-      {% include "partials/search-pagination.html" %}
-    </nav>
 
     {% for trial in trials.items %}
       {% if loop.first %}<ol>{% endif %}
@@ -62,9 +59,7 @@
       {% if loop.last %}</ol>{% endif %}
     {% endfor %}
 
-    <nav>
-      {% include "partials/search-pagination.html" %}
-    </nav>
+    {% include "partials/search-pagination.html" %}
   {% endif %}
   </section>
 {% endblock %}

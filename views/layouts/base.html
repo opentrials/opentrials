@@ -8,11 +8,6 @@
 
     <link href="{{ 'styles/vendor.min.css' | revPath }}" rel="stylesheet">
 
-    <!-- OK Panel CSS -->
-    <link rel="stylesheet" href="//cdn.rawgit.com/okfn/ok-panel/v1.0.0/assets/css/frontend.css">
-    <!-- Theme CSS -->
-    <link rel="stylesheet" href="//cdn.rawgit.com/okfn/app-theme/924b03098a3d0fcaa5acf573f51571f519f80c94/css/main.min.css">
-
     <link href="{{ 'styles/index.min.css' | revPath }}" rel="stylesheet">
 
     <!--[if lt IE 9]>
@@ -24,16 +19,17 @@
     <link rel="apple-touch-icon" type="image/png" href="/assets/images/apple-touch-icon.png">
   </head>
   <body>
-    {% include "partials/navigation.html"  %}
+    {% include "partials/header.html"  %}
 
-    <div class="jumbotron inverse ot-header-jumbotron">
-      <div class="container">
+    <section class="banner">
+      <div>
         {% block title %}<h1>{{ title }}</h1>{% endblock %}
         {% block subtitle %}<p>{{ subtitle }}</p>{% endblock %}
+        {% block banner %}{% endblock %}
       </div>
-    </div>
+    </section>
 
-    <main class="container">
+    <main class="main">
       {% block main %}{% endblock %}
     </main>
 

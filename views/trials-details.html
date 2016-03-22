@@ -1,12 +1,150 @@
 {% extends "layouts/base.html" %}
 
+{% block banner %}
+  <ul class="overview-list">
+    <li>
+      Condition: <a>Major Depression</a>
+    </li>
+    <li>
+      Teatment: <a class="drug">Mertrazine</a>, <a class="drug">Cobazol</a>
+    </li>
+    <li>
+      <span class="date">June 2004 - March 2010</span>
+    </li>
+    <li>
+      <span class="number">218</span> Participants
+    </li>
+    <li>
+      <span class="men-and-women">Men and women</span>
+    </li>
+    <li>
+      Aged 18 - 65
+    </li>
+  </ul>
+{% endblock %}
+
 {% block main %}
+<article>
+  <h2>Lay summary</h2>
+  <p>
+    {{ trial.brief_summary }}
+  </p>
+  <h2>Registries</h2>
+  <ul class="registry-list">
+      <li>
+        ClinicalTrials.gov
+      </li>
+      <li>
+        BioMet Inc
+      </li>
+  </ul>
+
+  <h2>Data</h2>
+  <div class="document-list">
+    <h3>Regulatory documents</h3>
+    <ul>
+      <li class="needed">
+        CSR
+      </li>
+      <li>
+        EPAR segment
+        <a class="show-actions"><span>Actions</span></a>
+        <ul class="actions active">
+            <li>
+              <a class="download">Download</a>
+            </li>
+            <li>
+              <a class="flag">Flag</a>
+            </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div class="document-list">
+    <h3>Paperwork</h3>
+    <ul>
+      <li>
+        Blank consent form
+        <a class="show-actions"><span>Actions</span></a>
+        <ul class="actions">
+            <li>
+              <a class="download">Download</a>
+            </li>
+            <li>
+              <a class="flag">Flag</a>
+            </li>
+        </ul>
+      </li>
+      <li class="needed">
+        Patient information sheet
+      </li>
+      <li class="needed">
+        Blank case report form
+      </li>
+    </ul>
+  </div>
+  <div class="document-list">
+    <h3>Papers</h3>
+    <ul>
+      <li class="needed">
+        Results paper
+      </li>
+    </ul>
+  </div>
+  <div class="document-list">
+    <h3>Structured data</h3>
+    <ul>
+      <li>
+        ClinicalTrials.gov results
+        <a class="show-actions"><span>Actions</span></a>
+        <ul class="actions">
+            <li>
+              <a class="download">Download</a>
+            </li>
+            <li>
+              <a class="flag">Flag</a>
+            </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <h2>Methodological rigour</h2>
+  <p>
+    The methodological rigour of this trial was scored in a <a>systematic review</a> in September 2012, where it was scored as being at “high risk” of bias from “allocation concealment”, “unclear” for “method of randomisation”, and “unclear” for “blinding”.  <a>Read more</a> about what this means.
+  </p>
+</article>
+
+<aside>
+  <ul class="actions">
+    <li>
+      <a class="download">Download JSON</a>
+    </li>
+  </ul>
+
+  <h2>Related Persons</h2>
+  <dl>
+    {% for person in trial.persons %}
+      <dt>{{ person.attributes.name }}</dt>
+      <dt>{{ person.attributes.role }}</dt>
+    {% endfor %}
+  </dl>
+
+  <h2>Related Organisations</h2>
+  <dl>
+    <dt>BioMet</dt>
+    <dd>
+      Sponsor
+    </dd>
+  </dl>
+
+</aside>
+{% endblock %}
+
 <article>
   <header>
     <h2>Overview</h2>
     <dl>
-      <dt>Description:</dt>
-      <dd>{{ trial.brief_summary }}</dd>
       <dt>Registration date:</dt>
       <dd>{{ trial.registration_date | formatDate }}</dd>
       <dt>Locations:</dt>
@@ -28,4 +166,3 @@
     </dl>
   </section>
 </article>
-{% endblock %}

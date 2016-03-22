@@ -1,7 +1,8 @@
-.search-results ol {
-  list-style-type: none;
-}
+.search-result {
+  // FIXME: This is being overloaded by the width in _layout.scss
+  width: 100%;
 
-.search-result h1 {
-  font-size: 1.5em;
+  h1 {
+    font-size: 1.2em;
+  }
 }

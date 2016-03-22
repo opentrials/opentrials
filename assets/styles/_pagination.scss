@@ -1,16 +1,32 @@
-@import '_constants';
-
 .search-results nav {
   text-align: center;
 }
 
-.pagination li a,
-.pagination li a:hover {
-  color: $blue;
-}
+.pagination {
+  ol {
+    display: inline-block;
+  }
 
-.pagination .active a {
-  pointer-events: none;
-  background-color: $blue;
-  border-color: $blue;
+  li {
+    display: inline;
+
+    a {
+      color: $blue;
+      position: relative;
+      float: left;
+      padding: 6px 12px;
+      border: $base-border;
+
+      &:hover {
+        background-color: $light-gray;
+      }
+    }
+  }
+
+  .active a {
+    pointer-events: none;
+    background-color: $blue;
+    border-color: $blue;
+    color: #fff;
+  }
 }
