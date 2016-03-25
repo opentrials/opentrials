@@ -54,7 +54,7 @@
     }
   }
 
-  .main {
+  main {
     text-align: center;
 
     header {
@@ -84,51 +84,15 @@
       }
 
       .search-bar {
-        position: relative;
-
         input[type="search"] {
-          padding: 1em 3.5em 1em 1.5em;
-
-          @include MQ(M) {
-            font-size: em(18);
-            border-radius: 5px;
-          }
-
           @include MQ(L) {
             font-size: em(22);
-          }
-
-          + button {
-            position: absolute;
-            top: 50%;
-            right: 1em;
-            width: 3em;
-            height: 3em;
-            margin-top: -2em;
-            background-color: transparent;
-            color: $base-font-color;
-
-            span {
-              @include hide-text;
-              display: block;
-            }
-
-            &:before {
-              @include icon-font();
-              content: "\e904";
-              font-size: 3em;
-              position: absolute;
-              left: 0;
-              right: 0;
-              top: 0;
-            }
           }
         }
       }
 
       .toggle-advanced {
-        display: inline-block;
-        cursor: pointer;
+        float: none;
 
         @include MQ(M) {
           font-size: em(18);
@@ -142,42 +106,6 @@
         }
       }
 
-      .advanced {
-        & > div {
-          @include MQ(M) {
-            @include span-columns(4);
-            @include omega(3n);
-          }
-
-          label {
-            text-align: left;
-            font-weight: normal;
-          }
-
-          &.sample-size {
-            & > div {
-              @include MQ(M) {
-                @include span-columns(2 of 4);
-              }
-            }
-          }
-        }
-
-        button {
-          background-color: #fff;
-          color: $blue;
-          display: block;
-          margin-top: $base-spacing;
-          clear: both;
-          width: 100%;
-          padding: 1em 3.5em;
-
-          @include MQ(M) {
-            display: inline-block;
-            width: auto;
-          }
-        }
-      }
     }
   }
 
@@ -193,7 +121,7 @@
           height: 100%;
         }
 
-        .main {
+        main {
           height: 100%;
           display: table;
           top: -100px;
@@ -226,7 +154,7 @@
         height: 100%;
       }
 
-      .main {
+      main {
         height: 100%;
         display: table;
         top: -100px;
@@ -245,12 +173,6 @@
         bottom: 0;
         width: 100%;
       }
-    }
-  }
-
-  &.js {
-    .advanced {
-      display: none;
     }
   }
 }

@@ -64,6 +64,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "hapi": "^13.0.0",
     "inert": "^3.2.0",
+    "jquery.mmenu": "^5.3.1",
     "lodash": "^4.6.1",
     "moment": "^2.11.2",
     "normalize.css": "^4.0.0",

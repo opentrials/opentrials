@@ -8,6 +8,10 @@
     background-image: url("../images/banner.jpg");
   }
 
+  a {
+    color: inherit;
+  }
+
   & > div {
     @include outer-container;
     padding: $base-spacing;
@@ -17,6 +21,14 @@
   h2 {
     border-color: rgba(#fff, 0.2);
     margin-bottom: 0.2em;
+  }
+
+  input {
+    color: $base-font-color;
+  }
+
+  .search-bar {
+    margin-top: $small-spacing;
   }
 
   .breadcrumb {

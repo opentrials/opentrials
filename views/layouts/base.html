@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="no-js" lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,26 +19,27 @@
     <link rel="apple-touch-icon" type="image/png" href="/assets/images/apple-touch-icon.png">
   </head>
   <body>
-    {% include "partials/header.html"  %}
+    <div class="page">
+      {% include "partials/header.html"  %}
 
-    <section class="banner">
-      <div>
-        {% block banner %}
-          {% block title %}<h1>{{ title }}</h1>{% endblock %}
-          {% block subtitle %}<p>{{ subtitle }}</p>{% endblock %}
-          {% block bannerFooter %}{% endblock %}
-        {% endblock %}
-      </div>
-    </section>
+      <section class="banner">
+        <div>
+          {% block banner %}
+            {% block title %}<h1>{{ title }}</h1>{% endblock %}
+            {% block subtitle %}<p>{{ subtitle }}</p>{% endblock %}
+            {% block bannerFooter %}{% endblock %}
+          {% endblock %}
+        </div>
+      </section>
 
-    {% block mainBlock %}
-    <main class="main">
-      {% block main %}{% endblock %}
-    </main>
-    {% endblock %}
+      {% block mainBlock %}
+      <main class="main">
+        {% block main %}{% endblock %}
+      </main>
+      {% endblock %}
 
-    {% include "partials/footer.html"  %}
-
-    <script src="{{ 'js/vendor.min.js' | revPath }}" defer async></script>
+      {% include "partials/footer.html"  %}
+      {% include "partials/scripts.html" %}
+    </div>
   </body>
 </html>

@@ -43,13 +43,11 @@ gulp.task('styles', ['styles:vendor'], () => (
     .pipe(gulp.dest('dist/styles'))
 ));
 
-gulp.task('js:vendor', () => (
+gulp.task('js', () => (
   gulp.src('./assets/js/**/*.js')
     .pipe(webpack(require('./webpack.config.js')))
     .pipe(gulp.dest('dist/js'))
 ));
-
-gulp.task('js', ['js:vendor']);
 
 gulp.task('images', () => (
   gulp.src(paths.images)

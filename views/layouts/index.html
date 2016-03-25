@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="home" lang="en">
+<html class="no-js home" lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,14 +19,15 @@
     <link rel="apple-touch-icon" type="image/png" href="/assets/images/apple-touch-icon.png">
   </head>
   <body>
-    {% include "partials/header.html"  %}
+    <div class="page">
+      {% include "partials/header.html"  %}
 
-    <main class="main">
-      {% block main %}{% endblock %}
-    </main>
+      <main class="main">
+        {% block main %}{% endblock %}
+      </main>
 
-    {% include "partials/footer.html"  %}
-
-    <script src="{{ 'js/vendor.min.js' | revPath }}" defer async></script>
+      {% include "partials/footer.html"  %}
+      {% include "partials/scripts.html" %}
+    </div>
   </body>
 </html>

@@ -1,16 +1,14 @@
 {% extends 'layouts/index.html' %}
 
 {% block main %}
-<form action="/search">
-  <header>
-    <h1>All the data, on all the trials</h1>
-    <p>
-      OpenTrials is a linked database for all the available information, on every trial ever conducted, with rankings for transparency and more. It is built and updated with your help.
-    </p>
-  </header>
-  <fieldset class="search-bar">
-    <input type="search" title="Search" name="q" placeholder="Find a trial" />
-    <button type="submit"><span>Search</span></button>
-  </fieldset>
-</form>
+  <form action="/search" method="get">
+    <header>
+      <h1>All the data, on all the trials</h1>
+      <p>
+        OpenTrials is a linked database for all the available information, on every trial ever conducted, with rankings for transparency and more. It is built and updated with your help.
+      </p>
+    </header>
+
+    {% include "partials/search-form-fields.html" %}
+  </form>
 {% endblock %}

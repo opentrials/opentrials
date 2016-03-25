@@ -3,6 +3,7 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: {
+    main: path.join(__dirname, 'assets', 'js', 'index.js'),
     vendor: path.join(__dirname, 'assets', 'js', 'vendor', 'index.js'),
   },
 
