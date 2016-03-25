@@ -50,9 +50,11 @@ function getPagination(url, currentPage, perPage, totalCount) {
 }
 
 function getFilters(query) {
-  const filters = {
-    location: (query.location) ? `"${query.location}"` : undefined,
-  };
+  const filters = {};
+
+  if (query.location) {
+    filters.location = `"${query.location}"`;
+  }
 
   const registrationDateStart = query.registration_date_start;
   const registrationDateEnd = query.registration_date_end;
@@ -85,6 +87,7 @@ function searchPage(request, reply) {
       query,
       currentPage,
       pagination,
+      advancedSearchIsVisible: Object.keys(filters).length > 0,
       trials: trialsResponse,
       locations: locationsResponse,
     });

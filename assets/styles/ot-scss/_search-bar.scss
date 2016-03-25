@@ -84,5 +84,9 @@
 .js {
   .advanced {
     display: none;
+
+    &.visible {
+      display: block;
+    }
   }
 }
