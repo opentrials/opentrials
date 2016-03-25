@@ -1,7 +1,9 @@
-.main {
+main {
   @include outer-container;
   padding: $base-spacing;
+}
 
+.two-columns {
   article {
     @include MQ(M) {
       @include span-columns(8);

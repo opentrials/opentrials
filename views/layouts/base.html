@@ -23,15 +23,19 @@
 
     <section class="banner">
       <div>
-        {% block title %}<h1>{{ title }}</h1>{% endblock %}
-        {% block subtitle %}<p>{{ subtitle }}</p>{% endblock %}
-        {% block banner %}{% endblock %}
+        {% block banner %}
+          {% block title %}<h1>{{ title }}</h1>{% endblock %}
+          {% block subtitle %}<p>{{ subtitle }}</p>{% endblock %}
+          {% block bannerFooter %}{% endblock %}
+        {% endblock %}
       </div>
     </section>
 
+    {% block mainBlock %}
     <main class="main">
       {% block main %}{% endblock %}
     </main>
+    {% endblock %}
 
     {% include "partials/footer.html"  %}
 

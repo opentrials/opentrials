@@ -1,17 +1,19 @@
-<article class="search-result">
-  <h1><a href="/trials/{{ trial.id }}">{{ trial.public_title }}</a></h1>
-  <footer>
-    <dl>
-      <dt>Registration date:</dt>
-      <dd>
-        <time datetime="{{ trial.registration_date }}">
-          {{ trial.registration_date | formatDate }}
-        </time>
-      </dd>
-      {% for location in trial.locations %}
-        {% if loop.first %}<dt>Locations:</dt>{% endif %}
-        <dd>{{ location.attributes.name }}</dd>
-      {% endfor %}
-    </dl>
-  </footer>
+<article class="result">
+  <h1 class="title"><a href="/trials/{{ trial.id }}">{{ trial.public_title }}</a></h1>
+  <dl class="meta">
+    <dt>Registration date:</dt>
+    <dd>
+      <time datetime="{{ trial.registration_date }}">
+        {{ trial.registration_date | formatDate }}
+      </time>
+    </dd>
+    <dt>Conditions:</dt>
+    {% for problem in trial.problems %}
+      <dd>{{ problem.attributes.name }}</dt>
+    {% endfor %}
+    <dt>Treatments:</dt>
+    {% for intervention in trial.interventions %}
+      <dd>{{ intervention.attributes.name }}</dd>
+    {% endfor %}
+  </dl>
 </article>
