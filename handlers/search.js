@@ -6,13 +6,17 @@ const _ = require('lodash');
 const trials = require('../agents/trials');
 const locations = require('../agents/locations');
 
-function getPagination(url, currentPage, perPage, totalCount) {
+function getPagination(url, currentPage, perPage, maxPages, totalCount) {
   const getPageUrl = (pageNumber) => {
     const pageUrl = _.omit(url, 'search');
     pageUrl.query.page = pageNumber;
     return URL.format(pageUrl);
   };
-  const numberOfPages = Math.ceil(totalCount / perPage);
+  let numberOfPages = Math.ceil(totalCount / perPage);
+  if (numberOfPages > maxPages) {
+    numberOfPages = maxPages;
+  }
+
   const previousPage = (currentPage > 1) ? currentPage - 1 : 1;
   const nextPage = (currentPage < numberOfPages) ? currentPage + 1 : numberOfPages;
   const visiblePages = 10;
@@ -71,6 +75,7 @@ function searchPage(request, reply) {
   const queryStr = query.q;
   const page = (query.page) ? parseInt(query.page, 10) : undefined;
   const perPage = 10;
+  const maxPages = 100;
   const filters = getFilters(query);
 
   Promise.all([
@@ -80,7 +85,9 @@ function searchPage(request, reply) {
     const trialsResponse = responses[0];
     const locationsResponse = responses[1];
     const currentPage = page || 1;
-    const pagination = getPagination(request.url, currentPage, perPage, trialsResponse.total_count);
+    const pagination = getPagination(request.url, currentPage,
+                                     perPage, maxPages,
+                                     trialsResponse.total_count);
 
     reply.view('search', {
       title: 'Search',

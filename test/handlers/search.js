@@ -391,5 +391,22 @@ describe('search handler', () => {
           });
       });
     });
+
+    describe('more than 100 pages', () => {
+      it('should limit to 100 pages', () => {
+        const apiResponseInfinitePages = Object.assign(apiResponse, { total_count: 99999999 });
+        mockApiResponses({
+          search: {
+            response: apiResponseInfinitePages,
+          }
+        })
+
+        return server.inject('/search')
+          .then((_response) => {
+            const pagination = _response.request.response.source.context.pagination;
+            pagination[pagination.length - 1].page.should.eql(100);
+          });
+      });
+    });
   });
 });
