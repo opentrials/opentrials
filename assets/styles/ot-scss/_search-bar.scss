@@ -51,8 +51,8 @@
 .advanced {
   & > div {
     @include MQ(M) {
-      @include span-columns(4);
-      @include omega(3n);
+      @include span-columns(6);
+      @include omega(2n);
     }
 
     label {
@@ -63,7 +63,7 @@
     &.two-columns-fields {
       div {
         @include MQ(M) {
-          @include span-columns(2 of 4);
+          @include span-columns(3 of 6);
         }
       }
     }
