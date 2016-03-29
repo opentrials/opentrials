@@ -35,8 +35,12 @@
       }
     }
   }
+}
 
-  + .toggle-advanced {
+.search-controls {
+  overflow: auto;
+
+  .toggle-advanced {
     float: right;
     display: inline-block;
     cursor: pointer;
