@@ -28,6 +28,24 @@
   @include icon-font();
 }
 
+.icon-behavioral:before {
+    content: "\e914";
+}
+.icon-procedure:before {
+    content: "\e915";
+}
+.icon-pill:before {
+    content: "\e905";
+}
+.icon-man:before {
+    content: "\e906";
+}
+.icon-man-woman:before {
+    content: "\e907";
+}
+.icon-woman:before {
+    content: "\e908";
+}
 .icon-flag:before {
     content: "\e910";
 }
@@ -64,6 +82,18 @@
 .icon-eye:before {
     content: "\e90c";
 }
+.icon-more_vert:before {
+    content: "\e90e";
+}
+.icon-twitter:before {
+    content: "\e900";
+}
+.icon-mail:before {
+    content: "\e901";
+}
+.icon-messages:before {
+    content: "\e902";
+}
 .icon-log-out:before {
     content: "\e90f";
 }
@@ -81,18 +111,6 @@
 }
 .icon-play:before {
     content: "\e903";
-}
-.icon-pill:before {
-    content: "\e905";
-}
-.icon-man:before {
-    content: "\e906";
-}
-.icon-man-woman:before {
-    content: "\e907";
-}
-.icon-woman:before {
-    content: "\e908";
 }
 .icon-search:before {
     content: "\e904";

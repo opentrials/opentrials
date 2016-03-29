@@ -133,7 +133,8 @@ dl {
   }
 }
 
-.overview-list {
+.overview-list,
+.result .meta {
   * {
     position: relative;
 
@@ -144,11 +145,27 @@ dl {
     }
 
     &.drug {
-      padding-left: em(29);
+      padding-left: em(30);
 
       &:before {
         content: "\e905";
         font-size: em(28);
+      }
+    }
+    &.behavioral {
+      padding-left: em(29);
+
+      &:before {
+        content: "\e914";
+        font-size: em(24);
+      }
+    }
+    &.procedure {
+      padding-left: em(29);
+
+      &:before {
+        content: "\e915";
+        font-size: em(24);
       }
     }
 
@@ -199,6 +216,20 @@ dl {
     border-radius: 0.8em;
     font-size: 0.9em;
     padding: em(1) em(8);
+  }
+
+  .more {
+    background-color: $blue;
+    color: #fff;
+    font-weight: normal;
+    font-size: 0.9em;
+    border-radius: $base-border-radius;
+    padding-left: $small-spacing;
+    padding-right: $small-spacing;
+
+    @include MQ(M) {
+      float: right;
+    }
   }
 }
 
