@@ -75,7 +75,6 @@
     padding: 1em 3.5em;
 
     @include MQ(M) {
-      display: inline-block;
       width: auto;
     }
   }
