@@ -1,19 +1,25 @@
 <article class="result">
   <h1 class="title"><a href="/trials/{{ trial.id }}">{{ trial.public_title }}</a></h1>
-  <dl class="meta">
-    <dt>Registration date:</dt>
-    <dd>
-      <time datetime="{{ trial.registration_date }}">
-        {{ trial.registration_date | formatDate }}
-      </time>
-    </dd>
-    <dt>Conditions:</dt>
-    {% for problem in trial.problems %}
-      <dd>{{ problem.attributes.name }}</dt>
-    {% endfor %}
-    <dt>Treatments:</dt>
-    {% for intervention in trial.interventions %}
-      <dd>{{ intervention.attributes.name }}</dd>
-    {% endfor %}
-  </dl>
+  <ul class="meta">
+    <li>
+      <dt>Registration date:</dt>
+      <dd>
+        <time datetime="{{ trial.registration_date }}">
+          {{ trial.registration_date | formatDate }}
+        </time>
+      </dd>
+    </li>
+    <li>
+      <dt>Conditions:</dt>
+      {% for problem in trial.problems %}
+        <dd>{{ problem.attributes.name }}</dt>
+      {% endfor %}
+    </li>
+    <li>
+      <dt>Treatments:</dt>
+      {% for intervention in trial.interventions %}
+        <dd>{{ intervention.attributes.name }}</dd>
+      {% endfor %}
+    </li>
+  </ul>
 </article>
