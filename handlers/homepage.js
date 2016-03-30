@@ -1,6 +1,11 @@
+const locations = require('../agents/locations');
+
 function homepage(request, reply) {
-  reply.view('index', {
-    title: 'OpenTrials.net',
+  locations.list().then((response) => {
+    reply.view('index', {
+      title: 'OpenTrials.net',
+      locations: response,
+    });
   });
 }
 

@@ -1,5 +1,6 @@
 require('dotenv').config();
 const _ = require('lodash');
+const nock = require('nock');
 const apiServer = require('./fixtures/api');
 const fixtures = require('./fixtures');
 
@@ -32,3 +33,4 @@ function mockApiResponses(responses) {
 global.apiServer = apiServer;
 global.fixtures = fixtures;
 global.mockApiResponses = mockApiResponses;
+global.cleanAllApiMocks = nock.cleanAll;

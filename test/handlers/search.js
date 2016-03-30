@@ -13,6 +13,10 @@ describe('search handler', () => {
     fixtures.getLocation(),
   ];
 
+  afterEach(() => {
+    cleanAllApiMocks();
+  });
+
   describe('GET /search', () => {
     let response;
 
