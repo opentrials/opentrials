@@ -1,0 +1,16 @@
+{
+  "name": "opentrials",
+  "description": "Code for OpenTrials.net",
+  "scripts": {},
+  "env": {
+    "SWAGGER_API_URL": {
+      "required": true
+    }
+  },
+  "addons": [],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
