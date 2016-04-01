@@ -1,27 +1,9 @@
 language: node_js
 node_js:
   - "5.8"
-services:
-  - docker
 cache:
   directories:
     - node_modules
     - .nvm
 before_script: touch .env
 script: npm run coveralls
-
-env:
-  global:
-    - secure: "BiWgZLxBsKUf07pEmtZU37WGUtedkKPc4t7toYjRH2i+fiKxGQ94B7gLRyPTwtBhpx+mjGJ7YkEY8UCQpEgb9C1vjBBWgXhNqcMUbf9/aSkXZ+ACkXJChi4s0s7bJEyKvLwDXOw6KXG5Tsmat0z0XUhfcdUcQJ8JJZA+khqLqLJ984TPhhrtmHxSJ1EYw6fqvedCuFLo8n3uhg/nfekAXzKFfabACXSNxQ7i7SgGShNTTd20iTkhW0BU6E87fy/sLhESAt/I/t46ap9NUtTVRi9sxArAodL+5OGVPsWocPu/y++HH5gqFs5885Ngik2UicTnmqjC0AZNfo30oJf34YsDhPTBhYyRsFAn+E5XBTpLiPSRIznoyLNuWQuE+ij4rYbJhN/fW8kNwbRL3dGvINVxR6VTW7mMXmtbjU745hKyYeZ/yoMjFUyShH7iH1+ap3hJIiw3PDuS2CwG6ZnM4kM797MDZeIMMyAoDGhG9SUdmGHpeZK8H7W8k6qoNT/TMV4rcyOPrK/L7s9TnGbBUmymRS0dNjSNCo6A6tCZ6G2UzfTW4ORx/00IdebXAK6TtsuQukRWmJ4s01APiegEQOrSEoL1aVhTxhYYtNY3vHSM0Opdsl9xntI9jpLSM2ODrzpAMELepYBgG5LPEWuEwvgdKSKqRRu31cRrjcWrSsg="
-    - secure: "JVNs3jcQFNpldUHHi0ZftF9s5pFJpsozovucmR0P08JamxgCUHpG9LNevx9jiCQlOLAlvC3DOhR+pj/ua793tO7HPLck9Kv35W3Ne5GcFUdaSnO0Mdo7RqSvFosRJqZb3Wdhh5gs1el8l/hT9VnTORCL6+d3H+vgocnUwOjAgf3Hg6yoGrdoU9qUjxxMOKSgvFKS23xxlLi6/cclM8sqeTPhbUFyYARkUNgkiY/LVOP/iQCi0K4Pxu0EgpzGJbXW4fnL19kKAaoGjPpNephrHtSAEiar292xG3JENzWMAgNyCRgxeNoHKP28QmwZG4I//j9cVP7Q0PaACXsDT3CatfX5bRVsk+D9z9s6mbjQDbm+zqmE+zAjb1SIRrlprhbHyzA4sc5GKubtUGCSr/DJowpikfs0he6XNV7vCCT9LezCBB54jcnL7mFVitIB8EHkIZgP5hkvh463J55IHMDClRPSIEHPjtwPLpmIJ34Jsi65Me7qucXlu7GGdT/vbv8pzec00zJh5PODiueEX6NdM9eI1JEthAWTLaDRf7FLkjwNmXgJRHiDghyie8cEAxJPJiE0ZIjjUG2Cg6AuYG5MEjHvcVYEt5hGxAbaP1H2aZN6jvil5hPUcEltG4nm7VVKMa8RyvVxKutz4tIR7KxIs+5/79eLn9JqR8qpibXXq+k="
-    - secure: "kNTHUXAo4404P0zQn64TMpyBN+Xf+Y8IdqE9Sr4ArH6sbpbr5rSTLGFYmv9WAxm/1UqQWffYoqzt5Y/N8KooRc17C7Nq6fB8LPzOIyMElHWx1t6BJZh20xmNsy0w6QEH8qsxChPGO4pDRKd+TRDsufsXSufrlS5cgxgzZjSUvqf16DxoqWOoovFn/oA+QHZ+oAFQKRgMNb7mQ+M7+oFMPo9aeyZpv4JPY6+OV94SdPDj7JUYltBK2iLGOANmTOtrKOR6r8YBN2ajzSVXjT/duvvwMKALA30JW4WefaspemZh23Yffy6wWjLwfQrSouoA1eUSawYI0A55v1m8tE7nR0fkGNlY2pAQf+tb0yKrJnhqYYkN0rvlWq8+4/lTKX9NysGqiTmBARtj2D29IrFaTXJxHfpTq33WpbJmB9s0TeUqI2VcsVHHxWVKoy9XWCRwIar7IhRSKjVDsUdp+XZT6txhPcctEOJxuDZxBZyDyRMtsragNj/G4AmT+sSQHTsOUZlzKms/nx/R5Dxo47koxFDOJ7X71U5tNDtSMeQ8Zyc1CrO84YMBznFD6Tt72BwRwr/hbOSiElIVkenxf+cnJKHoVEhHiTYJwO+A5IgikABBFTas5iwYnmdEi0t3NNDX447OjKmz5+4ENJb1Fj0eKs3pGn4RH886R8rplVERGes="
-
-before_deploy:
-  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-  - docker build -t opentrials/opentrials:$TRAVIS_COMMIT -t opentrials/opentrials:latest .
-deploy:
-  provider: script
-  script: docker push opentrials/opentrials
-  on:
-    condition: "$TRAVIS_PULL_REQUEST == false"
-    branch: master
