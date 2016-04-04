@@ -27,5 +27,5 @@ db:
   restart: always
 
 elasticsearch:
-  image: elasticsearch:2.2
+  image: elasticsearch:1.5.2
   restart: always
