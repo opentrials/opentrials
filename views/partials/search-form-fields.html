@@ -4,6 +4,17 @@
 </fieldset>
 <div class="search-controls">
   <a class="toggle-advanced">Advanced search</a>
+
+  {% if trials %}
+    <ul class="breadcrumb">
+      <li>
+        <a href="/search">Search</a>
+      </li>
+      <li>
+        Found {{ trials.total_count }} trial{% if trials.total_count != 1 %}s{% endif %}
+      </li>
+    </ul>
+  {% endif %}
 </div>
 <fieldset class="advanced {% if advancedSearchIsVisible %}visible{% endif %}">
   <div>
@@ -25,9 +36,9 @@
 
   <div class="two-columns-fields">
     <fieldset>
-        <legend>Registration date period</legend>
+        <legend style="display:none;">Registration date period</legend>
         <div>
-          <label for="registration_date_start">Start date</label>
+          <label for="registration_date_start">Registration period start date</label>
           <input
             type="date"
             data-format="dd/MMM/yyyy"
@@ -38,7 +49,7 @@
             value="{{ query.registration_date_start }}">
         </div>
         <div>
-          <label for="registration_date_end">End date</label>
+          <label for="registration_date_end">Registration period end date</label>
           <input
             type="date"
             data-format="dd/MMM/yyyy"

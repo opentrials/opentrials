@@ -9,10 +9,6 @@
 {% block main %}
   {% if trials %}
   <section class="search-results">
-    <span class="search-stats">
-      Found {{ trials.total_count }} trial{% if trials.total_count != 1 %}s{% endif %}.
-    </span>
-
     {% for trial in trials.items %}
       {% if loop.first %}<ol>{% endif %}
       <li>
