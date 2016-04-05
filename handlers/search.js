@@ -57,7 +57,11 @@ function getFilters(query) {
   const filters = {};
 
   if (query.location) {
-    filters.location = `"${query.location}"`;
+    let values = query.location;
+    if (!Array.isArray(values)) {
+      values = [values];
+    }
+    filters.location = values.map((loc) => `"${loc}"`);
   }
 
   const registrationDateStart = query.registration_date_start;
@@ -77,6 +81,15 @@ function searchPage(request, reply) {
   const perPage = 10;
   const maxPages = 100;
   const filters = getFilters(query);
+
+  // Ensure query.location is either an array or undefined
+  if (!Array.isArray(query.location)) {
+    if (query.location) {
+      query.location = [query.location];
+    } else {
+      delete query.location;
+    }
+  }
 
   Promise.all([
     trials.search(queryStr, page, perPage, filters),

@@ -18,14 +18,13 @@
 </div>
 <fieldset class="advanced {% if advancedSearchIsVisible %}visible{% endif %}">
   <div>
-    <label for="location">Location</label>
+    <label for="location">Locations</label>
     <div class="select">
-      <select name="location" id="location">
-        <option value="">All</option>
+      <select name="location" style="width: 100%;" id="location" multiple="multiple">
         {% for location in locations %}
             <option
               value="{{ location.name }}"
-              {% if query.location == location.name %}selected{% endif %}
+              {% if query.location and location.name in query.location %}selected{% endif %}
               >
               {{ location.name }}
             </option>

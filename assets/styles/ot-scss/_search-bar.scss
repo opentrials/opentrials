@@ -100,3 +100,14 @@
     }
   }
 }
+
+.select2 {
+  .select2-selection .select2-selection__choice {
+    background-color: $blue;
+    border: $base-border;
+  }
+
+  .select2-selection .select2-selection__choice__remove {
+    color: $base-font-color;
+  }
+}

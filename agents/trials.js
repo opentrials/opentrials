@@ -9,9 +9,19 @@ function getTrial(trialId) {
 
 function generateQueryString(query, filters) {
   const queryValues = Object.keys(filters || {}).reduce((prev, filterName) => {
-    const value = filters[filterName];
+    let value = filters[filterName];
+    let result = prev;
 
-    return (value) ? [...prev, `${filterName}:${value}`] : prev;
+    if (value) {
+      if (!Array.isArray(value)) {
+        value = [value];
+      }
+      value = value.map((v) => `${filterName}:${v}`).join(' OR ');
+
+      result = result.concat(`(${value})`);
+    }
+
+    return result;
   }, []).join(' AND ');
   let queryString;
 

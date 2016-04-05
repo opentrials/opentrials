@@ -151,7 +151,7 @@ describe('search handler', () => {
     });
   });
 
-  describe('GET /search?location={locationID}', () => {
+  describe('GET /search?location={locationID}&location={locationID}', () => {
     let response;
     const searchResponse = { total_count: 0, items: [] };
 
@@ -159,13 +159,13 @@ describe('search handler', () => {
       mockApiResponses({
         search: {
           query: {
-            q: '(foo bar) AND location:"Czech Republic"',
+            q: '(foo bar) AND (location:"Czech Republic" OR location:"Brazil")',
           },
           response: searchResponse,
         },
       });
 
-      return server.inject('/search?q=foo+bar&location=Czech+Republic')
+      return server.inject('/search?q=foo+bar&location=Czech+Republic&location=Brazil')
         .then((_response) => {
           response = _response;
         });
@@ -189,7 +189,7 @@ describe('search handler', () => {
       mockApiResponses({
         search: {
           query: {
-            q: 'registration_date:[2012-01-01 TO *]',
+            q: '(registration_date:[2012-01-01 TO *])',
           },
         },
       });
@@ -205,7 +205,7 @@ describe('search handler', () => {
       mockApiResponses({
         search: {
           query: {
-            q: 'registration_date:[* TO 2016-01-01]'
+            q: '(registration_date:[* TO 2016-01-01])'
           },
         },
       });
@@ -221,7 +221,7 @@ describe('search handler', () => {
       mockApiResponses({
         search: {
           query: {
-            q: 'registration_date:[2015-01-01 TO 2016-01-01]',
+            q: '(registration_date:[2015-01-01 TO 2016-01-01])',
           },
         },
       });

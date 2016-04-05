@@ -28,4 +28,6 @@ $(document).ready(function() {
       .removeAttr('checked')
       .removeAttr('selected');
   });
+
+  $('select').select2();
 });
