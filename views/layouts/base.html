@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="no-js" lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,11 +7,6 @@
     <title>{{ title }}</title>
 
     <link href="{{ 'styles/vendor.min.css' | revPath }}" rel="stylesheet">
-
-    <!-- OK Panel CSS -->
-    <link rel="stylesheet" href="//cdn.rawgit.com/okfn/ok-panel/v1.0.0/assets/css/frontend.css">
-    <!-- Theme CSS -->
-    <link rel="stylesheet" href="//cdn.rawgit.com/okfn/app-theme/924b03098a3d0fcaa5acf573f51571f519f80c94/css/main.min.css">
 
     <link href="{{ 'styles/index.min.css' | revPath }}" rel="stylesheet">
 
@@ -24,21 +19,27 @@
     <link rel="apple-touch-icon" type="image/png" href="/assets/images/apple-touch-icon.png">
   </head>
   <body>
-    {% include "partials/navigation.html"  %}
+    <div class="page">
+      {% include "partials/header.html"  %}
 
-    <div class="jumbotron inverse ot-header-jumbotron">
-      <div class="container">
-        {% block title %}<h1>{{ title }}</h1>{% endblock %}
-        {% block subtitle %}<p>{{ subtitle }}</p>{% endblock %}
-      </div>
+      <section class="banner">
+        <div>
+          {% block banner %}
+            {% block title %}<h1>{{ title }}</h1>{% endblock %}
+            {% block subtitle %}<p>{{ subtitle }}</p>{% endblock %}
+            {% block bannerFooter %}{% endblock %}
+          {% endblock %}
+        </div>
+      </section>
+
+      {% block mainBlock %}
+      <main class="main">
+        {% block main %}{% endblock %}
+      </main>
+      {% endblock %}
+
+      {% include "partials/footer.html"  %}
+      {% include "partials/scripts.html" %}
     </div>
-
-    <main class="container">
-      {% block main %}{% endblock %}
-    </main>
-
-    {% include "partials/footer.html"  %}
-
-    <script src="{{ 'js/vendor.min.js' | revPath }}" defer async></script>
   </body>
 </html>

@@ -1,3 +1,4 @@
+const path = require('path');
 const gulp = require('gulp');
 const plugins = require('gulp-load-plugins')();
 const del = require('del');
@@ -6,14 +7,24 @@ const webpack = require('webpack-stream');
 const paths = {
   styles: ['./assets/styles/**/*.scss'],
   images: ['./assets/images/**/*'],
+  fonts: ['./assets/fonts/**/*'],
 };
+
+const sassIncludePaths = [
+  path.join(__dirname, 'node_modules'),
+  ...require('bourbon').includePaths,
+  ...require('bourbon-neat').includePaths,
+];
 
 gulp.task('watch', ['build'], () => {
   gulp.watch(paths.styles, ['styles']);
 });
 
 gulp.task('styles:vendor', () => (
-  gulp.src('./node_modules/bootstrap/dist/css/bootstrap.min.css')
+  gulp.src('./assets/styles/vendor.scss')
+    .pipe(plugins.sass({
+      includePaths: sassIncludePaths,
+    }).on('error', plugins.sass.logError))
     .pipe(plugins.cssnano())
     .pipe(plugins.rename('vendor.min.css'))
     .pipe(gulp.dest('dist/styles'))
@@ -22,7 +33,9 @@ gulp.task('styles:vendor', () => (
 gulp.task('styles', ['styles:vendor'], () => (
   gulp.src('./assets/styles/index.scss')
     .pipe(plugins.sourcemaps.init())
-      .pipe(plugins.sass().on('error', plugins.sass.logError))
+      .pipe(plugins.sass({
+        includePaths: sassIncludePaths,
+      }).on('error', plugins.sass.logError))
       .pipe(plugins.autoprefixer())
       .pipe(plugins.cssnano())
     .pipe(plugins.sourcemaps.write())
@@ -30,18 +43,21 @@ gulp.task('styles', ['styles:vendor'], () => (
     .pipe(gulp.dest('dist/styles'))
 ));
 
-gulp.task('js:vendor', () => (
+gulp.task('js', () => (
   gulp.src('./assets/js/**/*.js')
     .pipe(webpack(require('./webpack.config.js')))
     .pipe(gulp.dest('dist/js'))
 ));
 
-gulp.task('js', ['js:vendor']);
-
 gulp.task('images', () => (
   gulp.src(paths.images)
     .pipe(plugins.imagemin({ optimizationLevel: 3, progressive: true, interlaced: true }))
     .pipe(gulp.dest('dist/images'))
+));
+
+gulp.task('fonts', () => (
+  gulp.src(paths.fonts)
+    .pipe(gulp.dest('dist/fonts'))
 ));
 
 gulp.task('rev', ['js', 'styles'], () => {
@@ -64,4 +80,4 @@ gulp.task('dev', ['watch'], () => {
 
 gulp.task('clean', () => del.sync(['dist']));
 
-gulp.task('build', ['clean', 'images', 'rev']);
+gulp.task('build', ['clean', 'images', 'fonts', 'rev']);

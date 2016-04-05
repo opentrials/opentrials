@@ -1,0 +1,97 @@
+$pagination-item-colour: $base-font-color;
+$pagination-item-padding: 8px 12px 6px 12px;
+$pagination-radius: 2px;
+$pagination-item-background-hover: $light-gray;
+$pagination-item-background-current: $action-color;
+$pagination-item-colour-current: #fff;
+$pagination-item-colour-disabled: $medium-gray;
+$pagination-ellipsis-colour: $base-font-color;
+
+/// Adds styles for a pagination container. Apply this to a `<ul>`.
+@mixin pagination-container {
+  @include clearfix;
+
+  // List item
+  li {
+    font-size: 14px;
+    border-radius: $pagination-radius;
+    display: inline-block;
+
+    span {
+      @include hide-text;
+      height: 0;
+      display: inline-block;
+      width: 0;
+    }
+  }
+
+  // Page links
+  a,
+  button {
+    color: $pagination-item-colour;
+    display: block;
+    padding: $pagination-item-padding;
+
+    &:hover {
+      background: $pagination-item-background-hover;
+    }
+  }
+}
+
+/// Adds styles for the current pagination item..
+@mixin pagination-item-current {
+  padding: $pagination-item-padding;
+  background: $pagination-item-background-current;
+  color: $pagination-item-colour-current;
+  cursor: default;
+	font-weight: 600;
+}
+
+/// Adds styles for a disabled pagination item. Apply this to an `<a>`.
+@mixin pagination-item-disabled {
+  padding: $pagination-item-padding;
+  color: $pagination-item-colour-disabled;
+  cursor: default;
+
+  &:hover {
+    background: transparent;
+  }
+}
+
+/// Adds styles for an ellipsis for use in a pagination list.
+@mixin pagination-ellipsis {
+  content: '…';
+  padding: $pagination-item-padding;
+  color: $pagination-ellipsis-colour;
+}
+
+
+.pagination {
+  @include pagination-container;
+
+  .current {
+    @include pagination-item-current;
+  }
+
+  .disabled {
+    @include pagination-item-disabled;
+  }
+
+  .ellipsis::after {
+    @include pagination-ellipsis;
+  }
+}
+
+.pagination-previous a::before,
+.pagination-previous.disabled::before {
+  content: '«';
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.pagination-next a::after,
+.pagination-next.disabled::after {
+  content: '»';
+  display: inline-block;
+  margin-left: 0.5rem;
+}

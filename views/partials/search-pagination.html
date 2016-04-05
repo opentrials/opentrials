@@ -1,7 +1,16 @@
-<ol class="pagination">
-  {% for page in pagination %}
-  <li {% if currentPage == page.label %} class="active" {% endif %}>
-    <a href="{{ page.url }}">{{ page.label }}</a>
-  </li>
-  {% endfor %}
-</ol>
+<nav class="pagination" role="navigation" aria-label="Pagination">
+  <ol>
+    {% for page in pagination %}
+      {% if currentPage == page.label %}
+        <li class="current">
+          <span>You're on page</span>
+          {{ page.label }}
+        </li>
+      {% else %}
+        <li>
+          <a href="{{ page.url }}" aria-label="Page {{ page.label }}">{{ page.label }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ol>
+</nav>

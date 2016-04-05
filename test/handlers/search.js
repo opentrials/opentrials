@@ -13,6 +13,10 @@ describe('search handler', () => {
     fixtures.getLocation(),
   ];
 
+  afterEach(() => {
+    cleanAllApiMocks();
+  });
+
   describe('GET /search', () => {
     let response;
 
@@ -55,6 +59,12 @@ describe('search handler', () => {
 
       it('adds the page number 1 into the context', () => {
         response.request.response.source.context.currentPage.should.equal(1);
+      });
+
+      it('adds advancedSearchIsVisible as false into the context', () => {
+        const context = response.request.response.source.context;
+
+        context.advancedSearchIsVisible.should.equal(false);
       });
     });
 
@@ -108,6 +118,12 @@ describe('search handler', () => {
     it('adds the query into the context', () => {
       response.request.response.source.context.query.q.should.equal(queryStr)
     });
+
+    it('adds advancedSearchIsVisible as false into the context', () => {
+      const context = response.request.response.source.context;
+
+      context.advancedSearchIsVisible.should.equal(false);
+    });
   });
 
   describe('GET /search?page={page}', () => {
@@ -136,8 +152,10 @@ describe('search handler', () => {
   });
 
   describe('GET /search?location={locationID}', () => {
-    it('calls the API correctly', () => {
-      const searchResponse = { total_count: 0, items: [] };
+    let response;
+    const searchResponse = { total_count: 0, items: [] };
+
+    before(() => {
       mockApiResponses({
         search: {
           query: {
@@ -149,10 +167,20 @@ describe('search handler', () => {
 
       return server.inject('/search?q=foo+bar&location=Czech+Republic')
         .then((_response) => {
-          const context = _response.request.response.source.context;
-
-          context.trials.should.deepEqual(searchResponse);
+          response = _response;
         });
+    });
+
+    it('calls the API correctly', () => {
+      const context = response.request.response.source.context;
+
+      context.trials.should.deepEqual(searchResponse);
+    });
+
+    it('adds advancedSearchIsVisible as true into the context', () => {
+      const context = response.request.response.source.context;
+
+      context.advancedSearchIsVisible.should.equal(true);
     });
   });
 
@@ -169,6 +197,7 @@ describe('search handler', () => {
       return server.inject('/search?registration_date_start=2012-01-01')
         .then((_response) => {
           _response.statusCode.should.equal(200)
+          _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
         });
     });
 
@@ -184,6 +213,7 @@ describe('search handler', () => {
       return server.inject('/search?registration_date_end=2016-01-01')
         .then((_response) => {
           _response.statusCode.should.equal(200)
+          _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
         });
     });
 
@@ -199,6 +229,7 @@ describe('search handler', () => {
       return server.inject('/search?registration_date_start=2015-01-01&registration_date_end=2016-01-01')
         .then((_response) => {
           _response.statusCode.should.equal(200)
+          _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
         });
     });
   });
@@ -361,6 +392,23 @@ describe('search handler', () => {
               { page: 50, label: '›', url: '/search?page=50' },
               { page: 50, label: '»', url: '/search?page=50' },
             ])
+          });
+      });
+    });
+
+    describe('more than 100 pages', () => {
+      it('should limit to 100 pages', () => {
+        const apiResponseInfinitePages = Object.assign(apiResponse, { total_count: 99999999 });
+        mockApiResponses({
+          search: {
+            response: apiResponseInfinitePages,
+          }
+        })
+
+        return server.inject('/search')
+          .then((_response) => {
+            const pagination = _response.request.response.source.context.pagination;
+            pagination[pagination.length - 1].page.should.eql(100);
           });
       });
     });

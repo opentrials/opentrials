@@ -1,31 +1,67 @@
-{% extends "layouts/base.html" %}
+{% extends "layouts/two-columns.html" %}
+
+{% block bannerFooter %}
+  <ul class="overview-list">
+    <li>
+      <span class="date">
+        Registration: {{ trial.registration_date | formatDate }}
+      </span>
+    </li>
+  </ul>
+{% endblock %}
 
 {% block main %}
 <article>
-  <header>
-    <h2>Overview</h2>
-    <dl>
-      <dt>Description:</dt>
-      <dd>{{ trial.brief_summary }}</dd>
-      <dt>Registration date:</dt>
-      <dd>{{ trial.registration_date | formatDate }}</dd>
-      <dt>Locations:</dt>
-      {% for location in trial.locations %}
-        <dd>{{ location.attributes.name }}</dd>
-      {% endfor %}
-    </dl>
-  </header>
-  <section>
-    <dl>
-      <dt>Interventions:</dt>
-      {% for intervention in trial.interventions %}
-        <dd>{{ intervention.attributes.name }}</dd>
-      {% endfor %}
-      <dt>People:</dt>
-      {% for person in trial.persons %}
-        <dd>{{ person.attributes.name }}</dd>
-      {% endfor %}
-    </dl>
-  </section>
+  <h2>Conditions</h2>
+  <ul class="overview-list">
+    {% for problem in trial.problems %}
+      <li>{{ problem.attributes.name }}</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Treatments</h2>
+  <ul class="overview-list">
+    {% for intervention in trial.interventions %}
+      <li>{{ intervention.attributes.name }}</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Lay summary</h2>
+  <p>
+    {{ trial.brief_summary }}
+  </p>
 </article>
+
+<aside>
+  <ul class="actions">
+    <li>
+      <a href="{{ trial.url }}" class="download">Download JSON</a>
+    </li>
+  </ul>
+
+  <h2>Conducted in</h2>
+  <dl>
+    {% for location in trial.locations %}
+      <dt>{{ location.attributes.name }}</dt>
+      <dd>{{ location.role | underscoresToCapitalized }}</dd>
+    {% endfor %}
+  </dl>
+
+  <h2>Related Persons</h2>
+  <dl>
+    {% for person in trial.persons %}
+      <dt>{{ person.attributes.name }}</dt>
+      <dd>{{ person.role | underscoresToCapitalized }}</dd>
+    {% endfor %}
+  </dl>
+
+  <h2>Related Organisations</h2>
+  <dl>
+    {% for organisation in trial.organisations %}
+      <dt>{{ organisation.attributes.name }}</dt>
+      <dd>{{ organisation.role | underscoresToCapitalized }}</dd>
+    {% endfor %}
+  </dl>
+
+</aside>
 {% endblock %}

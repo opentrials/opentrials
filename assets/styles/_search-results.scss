@@ -1,0 +1,64 @@
+.result {
+  padding-top: $base-spacing /2;
+  padding-bottom: $base-spacing;
+  margin-bottom: $base-spacing /2;
+  border-bottom: solid 1px $light-gray;
+
+  .title {
+    font-size: em(22);
+    border: 0;
+    margin: auto;
+  }
+
+  .follow {
+    color: $medium-gray;
+    cursor: pointer;
+
+    @include MQ(L) {
+      float: right;
+    }
+
+    span {
+      @include hide-text;
+      width: 0;
+      height: 0;
+      display: block;
+    }
+
+    &:before {
+      @include icon-font();
+      content: "\e90c";
+      font-size: 1.4em;
+      display: inline-block;
+      margin-top: 0.3em;
+    }
+  }
+
+  .meta {
+    font-size: em(14);
+    line-height: 1.8;
+
+    li {
+      @include MQ(M) {
+        display: table-row;
+
+        & > dt {
+          display: table-cell;
+        }
+
+        & > dt {
+          font-weight: bold;
+          padding-right: $small-spacing;
+        }
+      }
+    }
+
+    a {
+      color: inherit;
+    }
+  }
+}
+
+.pagination {
+  text-align: center;
+}

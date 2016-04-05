@@ -1,0 +1,51 @@
+// Typography
+$base-font-family: "TeX Gyre Heros", $helvetica;
+$heading-font-family: $base-font-family;
+$path-to-fonts: "../fonts";
+
+// Font Sizes
+$base-font-size: 1em;
+
+// Line height
+$base-line-height: 1.6;
+$heading-line-height: 1.2;
+
+// Other Sizes
+$base-border-radius: 2px;
+$base-spacing: $base-line-height * 1em;
+$small-spacing: $base-spacing / 2;
+$base-z-index: 0;
+
+// Colors
+$blue: #05b0e1;
+$green: #10ca83;
+$red: #e34312;
+$dark-gray: #3c3c3b;
+$medium-gray: #d0d0d0;
+$light-gray: #f5f5f5;
+
+$colour-1: $dark-gray;
+$colour-2: $blue;
+$colour-3: $green;
+$colour-4: $red;
+$colour-5: $light-gray;
+
+// Font Colors
+$base-font-color: $dark-gray;
+$action-color: $blue;
+
+// Border
+$base-border-color: $light-gray;
+$base-border: 1px solid $base-border-color;
+
+// Background Colors
+$base-background-color: #fff;
+$secondary-background-color: tint($base-border-color, 75%);
+
+// Forms
+$form-box-shadow: inset 0 1px 3px rgba(#000, 0.06);
+$form-box-shadow-focus: $form-box-shadow, 0 0 5px adjust-color($action-color, $lightness: -5%, $alpha: -0.3);
+
+// Animations
+$base-duration: 150ms;
+$base-timing: ease;

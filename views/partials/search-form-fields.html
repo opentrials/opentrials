@@ -1,0 +1,66 @@
+<fieldset class="search-bar">
+  <input type="search" title="Search" placeholder="Find a trial" name="q" value="{{ query.q }}" />
+  <button type="submit"><span>Search</span></button>
+</fieldset>
+<div class="search-controls">
+  <a class="toggle-advanced">Advanced search</a>
+
+  {% if trials %}
+    <ul class="breadcrumb">
+      <li>
+        <a href="/search">Search</a>
+      </li>
+      <li>
+        Found {{ trials.total_count }} trial{% if trials.total_count != 1 %}s{% endif %}
+      </li>
+    </ul>
+  {% endif %}
+</div>
+<fieldset class="advanced {% if advancedSearchIsVisible %}visible{% endif %}">
+  <div>
+    <label for="location">Location</label>
+    <div class="select">
+      <select name="location" id="location">
+        <option value="">All</option>
+        {% for location in locations %}
+            <option
+              value="{{ location.name }}"
+              {% if query.location == location.name %}selected{% endif %}
+              >
+              {{ location.name }}
+            </option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <div class="two-columns-fields">
+    <fieldset>
+        <legend style="display:none;">Registration date period</legend>
+        <div>
+          <label for="registration_date_start">Registration period start date</label>
+          <input
+            type="date"
+            data-format="dd/MMM/yyyy"
+            class="form-control"
+            name="registration_date_start"
+            id="registration_date_start"
+            placeholder="e.g. 2015-01-31"
+            value="{{ query.registration_date_start }}">
+        </div>
+        <div>
+          <label for="registration_date_end">Registration period end date</label>
+          <input
+            type="date"
+            data-format="dd/MMM/yyyy"
+            class="form-control"
+            name="registration_date_end"
+            id="registration_date_end"
+            placeholder="e.g. 2016-01-31"
+            value="{{ query.registration_date_end }}">
+        </div>
+    </fieldset>
+  </div>
+
+  <button type="submit"><span>Search</span></button>
+</fieldset>

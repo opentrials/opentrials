@@ -1,0 +1,95 @@
+.search-bar {
+  position: relative;
+
+  input[type="search"] {
+    padding: 1em 3.5em 1em 1.5em;
+
+    @include MQ(M) {
+      font-size: em(18);
+      border-radius: 5px;
+    }
+
+    + button {
+      position: absolute;
+      top: 50%;
+      right: 1em;
+      width: 3em;
+      height: 3em;
+      margin-top: -2em;
+      background-color: transparent;
+      color: $base-font-color;
+
+      span {
+        @include hide-text;
+        display: block;
+      }
+
+      &:before {
+        @include icon-font();
+        content: "\e904";
+        font-size: 3em;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+      }
+    }
+  }
+}
+
+.search-controls {
+  overflow: auto;
+
+  .toggle-advanced {
+    float: right;
+    display: inline-block;
+    cursor: pointer;
+    font-size: em(15);
+  }
+}
+
+.advanced {
+  & > div {
+    @include MQ(M) {
+      @include span-columns(6);
+      @include omega(2n);
+    }
+
+    label {
+      text-align: left;
+      font-weight: normal;
+    }
+
+    &.two-columns-fields {
+      div {
+        @include MQ(M) {
+          @include span-columns(3 of 6);
+        }
+      }
+    }
+  }
+
+  button {
+    background-color: #fff;
+    color: $blue;
+    display: block;
+    margin-top: $base-spacing;
+    clear: both;
+    width: 100%;
+    padding: 1em 3.5em;
+
+    @include MQ(M) {
+      width: auto;
+    }
+  }
+}
+
+.js {
+  .advanced {
+    display: none;
+
+    &.visible {
+      display: block;
+    }
+  }
+}

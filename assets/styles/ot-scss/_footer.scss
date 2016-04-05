@@ -1,0 +1,64 @@
+html,
+.site-footer {
+  background-color: $blue;
+}
+
+body {
+  background-color: $base-background-color;
+}
+
+.site-footer {
+  color: #fff;
+
+  a {
+    color: inherit;
+  }
+
+  & > div {
+    @include outer-container;
+    padding: $base-spacing;
+
+    .footer-logo {
+      opacity: 0.9;
+
+      img {
+        height: 32px;
+      }
+    }
+
+    hr {
+      margin: 1em 0;
+      opacity: 0.5;
+    }
+
+    .cc,
+    .cc-by {
+      &:before {
+        @include icon-font();
+        font-size: 20px;
+        float: left;
+        margin-right: 5px;
+      }
+    }
+
+    .cc {
+      font-size: 12px;
+      display: inline-block;
+      line-height: 18px;
+      opacity: 0.8;
+
+      &:before {
+        content: "\e601";
+      }
+    }
+    .cc-by {
+      &:before {
+        content: "\e600";
+      }
+    }
+
+    a:link:hover {
+      opacity: 1;
+    }
+  }
+}
