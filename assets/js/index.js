@@ -18,4 +18,14 @@ $(document).ready(function() {
       $(".home").toggleClass("advanced-search")
     });
   });
+
+  // clear fieldset button
+  $("#clear-fieldset").click(function(ev) {
+    var fieldset = $(this).parents('fieldset');
+    fieldset.find('input, select, textarea')
+      .val('');
+    fieldset.find('input:radio, input:checkbox')
+      .removeAttr('checked')
+      .removeAttr('selected');
+  });
 });

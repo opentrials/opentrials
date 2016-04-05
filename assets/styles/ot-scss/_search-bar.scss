@@ -69,17 +69,24 @@
     }
   }
 
-  button {
-    background-color: #fff;
-    color: $blue;
-    display: block;
-    margin-top: $base-spacing;
-    clear: both;
+  .controls {
     width: 100%;
-    padding: 1em 3.5em;
 
-    @include MQ(M) {
-      width: auto;
+    button {
+      background-color: #fff;
+      color: $blue;
+      margin-top: $base-spacing;
+      width: 100%;
+      padding: 1em 3.5em;
+
+      @include MQ(M) {
+        width: auto;
+      }
+    }
+
+    #clear-fieldset {
+      color: inherit;
+      background-color: $medium-blue;
     }
   }
 }
