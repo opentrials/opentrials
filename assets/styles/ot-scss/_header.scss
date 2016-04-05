@@ -15,13 +15,16 @@
         height: 46px;
         float: left;
         fill: $blue;
+        width: 24px; // for IE
 
         @include MQ(M) {
           height: 54px;
+          width: 28px; // for IE
         }
 
         @include MQ(L) {
           height: 72px;
+          width: 37px; // for IE
         }
       }
       .title,
