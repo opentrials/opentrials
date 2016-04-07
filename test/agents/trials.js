@@ -56,14 +56,18 @@ describe('Trials', () => {
     });
 
     it('adds the filters to the query string', () => {
-      apiServer.get('/search').query({q: '(foo bar) AND (location:"Czech Republic")'}).reply(200, response);
+      apiServer.get('/search')
+        .query({q: '(foo bar) AND location:("Czech Republic")'})
+        .reply(200, response);
 
       return trials.search('foo bar', undefined, undefined, { location: '"Czech Republic"' })
         .should.be.fulfilledWith(expectedResponse);
     });
 
     it('accepts list of values to a single filter', () => {
-      apiServer.get('/search').query({q: '(foo bar) AND (location:"Czech Republic" OR location:"Brazil")'}).reply(200, response);
+      apiServer.get('/search')
+        .query({q: '(foo bar) AND location:("Czech Republic" OR "Brazil")'})
+        .reply(200, response);
 
       return trials.search('foo bar', undefined, undefined, { location: ['"Czech Republic"', '"Brazil"'] })
         .should.be.fulfilledWith(expectedResponse);

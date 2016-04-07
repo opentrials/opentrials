@@ -159,7 +159,7 @@ describe('search handler', () => {
       mockApiResponses({
         search: {
           query: {
-            q: '(foo bar) AND (location:"Czech Republic" OR location:"Brazil")',
+            q: '(foo bar) AND location:("Czech Republic" OR "Brazil")',
           },
           response: searchResponse,
         },
@@ -189,7 +189,7 @@ describe('search handler', () => {
       mockApiResponses({
         search: {
           query: {
-            q: '(registration_date:[2012-01-01 TO *])',
+            q: 'registration_date:([2012-01-01 TO *])',
           },
         },
       });
@@ -205,7 +205,7 @@ describe('search handler', () => {
       mockApiResponses({
         search: {
           query: {
-            q: '(registration_date:[* TO 2016-01-01])'
+            q: 'registration_date:([* TO 2016-01-01])'
           },
         },
       });
@@ -221,7 +221,7 @@ describe('search handler', () => {
       mockApiResponses({
         search: {
           query: {
-            q: '(registration_date:[2015-01-01 TO 2016-01-01])',
+            q: 'registration_date:([2015-01-01 TO 2016-01-01])',
           },
         },
       });

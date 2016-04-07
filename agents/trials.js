@@ -16,15 +16,15 @@ function generateQueryString(query, filters) {
       if (!Array.isArray(value)) {
         value = [value];
       }
-      value = value.map((v) => `${filterName}:${v}`).join(' OR ');
+      value = `${filterName}:(${value.join(' OR ')})`;
 
-      result = result.concat(`(${value})`);
+      result = result.concat(value);
     }
 
     return result;
   }, []).join(' AND ');
-  let queryString;
 
+  let queryString;
   if (query) {
     if (queryValues) {
       queryString = `(${query}) AND ${queryValues}`;
