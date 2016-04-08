@@ -1,3 +1,4 @@
+require('dotenv').config();
 const path = require('path');
 const webpack = require('webpack');
 
@@ -16,5 +17,8 @@ module.exports = {
   plugins: [
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin(),
+    new webpack.DefinePlugin({
+      API_URL: `'${process.env.API_URL}'`,
+    }),
   ],
 };

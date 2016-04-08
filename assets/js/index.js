@@ -29,5 +29,35 @@ $(document).ready(function() {
       .removeAttr('selected');
   });
 
-  $('select').select2();
+  $('select[name="location"]').select2({
+    ajax: {
+      url: API_URL + '/search/locations',
+      dataType: 'json',
+      delay: 250,
+      cache: true,
+      data: function(params) {
+        return {
+          q: 'name:"' + params.term + '"',
+          page: params.page,
+          per_page: 10,
+        };
+      },
+      processResults: function(data, params) {
+        params.page = params.page || 1;
+
+        return {
+          results: data.items,
+          pagination: {
+            more: (params.page * 10) < data.total_count,
+          },
+        };
+      },
+    },
+    templateResult: function (item) {
+      return item.name;
+    },
+    templateSelection: function (item) {
+      return item.name;
+    },
+  });
 });
