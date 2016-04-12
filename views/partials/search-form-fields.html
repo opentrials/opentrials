@@ -1,3 +1,20 @@
+{% macro createSelectMultiple(name, label) %}
+  <div>
+    <label for="{{ name }}">{{ label }}</label>
+    <div class="select">
+      <select name="{{ name }}" style="width: 100%;" id="{{ name }}" multiple="multiple">
+        {% if query[name] %}
+          {% for item in query[name] %}
+              <option value="{{ item }}" selected>
+                {{ item }}
+              </option>
+          {% endfor %}
+        {% endif %}
+      </select>
+    </div>
+  </div>
+{% endmacro %}
+
 <fieldset class="search-bar">
   <input type="search" title="Search" placeholder="Find a trial" name="q" value="{{ query.q }}" />
   <button type="submit"><span>Search</span></button>
@@ -17,21 +34,11 @@
   {% endif %}
 </div>
 <fieldset class="advanced {% if advancedSearchIsVisible %}visible{% endif %}">
-  <div>
-    <label for="location">Locations</label>
-    <div class="select">
-      <select name="location" style="width: 100%;" id="location" multiple="multiple">
-        {% for location in locations %}
-            <option
-              value="{{ location.name }}"
-              {% if query.location and location.name in query.location %}selected{% endif %}
-              >
-              {{ location.name }}
-            </option>
-        {% endfor %}
-      </select>
-    </div>
-  </div>
+  {{ createSelectMultiple('problem', 'Conditions') }}
+  {{ createSelectMultiple('intervention', 'Interventions') }}
+  {{ createSelectMultiple('person', 'Persons') }}
+  {{ createSelectMultiple('organisation', 'Organisations') }}
+  {{ createSelectMultiple('location', 'Locations') }}
 
   <div class="two-columns-fields">
     <fieldset>

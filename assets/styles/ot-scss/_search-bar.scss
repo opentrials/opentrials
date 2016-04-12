@@ -50,6 +50,8 @@
 
 .advanced {
   & > div {
+    margin-bottom: $small-spacing;
+
     @include MQ(M) {
       @include span-columns(6);
       @include omega(2n);

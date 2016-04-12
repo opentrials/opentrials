@@ -1,3 +1,42 @@
+(function() {
+
+function setupSelect2For(name) {
+  var perPage = 10;
+
+  $('select[name="' + name + '"]').select2({
+    ajax: {
+      url: API_URL + '/search/autocomplete/' + name,
+      dataType: 'json',
+      delay: 250,
+      cache: true,
+      data: function(params) {
+        return {
+          q: params.term,
+          page: params.page,
+          per_page: perPage,
+        };
+      },
+      processResults: function(data, params) {
+        var results = data.items.map(function(d) {
+          return {
+            id: d.name,
+            text: d.name,
+          };
+        });
+        params.page = params.page || 1;
+
+        return {
+          results: results,
+          pagination: {
+            more: (params.page * perPage) < data.total_count,
+          },
+        };
+      },
+    },
+    tags: true,
+  });
+}
+
 $(document).ready(function() {
   // mobile menu
   $("#menu").mmenu({
@@ -29,35 +68,11 @@ $(document).ready(function() {
       .removeAttr('selected');
   });
 
-  $('select[name="location"]').select2({
-    ajax: {
-      url: API_URL + '/search/locations',
-      dataType: 'json',
-      delay: 250,
-      cache: true,
-      data: function(params) {
-        return {
-          q: 'name:"' + params.term + '"',
-          page: params.page,
-          per_page: 10,
-        };
-      },
-      processResults: function(data, params) {
-        params.page = params.page || 1;
-
-        return {
-          results: data.items,
-          pagination: {
-            more: (params.page * 10) < data.total_count,
-          },
-        };
-      },
-    },
-    templateResult: function (item) {
-      return item.name;
-    },
-    templateSelection: function (item) {
-      return item.name;
-    },
-  });
+  setupSelect2For('problem');
+  setupSelect2For('intervention');
+  setupSelect2For('person');
+  setupSelect2For('organisation');
+  setupSelect2For('location');
 });
+
+})();

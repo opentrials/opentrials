@@ -151,6 +151,138 @@ describe('search handler', () => {
     });
   });
 
+  describe('GET /search?problem={problem}&problem={problem}', () => {
+    let response;
+    const searchResponse = { total_count: 0, items: [] };
+
+    before(() => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: '(foo bar) AND problem:("HIV" OR "Breast Cancer")',
+          },
+          response: searchResponse,
+        },
+      });
+
+      return server.inject('/search?q=foo+bar&problem=HIV&problem=Breast+Cancer')
+        .then((_response) => {
+          response = _response;
+        });
+    });
+
+    it('calls the API correctly', () => {
+      const context = response.request.response.source.context;
+
+      context.trials.should.deepEqual(searchResponse);
+    });
+
+    it('adds the problems to context.query', () => {
+      const context = response.request.response.source.context;
+
+      context.query.problem.should.deepEqual(["HIV", "Breast Cancer"]);
+    });
+  });
+
+  describe('GET /search?intervention={intervention}&intervention={intervention}', () => {
+    let response;
+    const searchResponse = { total_count: 0, items: [] };
+
+    before(() => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: '(foo bar) AND intervention:("Placebo" OR "Aspirin")',
+          },
+          response: searchResponse,
+        },
+      });
+
+      return server.inject('/search?q=foo+bar&intervention=Placebo&intervention=Aspirin')
+        .then((_response) => {
+          response = _response;
+        });
+    });
+
+    it('calls the API correctly', () => {
+      const context = response.request.response.source.context;
+
+      context.trials.should.deepEqual(searchResponse);
+    });
+
+    it('adds the interventions to context.query', () => {
+      const context = response.request.response.source.context;
+
+      context.query.intervention.should.deepEqual(["Placebo", "Aspirin"]);
+    });
+  });
+
+  describe('GET /search?person={person}&person={person}', () => {
+    let response;
+    const searchResponse = { total_count: 0, items: [] };
+
+    before(() => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: '(foo bar) AND person:("Hippocrates" OR "Florence Nightingale")',
+          },
+          response: searchResponse,
+        },
+      });
+
+      return server.inject('/search?q=foo+bar&person=Hippocrates&person=Florence+Nightingale')
+        .then((_response) => {
+          response = _response;
+        });
+    });
+
+    it('calls the API correctly', () => {
+      const context = response.request.response.source.context;
+
+      context.trials.should.deepEqual(searchResponse);
+    });
+
+    it('adds the persons to context.query', () => {
+      const context = response.request.response.source.context;
+
+      context.query.person.should.deepEqual(["Hippocrates", "Florence Nightingale"]);
+    });
+  });
+
+  describe('GET /search?organisation={organisation}&organisation={organisation}', () => {
+    let response;
+    const searchResponse = { total_count: 0, items: [] };
+
+    before(() => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: '(foo bar) AND organisation:("ACME" OR "NSA")',
+          },
+          response: searchResponse,
+        },
+      });
+
+      return server.inject('/search?q=foo+bar&organisation=ACME&organisation=NSA')
+        .then((_response) => {
+          response = _response;
+        });
+    });
+
+    it('calls the API correctly', () => {
+      const context = response.request.response.source.context;
+
+      context.trials.should.deepEqual(searchResponse);
+    });
+
+    it('adds the organisations to context.query', () => {
+      const context = response.request.response.source.context;
+
+      context.query.organisation.should.deepEqual(["ACME", "NSA"]);
+    });
+  });
+
   describe('GET /search?location={locationID}&location={locationID}', () => {
     let response;
     const searchResponse = { total_count: 0, items: [] };
@@ -175,6 +307,12 @@ describe('search handler', () => {
       const context = response.request.response.source.context;
 
       context.trials.should.deepEqual(searchResponse);
+    });
+
+    it('adds the locations to context.query', () => {
+      const context = response.request.response.source.context;
+
+      context.query.location.should.deepEqual(["Czech Republic", "Brazil"]);
     });
 
     it('adds advancedSearchIsVisible as true into the context', () => {

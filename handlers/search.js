@@ -6,6 +6,14 @@ const _ = require('lodash');
 const trials = require('../agents/trials');
 const locations = require('../agents/locations');
 
+function ensureIsArray(object) {
+  let result = object;
+  if (result !== undefined && !Array.isArray(result)) {
+    result = [result];
+  }
+  return result;
+}
+
 function getPagination(url, currentPage, perPage, maxPages, totalCount) {
   const getPageUrl = (pageNumber) => {
     const pageUrl = _.omit(url, 'search');
@@ -55,13 +63,24 @@ function getPagination(url, currentPage, perPage, maxPages, totalCount) {
 
 function getFilters(query) {
   const filters = {};
+  const ensureIsArrayAndQuoteElements = (values) => (
+    ensureIsArray(values).map((val) => `"${val}"`)
+  );
 
+  if (query.problem) {
+    filters.problem = ensureIsArrayAndQuoteElements(query.problem);
+  }
+  if (query.intervention) {
+    filters.intervention = ensureIsArrayAndQuoteElements(query.intervention);
+  }
   if (query.location) {
-    let values = query.location;
-    if (!Array.isArray(values)) {
-      values = [values];
-    }
-    filters.location = values.map((loc) => `"${loc}"`);
+    filters.location = ensureIsArrayAndQuoteElements(query.location);
+  }
+  if (query.person) {
+    filters.person = ensureIsArrayAndQuoteElements(query.person);
+  }
+  if (query.organisation) {
+    filters.organisation = ensureIsArrayAndQuoteElements(query.organisation);
   }
 
   const registrationDateStart = query.registration_date_start;
@@ -82,13 +101,20 @@ function searchPage(request, reply) {
   const maxPages = 100;
   const filters = getFilters(query);
 
-  // Ensure query.location is either an array or undefined
-  if (!Array.isArray(query.location)) {
-    if (query.location) {
-      query.location = [query.location];
-    } else {
-      delete query.location;
-    }
+  if (query.problem !== undefined) {
+    query.problem = ensureIsArray(query.problem);
+  }
+  if (query.intervention !== undefined) {
+    query.intervention = ensureIsArray(query.intervention);
+  }
+  if (query.location !== undefined) {
+    query.location = ensureIsArray(query.location);
+  }
+  if (query.person !== undefined) {
+    query.person = ensureIsArray(query.person);
+  }
+  if (query.organisation !== undefined) {
+    query.organisation = ensureIsArray(query.organisation);
   }
 
   Promise.all([
