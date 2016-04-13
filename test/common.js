@@ -1,3 +1,4 @@
+'use strict';
 require('dotenv').config();
 const _ = require('lodash');
 const nock = require('nock');
