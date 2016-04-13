@@ -83,6 +83,27 @@
     </div>
   </div>
 
+  <div>
+    <label for="has_published_results">Study results</label>
+    <div class="select">
+      <select name="has_published_results" id="has_published_results">
+        <option value="">All</option>
+        <option
+          value="true"
+          {% if query.has_published_results == 'true' %}selected{% endif %}
+          >
+          Trials with published results
+        </option>
+        <option
+          value="false"
+          {% if query.has_published_results == 'false' %}selected{% endif %}
+          >
+          Trials without published results
+        </option>
+      </select>
+    </div>
+  </div>
+
   <div class="two-columns-fields">
     <fieldset>
         <legend style="display:none;">Registration date period</legend>

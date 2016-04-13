@@ -101,6 +101,11 @@ function getFilters(query) {
     filters.gender = `${gender} OR both`;
   }
 
+  const hasPublishedResults = query.has_published_results;
+  if (hasPublishedResults) {
+    filters.has_published_results = (hasPublishedResults === 'true');
+  }
+
   return filters;
 }
 

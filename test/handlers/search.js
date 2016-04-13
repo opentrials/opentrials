@@ -198,6 +198,53 @@ describe('search handler', () => {
     });
   });
 
+  describe('GET /search?has_published_results={has_published_results}', () => {
+    it('doesnt filter if has_published_results is empty', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: undefined,
+          },
+        },
+      });
+
+      return server.inject('/search?has_published_results=')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+        });
+    });
+
+    it('filter by trials with published results if has_published_results is "true"', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'has_published_results:(true)',
+          },
+        },
+      });
+
+      return server.inject('/search?has_published_results=true')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+        });
+    });
+
+    it('doesnt filter if has_published_results is "false"', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: undefined,
+          },
+        },
+      });
+
+      return server.inject('/search?has_published_results=false')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+        });
+    });
+  });
+
   describe('GET /search?problem={problem}&problem={problem}', () => {
     let response;
     const searchResponse = { total_count: 0, items: [] };
