@@ -2,3 +2,11 @@
 extends: airbnb/base
 env:
   node: true
+rules:
+  strict:
+    - error
+    - safe
+  quotes:
+    - error
+    - single
+    - avoid-escape
