@@ -322,6 +322,56 @@ describe('search handler', () => {
     });
   });
 
+  describe('GET /search?sample_size_start={start}&sample_size_end={end}', () => {
+    it('accepts just sample size start', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'target_sample_size:([100 TO *])',
+          },
+        },
+      });
+
+      return server.inject('/search?sample_size_start=100')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+          _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
+        });
+    });
+
+    it('accepts just sample size end', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'target_sample_size:([* TO 200])'
+          },
+        },
+      });
+
+      return server.inject('/search?sample_size_end=200')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+          _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
+        });
+    });
+
+    it('accepts sample size start and end', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'target_sample_size:([100 TO 200])',
+          },
+        },
+      });
+
+      return server.inject('/search?sample_size_start=100&sample_size_end=200')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+          _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
+        });
+    });
+  });
+
   describe('GET /search?registration_date_start={start}&registration_date_end={end}', () => {
     it('accepts just start date', () => {
       mockApiResponses({

@@ -42,6 +42,32 @@
 
   <div class="two-columns-fields">
     <fieldset>
+      <legend>Sample size</legend>
+      <div>
+        <input
+          type="number"
+          min="0"
+          step="10"
+          name="sample_size_start"
+          placeholder="from"
+          value="{{ query.sample_size_start }}"
+        >
+      </div>
+      <div>
+        <input
+          type="number"
+          min="0"
+          step="10"
+          name="sample_size_end"
+          placeholder="to"
+          value="{{ query.sample_size_end }}"
+        >
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="two-columns-fields">
+    <fieldset>
         <legend style="display:none;">Registration date period</legend>
         <div>
           <label for="registration_date_start">Registration period start date</label>

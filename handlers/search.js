@@ -90,6 +90,12 @@ function getFilters(query) {
     filters.registration_date = registrationDate;
   }
 
+  const sampleSizeStart = query.sample_size_start;
+  const sampleSizeEnd = query.sample_size_end;
+  if (sampleSizeStart || sampleSizeEnd) {
+    filters.target_sample_size = `[${sampleSizeStart || '*'} TO ${sampleSizeEnd || '*'}]`;
+  }
+
   return filters;
 }
 
