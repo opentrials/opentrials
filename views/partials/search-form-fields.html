@@ -66,6 +66,23 @@
     </fieldset>
   </div>
 
+  <div>
+    <label for="gender">Gender</label>
+    <div class="select">
+      <select name="gender" id="gender">
+        <option value="">All</option>
+        {% for gender in ['male', 'female'] %}
+          <option
+            value="{{ gender }}"
+            {% if query.gender == gender %}selected{% endif %}
+            >
+            Trials with {{gender}} participants
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
   <div class="two-columns-fields">
     <fieldset>
         <legend style="display:none;">Registration date period</legend>

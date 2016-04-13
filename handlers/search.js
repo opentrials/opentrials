@@ -96,6 +96,11 @@ function getFilters(query) {
     filters.target_sample_size = `[${sampleSizeStart || '*'} TO ${sampleSizeEnd || '*'}]`;
   }
 
+  const gender = query.gender;
+  if (gender) {
+    filters.gender = `${gender} OR both`;
+  }
+
   return filters;
 }
 

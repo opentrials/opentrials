@@ -151,6 +151,53 @@ describe('search handler', () => {
     });
   });
 
+  describe('GET /search?gender={gender}', () => {
+    it('doesnt filter if gender is empty', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: undefined,
+          },
+        },
+      });
+
+      return server.inject('/search?gender=')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+        });
+    });
+
+    it('filter by male or both if gender is male', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'gender:(male OR both)',
+          },
+        },
+      });
+
+      return server.inject('/search?gender=male')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+        });
+    });
+
+    it('filter by female or both if gender is female', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'gender:(female OR both)',
+          },
+        },
+      });
+
+      return server.inject('/search?gender=female')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+        });
+    });
+  });
+
   describe('GET /search?problem={problem}&problem={problem}', () => {
     let response;
     const searchResponse = { total_count: 0, items: [] };
