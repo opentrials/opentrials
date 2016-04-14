@@ -18,7 +18,7 @@ module.exports = {
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin(),
     new webpack.DefinePlugin({
-      API_URL: `'${process.env.API_URL}'`,
+      OPENTRIALS_API_URL: `'${process.env.OPENTRIALS_API_URL}'`,
     }),
   ],
 };

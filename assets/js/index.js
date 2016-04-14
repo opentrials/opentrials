@@ -5,7 +5,7 @@ function setupSelect2For(name) {
 
   $('select[name="' + name + '"]').select2({
     ajax: {
-      url: API_URL + '/search/autocomplete/' + name,
+      url: OPENTRIALS_API_URL + '/search/autocomplete/' + name,
       dataType: 'json',
       delay: 250,
       cache: true,

@@ -3,7 +3,7 @@
   "description": "Code for OpenTrials.net",
   "scripts": {},
   "env": {
-    "SWAGGER_API_URL": {
+    "OPENTRIALS_API_URL": {
       "required": true
     }
   },
