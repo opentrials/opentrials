@@ -254,13 +254,13 @@ describe('search handler', () => {
         mockApiResponses({
           search: {
             query: {
-              q: '(foo bar) AND problem:("HIV")',
+              q: 'problem:("HIV")',
             },
             response: searchResponse,
           },
         });
 
-        return server.inject('/search?q=foo+bar&problem=HIV')
+        return server.inject('/search?problem=HIV')
           .then((response) => {
             const context = response.request.response.source.context;
             context.query.problem.should.deepEqual(['HIV']);
@@ -275,13 +275,13 @@ describe('search handler', () => {
         mockApiResponses({
           search: {
             query: {
-              q: '(foo bar) AND problem:("HIV" OR "Breast Cancer")',
+              q: 'problem:("HIV" OR "Breast Cancer")',
             },
             response: searchResponse,
           },
         });
 
-        return server.inject('/search?q=foo+bar&problem=HIV&problem=Breast+Cancer')
+        return server.inject('/search?problem=HIV&problem=Breast+Cancer')
           .then((_response) => {
             response = _response;
           });
@@ -309,13 +309,13 @@ describe('search handler', () => {
         mockApiResponses({
           search: {
             query: {
-              q: '(foo bar) AND intervention:("Hippocrates")',
+              q: 'intervention:("Hippocrates")',
             },
             response: searchResponse,
           },
         });
 
-        return server.inject('/search?q=foo+bar&intervention=Hippocrates')
+        return server.inject('/search?intervention=Hippocrates')
           .then((response) => {
             const context = response.request.response.source.context;
             context.query.intervention.should.deepEqual(['Hippocrates']);
@@ -330,13 +330,13 @@ describe('search handler', () => {
         mockApiResponses({
           search: {
             query: {
-              q: '(foo bar) AND intervention:("Placebo" OR "Aspirin")',
+              q: 'intervention:("Placebo" OR "Aspirin")',
             },
             response: searchResponse,
           },
         });
 
-        return server.inject('/search?q=foo+bar&intervention=Placebo&intervention=Aspirin')
+        return server.inject('/search?intervention=Placebo&intervention=Aspirin')
           .then((_response) => {
             response = _response;
           });
@@ -364,13 +364,13 @@ describe('search handler', () => {
         mockApiResponses({
           search: {
             query: {
-              q: '(foo bar) AND person:("Hippocrates")',
+              q: 'person:("Hippocrates")',
             },
             response: searchResponse,
           },
         });
 
-        return server.inject('/search?q=foo+bar&person=Hippocrates')
+        return server.inject('/search?person=Hippocrates')
           .then((response) => {
             const context = response.request.response.source.context;
             context.query.person.should.deepEqual(['Hippocrates']);
@@ -385,13 +385,13 @@ describe('search handler', () => {
         mockApiResponses({
           search: {
             query: {
-              q: '(foo bar) AND person:("Hippocrates" OR "Florence Nightingale")',
+              q: 'person:("Hippocrates" OR "Florence Nightingale")',
             },
             response: searchResponse,
           },
         });
 
-        return server.inject('/search?q=foo+bar&person=Hippocrates&person=Florence+Nightingale')
+        return server.inject('/search?person=Hippocrates&person=Florence+Nightingale')
           .then((_response) => {
             response = _response;
           });
@@ -419,13 +419,13 @@ describe('search handler', () => {
         mockApiResponses({
           search: {
             query: {
-              q: '(foo bar) AND organisation:("ACME")',
+              q: 'organisation:("ACME")',
             },
             response: searchResponse,
           },
         });
 
-        return server.inject('/search?q=foo+bar&organisation=ACME')
+        return server.inject('/search?organisation=ACME')
           .then((response) => {
             const context = response.request.response.source.context;
             context.query.organisation.should.deepEqual(['ACME']);
@@ -440,13 +440,13 @@ describe('search handler', () => {
         mockApiResponses({
           search: {
             query: {
-              q: '(foo bar) AND organisation:("ACME" OR "NSA")',
+              q: 'organisation:("ACME" OR "NSA")',
             },
             response: searchResponse,
           },
         });
 
-        return server.inject('/search?q=foo+bar&organisation=ACME&organisation=NSA')
+        return server.inject('/search?organisation=ACME&organisation=NSA')
           .then((_response) => {
             response = _response;
           });
@@ -475,13 +475,13 @@ describe('search handler', () => {
         mockApiResponses({
           search: {
             query: {
-              q: '(foo bar) AND location:("Czech Republic")',
+              q: 'location:("Czech Republic")',
             },
             response: searchResponse,
           },
         });
 
-        return server.inject('/search?q=foo+bar&location=Czech+Republic')
+        return server.inject('/search?location=Czech+Republic')
           .then((response) => {
             const context = response.request.response.source.context;
             context.query.location.should.deepEqual(['Czech Republic']);
@@ -494,13 +494,13 @@ describe('search handler', () => {
         mockApiResponses({
           search: {
             query: {
-              q: '(foo bar) AND location:("Czech Republic" OR "Brazil")',
+              q: 'location:("Czech Republic" OR "Brazil")',
             },
             response: searchResponse,
           },
         });
 
-        return server.inject('/search?q=foo+bar&location=Czech+Republic&location=Brazil')
+        return server.inject('/search?location=Czech+Republic&location=Brazil')
           .then((_response) => {
             response = _response;
           });
