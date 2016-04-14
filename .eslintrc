@@ -2,3 +2,5 @@
 extends: airbnb/base
 env:
   node: true
+ecmaFeatures:
+  module: false
