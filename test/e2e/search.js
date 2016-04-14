@@ -50,6 +50,8 @@ describe('(e2e) search', function() {
     driver.findElement(By.name('sample_size_end')).sendKeys(100);
     driver.findElement(By.name('registration_date_start')).sendKeys('2015-01-01');
     driver.findElement(By.name('registration_date_end')).sendKeys('2016-01-01');
+    // This is a hacky way of selecting an option in a select box. Please fix
+    // it if you find a better way.
     driver.findElement(By.name('gender')).sendKeys('T');
     driver.findElement(By.name('has_published_results')).sendKeys('T');
 
