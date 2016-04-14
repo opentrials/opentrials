@@ -247,134 +247,222 @@ describe('search handler', () => {
   });
 
   describe('GET /search?problem={problem}&problem={problem}', () => {
-    let response;
     const searchResponse = { total_count: 0, items: [] };
 
-    before(() => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: '(foo bar) AND problem:("HIV" OR "Breast Cancer")',
+    describe('single problem', () => {
+      it('converts the query problem to an array', () => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: '(foo bar) AND problem:("HIV")',
+            },
+            response: searchResponse,
           },
-          response: searchResponse,
-        },
+        });
+
+        return server.inject('/search?q=foo+bar&problem=HIV')
+          .then((response) => {
+            const context = response.request.response.source.context;
+            context.query.problem.should.deepEqual(['HIV']);
+          });
+      });
+    });
+
+    describe('multiple problems', () => {
+      let response;
+
+      before(() => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: '(foo bar) AND problem:("HIV" OR "Breast Cancer")',
+            },
+            response: searchResponse,
+          },
+        });
+
+        return server.inject('/search?q=foo+bar&problem=HIV&problem=Breast+Cancer')
+          .then((_response) => {
+            response = _response;
+          });
       });
 
-      return server.inject('/search?q=foo+bar&problem=HIV&problem=Breast+Cancer')
-        .then((_response) => {
-          response = _response;
-        });
-    });
+      it('calls the API correctly', () => {
+        const context = response.request.response.source.context;
 
-    it('calls the API correctly', () => {
-      const context = response.request.response.source.context;
+        context.trials.should.deepEqual(searchResponse);
+      });
 
-      context.trials.should.deepEqual(searchResponse);
-    });
+      it('adds the problems to context.query', () => {
+        const context = response.request.response.source.context;
 
-    it('adds the problems to context.query', () => {
-      const context = response.request.response.source.context;
-
-      context.query.problem.should.deepEqual(["HIV", "Breast Cancer"]);
+        context.query.problem.should.deepEqual(["HIV", "Breast Cancer"]);
+      });
     });
   });
 
   describe('GET /search?intervention={intervention}&intervention={intervention}', () => {
-    let response;
     const searchResponse = { total_count: 0, items: [] };
 
-    before(() => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: '(foo bar) AND intervention:("Placebo" OR "Aspirin")',
+    describe('single intervention', () => {
+      it('converts the query intervention to an array', () => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: '(foo bar) AND intervention:("Hippocrates")',
+            },
+            response: searchResponse,
           },
-          response: searchResponse,
-        },
+        });
+
+        return server.inject('/search?q=foo+bar&intervention=Hippocrates')
+          .then((response) => {
+            const context = response.request.response.source.context;
+            context.query.intervention.should.deepEqual(['Hippocrates']);
+          });
+      });
+    });
+
+    describe('multiple interventions', () => {
+      let response;
+
+      before(() => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: '(foo bar) AND intervention:("Placebo" OR "Aspirin")',
+            },
+            response: searchResponse,
+          },
+        });
+
+        return server.inject('/search?q=foo+bar&intervention=Placebo&intervention=Aspirin')
+          .then((_response) => {
+            response = _response;
+          });
       });
 
-      return server.inject('/search?q=foo+bar&intervention=Placebo&intervention=Aspirin')
-        .then((_response) => {
-          response = _response;
-        });
-    });
+      it('calls the API correctly', () => {
+        const context = response.request.response.source.context;
 
-    it('calls the API correctly', () => {
-      const context = response.request.response.source.context;
+        context.trials.should.deepEqual(searchResponse);
+      });
 
-      context.trials.should.deepEqual(searchResponse);
-    });
+      it('adds the interventions to context.query', () => {
+        const context = response.request.response.source.context;
 
-    it('adds the interventions to context.query', () => {
-      const context = response.request.response.source.context;
-
-      context.query.intervention.should.deepEqual(["Placebo", "Aspirin"]);
+        context.query.intervention.should.deepEqual(["Placebo", "Aspirin"]);
+      });
     });
   });
 
   describe('GET /search?person={person}&person={person}', () => {
-    let response;
     const searchResponse = { total_count: 0, items: [] };
 
-    before(() => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: '(foo bar) AND person:("Hippocrates" OR "Florence Nightingale")',
+    describe('single person', () => {
+      it('converts the query person to an array', () => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: '(foo bar) AND person:("Hippocrates")',
+            },
+            response: searchResponse,
           },
-          response: searchResponse,
-        },
+        });
+
+        return server.inject('/search?q=foo+bar&person=Hippocrates')
+          .then((response) => {
+            const context = response.request.response.source.context;
+            context.query.person.should.deepEqual(['Hippocrates']);
+          });
+      });
+    });
+
+    describe('multiple persons', () => {
+      let response;
+
+      before(() => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: '(foo bar) AND person:("Hippocrates" OR "Florence Nightingale")',
+            },
+            response: searchResponse,
+          },
+        });
+
+        return server.inject('/search?q=foo+bar&person=Hippocrates&person=Florence+Nightingale')
+          .then((_response) => {
+            response = _response;
+          });
       });
 
-      return server.inject('/search?q=foo+bar&person=Hippocrates&person=Florence+Nightingale')
-        .then((_response) => {
-          response = _response;
-        });
-    });
+      it('calls the API correctly', () => {
+        const context = response.request.response.source.context;
 
-    it('calls the API correctly', () => {
-      const context = response.request.response.source.context;
+        context.trials.should.deepEqual(searchResponse);
+      });
 
-      context.trials.should.deepEqual(searchResponse);
-    });
+      it('adds the persons to context.query', () => {
+        const context = response.request.response.source.context;
 
-    it('adds the persons to context.query', () => {
-      const context = response.request.response.source.context;
-
-      context.query.person.should.deepEqual(["Hippocrates", "Florence Nightingale"]);
+        context.query.person.should.deepEqual(["Hippocrates", "Florence Nightingale"]);
+      });
     });
   });
 
   describe('GET /search?organisation={organisation}&organisation={organisation}', () => {
-    let response;
     const searchResponse = { total_count: 0, items: [] };
 
-    before(() => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: '(foo bar) AND organisation:("ACME" OR "NSA")',
+    describe('single organisation', () => {
+      it('converts the query organisation to an array', () => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: '(foo bar) AND organisation:("ACME")',
+            },
+            response: searchResponse,
           },
-          response: searchResponse,
-        },
+        });
+
+        return server.inject('/search?q=foo+bar&organisation=ACME')
+          .then((response) => {
+            const context = response.request.response.source.context;
+            context.query.organisation.should.deepEqual(['ACME']);
+          });
+      });
+    });
+
+    describe('multiple organisations', () => {
+      let response;
+
+      before(() => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: '(foo bar) AND organisation:("ACME" OR "NSA")',
+            },
+            response: searchResponse,
+          },
+        });
+
+        return server.inject('/search?q=foo+bar&organisation=ACME&organisation=NSA')
+          .then((_response) => {
+            response = _response;
+          });
       });
 
-      return server.inject('/search?q=foo+bar&organisation=ACME&organisation=NSA')
-        .then((_response) => {
-          response = _response;
-        });
-    });
+      it('calls the API correctly', () => {
+        const context = response.request.response.source.context;
 
-    it('calls the API correctly', () => {
-      const context = response.request.response.source.context;
+        context.trials.should.deepEqual(searchResponse);
+      });
 
-      context.trials.should.deepEqual(searchResponse);
-    });
+      it('adds the organisations to context.query', () => {
+        const context = response.request.response.source.context;
 
-    it('adds the organisations to context.query', () => {
-      const context = response.request.response.source.context;
-
-      context.query.organisation.should.deepEqual(["ACME", "NSA"]);
+        context.query.organisation.should.deepEqual(["ACME", "NSA"]);
+      });
     });
   });
 
@@ -382,38 +470,59 @@ describe('search handler', () => {
     let response;
     const searchResponse = { total_count: 0, items: [] };
 
-    before(() => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: '(foo bar) AND location:("Czech Republic" OR "Brazil")',
+    describe('single location', () => {
+      it('converts the query to an array', () => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: '(foo bar) AND location:("Czech Republic")',
+            },
+            response: searchResponse,
           },
-          response: searchResponse,
-        },
+        });
+
+        return server.inject('/search?q=foo+bar&location=Czech+Republic')
+          .then((response) => {
+            const context = response.request.response.source.context;
+            context.query.location.should.deepEqual(['Czech Republic']);
+          });
+      });
+    });
+
+    describe('multiple locations', () => {
+      before(() => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: '(foo bar) AND location:("Czech Republic" OR "Brazil")',
+            },
+            response: searchResponse,
+          },
+        });
+
+        return server.inject('/search?q=foo+bar&location=Czech+Republic&location=Brazil')
+          .then((_response) => {
+            response = _response;
+          });
       });
 
-      return server.inject('/search?q=foo+bar&location=Czech+Republic&location=Brazil')
-        .then((_response) => {
-          response = _response;
-        });
-    });
+      it('calls the API correctly', () => {
+        const context = response.request.response.source.context;
 
-    it('calls the API correctly', () => {
-      const context = response.request.response.source.context;
+        context.trials.should.deepEqual(searchResponse);
+      });
 
-      context.trials.should.deepEqual(searchResponse);
-    });
+      it('adds the locations to context.query', () => {
+        const context = response.request.response.source.context;
 
-    it('adds the locations to context.query', () => {
-      const context = response.request.response.source.context;
+        context.query.location.should.deepEqual(["Czech Republic", "Brazil"]);
+      });
 
-      context.query.location.should.deepEqual(["Czech Republic", "Brazil"]);
-    });
+      it('adds advancedSearchIsVisible as true into the context', () => {
+        const context = response.request.response.source.context;
 
-    it('adds advancedSearchIsVisible as true into the context', () => {
-      const context = response.request.response.source.context;
-
-      context.advancedSearchIsVisible.should.equal(true);
+        context.advancedSearchIsVisible.should.equal(true);
+      });
     });
   });
 
