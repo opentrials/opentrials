@@ -2,9 +2,8 @@
 
 const webdriver = require('selenium-webdriver');
 const should = require('should');
-const server = require('../../server');
 const By = webdriver.By;
-const URL = server.info.uri;
+const URL = _getServerURL();
 
 
 describe('(e2e) search', function() {
@@ -27,3 +26,15 @@ describe('(e2e) search', function() {
     return driver.findElement(By.css('.actions .download')).click();
   }).timeout(10000);
 });
+
+
+function _getServerURL() {
+  let url = process.env.OPENTRIALS_URL;
+
+  if (!url) {
+    const server = require('../../server');
+    url = server.info.uri;
+  }
+
+  return url;
+}
