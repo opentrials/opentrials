@@ -2,5 +2,13 @@
 extends: airbnb/base
 env:
   node: true
-ecmaFeatures:
-  module: false
+parserOptions:
+  sourceType: script
+rules:
+  strict:
+    - error
+    - safe
+  quotes:
+    - error
+    - single
+    - avoid-escape

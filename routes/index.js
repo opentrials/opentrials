@@ -1,3 +1,5 @@
+'use strict';
+
 const routes = [
   {
     path: '/assets/{param*}',

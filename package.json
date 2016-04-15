@@ -36,8 +36,8 @@
   "homepage": "https://github.com/opentrials/opentrials#readme",
   "devDependencies": {
     "coveralls": "^2.11.6",
-    "eslint": "^1.10.3",
-    "eslint-config-airbnb": "^5.0.0",
+    "eslint-config-airbnb": "^7.0.0",
+    "eslint": "^2.7.0",
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5",
     "nock": "^7.4.0",

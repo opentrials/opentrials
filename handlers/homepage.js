@@ -1,3 +1,5 @@
+'use strict';
+
 const locations = require('../agents/locations');
 
 function homepage(request, reply) {

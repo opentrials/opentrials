@@ -1,3 +1,4 @@
+'use strict';
 const opentrialsApi = require('../config').opentrialsApi;
 
 function listLocations() {
