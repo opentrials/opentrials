@@ -25,7 +25,8 @@ select {
 }
 
 #{$all-text-inputs},
-select[multiple] {
+select[multiple],
+.select2 .select2-container {
   background-color: $base-background-color;
   border: $base-border;
   border-radius: $base-border-radius;
@@ -55,6 +56,32 @@ select[multiple] {
     &:hover {
       border: $base-border;
     }
+  }
+}
+
+.select2-container {
+  color: $base-font-color;
+
+  .select2-results__option--highlighted[aria-selected] {
+    background-color: $medium-blue;
+  }
+
+  .select2-selection {
+    .select2-selection__choice {
+      background-color: $blue;
+      color: #fff;
+      border: $base-border;
+    }
+
+   .select2-selection__choice__remove {
+      color: $base-font-color;
+    }
+  }
+
+  &.select2-container--focus .select2-selection {
+    border-color: $action-color;
+    box-shadow: $form-box-shadow-focus;
+    outline: none;
   }
 }
 

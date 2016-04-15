@@ -1,3 +1,6 @@
+'use strict';
+
+require('dotenv').config();
 const path = require('path');
 const webpack = require('webpack');
 
@@ -16,5 +19,8 @@ module.exports = {
   plugins: [
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin(),
+    new webpack.DefinePlugin({
+      OPENTRIALS_API_URL: `'${process.env.OPENTRIALS_API_URL}'`,
+    }),
   ],
 };

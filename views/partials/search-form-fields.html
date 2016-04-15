@@ -1,3 +1,20 @@
+{% macro createSelectMultiple(name, label) %}
+  <div>
+    <label for="{{ name }}">{{ label }}</label>
+    <div class="select">
+      <select name="{{ name }}" style="width: 100%;" id="{{ name }}" multiple="multiple">
+        {% if query[name] %}
+          {% for item in query[name] %}
+              <option value="{{ item }}" selected>
+                {{ item }}
+              </option>
+          {% endfor %}
+        {% endif %}
+      </select>
+    </div>
+  </div>
+{% endmacro %}
+
 <fieldset class="search-bar">
   <input type="search" title="Search" placeholder="Find a trial" name="q" value="{{ query.q }}" />
   <button type="submit"><span>Search</span></button>
@@ -17,19 +34,72 @@
   {% endif %}
 </div>
 <fieldset class="advanced {% if advancedSearchIsVisible %}visible{% endif %}">
+  {{ createSelectMultiple('problem', 'Conditions') }}
+  {{ createSelectMultiple('intervention', 'Interventions') }}
+  {{ createSelectMultiple('person', 'Persons') }}
+  {{ createSelectMultiple('organisation', 'Organisations') }}
+  {{ createSelectMultiple('location', 'Locations') }}
+
+  <div class="two-columns-fields">
+    <fieldset>
+      <legend>Sample size</legend>
+      <div>
+        <input
+          type="number"
+          min="0"
+          step="10"
+          name="sample_size_start"
+          placeholder="from"
+          value="{{ query.sample_size_start }}"
+        >
+      </div>
+      <div>
+        <input
+          type="number"
+          min="0"
+          step="10"
+          name="sample_size_end"
+          placeholder="to"
+          value="{{ query.sample_size_end }}"
+        >
+      </div>
+    </fieldset>
+  </div>
+
   <div>
-    <label for="location">Location</label>
+    <label for="gender">Gender</label>
     <div class="select">
-      <select name="location" id="location">
+      <select name="gender" id="gender">
         <option value="">All</option>
-        {% for location in locations %}
-            <option
-              value="{{ location.name }}"
-              {% if query.location == location.name %}selected{% endif %}
-              >
-              {{ location.name }}
-            </option>
+        {% for gender in ['male', 'female'] %}
+          <option
+            value="{{ gender }}"
+            {% if query.gender == gender %}selected{% endif %}
+            >
+            Trials with {{gender}} participants
+          </option>
         {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <div>
+    <label for="has_published_results">Study results</label>
+    <div class="select">
+      <select name="has_published_results" id="has_published_results">
+        <option value="">All</option>
+        <option
+          value="true"
+          {% if query.has_published_results == 'true' %}selected{% endif %}
+          >
+          Trials with published results
+        </option>
+        <option
+          value="false"
+          {% if query.has_published_results == 'false' %}selected{% endif %}
+          >
+          Trials without published results
+        </option>
       </select>
     </div>
   </div>
@@ -62,5 +132,10 @@
     </fieldset>
   </div>
 
-  <button type="submit"><span>Search</span></button>
+  <div class="controls">
+    <button type="submit"><span>Search</span></button>
+    {% if advancedSearchIsVisible %}
+      <button id="clear-fieldset">Clear</button>
+    {% endif %}
+  </div>
 </fieldset>

@@ -1,3 +1,4 @@
+'use strict';
 const server = require('../../server');
 
 describe('search handler', () => {
@@ -151,36 +152,427 @@ describe('search handler', () => {
     });
   });
 
-  describe('GET /search?location={locationID}', () => {
-    let response;
-    const searchResponse = { total_count: 0, items: [] };
-
-    before(() => {
+  describe('GET /search?gender={gender}', () => {
+    it('doesnt filter if gender is empty', () => {
       mockApiResponses({
         search: {
           query: {
-            q: '(foo bar) AND location:"Czech Republic"',
+            q: undefined,
           },
-          response: searchResponse,
         },
       });
 
-      return server.inject('/search?q=foo+bar&location=Czech+Republic')
+      return server.inject('/search?gender=')
         .then((_response) => {
-          response = _response;
+          _response.statusCode.should.equal(200)
         });
     });
 
-    it('calls the API correctly', () => {
-      const context = response.request.response.source.context;
+    it('filter by male or both if gender is male', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'gender:(male OR both)',
+          },
+        },
+      });
 
-      context.trials.should.deepEqual(searchResponse);
+      return server.inject('/search?gender=male')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+        });
     });
 
-    it('adds advancedSearchIsVisible as true into the context', () => {
-      const context = response.request.response.source.context;
+    it('filter by female or both if gender is female', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'gender:(female OR both)',
+          },
+        },
+      });
 
-      context.advancedSearchIsVisible.should.equal(true);
+      return server.inject('/search?gender=female')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+        });
+    });
+  });
+
+  describe('GET /search?has_published_results={has_published_results}', () => {
+    it('doesnt filter if has_published_results is empty', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: undefined,
+          },
+        },
+      });
+
+      return server.inject('/search?has_published_results=')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+        });
+    });
+
+    it('filter by trials with published results if has_published_results is "true"', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'has_published_results:(true)',
+          },
+        },
+      });
+
+      return server.inject('/search?has_published_results=true')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+        });
+    });
+
+    it('doesnt filter if has_published_results is "false"', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: undefined,
+          },
+        },
+      });
+
+      return server.inject('/search?has_published_results=false')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+        });
+    });
+  });
+
+  describe('GET /search?problem={problem}&problem={problem}', () => {
+    const searchResponse = { total_count: 0, items: [] };
+
+    describe('single problem', () => {
+      it('converts the query problem to an array', () => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: 'problem:("HIV")',
+            },
+            response: searchResponse,
+          },
+        });
+
+        return server.inject('/search?problem=HIV')
+          .then((response) => {
+            const context = response.request.response.source.context;
+            context.query.problem.should.deepEqual(['HIV']);
+          });
+      });
+    });
+
+    describe('multiple problems', () => {
+      let response;
+
+      before(() => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: 'problem:("HIV" OR "Breast Cancer")',
+            },
+            response: searchResponse,
+          },
+        });
+
+        return server.inject('/search?problem=HIV&problem=Breast+Cancer')
+          .then((_response) => {
+            response = _response;
+          });
+      });
+
+      it('calls the API correctly', () => {
+        const context = response.request.response.source.context;
+
+        context.trials.should.deepEqual(searchResponse);
+      });
+
+      it('adds the problems to context.query', () => {
+        const context = response.request.response.source.context;
+
+        context.query.problem.should.deepEqual(["HIV", "Breast Cancer"]);
+      });
+    });
+  });
+
+  describe('GET /search?intervention={intervention}&intervention={intervention}', () => {
+    const searchResponse = { total_count: 0, items: [] };
+
+    describe('single intervention', () => {
+      it('converts the query intervention to an array', () => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: 'intervention:("Hippocrates")',
+            },
+            response: searchResponse,
+          },
+        });
+
+        return server.inject('/search?intervention=Hippocrates')
+          .then((response) => {
+            const context = response.request.response.source.context;
+            context.query.intervention.should.deepEqual(['Hippocrates']);
+          });
+      });
+    });
+
+    describe('multiple interventions', () => {
+      let response;
+
+      before(() => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: 'intervention:("Placebo" OR "Aspirin")',
+            },
+            response: searchResponse,
+          },
+        });
+
+        return server.inject('/search?intervention=Placebo&intervention=Aspirin')
+          .then((_response) => {
+            response = _response;
+          });
+      });
+
+      it('calls the API correctly', () => {
+        const context = response.request.response.source.context;
+
+        context.trials.should.deepEqual(searchResponse);
+      });
+
+      it('adds the interventions to context.query', () => {
+        const context = response.request.response.source.context;
+
+        context.query.intervention.should.deepEqual(["Placebo", "Aspirin"]);
+      });
+    });
+  });
+
+  describe('GET /search?person={person}&person={person}', () => {
+    const searchResponse = { total_count: 0, items: [] };
+
+    describe('single person', () => {
+      it('converts the query person to an array', () => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: 'person:("Hippocrates")',
+            },
+            response: searchResponse,
+          },
+        });
+
+        return server.inject('/search?person=Hippocrates')
+          .then((response) => {
+            const context = response.request.response.source.context;
+            context.query.person.should.deepEqual(['Hippocrates']);
+          });
+      });
+    });
+
+    describe('multiple persons', () => {
+      let response;
+
+      before(() => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: 'person:("Hippocrates" OR "Florence Nightingale")',
+            },
+            response: searchResponse,
+          },
+        });
+
+        return server.inject('/search?person=Hippocrates&person=Florence+Nightingale')
+          .then((_response) => {
+            response = _response;
+          });
+      });
+
+      it('calls the API correctly', () => {
+        const context = response.request.response.source.context;
+
+        context.trials.should.deepEqual(searchResponse);
+      });
+
+      it('adds the persons to context.query', () => {
+        const context = response.request.response.source.context;
+
+        context.query.person.should.deepEqual(["Hippocrates", "Florence Nightingale"]);
+      });
+    });
+  });
+
+  describe('GET /search?organisation={organisation}&organisation={organisation}', () => {
+    const searchResponse = { total_count: 0, items: [] };
+
+    describe('single organisation', () => {
+      it('converts the query organisation to an array', () => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: 'organisation:("ACME")',
+            },
+            response: searchResponse,
+          },
+        });
+
+        return server.inject('/search?organisation=ACME')
+          .then((response) => {
+            const context = response.request.response.source.context;
+            context.query.organisation.should.deepEqual(['ACME']);
+          });
+      });
+    });
+
+    describe('multiple organisations', () => {
+      let response;
+
+      before(() => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: 'organisation:("ACME" OR "NSA")',
+            },
+            response: searchResponse,
+          },
+        });
+
+        return server.inject('/search?organisation=ACME&organisation=NSA')
+          .then((_response) => {
+            response = _response;
+          });
+      });
+
+      it('calls the API correctly', () => {
+        const context = response.request.response.source.context;
+
+        context.trials.should.deepEqual(searchResponse);
+      });
+
+      it('adds the organisations to context.query', () => {
+        const context = response.request.response.source.context;
+
+        context.query.organisation.should.deepEqual(["ACME", "NSA"]);
+      });
+    });
+  });
+
+  describe('GET /search?location={locationID}&location={locationID}', () => {
+    let response;
+    const searchResponse = { total_count: 0, items: [] };
+
+    describe('single location', () => {
+      it('converts the query to an array', () => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: 'location:("Czech Republic")',
+            },
+            response: searchResponse,
+          },
+        });
+
+        return server.inject('/search?location=Czech+Republic')
+          .then((response) => {
+            const context = response.request.response.source.context;
+            context.query.location.should.deepEqual(['Czech Republic']);
+          });
+      });
+    });
+
+    describe('multiple locations', () => {
+      before(() => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: 'location:("Czech Republic" OR "Brazil")',
+            },
+            response: searchResponse,
+          },
+        });
+
+        return server.inject('/search?location=Czech+Republic&location=Brazil')
+          .then((_response) => {
+            response = _response;
+          });
+      });
+
+      it('calls the API correctly', () => {
+        const context = response.request.response.source.context;
+
+        context.trials.should.deepEqual(searchResponse);
+      });
+
+      it('adds the locations to context.query', () => {
+        const context = response.request.response.source.context;
+
+        context.query.location.should.deepEqual(["Czech Republic", "Brazil"]);
+      });
+
+      it('adds advancedSearchIsVisible as true into the context', () => {
+        const context = response.request.response.source.context;
+
+        context.advancedSearchIsVisible.should.equal(true);
+      });
+    });
+  });
+
+  describe('GET /search?sample_size_start={start}&sample_size_end={end}', () => {
+    it('accepts just sample size start', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'target_sample_size:([100 TO *])',
+          },
+        },
+      });
+
+      return server.inject('/search?sample_size_start=100')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+          _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
+        });
+    });
+
+    it('accepts just sample size end', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'target_sample_size:([* TO 200])'
+          },
+        },
+      });
+
+      return server.inject('/search?sample_size_end=200')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+          _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
+        });
+    });
+
+    it('accepts sample size start and end', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'target_sample_size:([100 TO 200])',
+          },
+        },
+      });
+
+      return server.inject('/search?sample_size_start=100&sample_size_end=200')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+          _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
+        });
     });
   });
 
@@ -189,7 +581,7 @@ describe('search handler', () => {
       mockApiResponses({
         search: {
           query: {
-            q: 'registration_date:[2012-01-01 TO *]',
+            q: 'registration_date:([2012-01-01 TO *])',
           },
         },
       });
@@ -205,7 +597,7 @@ describe('search handler', () => {
       mockApiResponses({
         search: {
           query: {
-            q: 'registration_date:[* TO 2016-01-01]'
+            q: 'registration_date:([* TO 2016-01-01])'
           },
         },
       });
@@ -221,7 +613,7 @@ describe('search handler', () => {
       mockApiResponses({
         search: {
           query: {
-            q: 'registration_date:[2015-01-01 TO 2016-01-01]',
+            q: 'registration_date:([2015-01-01 TO 2016-01-01])',
           },
         },
       });

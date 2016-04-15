@@ -2,7 +2,7 @@ web:
   image: opentrials/opentrials
   command: bash -c "./tools/wait-for-it.sh api:80 && npm start"
   environment:
-    SWAGGER_API_URL: http://api/v1/swagger.yaml
+    OPENTRIALS_API_URL: http://api/v1
   links:
     - api
   ports:

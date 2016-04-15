@@ -8,16 +8,15 @@
   "main": "server.js",
   "scripts": {
     "pretest": "gulp build",
-    "test": "mocha",
+    "test": "node ./node_modules/.bin/istanbul cover _mocha -- --grep e2e --invert --require test/common",
     "posttest": "npm run lint",
+    "pree2e": "gulp build",
+    "e2e": "mocha --grep e2e test/e2e",
     "lint": "eslint *.js **/*.js",
-    "precoverage": "gulp build",
-    "coverage": "node --use_strict ./node_modules/.bin/istanbul cover _mocha",
-    "precoveralls": "npm run coverage",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "dev": "gulp dev",
     "prestart": "gulp build",
-    "start": "node --use_strict server.js"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -43,6 +42,7 @@
     "mocha": "^2.4.5",
     "nock": "^7.4.0",
     "node-uuid": "^1.4.7",
+    "selenium-webdriver": "^2.53.1",
     "should": "^8.2.2"
   },
   "dependencies": {

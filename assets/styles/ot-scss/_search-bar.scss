@@ -1,3 +1,11 @@
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: searchfield-cancel-button;
+  display: block;
+  flex: none;
+  align-self: flex-start;
+  margin: auto 0;
+}
+
 .search-bar {
   position: relative;
 
@@ -50,6 +58,8 @@
 
 .advanced {
   & > div {
+    margin-bottom: $small-spacing;
+
     @include MQ(M) {
       @include span-columns(6);
       @include omega(2n);
@@ -69,17 +79,24 @@
     }
   }
 
-  button {
-    background-color: #fff;
-    color: $blue;
-    display: block;
-    margin-top: $base-spacing;
-    clear: both;
+  .controls {
     width: 100%;
-    padding: 1em 3.5em;
 
-    @include MQ(M) {
-      width: auto;
+    button {
+      background-color: #fff;
+      color: $blue;
+      margin-top: $base-spacing;
+      width: 100%;
+      padding: 1em 3.5em;
+
+      @include MQ(M) {
+        width: auto;
+      }
+    }
+
+    #clear-fieldset {
+      color: inherit;
+      background-color: $medium-blue;
     }
   }
 }

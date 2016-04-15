@@ -6,6 +6,14 @@ const _ = require('lodash');
 const trials = require('../agents/trials');
 const locations = require('../agents/locations');
 
+function ensureIsArray(object) {
+  let result = object;
+  if (result !== undefined && !Array.isArray(result)) {
+    result = [result];
+  }
+  return result;
+}
+
 function getPagination(url, currentPage, perPage, maxPages, totalCount) {
   const getPageUrl = (pageNumber) => {
     const pageUrl = _.omit(url, 'search');
@@ -55,9 +63,24 @@ function getPagination(url, currentPage, perPage, maxPages, totalCount) {
 
 function getFilters(query) {
   const filters = {};
+  const ensureIsArrayAndQuoteElements = (values) => (
+    ensureIsArray(values).map((val) => `"${val}"`)
+  );
 
+  if (query.problem) {
+    filters.problem = ensureIsArrayAndQuoteElements(query.problem);
+  }
+  if (query.intervention) {
+    filters.intervention = ensureIsArrayAndQuoteElements(query.intervention);
+  }
   if (query.location) {
-    filters.location = `"${query.location}"`;
+    filters.location = ensureIsArrayAndQuoteElements(query.location);
+  }
+  if (query.person) {
+    filters.person = ensureIsArrayAndQuoteElements(query.person);
+  }
+  if (query.organisation) {
+    filters.organisation = ensureIsArrayAndQuoteElements(query.organisation);
   }
 
   const registrationDateStart = query.registration_date_start;
@@ -65,6 +88,22 @@ function getFilters(query) {
   if (registrationDateStart || registrationDateEnd) {
     const registrationDate = `[${registrationDateStart || '*'} TO ${registrationDateEnd || '*'}]`;
     filters.registration_date = registrationDate;
+  }
+
+  const sampleSizeStart = query.sample_size_start;
+  const sampleSizeEnd = query.sample_size_end;
+  if (sampleSizeStart || sampleSizeEnd) {
+    filters.target_sample_size = `[${sampleSizeStart || '*'} TO ${sampleSizeEnd || '*'}]`;
+  }
+
+  const gender = query.gender;
+  if (gender) {
+    filters.gender = `${gender} OR both`;
+  }
+
+  const hasPublishedResults = query.has_published_results;
+  if (hasPublishedResults) {
+    filters.has_published_results = (hasPublishedResults === 'true');
   }
 
   return filters;
@@ -77,6 +116,22 @@ function searchPage(request, reply) {
   const perPage = 10;
   const maxPages = 100;
   const filters = getFilters(query);
+
+  if (query.problem !== undefined) {
+    query.problem = ensureIsArray(query.problem);
+  }
+  if (query.intervention !== undefined) {
+    query.intervention = ensureIsArray(query.intervention);
+  }
+  if (query.location !== undefined) {
+    query.location = ensureIsArray(query.location);
+  }
+  if (query.person !== undefined) {
+    query.person = ensureIsArray(query.person);
+  }
+  if (query.organisation !== undefined) {
+    query.organisation = ensureIsArray(query.organisation);
+  }
 
   Promise.all([
     trials.search(queryStr, page, perPage, filters),
