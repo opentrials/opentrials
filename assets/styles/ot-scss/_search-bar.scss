@@ -65,7 +65,8 @@ input[type="search"]::-webkit-search-cancel-button {
       @include omega(2n);
     }
 
-    label {
+    label,
+    legend {
       text-align: left;
       font-weight: normal;
     }
