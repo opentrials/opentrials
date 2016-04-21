@@ -84,15 +84,120 @@ describe('search handler', () => {
     });
   });
 
-  describe('GET /search?{query}', () => {
-    it('adds the query into the context', () => {
-      mockApiResponses();
-      return server.inject('/search?foo=bar&baz=51')
-        .then((_response) => {
-          _response.request.response.source.context.query.should.deepEqual({
-            foo: 'bar',
-            baz: '51',
+  describe('Validation Errors', () => {
+    describe('page', () => {
+      it('accepts page 1', () => {
+        mockApiResponses({ search: { query: { page: 1 } } });
+
+        return server.inject('/search?page=1')
+          .then((_response) => {
+            _response.statusCode.should.equal(200)
           });
+      });
+
+      it('accepts page 100', () => {
+        mockApiResponses({ search: { query: { page: 100 } } });
+
+        return server.inject('/search?page=100')
+          .then((_response) => {
+            _response.statusCode.should.equal(200)
+          });
+      });
+
+      it('validates page is greater than zero', () => {
+        return server.inject('/search?page=0')
+          .then((_response) => {
+            _response.statusCode.should.equal(400)
+          });
+      });
+
+      it('validates page is less than 100', () => {
+        return server.inject('/search?page=101')
+          .then((_response) => {
+            _response.statusCode.should.equal(400)
+          });
+      });
+
+      it('validates page is numeric', () => {
+        return server.inject('/search?page=ddd')
+          .then((_response) => {
+            _response.statusCode.should.equal(400)
+          });
+      });
+    })
+
+    describe('registration_date_start', () => {
+      it('rejects values not in YYYY-MM-DD format', () => {
+        return server.inject('/search?registration_date_start=ddd')
+          .then((_response) => {
+            _response.statusCode.should.equal(400)
+          });
+      });
+
+      it('validates date format', () => {
+        return server.inject('/search?registration_date_start=2016/02/25')
+          .then((_response) => {
+            _response.statusCode.should.equal(400)
+          });
+      });
+    });
+
+    describe('registration_date_end', () => {
+      it('rejects values not in YYYY-MM-DD format', () => {
+        return server.inject('/search?registration_date_end=ddd')
+          .then((_response) => {
+            _response.statusCode.should.equal(400)
+          });
+      });
+
+      it('validates date format', () => {
+        return server.inject('/search?registration_date_end=2016/02/25')
+          .then((_response) => {
+            _response.statusCode.should.equal(400)
+          });
+      });
+    });
+
+    describe('gender', () => {
+      it('rejects values other than "male" and "female"', () => {
+        return server.inject('/search?gender=some')
+          .then((_response) => {
+            _response.statusCode.should.equal(400)
+          });
+      });
+    });
+
+    describe('has_published_results', () => {
+      it('rejects values other than "true" and "false"', () => {
+        return server.inject('/search?has_published_results=maybe')
+          .then((_response) => {
+            _response.statusCode.should.equal(400)
+          });
+      });
+    });
+
+    describe('sample_size_start', () => {
+      it('rejects non-numeric values', () => {
+        return server.inject('/search?sample_size_start=ddd')
+          .then((_response) => {
+            _response.statusCode.should.equal(400)
+          });
+      });
+    });
+
+    describe('sample_size_end', () => {
+      it('rejects non-numeric values', () => {
+        return server.inject('/search?sample_size_end=ddd')
+          .then((_response) => {
+            _response.statusCode.should.equal(400)
+          });
+      });
+    });
+
+    it('rejects unknown params', () => {
+      return server.inject('/search?some=param')
+        .then((_response) => {
+          _response.statusCode.should.equal(400)
         });
     });
   });

@@ -14,6 +14,8 @@ OpenTrials is an app to explore, discover, and submit information on clinical tr
 These notes are intended to help people that want to contribute to this package
 itself. If you just want to use it, you can safely ignore them.
 
+node.js 5.xx version is required
+
 ### Running smoke test suite
 
 You can run our end to end smoke test suite using `npm run e2e`. If there's an

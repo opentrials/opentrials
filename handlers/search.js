@@ -5,14 +5,7 @@ const Boom = require('boom');
 const _ = require('lodash');
 const trials = require('../agents/trials');
 const locations = require('../agents/locations');
-
-function ensureIsArray(object) {
-  let result = object;
-  if (result !== undefined && !Array.isArray(result)) {
-    result = [result];
-  }
-  return result;
-}
+const Joi = require('joi');
 
 function getPagination(url, currentPage, perPage, maxPages, totalCount) {
   const getPageUrl = (pageNumber) => {
@@ -63,24 +56,24 @@ function getPagination(url, currentPage, perPage, maxPages, totalCount) {
 
 function getFilters(query) {
   const filters = {};
-  const ensureIsArrayAndQuoteElements = (values) => (
-    ensureIsArray(values).map((val) => `"${val}"`)
+  const quoteElements = (values) => (
+    values.map((val) => `"${val}"`)
   );
 
   if (query.problem) {
-    filters.problem = ensureIsArrayAndQuoteElements(query.problem);
+    filters.problem = quoteElements(query.problem);
   }
   if (query.intervention) {
-    filters.intervention = ensureIsArrayAndQuoteElements(query.intervention);
+    filters.intervention = quoteElements(query.intervention);
   }
   if (query.location) {
-    filters.location = ensureIsArrayAndQuoteElements(query.location);
+    filters.location = quoteElements(query.location);
   }
   if (query.person) {
-    filters.person = ensureIsArrayAndQuoteElements(query.person);
+    filters.person = quoteElements(query.person);
   }
   if (query.organisation) {
-    filters.organisation = ensureIsArrayAndQuoteElements(query.organisation);
+    filters.organisation = quoteElements(query.organisation);
   }
 
   const registrationDateStart = query.registration_date_start;
@@ -103,35 +96,45 @@ function getFilters(query) {
 
   const hasPublishedResults = query.has_published_results;
   if (hasPublishedResults) {
-    filters.has_published_results = (hasPublishedResults === 'true');
+    filters.has_published_results = hasPublishedResults;
   }
 
   return filters;
 }
 
+function validateQueryParams(query) {
+  const schema = Joi.object().keys({
+    page: Joi.number().integer().min(1).max(100),
+    registration_date_start: Joi.date().format('YYYY-MM-DD').empty('').raw(),
+    registration_date_end: Joi.date().format('YYYY-MM-DD').empty('').raw(),
+    location: Joi.array().single(true).items(Joi.string().empty('')),
+    q: Joi.string().empty(''),
+    problem: Joi.array().single(true).items(Joi.string().empty('')),
+    intervention: Joi.array().single(true).items(Joi.string().empty('')),
+    person: Joi.array().single(true).items(Joi.string().empty('')),
+    organisation: Joi.array().single(true).items(Joi.string().empty('')),
+    gender: Joi.valid(['male', 'female']).empty(''),
+    has_published_results: Joi.boolean().empty(''),
+    sample_size_start: Joi.number().integer().empty(''),
+    sample_size_end: Joi.number().integer().empty(''),
+  });
+
+  return Joi.validate(query, schema);
+}
+
 function searchPage(request, reply) {
-  const query = request.query;
+  const validatedQuery = validateQueryParams(request.query);
+  if (validatedQuery.error) {
+    reply(Boom.badRequest('Invalid query'), validatedQuery.error);
+    return;
+  }
+  const query = validatedQuery.value;
+
   const queryStr = query.q;
   const page = (query.page) ? parseInt(query.page, 10) : undefined;
   const perPage = 10;
   const maxPages = 100;
   const filters = getFilters(query);
-
-  if (query.problem !== undefined) {
-    query.problem = ensureIsArray(query.problem);
-  }
-  if (query.intervention !== undefined) {
-    query.intervention = ensureIsArray(query.intervention);
-  }
-  if (query.location !== undefined) {
-    query.location = ensureIsArray(query.location);
-  }
-  if (query.person !== undefined) {
-    query.person = ensureIsArray(query.person);
-  }
-  if (query.organisation !== undefined) {
-    query.organisation = ensureIsArray(query.organisation);
-  }
 
   Promise.all([
     trials.search(queryStr, page, perPage, filters),

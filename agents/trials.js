@@ -1,4 +1,5 @@
 'use strict';
+
 const opentrialsApi = require('../config').opentrialsApi;
 
 function getTrial(trialId) {
