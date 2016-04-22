@@ -4,7 +4,7 @@ function underscoresToCapitalized(underscoresStr) {
   }
 
   const capitalized = (underscoresStr.charAt(0).toUpperCase() + underscoresStr.slice(1).toLowerCase());
-  return capitalized.split('_').join(' ');
+  return capitalized.replace(/_/g, ' ');
 }
 
 module.exports = underscoresToCapitalized;

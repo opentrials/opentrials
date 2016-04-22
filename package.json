@@ -63,7 +63,6 @@
     "gulp-sass": "^2.2.0",
     "gulp-sourcemaps": "^1.6.0",
     "hapi": "^13.0.0",
-    "highlight.js": "^9.3.0",
     "inert": "^3.2.0",
     "jquery.mmenu": "FrDH/jQuery.mmenu#v5.6.3",
     "lodash": "^4.6.1",
