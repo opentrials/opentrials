@@ -1,5 +1,6 @@
 const fixtures = {
-  getTrial: require('./trials'),
+  getTrial: require('./trials').getTrial,
+  getRecord: require('./trials').getRecord,
   getLocation: require('./locations'),
 }
 

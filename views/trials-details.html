@@ -63,5 +63,19 @@
     {% endfor %}
   </dl>
 
+  <h2>Sources</h2>
+  <dl>
+    {% for record in trial.records %}
+      <dt>{{ record.source.name }}</dt>
+      <dd>
+        Last updated on
+        <a href="/trials/{{ trial.id }}/records/{{ record.id }}">
+          <time datetime="{{ record.updated_at }}">
+            {{ record.updated_at | formatDate }}
+          </time>
+        </a>
+      </dd>
+    {% endfor %}
+  </dl>
 </aside>
 {% endblock %}

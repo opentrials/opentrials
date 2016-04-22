@@ -13,6 +13,7 @@ produces:
 paths:
   /swagger.yaml:
     x-swagger-pipe: swagger_raw
+
   /search:
     x-swagger-router-controller: search
     get:
@@ -30,6 +31,7 @@ paths:
           description: The page number
           type: integer
           minimum: 1
+          maximum: 100
           default: 1
         - name: per_page
           in: query
@@ -42,7 +44,54 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/SearchResults"
+            $ref: "#/definitions/TrialSearchResults"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /search/autocomplete/{in}:
+    x-swagger-router-controller: search
+    get:
+      tags:
+        - search
+      description: Search locations
+      operationId: autocomplete
+      parameters:
+        - name: q
+          in: query
+          description: The search query
+          type: string
+        - name: page
+          in: query
+          description: The page number
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 1
+        - name: per_page
+          in: query
+          description: Number of items per page
+          type: integer
+          minimum: 10
+          maximum: 100
+          default: 20
+        - name: in
+          in: path
+          required: true
+          description: The entity to search for
+          type: string
+          enum:
+            - problem
+            - intervention
+            - location
+            - person
+            - organisation
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/AutocompleteResults"
         default:
           description: Error
           schema:
@@ -76,6 +125,36 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /trials/{trialId}/records/{id}:
+    x-swagger-router-controller: trials
+    get:
+      tags:
+        - trials
+      description: Returns a trial's raw record from its sources
+      operationId: getRecord
+      parameters:
+        - name: trialId
+          in: path
+          description: ID of the trial
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: ID of the trial's record
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Record"
+        "404":
+          description: Trial not found
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /locations:
     x-swagger-router-controller: locations
     get:
@@ -98,19 +177,35 @@ definitions:
   Trial:
     required:
       - id
+      - url
       - public_title
       - brief_summary
       - registration_date
       - locations
       - interventions
       - persons
+      - organisations
+      - records
     properties:
       id:
+        type: string
+      url:
         type: string
       public_title:
         type: string
       brief_summary:
         type: string
+      target_sample_size:
+        type: integer
+        minimum: 0
+      gender:
+        type: string
+        enum:
+          - both
+          - male
+          - female
+      has_published_results:
+        type: boolean
       registration_date:
         type: string
         format: date-time
@@ -122,10 +217,22 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/TrialIntervention'
+      problems:
+        type: array
+        items:
+          $ref: '#/definitions/TrialProblem'
       persons:
         type: array
         items:
           $ref: '#/definitions/TrialPerson'
+      organisations:
+        type: array
+        items:
+          $ref: '#/definitions/TrialOrganisation'
+      records:
+        type: array
+        items:
+          $ref: '#/definitions/RecordSummary'
 
   TrialLocation:
     required:
@@ -179,6 +286,31 @@ definitions:
           - drug
           - other
 
+  TrialProblem:
+    required:
+      - attributes
+    properties:
+      role:
+        type: string
+        enum:
+          - other
+      attributes:
+        $ref: '#/definitions/Problem'
+  Problem:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+        enum:
+          - condition
+          - other
+
   TrialPerson:
     required:
       - attributes
@@ -206,7 +338,97 @@ definitions:
         enum:
           - other
 
-  SearchResults:
+  TrialOrganisation:
+    required:
+      - attributes
+    properties:
+      role:
+        type: string
+        enum:
+          - primary_sponsor
+          - sponsor
+          - funder
+          - other
+      attributes:
+        $ref: '#/definitions/Organisation'
+  Organisation:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+        enum:
+          - other
+
+  Record:
+    required:
+      - id
+      - url
+      - trial_id
+      - trial_url
+      - source
+      - source_url
+      - source_data
+      - public_title
+      - created_at
+      - updated_at
+    properties:
+      id:
+        type: string
+      url:
+        type: string
+      trial_id:
+        type: string
+      trial_url:
+        type: string
+      source:
+        $ref: '#/definitions/Source'
+      source_url:
+        type: string
+      source_data:
+        type: object
+      public_title:
+        type: string
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+
+  RecordSummary:
+    required:
+      - id
+      - url
+      - source
+    properties:
+      id:
+        type: string
+      url:
+        type: string
+      source:
+        $ref: '#/definitions/Source'
+  Source:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+        enum:
+          - register
+          - other
+
+  TrialSearchResults:
     required:
       - total_count
       - items
@@ -217,6 +439,28 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Trial'
+
+  AutocompleteResults:
+    required:
+      - total_count
+      - items
+    properties:
+      total_count:
+        type: integer
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/AutocompleteResult'
+
+  AutocompleteResult:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
 
   LocationList:
     type: array
