@@ -1,0 +1,15 @@
+{% extends 'layouts/base.html' %}
+
+{% block main %}
+<article>
+  This trial's record was last updated on
+  <time datetime={{record.updated_at}}>{{ record.updated_at | formatDate }}</time>
+  from {{ record.source.name }}. You can see the source data at <a href="{{
+  record.source_url }}">{{ record.source_url }}</a>.
+
+  <section class="record-data">
+    <h2>Record data (<a href="{{ record.url }}">source</a>)</h2>
+    {{ record.source_data | formatObject | safe }}
+  </section>
+</article>
+{% endblock %}

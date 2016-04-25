@@ -8,6 +8,12 @@ function getTrial(trialId) {
     .then((response) => response.obj);
 }
 
+function getRecord(id, trialId) {
+  return opentrialsApi
+    .then((client) => client.trials.getRecord({ trialId, id }))
+    .then((response) => response.obj);
+}
+
 function generateQueryString(query, filters) {
   const queryValues = Object.keys(filters || {}).reduce((prev, filterName) => {
     let value = filters[filterName];
@@ -54,4 +60,5 @@ function searchTrials(query, page, perPage, filters) {
 module.exports = {
   get: getTrial,
   search: searchTrials,
+  getRecord,
 };
