@@ -103,7 +103,6 @@ paths:
       tags:
         - trials
       description: Returns trial details
-      # used as the method name of the controller
       operationId: get
       parameters:
         - name: id
@@ -115,11 +114,59 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/Trial"
-        # responses may fall through to errors
         "404":
           description: Trial not found
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /problems/{id}:
+    x-swagger-router-controller: problems
+    get:
+      tags:
+        - problems
+      description: Returns problem details
+      operationId: get
+      parameters:
+        - name: id
+          in: path
+          description: ID of the problem
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Problem"
+        "404":
+          description: Problem not found
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /organisations/{id}:
+    x-swagger-router-controller: organisations
+    get:
+      tags:
+        - organisations
+      description: Returns organisation details
+      operationId: get
+      parameters:
+        - name: id
+          in: path
+          description: ID of the organisation
+          required: true
+          type: string
+      responses:
+        "200":
+           description: Success
+           schema:
+            $ref: "#/definitions/Organisation"
+        "404":
+          description: Organisation not found
         default:
           description: Error
           schema:
@@ -150,6 +197,52 @@ paths:
             $ref: "#/definitions/Record"
         "404":
           description: Trial not found
+
+  /persons/{id}:
+    x-swagger-router-controller: persons
+    get:
+      tags:
+        - persons
+      description: Returns person details
+      operationId: get
+      parameters:
+        - name: id
+          in: path
+          description: ID of the person
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Person"
+        "404":
+          description: Person not found
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /interventions/{id}:
+    x-swagger-router-controller: interventions
+    get:
+      tags:
+        - interventions
+      description: Returns intervention details
+      operationId: get
+      parameters:
+        - name: id
+          in: path
+          description: ID of the intervention
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Intervention"
+        "404":
+          description: Intervention not found
         default:
           description: Error
           schema:
@@ -172,7 +265,6 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-# complex objects have schema definitions
 definitions:
   Trial:
     required:

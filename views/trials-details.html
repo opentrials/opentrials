@@ -15,14 +15,14 @@
   <h2>Conditions</h2>
   <ul class="overview-list">
     {% for problem in trial.problems %}
-      <li>{{ problem.attributes.name }}</li>
+      <li><a href="/problems/{{ problem.attributes.id }}">{{ problem.attributes.name }}</a></li>
     {% endfor %}
   </ul>
 
   <h2>Treatments</h2>
   <ul class="overview-list">
     {% for intervention in trial.interventions %}
-      <li>{{ intervention.attributes.name }}</li>
+      <li><a href="/interventions/{{ intervention.attributes.id }}">{{ intervention.attributes.name }}</a></li>
     {% endfor %}
   </ul>
 
@@ -50,7 +50,7 @@
   <h2>Related Persons</h2>
   <dl>
     {% for person in trial.persons %}
-      <dt>{{ person.attributes.name }}</dt>
+      <dt><a href="/persons/{{ person.attributes.id }}">{{ person.attributes.name }}</a></dt>
       <dd>{{ person.role | underscoresToCapitalized }}</dd>
     {% endfor %}
   </dl>
@@ -58,7 +58,7 @@
   <h2>Related Organisations</h2>
   <dl>
     {% for organisation in trial.organisations %}
-      <dt>{{ organisation.attributes.name }}</dt>
+      <dt><a href="/organisations/{{ organisation.attributes.id }}">{{ organisation.attributes.name }}</a></dt>
       <dd>{{ organisation.role | underscoresToCapitalized }}</dd>
     {% endfor %}
   </dl>

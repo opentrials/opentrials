@@ -81,6 +81,14 @@ describe('search handler', () => {
             _response.statusCode.should.equal(502);
           });
       });
+
+      it('returns error 400', () => {
+        mockApiResponses();
+        return server.inject('/search?q=test&page=aa')
+          .then((_response) => {
+            _response.statusCode.should.equal(400)
+          });
+      });
     });
   });
 
