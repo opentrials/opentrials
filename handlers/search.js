@@ -102,34 +102,8 @@ function getFilters(query) {
   return filters;
 }
 
-function validateQueryParams(query) {
-  const schema = Joi.object().keys({
-    page: Joi.number().integer().min(1).max(100),
-    registration_date_start: Joi.date().format('YYYY-MM-DD').empty('').raw(),
-    registration_date_end: Joi.date().format('YYYY-MM-DD').empty('').raw(),
-    location: Joi.array().single(true).items(Joi.string().empty('')),
-    q: Joi.string().empty(''),
-    problem: Joi.array().single(true).items(Joi.string().empty('')),
-    intervention: Joi.array().single(true).items(Joi.string().empty('')),
-    person: Joi.array().single(true).items(Joi.string().empty('')),
-    organisation: Joi.array().single(true).items(Joi.string().empty('')),
-    gender: Joi.valid(['male', 'female']).empty(''),
-    has_published_results: Joi.boolean().empty(''),
-    sample_size_start: Joi.number().integer().empty(''),
-    sample_size_end: Joi.number().integer().empty(''),
-  });
-
-  return Joi.validate(query, schema);
-}
-
 function searchPage(request, reply) {
-  const validatedQuery = validateQueryParams(request.query);
-  if (validatedQuery.error) {
-    reply(Boom.badRequest('Invalid query'), validatedQuery.error);
-    return;
-  }
-  const query = validatedQuery.value;
-
+  const query = request.query;
   const queryStr = query.q;
   const page = (query.page) ? parseInt(query.page, 10) : undefined;
   const perPage = 10;
@@ -163,4 +137,25 @@ function searchPage(request, reply) {
   ));
 }
 
-module.exports = searchPage;
+module.exports = {
+  handler: searchPage,
+  config: {
+    validate: {
+      query: {
+        page: Joi.number().integer().min(1).max(100),
+        registration_date_start: Joi.date().format('YYYY-MM-DD').empty('').raw(),
+        registration_date_end: Joi.date().format('YYYY-MM-DD').empty('').raw(),
+        location: Joi.array().single(true).items(Joi.string().empty('')),
+        q: Joi.string().empty(''),
+        problem: Joi.array().single(true).items(Joi.string().empty('')),
+        intervention: Joi.array().single(true).items(Joi.string().empty('')),
+        person: Joi.array().single(true).items(Joi.string().empty('')),
+        organisation: Joi.array().single(true).items(Joi.string().empty('')),
+        gender: Joi.valid(['male', 'female']).empty(''),
+        has_published_results: Joi.boolean().empty(''),
+        sample_size_start: Joi.number().integer().empty(''),
+        sample_size_end: Joi.number().integer().empty(''),
+      },
+    },
+  },
+};

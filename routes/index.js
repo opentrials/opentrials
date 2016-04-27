@@ -1,5 +1,7 @@
 'use strict';
 
+const searchHandler = require('../handlers/search');
+
 const routes = [
   {
     path: '/assets/{param*}',
@@ -38,9 +40,9 @@ const routes = [
   {
     path: '/search',
     method: 'GET',
-    handler: require('../handlers/search'),
+    handler: searchHandler.handler,
+    config: searchHandler.config,
   },
-
   {
     path: '/problems/{id}',
     method: 'GET',
