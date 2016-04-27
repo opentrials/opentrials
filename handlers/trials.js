@@ -6,10 +6,10 @@ const trials = require('../agents/trials');
 function getTrial(request, reply) {
   const trialId = request.params.id;
 
-  trials.get(trialId).then((_trial) => {
+  trials.get(trialId).then((trial) => {
     reply.view('trials-details', {
-      title: _trial.public_title,
-      trial: _trial,
+      title: trial.public_title,
+      trial,
     });
   }).catch((err) => {
     if (err.status === 404) {
