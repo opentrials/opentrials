@@ -14,11 +14,6 @@ function mockApiResponses(responses) {
       response: { total_count: 0, items: [] },
       statusCode: 200,
     },
-    locations: {
-      query: {},
-      response: [],
-      statusCode: 200,
-    },
   };
   const theResponses = _.merge({}, defaultResponses, responses);
 

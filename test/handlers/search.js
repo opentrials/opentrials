@@ -9,10 +9,6 @@ describe('search handler', () => {
       fixtures.getTrial(),
     ],
   }));
-  const locationsResponse = [
-    fixtures.getLocation(),
-    fixtures.getLocation(),
-  ];
 
   afterEach(() => {
     cleanAllApiMocks();
@@ -26,9 +22,6 @@ describe('search handler', () => {
         mockApiResponses({
           search: {
             response: apiResponse,
-          },
-          locations: {
-            response: locationsResponse,
           },
         });
 
@@ -52,12 +45,6 @@ describe('search handler', () => {
         context.trials.should.deepEqual(apiResponse);
       });
 
-      it('adds the locations into the context', () => {
-        const context = response.request.response.source.context;
-
-        context.locations.should.deepEqual(locationsResponse);
-      });
-
       it('adds the page number 1 into the context', () => {
         response.request.response.source.context.currentPage.should.equal(1);
       });
@@ -73,7 +60,6 @@ describe('search handler', () => {
       it('returns error 502', () => {
         mockApiResponses({
           search: { statusCode: 500 },
-          locations: { statusCode: 500 },
         });
 
         return server.inject('/search')
