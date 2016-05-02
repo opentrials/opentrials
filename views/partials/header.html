@@ -36,6 +36,11 @@
           <li class="mm-divider">
             {{ credentials.name }}
           </li>
+          <li>
+            <a href="/logout">
+              Logout
+            </a>
+          </li>
         {% else %}
           <li>
             <a href="/login/google">
@@ -53,6 +58,9 @@
             <a>
               <img src="{{ credentials.email | gravatar }}">
               {{ credentials.name }}
+            </a>
+            <a href="/logout">
+              Logout
             </a>
           </li>
         {% else %}
