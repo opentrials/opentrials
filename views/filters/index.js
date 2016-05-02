@@ -3,6 +3,7 @@ const filters = {
   formatDate: require('./format-date'),
   underscoresToCapitalized: require('./underscores-to-capitalized'),
   formatObject: require('./format-object'),
+  gravatar: require('./gravatar'),
 }
 
 module.exports = filters

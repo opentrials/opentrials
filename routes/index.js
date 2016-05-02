@@ -63,7 +63,11 @@ const routes = [
     method: 'GET',
     handler: require('../handlers/organisation'),
   },
-
+  {
+    path: '/login/google',
+    method: 'GET',
+    config: require('../handlers/login-google'),
+  },
 ];
 
 module.exports = routes;
