@@ -44,7 +44,7 @@
         {% else %}
           <li>
             <a href="/login/google">
-              Login
+              Login with Google
             </a>
           </li>
         {% endif %}
@@ -65,9 +65,19 @@
           </li>
         {% else %}
           <li>
-            <a href="/login/google">
-              Login
-            </a>
+            <div class="modal">
+              <label for="modal-social-login">
+                <div class="modal-trigger">Login</div>
+              </label>
+              <input class="modal-state" id="modal-social-login" type="checkbox" />
+              <div class="modal-fade-screen">
+                <div class="modal-inner">
+                  <div class="modal-close" for="modal-social-login"></div>
+                  <h1>Login</h1>
+                  <p><a href="/login/google">Google</a></p>
+                </div>
+              </div>
+            </div>
           </li>
         {% endif %}
       </ul>

@@ -37,6 +37,24 @@ function setupSelect2For(name) {
   });
 }
 
+function setupModal(selector) {
+  $(selector).on('change', function() {
+    if ($(this).is(':checked')) {
+      $('body').addClass('modal-open');
+    } else {
+      $('body').removeClass('modal-open');
+    }
+  });
+
+  $('.modal-fade-screen, .modal-close').on('click', function() {
+    $('.modal-state:checked').prop('checked', false).change();
+  });
+
+  $('.modal-inner').on('click', function(e) {
+    e.stopPropagation();
+  });
+};
+
 $(document).ready(function() {
   // mobile menu
   $("#menu").mmenu({
@@ -73,6 +91,9 @@ $(document).ready(function() {
   setupSelect2For('person');
   setupSelect2For('organisation');
   setupSelect2For('location');
+
+  // login modal
+  setupModal('#modal-social-login');
 });
 
 })();
