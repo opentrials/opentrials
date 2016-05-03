@@ -1,6 +1,7 @@
 'use strict';
 
 const Hapi = require('hapi');
+const url = require('url');
 const config = require('./config');
 const routes = require('./routes');
 const server = new Hapi.Server();
@@ -12,28 +13,33 @@ server.connection({
 
 server.register(config.hapi.plugins)
   .then(() => {
-    server.auth.strategy('session', 'cookie', {
+    const baseConfiguration = {
       password: config.hapi.auth.cookie.password,
-      isSecure: false,
-    });
+      isSecure: false,  // FIXME: Set to true in production when issue #100 is fixed
+      domain: url.parse(config.url).hostname,
+    };
 
-    server.auth.strategy('google', 'bell', {
-      provider: 'google',
-      password: config.hapi.auth.cookie.password,
-      clientId: config.hapi.auth.google.clientId,
-      clientSecret: config.hapi.auth.google.clientSecret,
-      isSecure: false,
-      location: server.info.uri,
-    });
+    server.auth.strategy('session', 'cookie', baseConfiguration);
 
-    server.auth.strategy('facebook', 'bell', {
-      provider: 'facebook',
-      password: config.hapi.auth.cookie.password,
-      clientId: config.hapi.auth.facebook.clientId,
-      clientSecret: config.hapi.auth.facebook.clientSecret,
-      isSecure: false,
-      location: server.info.uri,
-    });
+    server.auth.strategy('google', 'bell', Object.assign(
+      {},
+      baseConfiguration,
+      {
+        provider: 'google',
+        clientId: config.hapi.auth.google.clientId,
+        clientSecret: config.hapi.auth.google.clientSecret,
+      }
+      ));
+
+    server.auth.strategy('facebook', 'bell', Object.assign(
+      {},
+      baseConfiguration,
+      {
+        provider: 'facebook',
+        clientId: config.hapi.auth.facebook.clientId,
+        clientSecret: config.hapi.auth.facebook.clientSecret,
+      }
+    ));
 
     server.auth.default({
       strategy: 'session',
