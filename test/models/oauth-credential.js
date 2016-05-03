@@ -32,6 +32,16 @@ describe('OAuthCredential', () => {
           }).fetch({ require: true });
         });
     });
+
+    it('rejects promise if there was some error creating the OAuthCredential', () => {
+      return (new OAuthCredential().createIfInexistent({})).should.be.rejected();
+    });
+  });
+
+  describe('#user', () => {
+    it('defines a belongsTo relationship', () => {
+      new OAuthCredential().user().relatedData.type.should.eql('belongsTo');
+    });
   });
 
 });
