@@ -1,6 +1,5 @@
 'use strict';
 
-const uuid = require('node-uuid');
 const Boom = require('boom');
 const User = require('../models/user');
 
@@ -10,22 +9,13 @@ function login(request, reply) {
   } else {
     const credentials = request.auth.credentials;
     const profile = credentials.profile;
-    const email = profile.emails[0].value;  // Ignore multiple emails for now
+    const userAttrs = {
+      name: profile.displayName,
+      email: profile.emails[0].value,  // Ignore multiple emails for now
+    };
 
-    new User().findByEmailOrOAuth(email, credentials.provider, profile.id).fetch()
+    new User().findOrCreateByEmail(userAttrs, credentials.provider, profile.id)
       .then((user) => {
-        let theUser = user;
-
-        if (theUser === null) {
-          theUser = new User({
-            id: uuid.v1(),
-            name: profile.displayName,
-            email,
-          }).save(null, { method: 'insert' });
-        }
-
-        return theUser;
-      }).then((user) => {
         request.cookieAuth.set(user);
         reply.redirect('/');
       });

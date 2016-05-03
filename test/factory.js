@@ -27,7 +27,8 @@ factory.define('user', User, {
 
 factory.define('oauthCredential', OAuthCredential, {
   provider: 'google',
-  id: factory.sequence(),
+  id: factory.sequence((n) => `${n}`),
+  user_id: factory.assoc('user', 'id'),
 });
 
 module.exports = factory;

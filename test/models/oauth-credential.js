@@ -1,0 +1,37 @@
+'use strict';
+
+const should = require('should');
+const OAuthCredential = require('../../models/oauth-credential');
+
+describe('OAuthCredential', () => {
+
+  describe('#createIfInexistent', () => {
+    before(clearDB);
+
+    afterEach(clearDB);
+
+    it('returns existing OAuthCredential if it exists', () => {
+      let oauthCredential;
+
+      return factory.create('oauthCredential')
+        .then((_oauthCredential) => {
+          oauthCredential = _oauthCredential;
+          return new OAuthCredential().createIfInexistent(oauthCredential.toJSON());
+        }).then((_oauthCredential) => {
+          _oauthCredential.toJSON().should.deepEqual(oauthCredential.toJSON())
+        });
+    });
+
+    it('creates new OAuthCredential if one doesn\'t exist', () => {
+      return factory.build('oauthCredential')
+        .then((oauthCredential) => new OAuthCredential().createIfInexistent(oauthCredential.toJSON()))
+        .then((oauthCredential) => {
+          return new OAuthCredential({
+            provider: oauthCredential.attributes.provider,
+            id: oauthCredential.attributes.id,
+          }).fetch({ require: true });
+        });
+    });
+  });
+
+});

@@ -1,8 +1,8 @@
 'use strict';
 
-require('./oauth-credential');
-
 const bookshelf = require('../config').bookshelf;
+const uuid = require('node-uuid');
+const OAuthCredential = require('./oauth-credential');
 
 const User = bookshelf.Model.extend({
   tableName: 'users',
@@ -22,6 +22,31 @@ const User = bookshelf.Model.extend({
         'users.email': email,
       });
     })
+  ),
+  findOrCreateByEmail: (userAttrs, oauthProvider, oauthId) => (
+    new User().findByEmailOrOAuth(userAttrs.email, oauthProvider, oauthId).fetch()
+      .then((user) => {
+        let _user = user;
+
+        if (_user === null) {
+          const attrs = Object.assign({
+            id: uuid.v1(),
+          }, userAttrs);
+
+          _user = new User(attrs).save(null, { method: 'insert' });
+        }
+
+        return _user;
+      }).then((user) => {
+        const oauthAttrs = {
+          provider: oauthProvider,
+          id: oauthId,
+          user_id: user.attributes.id,
+        };
+
+        return new OAuthCredential().createIfInexistent(oauthAttrs)
+          .then(() => user);
+      })
   ),
 });
 

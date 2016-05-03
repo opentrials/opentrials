@@ -4,6 +4,7 @@ const should = require('should');
 const server = require('../../server');
 const loginHandler = require('../../handlers/login-google');
 const User = require('../../models/user');
+const OAuthCredential = require('../../models/oauth-credential');
 
 describe('login-google handler', () => {
 
@@ -19,7 +20,7 @@ describe('login-google handler', () => {
         credentials: {
           provider: 'google',
           profile: {
-            id: '000000000000000000000',
+            id: '123',
             displayName: 'Foo Bar',
             emails: [
               { value: 'foo@bar.com', type: 'account' },
@@ -41,8 +42,48 @@ describe('login-google handler', () => {
           response.statusCode.should.eql(302);
           should(response.headers.location).eql('/');
         })
-        .then(() => new User({ email: userData.email }).fetch()
-                      .then((user) => should(user.attributes).containDeep(userData)));
+        .then(() => new User({ email: userData.email }).fetch({ withRelated: 'oauthCredentials' }))
+        .then((user) => {
+          const oauthCredentials = user.related('oauthCredentials').models;
+          should(user.attributes).containDeep(userData);
+          oauthCredentials.length.should.eql(1);
+          oauthCredentials[0].toJSON().should.deepEqual({
+            id: profile.id,
+            provider: options.credentials.provider,
+            user_id: user.attributes.id,
+          });
+        });
+    });
+
+    it('creates and assign the OAuthCredential to the user', () => {
+      let user;
+
+      return factory.create('user')
+        .then((_user) => {
+          user = _user;
+          const options = {
+            url: '/login/google',
+            method: 'GET',
+            credentials: {
+              provider: 'google',
+              profile: {
+                id: '123',
+                displayName: user.attributes.name,
+                emails: [
+                  { value: user.attributes.email, type: 'account' },
+                  { value: 'foo@foobar.com', type: 'account' },
+                ]
+              },
+            },
+          };
+
+          return server.inject(options);
+        })
+        .then(() => new OAuthCredential({
+          provider: 'google',
+          id: '123',
+          user_id: user.attributes.id
+        }).fetch({ require: true }))
     });
 
     it('loads existing user if theres one with the same email', () => {
@@ -58,7 +99,7 @@ describe('login-google handler', () => {
             credentials: {
               provider: 'google',
               profile: {
-                id: '000000000000000000000',
+                id: '123',
                 displayName: user.attributes.name,
                 emails: [
                   { value: user.attributes.email, type: 'account' },
