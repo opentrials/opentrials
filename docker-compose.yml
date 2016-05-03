@@ -1,9 +1,11 @@
 web:
   image: opentrials/opentrials
-  command: bash -c "./tools/wait-for-it.sh api:80 && npm start"
+  command: bash -c "./tools/wait-for-it.sh db:5432 && ./tools/wait-for-it.sh api:80 && npm run migrate && npm start"
   environment:
     OPENTRIALS_API_URL: http://api/v1
+    DATABASE_URL: postgres://postgres@db:5432/postgres
   links:
+    - db
     - api
   ports:
     - "80:80"
@@ -11,18 +13,22 @@ web:
 
 api:
   image: opentrials/api
-  command: bash -c "./tools/wait-for-it.sh db:5432 && ./tools/wait-for-it.sh elasticsearch:9200 && npm start"
+  command: bash -c "./tools/wait-for-it.sh apiDb:5432 && ./tools/wait-for-it.sh elasticsearch:9200 && npm run migrate && npm start"
   environment:
-    DATABASE_URL: postgres://postgres@db:5432/postgres
+    DATABASE_URL: postgres://postgres@apiDb:5432/postgres
     ELASTICSEARCH_URL: http://elasticsearch:9200
   links:
-    - db
+    - apiDb
     - elasticsearch
   ports:
     - "10010:80"
   restart: always
 
 db:
+  image: postgres:9.5
+  restart: always
+
+apiDb:
   image: postgres:9.5
   restart: always
 
