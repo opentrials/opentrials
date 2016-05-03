@@ -117,9 +117,7 @@
               height: 22px;
               border-radius: 50%;
               float: left;
-              position: relative;
-              top: -0.1em;
-              right: -0.4em;
+              margin-right: 0.5em;
             }
 
             ul {
@@ -266,4 +264,21 @@ html.mm-opened .show-menu {
     padding: 0 7px;
     border-radius: 10px;
   }
+}
+
+nav .more {
+  a {
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  &:focus > .submenu,
+  &:hover > .submenu {
+    display: block;
+    margin-top: 0;
+  }
+}
+
+.submenu {
+  display: none;
 }

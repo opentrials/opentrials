@@ -42,12 +42,17 @@
             </a>
           </li>
         {% else %}
+          <li class="mm-divider">
+            Login
+          </li>
           <li>
             <a href="/login/google">
-              Login with Google
+              Google
             </a>
+          </li>
+          <li>
             <a href="/login/facebook">
-              Login with Facebook
+              Facebook
             </a>
           </li>
         {% endif %}
@@ -57,31 +62,30 @@
     <nav>
       <ul class="user-nav">
         {% if credentials %}
-          <li>
+          <li class="more">
             <a>
               <img src="{{ credentials.email | gravatar }}">
               {{ credentials.name }}
             </a>
-            <a href="/logout">
-              Logout
-            </a>
+            <ul class="submenu">
+              <li class="logout">
+                <a href="/logout">
+                  Logout
+                </a>
+            </li>
           </li>
+          </ul>
         {% else %}
-          <li>
-            <div class="modal">
-              <label for="modal-social-login">
-                <div class="modal-trigger">Login</div>
-              </label>
-              <input class="modal-state" id="modal-social-login" type="checkbox" />
-              <div class="modal-fade-screen">
-                <div class="modal-inner">
-                  <div class="modal-close" for="modal-social-login"></div>
-                  <h1>Login</h1>
-                  <p><a href="/login/google">Google</a></p>
-                  <p><a href="/login/facebook">Facebook</a></p>
-                </div>
-              </div>
-            </div>
+          <li class="more">
+            <a>Login</a>
+            <ul class="submenu">
+              <li>
+                <a href="/login/google">Google</a>
+              </li>
+              <li>
+                <a href="/login/facebook">Facebook</a>
+              </li>
+            </ul>
           </li>
         {% endif %}
       </ul>
