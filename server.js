@@ -19,9 +19,18 @@ server.register(config.hapi.plugins)
 
     server.auth.strategy('google', 'bell', {
       provider: 'google',
-      password: config.hapi.auth.google.password,
+      password: config.hapi.auth.cookie.password,
       clientId: config.hapi.auth.google.clientId,
       clientSecret: config.hapi.auth.google.clientSecret,
+      isSecure: false,
+      location: server.info.uri,
+    });
+
+    server.auth.strategy('facebook', 'bell', {
+      provider: 'facebook',
+      password: config.hapi.auth.cookie.password,
+      clientId: config.hapi.auth.facebook.clientId,
+      clientSecret: config.hapi.auth.facebook.clientSecret,
       isSecure: false,
       location: server.info.uri,
     });

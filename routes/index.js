@@ -66,7 +66,12 @@ const routes = [
   {
     path: '/login/google',
     method: 'GET',
-    config: require('../handlers/login-google'),
+    config: require('../handlers/login').google,
+  },
+  {
+    path: '/login/facebook',
+    method: 'GET',
+    config: require('../handlers/login').facebook,
   },
   {
     path: '/logout',
