@@ -36,7 +36,6 @@
   },
   "homepage": "https://github.com/opentrials/opentrials#readme",
   "devDependencies": {
-    "bluebird": "^3.3.5",
     "coveralls": "^2.11.6",
     "eslint": "^2.7.0",
     "eslint-config-airbnb": "^7.0.0",
@@ -50,6 +49,7 @@
     "should": "^8.2.2"
   },
   "dependencies": {
+    "bluebird": "^3.3.5",
     "bell": "^7.6.0",
     "bookshelf": "^0.9.4",
     "boom": "^3.1.2",
