@@ -109,6 +109,26 @@ describe('login handler', () => {
         });
     });
 
+    it('creates new user even when she has no email', () => {
+      const options = {
+        url: '/login/facebook',
+        method: 'GET',
+        credentials: {
+          provider: 'facebook',
+          profile: {
+            id: '123',
+            displayName: 'Foo Bar',
+          },
+        },
+      };
+
+      return new User().findByEmailOrOAuth(undefined, 'facebook', '123').fetch()
+        .then((user) => should(user).be.null())
+        .then(() => server.inject(options))
+        .then(() => new User().findByEmailOrOAuth(undefined, 'facebook', '123').fetch())
+        .then((user) => should(user).be.not.null())
+    });
+
     it('redirects to Facebook OAuth2 endpoint if not logged in', () => {
       return server.inject('/login/facebook')
         .then((response) => {
