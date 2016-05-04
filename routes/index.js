@@ -63,7 +63,21 @@ const routes = [
     method: 'GET',
     handler: require('../handlers/organisation'),
   },
-
+  {
+    path: '/login/google',
+    method: 'GET',
+    config: require('../handlers/login').google,
+  },
+  {
+    path: '/login/facebook',
+    method: 'GET',
+    config: require('../handlers/login').facebook,
+  },
+  {
+    path: '/logout',
+    method: 'GET',
+    handler: require('../handlers/logout'),
+  },
 ];
 
 module.exports = routes;

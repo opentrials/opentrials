@@ -1,13 +1,33 @@
 {
   "name": "opentrials",
-  "description": "Code for OpenTrials.net",
-  "scripts": {},
+  "description": "Frontend for OpenTrials.net",
+  "repository": "https://github.com/opentrials/opentrials",
+  "scripts": {
+    "postdeploy": "npm run migrate"
+  },
   "env": {
     "OPENTRIALS_API_URL": {
       "required": true
+    },
+    "SESSION_PASSWORD": {
+      "generator": "secret"
+    },
+    "GOOGLE_CLIENT_ID": {
+      "required": true
+    },
+    "GOOGLE_CLIENT_SECRET": {
+      "required": true
+    },
+    "FACEBOOK_CLIENT_ID": {
+      "required": true
+    },
+    "FACEBOOK_CLIENT_SECRET": {
+      "required": true
     }
   },
-  "addons": [],
+  "addons": [
+    "heroku-postgresql"
+  ],
   "buildpacks": [
     {
       "url": "heroku/nodejs"

@@ -32,10 +32,63 @@
             Search
           </a>
         </li>
+        {% if credentials %}
+          <li class="mm-divider">
+            {{ credentials.name }}
+          </li>
+          <li>
+            <a href="/logout">
+              Logout
+            </a>
+          </li>
+        {% else %}
+          <li class="mm-divider">
+            Login
+          </li>
+          <li>
+            <a href="/login/google">
+              Google
+            </a>
+          </li>
+          <li>
+            <a href="/login/facebook">
+              Facebook
+            </a>
+          </li>
+        {% endif %}
       </ul>
     </nav>
 
     <nav>
+      <ul class="user-nav">
+        {% if credentials %}
+          <li class="more">
+            <a>
+              <img src="{{ credentials.email | gravatar }}">
+              {{ credentials.name }}
+            </a>
+            <ul class="submenu">
+              <li class="logout">
+                <a href="/logout">
+                  Logout
+                </a>
+            </li>
+          </li>
+          </ul>
+        {% else %}
+          <li class="more">
+            <a>Login</a>
+            <ul class="submenu">
+              <li>
+                <a href="/login/google">Google</a>
+              </li>
+              <li>
+                <a href="/login/facebook">Facebook</a>
+              </li>
+            </ul>
+          </li>
+        {% endif %}
+      </ul>
       <a href="/search" class="search">
         Search
       </a>
