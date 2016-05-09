@@ -31,6 +31,12 @@ describe('trials handler', () => {
         context.trial.should.deepEqual(trial);
       });
 
+      it('adds the contributeDataUrl to the context', () => {
+        const context = response.request.response.source.context;
+        const contributeDataUrl = `/contribute-data?trial_id=${trial.id}&redirectTo=/trials/${trial.id}`;
+        context.contributeDataUrl.should.equal(contributeDataUrl);
+      });
+
       it('sets the title to the trial.public_title', () => {
         const context = response.request.response.source.context;
         context.title.should.equal(trial.public_title);

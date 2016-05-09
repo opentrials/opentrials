@@ -1,10 +1,10 @@
 'use strict';
 
 const bookshelf = require('../config').bookshelf;
-const uuid = require('node-uuid');
+const BaseModel = require('./base');
 const OAuthCredential = require('./oauth-credential');
 
-const User = bookshelf.Model.extend({
+const User = BaseModel.extend({
   tableName: 'users',
   hasTimestamps: true,
   oauthCredentials: function oauthCredentials() {
@@ -29,11 +29,7 @@ const User = bookshelf.Model.extend({
         let _user = user;
 
         if (_user === null) {
-          const attrs = Object.assign({
-            id: uuid.v1(),
-          }, userAttrs);
-
-          _user = new User(attrs).save(null, { method: 'insert' });
+          _user = new User(userAttrs).save(null, { method: 'insert' });
         }
 
         return _user;

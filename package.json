@@ -46,11 +46,13 @@
     "nock": "^7.4.0",
     "node-uuid": "^1.4.7",
     "selenium-webdriver": "^2.53.1",
-    "should": "^8.2.2"
+    "should": "^8.2.2",
+    "sinon": "^1.17.4"
   },
   "dependencies": {
-    "bluebird": "^3.3.5",
     "bell": "^7.6.0",
+    "bluebird": "^3.3.5",
+    "blueimp-file-upload": "^9.12.1",
     "bookshelf": "^0.9.4",
     "boom": "^3.1.2",
     "bourbon-neat": "^1.7.4",
@@ -73,6 +75,7 @@
     "hapi-auth-cookie": "^6.1.1",
     "hapi-context-credentials": "^2.0.0",
     "inert": "^3.2.0",
+    "jquery-ui": "github:jquery/jquery-ui",
     "jquery.mmenu": "FrDH/jQuery.mmenu#v5.6.3",
     "knex": "^0.10.0",
     "lodash": "^4.6.1",
@@ -85,6 +88,7 @@
     "swagger-client": "^2.1.11",
     "vision": "^4.0.1",
     "webpack": "^1.12.14",
-    "webpack-stream": "^3.1.0"
+    "webpack-stream": "^3.1.0",
+    "xml2js": "^0.4.16"
   }
 }

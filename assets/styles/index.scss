@@ -9,3 +9,15 @@
 @import "home";
 @import "search-results";
 @import "about";
+
+.progress {
+  &:not(:empty) {
+    &::before {
+      content: '(';
+    }
+
+    &::after {
+      content: ')';
+    }
+  }
+}

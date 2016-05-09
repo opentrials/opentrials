@@ -1,5 +1,5 @@
 'use strict';
 
-require('../../../node_modules/nodep-date-input-polyfill/nodep-date-input-polyfill.dist.js');
+require('nodep-date-input-polyfill');
 
-require('../../../node_modules/jquery.mmenu/dist/js/jquery.mmenu.min.js');
+require('jquery.mmenu');
