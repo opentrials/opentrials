@@ -11,7 +11,7 @@
     "test": "node ./node_modules/.bin/istanbul cover _mocha -- --grep e2e --invert --require test/common",
     "posttest": "npm run lint",
     "pree2e": "gulp build",
-    "e2e": "mocha --grep e2e test/e2e",
+    "e2e": "mocha --grep e2e --require test/e2e/common test/e2e",
     "lint": "eslint *.js **/*.js",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "migrate": "knex migrate:latest",

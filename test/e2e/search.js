@@ -4,7 +4,6 @@ const webdriver = require('selenium-webdriver');
 const should = require('should');
 const By = webdriver.By;
 const until = webdriver.until;
-const URL = _getServerURL();
 
 
 describe('(e2e) search', function() {
@@ -22,7 +21,7 @@ describe('(e2e) search', function() {
   });
 
   it('should work through the basic search flow', () => {
-    driver.get(URL);
+    driver.get(SERVER_URL);
     driver.findElement(By.css('.search-bar input')).submit();
     driver.findElement(By.css('.search-results .title a')).click();
     driver.findElement(By.css('.actions .download')).click();
@@ -31,7 +30,7 @@ describe('(e2e) search', function() {
   });
 
   it('should work with all search filters enabled', () => {
-    driver.get(URL);
+    driver.get(SERVER_URL);
 
     driver.findElement(By.css('.toggle-advanced')).click();
 
@@ -60,14 +59,3 @@ describe('(e2e) search', function() {
     return driver.wait(until.titleIs('Search'));
   });
 });
-
-function _getServerURL() {
-  let url = process.env.OPENTRIALS_URL;
-
-  if (!url) {
-    const server = require('../../server');
-    url = server.info.uri;
-  }
-
-  return url;
-}
