@@ -6,11 +6,14 @@ const should = require('should');
 const By = webdriver.By;
 const until = webdriver.until;
 
+
 describe('(e2e) contribute-data', function() {
+  let SERVER_URL;
   let driver;
   this.timeout(60000);
 
   before(() => {
+    SERVER_URL = getServerUrl();
     driver = new webdriver.Builder().
       withCapabilities(webdriver.Capabilities.firefox()).
       build();

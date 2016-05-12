@@ -7,10 +7,12 @@ const until = webdriver.until;
 
 
 describe('(e2e) search', function() {
+  let SERVER_URL;
   let driver;
   this.timeout(60000);
 
   before(() => {
+    SERVER_URL = getServerUrl();
     driver = new webdriver.Builder().
       withCapabilities(webdriver.Capabilities.firefox()).
       build();
