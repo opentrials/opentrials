@@ -29,7 +29,7 @@ describe('(e2e) contribute-data', function() {
     driver.findElement(By.css('#comments')).sendKeys('Some comments');
     driver.findElement(By.css('form')).submit();
 
-    return driver.getCurrentUrl()
-      .then((currentUrl) => should(currentUrl).eql(SERVER_URL));
+    return driver.getPageSource()
+      .then((body) => should(body).containEql('uploaded successfully'))
   });
 });

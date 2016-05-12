@@ -39,31 +39,6 @@ describe('contribute-data handler', () => {
 
     afterEach(clearDB);
 
-    it('handles errors', () => {
-      const response = `
-        <?xml version="1.0" encoding="UTF-8"?>
-        <Error>
-          <Code>ErrorCode</Code>
-          <Message>ErrorMessage</Message>
-        </Error>
-      `;
-      const responseStatus = '501';
-      const options = {
-        url: '/contribute-data',
-        method: 'post',
-        payload: {
-          response,
-          responseStatus,
-        },
-      };
-
-      return server.inject(options)
-        .then((response) => {
-          should(response.statusCode).equal(Number(responseStatus));
-          should(response.result.message).equal('ErrorMessage');
-        });
-    });
-
     it('creates the DataContribution with related User and Trial', () => {
       const dataKey = 'uploads/00000000-0000-0000-0000-000000000000/data.pdf'
       const dataUrl = `https://opentrials-test.s3.amazonaws.com/${dataKey}`;
@@ -92,6 +67,8 @@ describe('contribute-data handler', () => {
         .then((response) => {
           should(response.statusCode).equal(302);
           should(response.headers.location).equal('/');
+          should(response.request.yar.flash('success')).not.be.empty();
+          should(response.request.yar.flash('error')).be.empty();
         })
         .then(() => new DataContribution({ url: dataUrl }).fetch({ require: true }))
         .then((dataContribution) => {
@@ -154,6 +131,32 @@ describe('contribute-data handler', () => {
         });
     }); 
 
+    it('handles S3 errors', () => {
+      const response = `
+        <?xml version="1.0" encoding="UTF-8"?>
+        <Error>
+          <Code>ErrorCode</Code>
+          <Message>ErrorMessage</Message>
+        </Error>
+      `;
+      const responseStatus = '501';
+      const options = {
+        url: '/contribute-data',
+        method: 'post',
+        payload: {
+          response,
+          responseStatus,
+        },
+      };
+
+      return server.inject(options)
+        .then((response) => {
+          const context = response.request.response.source.context;
+          should(context.flash.error).not.be.empty();
+          should(response.statusCode).equal(Number(responseStatus));
+        });
+    });
+
     it('handles validation errors', () => {
       const options = {
         url: '/contribute-data',
@@ -174,7 +177,12 @@ describe('contribute-data handler', () => {
       };
 
       return server.inject(options)
-        .then((response) => should(response.statusCode).equal(500));
+        .then((response) => {
+          const context = response.request.response.source.context;
+          should(context.flash.error).not.be.empty();
+          should(response.request.response.source.template).equal('contribute-data');
+          should(response.statusCode).equal(500)
+        });
     }); 
 
     it('handles general errors', () => {
@@ -197,7 +205,12 @@ describe('contribute-data handler', () => {
 
       return new DataContribution({ url: dataUrl }).save()
         .then(() => server.inject(options))
-        .then((response) => should(response.statusCode).equal(500));
+        .then((response) => {
+          const context = response.request.response.source.context;
+          should(context.flash.error).not.be.empty();
+          should(response.request.response.source.template).equal('contribute-data');
+          should(response.statusCode).equal(500)
+        });
     }); 
   });
 });

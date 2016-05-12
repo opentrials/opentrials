@@ -15,6 +15,7 @@ $base-border-radius: 2px;
 $base-spacing: $base-line-height * 1em;
 $small-spacing: $base-spacing / 2;
 $base-z-index: 0;
+$top-z-index: 999999999;
 
 // Colors
 $blue: #05b0e1;
@@ -30,6 +31,9 @@ $colour-2: $blue;
 $colour-3: $green;
 $colour-4: $red;
 $colour-5: $light-gray;
+
+$success-colour: $green;
+$error-colour: $red;
 
 // Font Colors
 $base-font-color: $dark-gray;

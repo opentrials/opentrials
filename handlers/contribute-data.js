@@ -1,6 +1,5 @@
 'use strict';
 
-const Boom = require('boom');
 const Joi = require('joi');
 const url = require('url');
 const bluebird = require('bluebird');
@@ -13,7 +12,7 @@ function _getContributeData(request, reply) {
     ['starts-with', '$comments', ''],
   ];
 
-  reply.view('contribute-data', {
+  return reply.view('contribute-data', {
     title: 'Contribute data',
     s3: s3.getSignedFormFields(additionalConditions),
     redirectTo: request.headers.referer,
@@ -42,7 +41,10 @@ function _postContributeData(request, reply) {
         comments: payload.comments,
       }).save();
     })
-    .then(() => reply.redirect(request.query.redirectTo))
+    .then(() => {
+      request.yar.flash('success', 'File was uploaded successfully. Thanks for your contribution!');
+      return reply.redirect(request.query.redirectTo);
+    })
     .catch((err) => {
       const isS3Error = (err.Code && err.Message);
       if (!isS3Error) {
@@ -52,12 +54,14 @@ function _postContributeData(request, reply) {
       const errorCode = err.Code[0];
       const errorMessage = err.Message[0];
 
-      reply(Boom.create(payload.responseStatus,
-                        errorMessage,
-                        { code: errorCode }));
+      request.yar.flash('error', `${errorMessage} (${errorCode}`);
+      return _getContributeData(request, reply)
+        .code(payload.responseStatus);
     })
-    .catch((err) => {
-      reply(Boom.badImplementation('An internal error occurred, please try again later.', err));
+    .catch(() => {
+      request.yar.flash('error', 'An internal error occurred, please try again later.');
+      return _getContributeData(request, reply)
+        .code(payload.responseStatus);
     });
 }
 
@@ -75,7 +79,7 @@ module.exports = {
       payload: {
         file: Joi.string().empty(''),
         response: Joi.string(),
-        responseStatus: Joi.number().integer(),
+        responseStatus: Joi.number().integer().default(500),
         comments: Joi.string().empty(''),
         'Content-Type': Joi.string().empty(''),
         key: Joi.string().empty(''),
