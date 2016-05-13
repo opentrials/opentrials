@@ -9,7 +9,7 @@ $(function() {
     var fileInput = $(elem);
     var form = $(fileInput.parents('form:first'));
     var submitButton = form.find('[type="submit"]');
-    var progressText = form.find('.progress');
+    var progressText = submitButton.find('.progress-text');
     var contentTypeInput = $('<input type="hidden" name="Content-Type" />').prependTo(form);
 
     fileInput.fileupload({
