@@ -5,6 +5,7 @@ require('factory-girl-bookshelf')();
 const uuid = require('node-uuid');
 const User = require('../models/user');
 const OAuthCredential = require('../models/oauth-credential');
+const DataContribution = require('../models/data-contribution');
 
 factory.define('user', User, {
   id: () => uuid.v1(),
@@ -29,6 +30,14 @@ factory.define('oauthCredential', OAuthCredential, {
   provider: 'google',
   id: factory.sequence((n) => `${n}`),
   user_id: factory.assoc('user', 'id'),
+});
+
+factory.define('dataContribution', DataContribution, {
+  id: () => uuid.v1(),
+  user_id: factory.assoc('user', 'id'),
+  trial_id: () => uuid.v1(),
+  url: factory.sequence((n) => `http://opentrials-test.s3.amazonaws.com/uploads/${uuid.v1()}/file-${n}.pdf`),
+  comments: factory.sequence((n) => `Data upload ${n}`),
 });
 
 module.exports = factory;

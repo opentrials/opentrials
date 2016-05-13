@@ -85,6 +85,11 @@ const routes = [
     method: 'POST',
     config: require('../handlers/contribute-data').post,
   },
+  {
+    path: '/admin/data-curation',
+    method: 'GET',
+    config: require('../handlers/admin/data-curation'),
+  },
 ];
 
 module.exports = routes;

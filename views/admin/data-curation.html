@@ -1,0 +1,47 @@
+{% extends 'layouts/base.html' %}
+
+{% block main %}
+
+<table class="data-curation">
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Trial</th>
+      <th>File</th>
+      <th>Comments</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for dataContribution in dataContributions %}
+    <tr>
+      <td>
+        {% if dataContribution.user %}
+          <a href="mailto:{{ dataContribution.user.email }}">
+            {{ dataContribution.user.name }}
+          </a>
+        {% endif %}
+      </td>
+      <td>
+        {% if dataContribution.trial_id %}
+          <a href="/trials/{{ dataContribution.trial_id }}">
+            {{ dataContribution.trial_id }}
+          </a>
+        {% endif %}
+      </td>
+      <td>
+        <a href="{{ dataContribution.url }}">
+          {{ dataContribution.filename }}
+        </a>
+      </td>
+      <td>
+        {{ dataContribution.comments }}
+      </td>
+      <td>
+        {{ dataContribution.created_at | formatDate }}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

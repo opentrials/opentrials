@@ -83,5 +83,6 @@ const knexConfig = require(path.join(__dirname, '..', './knexfile'))[env];
 const knex = require('knex')(knexConfig);
 config.bookshelf = require('bookshelf')(knex);
 config.bookshelf.plugin('registry');
+config.bookshelf.plugin('virtuals');
 
 module.exports = config;

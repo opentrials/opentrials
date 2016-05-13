@@ -13,6 +13,13 @@ const DataContribution = BaseModel.extend({
     // istanbul ignore next
     return this.belongsTo('User');
   },
+  virtuals: {
+    filename: function filename() {
+      const filenameRegexp = /.*uploads\/[^\/]+\/(.+)/;
+
+      return this.attributes.url.match(filenameRegexp)[1];
+    },
+  },
 });
 
 module.exports = bookshelf.model('DataContribution', DataContribution);
