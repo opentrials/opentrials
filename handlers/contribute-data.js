@@ -15,6 +15,7 @@ function _getContributeData(request, reply) {
   return reply.view('contribute-data', {
     title: 'Contribute data',
     s3: s3.getSignedFormFields(additionalConditions),
+    maxUploadSize: s3.MAX_UPLOAD_SIZE,
     redirectTo: request.headers.referer,
   });
 }

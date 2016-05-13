@@ -75,4 +75,5 @@ function getSignedFormFields(additionalConditions) {
 
 module.exports = {
   getSignedFormFields,
+  MAX_UPLOAD_SIZE: s3Config.maxUploadSize,
 };

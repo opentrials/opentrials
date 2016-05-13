@@ -15,7 +15,7 @@
     <input type="hidden" name="{{ name }}" value="{{ value }}" />
   {% endfor %}
 
-  <label for="data">File</label>
+  <label for="data">File (max {{ maxUploadSize | formatBytes }})</label>
   <input id="data" type="file" name="file" />
 
   <label for="comments">Comments</label>
