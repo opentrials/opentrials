@@ -10,6 +10,7 @@ const DataContribution = BaseModel.extend({
   tableName: 'data_contributions',
   hasTimestamps: true,
   user: function user() {
+    // istanbul ignore next
     return this.belongsTo('User');
   },
 });
