@@ -41,6 +41,13 @@
           <li class="mm-divider">
             {{ credentials.name }}
           </li>
+          {% if credentials.role in ['curator', 'admin'] %}
+            <li>
+              <a href="/admin/data-contributions">
+                Data contributions
+              </a>
+            </li>
+          {% endif %}
           <li>
             <a href="/logout">
               Logout
@@ -73,6 +80,13 @@
               {{ credentials.name }}
             </a>
             <ul class="submenu">
+              {% if credentials.role in ['curator', 'admin'] %}
+                <li>
+                  <a href="/admin/data-contributions">
+                    Data contributions
+                  </a>
+                </li>
+              {% endif %}
               <li class="logout">
                 <a href="/logout">
                   Logout
