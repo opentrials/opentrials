@@ -14,12 +14,12 @@ function editDataContribution(request, reply) {
     .save(data, { patch: true, require: true })
     .then((dataContribution) => {
       request.yar.flash('success', 'Data Contribution updated successfully.');
-      return reply.redirect('/admin/data-curation');
+      return reply.redirect('/admin/data-contributions');
     })
     .catch(() => {
       // FIXME: Log error
       request.yar.flash('error', 'An internal error occurred, please try again later.');
-      return reply.redirect('/admin/data-curation');
+      return reply.redirect('/admin/data-contributions');
     });
 }
 
@@ -28,8 +28,8 @@ function listDataContributions(request, reply) {
     .query('orderBy', 'created_at', 'desc')
     .fetchAll({ withRelated: ['user'] })
     .then((dataContributions) => {
-      reply.view('admin/data-curation', {
-        title: 'Data curation',
+      reply.view('admin/data-contributions', {
+        title: 'Data contributions',
         dataContributions: dataContributions.toJSON(),
       });
     });

@@ -5,14 +5,14 @@ const server = require('../../../server');
 const DataContribution = require('../../../models/data-contribution');
 
 
-describe('admin data curation handler', () => {
+describe('admin data contributions handler', () => {
   before(clearDB);
 
   afterEach(clearDB);
 
-  describe('GET /admin/data-curation', () => {
+  describe('GET /admin/data-contributions', () => {
     it('is successful', () => {
-      return server.inject('/admin/data-curation')
+      return server.inject('/admin/data-contributions')
         .then((response) => should(response.statusCode).equal(200));
     })
 
@@ -24,7 +24,7 @@ describe('admin data curation handler', () => {
                       .query('orderBy', 'created_at', 'desc')
                       .fetchAll({ withRelated: ['user'] }))
         .then((_dataContributions) => dataContributions = _dataContributions )
-        .then(() => server.inject('/admin/data-curation'))
+        .then(() => server.inject('/admin/data-contributions'))
         .then((response) => {
           const context = response.request.response.source.context;
           should(context.dataContributions).deepEqual(dataContributions.toJSON());
@@ -32,8 +32,8 @@ describe('admin data curation handler', () => {
     });
   });
 
-  describe('POST /admin/data-curation/{id}', () => {
-    it('updates the DataContribution and redirects to /admin/data-curation', () => {
+  describe('POST /admin/data-contributions/{id}', () => {
+    it('updates the DataContribution and redirects to /admin/data-contributions', () => {
       const payload = {
         approved: true,
         curation_comments: 'My comments',
@@ -43,13 +43,13 @@ describe('admin data curation handler', () => {
       return factory.create('dataContribution')
         .then((dataContribution) => dataContributionId = dataContribution.attributes.id)
         .then(() => server.inject({
-          url: `/admin/data-curation/${dataContributionId}`,
+          url: `/admin/data-contributions/${dataContributionId}`,
           method: 'post',
           payload,
         }))
         .then((response) => {
           should(response.statusCode).equal(302);
-          should(response.headers.location).equal('/admin/data-curation');
+          should(response.headers.location).equal('/admin/data-contributions');
           should(response.request.yar.flash('success')).not.be.empty();
         })
         .then(() => new DataContribution({ id: dataContributionId }).fetch({ require: true }))
@@ -58,7 +58,7 @@ describe('admin data curation handler', () => {
 
     it('displays error message if there was any error', () => {
       const options = {
-        url: `/admin/data-curation/08773510-532c-4b14-8a66-566bd1a82403`,
+        url: `/admin/data-contributions/08773510-532c-4b14-8a66-566bd1a82403`,
         method: 'post',
         payload: {
           approved: true,
@@ -69,7 +69,7 @@ describe('admin data curation handler', () => {
       return server.inject(options)
         .then((response) => {
           should(response.statusCode).equal(302);
-          should(response.headers.location).equal('/admin/data-curation');
+          should(response.headers.location).equal('/admin/data-contributions');
           should(response.request.yar.flash('error')).not.be.empty();
         });
     });

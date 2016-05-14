@@ -86,14 +86,14 @@ const routes = [
     config: require('../handlers/contribute-data').post,
   },
   {
-    path: '/admin/data-curation',
+    path: '/admin/data-contributions',
     method: 'GET',
-    config: require('../handlers/admin/data-curation').get,
+    config: require('../handlers/admin/data-contributions').get,
   },
   {
-    path: '/admin/data-curation/{id}',
+    path: '/admin/data-contributions/{id}',
     method: 'POST',
-    config: require('../handlers/admin/data-curation').post,
+    config: require('../handlers/admin/data-contributions').post,
   },
 ];
 
