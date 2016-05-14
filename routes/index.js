@@ -88,7 +88,12 @@ const routes = [
   {
     path: '/admin/data-curation',
     method: 'GET',
-    config: require('../handlers/admin/data-curation'),
+    config: require('../handlers/admin/data-curation').get,
+  },
+  {
+    path: '/admin/data-curation/{id}',
+    method: 'POST',
+    config: require('../handlers/admin/data-curation').post,
   },
 ];
 

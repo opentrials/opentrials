@@ -38,6 +38,8 @@ factory.define('dataContribution', DataContribution, {
   trial_id: () => uuid.v1(),
   url: factory.sequence((n) => `http://opentrials-test.s3.amazonaws.com/uploads/${uuid.v1()}/file-${n}.pdf`),
   comments: factory.sequence((n) => `Data upload ${n}`),
+  curation_comments: factory.sequence((n) => `Curation comments ${n}`),
+  approved: false,
 });
 
 module.exports = factory;
