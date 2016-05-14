@@ -38,9 +38,17 @@ function listDataContributions(request, reply) {
 module.exports = {
   get: {
     handler: listDataContributions,
+    auth: {
+      mode: 'required',
+      scope: ['curator', 'admin'],
+    },
   },
   post: {
     handler: editDataContribution,
+    auth: {
+      mode: 'required',
+      scope: ['curator', 'admin'],
+    },
     validate: {
       query: {
         id: Joi.string().guid(),

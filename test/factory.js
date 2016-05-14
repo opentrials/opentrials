@@ -7,11 +7,13 @@ const User = require('../models/user');
 const OAuthCredential = require('../models/oauth-credential');
 const DataContribution = require('../models/data-contribution');
 
-factory.define('user', User, {
+const userAttributes = {
   id: () => uuid.v1(),
   name: factory.sequence((n) => `user${n}`),
   email: factory.sequence((n) => `user${n}@foo.com`),
-}, {
+};
+
+factory.define('user', User, userAttributes, {
   afterCreate: (user, attrs, callback) => {
     factory.create('oauthCredential', { user_id: user.attributes.id }, (err) => {
       if (err) {
@@ -25,6 +27,12 @@ factory.define('user', User, {
     });
   },
 });
+
+const adminAttributes = Object.assign({ role: 'admin' }, userAttributes);
+factory.define('admin', User, adminAttributes);
+
+const curatorAttributes = Object.assign({ role: 'curator' }, userAttributes);
+factory.define('curator', User, curatorAttributes);
 
 factory.define('oauthCredential', OAuthCredential, {
   provider: 'google',

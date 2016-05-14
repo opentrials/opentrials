@@ -10,6 +10,11 @@ const User = BaseModel.extend({
   oauthCredentials: function oauthCredentials() {
     return this.hasMany('OAuthCredential');
   },
+  virtuals: {
+    scope: function scope() {
+      return this.attributes.role;
+    },
+  },
   findByEmailOrOAuth: (email, oauthProvider, oauthId) => (
     new User().query((qb) => {
       qb.leftJoin('oauth_credentials', 'oauth_credentials.user_id', '=', 'users.id');

@@ -11,12 +11,32 @@ describe('admin data contributions handler', () => {
   afterEach(clearDB);
 
   describe('GET /admin/data-contributions', () => {
-    it('is successful', () => {
-      return server.inject('/admin/data-contributions')
-        .then((response) => should(response.statusCode).equal(200));
+    it('requires a logged in user', () => {
+      const options = {
+        url: '/admin/data-contributions',
+        method: 'GET',
+      };
+
+      return server.inject(options)
+        .then((response) => should(response.statusCode).equal(401));
     })
 
+    _itReturnsStatusCodeForRoles(200, ['admin', 'curator'], {
+      url: '/admin/data-contributions',
+      method: 'GET',
+    });
+
+    _itReturnsStatusCodeForRoles(403, [undefined], {
+      url: '/admin/data-contributions',
+      method: 'GET',
+    });
+
     it('adds the ordered dataContributions and their users into the context', () => {
+      const options = {
+        url: '/admin/data-contributions',
+        method: 'GET',
+        credentials: factory.buildSync('admin').toJSON(),
+      };
       let dataContributions;
 
       return factory.createMany('dataContribution', 2)
@@ -24,7 +44,7 @@ describe('admin data contributions handler', () => {
                       .query('orderBy', 'created_at', 'desc')
                       .fetchAll({ withRelated: ['user'] }))
         .then((_dataContributions) => dataContributions = _dataContributions )
-        .then(() => server.inject('/admin/data-contributions'))
+        .then(() => server.inject(options))
         .then((response) => {
           const context = response.request.response.source.context;
           should(context.dataContributions).deepEqual(dataContributions.toJSON());
@@ -33,6 +53,29 @@ describe('admin data contributions handler', () => {
   });
 
   describe('POST /admin/data-contributions/{id}', () => {
+    it('requires a logged in user', () => {
+      const options = {
+        url: '/admin/data-contributions/00000000-0000-0000-0000-000000000000',
+        method: 'POST',
+        payload: {},
+      };
+
+      return server.inject(options)
+        .then((response) => should(response.statusCode).equal(401));
+    })
+
+    _itReturnsStatusCodeForRoles(302, ['admin', 'curator'], {
+      url: '/admin/data-contributions/00000000-0000-0000-0000-000000000000',
+      method: 'POST',
+      payload: {},
+    });
+
+    _itReturnsStatusCodeForRoles(403, [undefined], {
+      url: '/admin/data-contributions/00000000-0000-0000-0000-000000000000',
+      method: 'POST',
+      payload: {},
+    });
+
     it('updates the DataContribution and redirects to /admin/data-contributions', () => {
       const payload = {
         approved: true,
@@ -44,7 +87,8 @@ describe('admin data contributions handler', () => {
         .then((dataContribution) => dataContributionId = dataContribution.attributes.id)
         .then(() => server.inject({
           url: `/admin/data-contributions/${dataContributionId}`,
-          method: 'post',
+          method: 'POST',
+          credentials: factory.buildSync('admin').toJSON(),
           payload,
         }))
         .then((response) => {
@@ -58,12 +102,10 @@ describe('admin data contributions handler', () => {
 
     it('displays error message if there was any error', () => {
       const options = {
-        url: `/admin/data-contributions/08773510-532c-4b14-8a66-566bd1a82403`,
-        method: 'post',
-        payload: {
-          approved: true,
-          curation_comments: 'My comments',
-        },
+        url: '/admin/data-contributions/00000000-0000-0000-0000-000000000000',
+        method: 'POST',
+        credentials: factory.buildSync('admin').toJSON(),
+        payload: {},
       }
 
       return server.inject(options)
@@ -75,3 +117,19 @@ describe('admin data contributions handler', () => {
     });
   });
 });
+
+
+function _itReturnsStatusCodeForRoles(statusCode, roles, options) {
+  roles.forEach((role) => {
+    it(`returns status code ${statusCode} for users with role ${role}`, () => {
+      const user = factory.buildSync('user', { role });
+      const optionsWithCredentials = Object.assign(
+        { credentials: user.toJSON() },
+        options
+      );
+
+      return server.inject(optionsWithCredentials)
+        .then((response) => should(response.statusCode).equal(statusCode))
+    });
+  });
+}
