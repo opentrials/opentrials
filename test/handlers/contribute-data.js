@@ -1,6 +1,7 @@
 'use strict';
 
 const should = require('should');
+const config = require('../../config');
 const server = require('../../server');
 const DataContribution = require('../../models/data-contribution');
 
@@ -35,11 +36,17 @@ describe('contribute-data handler', () => {
   });
 
   describe('POST /contribute-data', () => {
+    const originalS3Config = Object.assign({}, config.s3);
+
     before(clearDB);
 
-    afterEach(clearDB);
+    afterEach(() => {
+      config.s3 = Object.assign({}, originalS3Config);
+      return clearDB();
+    });
 
     it('creates the DataContribution with related User and Trial', () => {
+      delete config.s3.customDomain;
       const dataKey = 'uploads/00000000-0000-0000-0000-000000000000/data.pdf'
       const dataUrl = `https://opentrials-test.s3.amazonaws.com/${dataKey}`;
       const response = `
@@ -82,6 +89,7 @@ describe('contribute-data handler', () => {
     });
 
     it('doesn\'t require neither a User nor a Trial', () => {
+      delete config.s3.customDomain;
       const dataKey = 'uploads/00000000-0000-0000-0000-000000000000/data.pdf'
       const dataUrl = `https://opentrials-test.s3.amazonaws.com/${dataKey}`;
       const response = `
@@ -186,6 +194,7 @@ describe('contribute-data handler', () => {
     }); 
 
     it('handles general errors', () => {
+      delete config.s3.customDomain;
       const dataKey = 'uploads/00000000-0000-0000-0000-000000000000/data.pdf'
       const dataUrl = `https://opentrials-test.s3.amazonaws.com/${dataKey}`;
       const response = `
@@ -212,5 +221,31 @@ describe('contribute-data handler', () => {
           should(response.statusCode).equal(500)
         });
     }); 
+
+    it('uses the S3_CUSTOM_DOMAIN if it exists', () => {
+      config.s3.customDomain = 'http://foobar.com';
+      const dataKey = 'uploads/00000000-0000-0000-0000-000000000000/data.pdf'
+      const dataUrl = `https://opentrials-test.s3.amazonaws.com/${dataKey}`;
+      const expectedUrl = `${config.s3.customDomain}/${dataKey}`;
+      const response = `
+        <?xml version="1.0" encoding="UTF-8"?>
+        <PostResponse>
+          <Location>${dataUrl}</Location>
+          <Key>${dataKey}</Key>
+        </PostResponse>
+      `;
+      const options = {
+        url: '/contribute-data',
+        method: 'post',
+        payload: {
+          response,
+        },
+      };
+
+      return new DataContribution({ url: expectedUrl }).fetch()
+        .then((dataContribution) => should(dataContribution).be.null())
+        .then(() => server.inject(options))
+        .then(() => new DataContribution({ url: expectedUrl }).fetch({ require: true }));
+    });
   });
 });

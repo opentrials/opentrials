@@ -75,6 +75,7 @@ const config = {
     bucket: process.env.S3_BUCKET,
     region: process.env.S3_REGION,
     maxUploadSize: process.env.MAX_UPLOAD_SIZE,
+    customDomain: process.env.S3_CUSTOM_DOMAIN,
   },
 };
 

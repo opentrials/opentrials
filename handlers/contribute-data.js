@@ -4,6 +4,7 @@ const Joi = require('joi');
 const url = require('url');
 const bluebird = require('bluebird');
 const parseXml = bluebird.promisify(require('xml2js').parseString);
+const config = require('../config');
 const s3 = require('../agents/s3');
 const DataContribution = require('../models/data-contribution');
 
@@ -20,18 +21,32 @@ function _getContributeData(request, reply) {
   });
 }
 
+function _getDataUrl(s3Response) {
+  if (s3Response.Error) {
+    throw s3Response.Error;
+  }
+
+  const dataLocation = s3Response.PostResponse.Location[0];
+  const key = s3Response.PostResponse.Key[0];
+  let dataUrl;
+
+  if (config.s3.customDomain) {
+    const parsedDomain = url.parse(config.s3.customDomain);
+
+    dataUrl = `${parsedDomain.protocol}//${parsedDomain.host}/${key}`;
+  } else {
+    dataUrl = dataLocation;
+  }
+
+  return dataUrl;
+}
+
 function _postContributeData(request, reply) {
   const payload = request.payload;
 
   parseXml(payload.response)
     .then((s3Response) => {
-      if (s3Response.Error) {
-        throw s3Response.Error;
-      }
-
-      const dataLocation = s3Response.PostResponse.Location[0];
-      const key = s3Response.PostResponse.Key[0];
-      const dataUrl = `https://${url.parse(dataLocation).host}/${key}`;
+      const dataUrl = _getDataUrl(s3Response);
       const trialId = request.query.trial_id;
       const userId = (request.auth.credentials || {}).id;
 
