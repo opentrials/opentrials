@@ -1,0 +1,30 @@
+{% extends 'layouts/base.html' %}
+
+{% block scripts %}
+<script src="{{ 'js/fileupload.min.js' | revPath }}" defer></script>
+{% endblock %}
+
+{% block main %}
+
+<form
+  class="direct-upload"
+  method="POST"
+  data-url="{{ s3.action }}"
+  >
+  {% for name, value in s3.fields %}
+    <input type="hidden" name="{{ name }}" value="{{ value }}" />
+  {% endfor %}
+
+  <label for="data">File (max {{ maxUploadSize | formatBytes }})</label>
+  <input id="data" type="file" name="file" />
+
+  <label for="comments">Comments</label>
+  <textarea id="comments" name="comments"></textarea>
+
+  <button type="submit">
+    Submit
+    <span class="progress-text"></span>
+  </button>
+</form>
+
+{% endblock %}

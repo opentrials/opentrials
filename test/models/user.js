@@ -28,7 +28,8 @@ describe('User', () => {
           const oauthCredentials = user.related('oauthCredentials').models[0];
           return new User().findByEmailOrOAuth('foo@bar.com',
                                                oauthCredentials.attributes.provider,
-                                               oauthCredentials.attributes.id).fetch()
+                                               oauthCredentials.attributes.id)
+                           .fetch({ require: true })
         })
         .then((_user) => user.attributes.id.should.eql(_user.attributes.id));
     });
@@ -63,5 +64,13 @@ describe('User', () => {
         _user.related('oauthCredentials').models[0].toJSON().should.containDeep(originalOAuthAttrs);
       });
     });
+  });
+
+  describe('#scope', () => {
+    it('returns the user "role" as "scope"', () => {
+      const user = new User({ role: 'foobar' });
+
+      should(user.toJSON().scope).eql('foobar');
+    })
   });
 });

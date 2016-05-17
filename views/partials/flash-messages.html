@@ -1,0 +1,9 @@
+<ul class="flash-message">
+  {% for message in flash.success %}
+  <li class="success hide"><em>Success!</em> {{ message }}</li>
+  {% endfor %}
+
+  {% for message in flash.error %}
+  <li class="error"><em>Error!</em> {{ message }}</li>
+  {% endfor %}
+</ul>

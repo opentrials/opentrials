@@ -1,7 +1,5 @@
 'use strict';
 
-const searchHandler = require('../handlers/search');
-
 const routes = [
   {
     path: '/assets/{param*}',
@@ -40,8 +38,7 @@ const routes = [
   {
     path: '/search',
     method: 'GET',
-    handler: searchHandler.handler,
-    config: searchHandler.config,
+    config: require('../handlers/search'),
   },
   {
     path: '/problems/{id}',
@@ -77,6 +74,26 @@ const routes = [
     path: '/logout',
     method: 'GET',
     handler: require('../handlers/logout'),
+  },
+  {
+    path: '/contribute-data',
+    method: 'GET',
+    config: require('../handlers/contribute-data').get,
+  },
+  {
+    path: '/contribute-data',
+    method: 'POST',
+    config: require('../handlers/contribute-data').post,
+  },
+  {
+    path: '/admin/data-contributions',
+    method: 'GET',
+    config: require('../handlers/admin/data-contributions').get,
+  },
+  {
+    path: '/admin/data-contributions/{id}',
+    method: 'POST',
+    config: require('../handlers/admin/data-contributions').post,
   },
 ];
 

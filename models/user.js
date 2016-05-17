@@ -1,14 +1,19 @@
 'use strict';
 
 const bookshelf = require('../config').bookshelf;
-const uuid = require('node-uuid');
+const BaseModel = require('./base');
 const OAuthCredential = require('./oauth-credential');
 
-const User = bookshelf.Model.extend({
+const User = BaseModel.extend({
   tableName: 'users',
   hasTimestamps: true,
   oauthCredentials: function oauthCredentials() {
     return this.hasMany('OAuthCredential');
+  },
+  virtuals: {
+    scope: function scope() {
+      return this.attributes.role;
+    },
   },
   findByEmailOrOAuth: (email, oauthProvider, oauthId) => (
     new User().query((qb) => {
@@ -29,11 +34,7 @@ const User = bookshelf.Model.extend({
         let _user = user;
 
         if (_user === null) {
-          const attrs = Object.assign({
-            id: uuid.v1(),
-          }, userAttrs);
-
-          _user = new User(attrs).save(null, { method: 'insert' });
+          _user = new User(userAttrs).save(null, { method: 'insert' });
         }
 
         return _user;

@@ -21,6 +21,7 @@
   </head>
   <body>
     <div class="page">
+      {% include "partials/flash-messages.html" %}
       {% include "partials/header.html"  %}
 
       <section class="banner">
@@ -41,6 +42,8 @@
 
       {% include "partials/footer.html"  %}
       {% include "partials/scripts.html" %}
+      {% block scripts %}
+      {% endblock %}
     </div>
   </body>
 </html>

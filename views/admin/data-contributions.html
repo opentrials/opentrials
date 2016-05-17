@@ -1,0 +1,68 @@
+{% extends 'layouts/base.html' %}
+
+{% block main %}
+
+<table class="data-curation">
+  <thead>
+    <tr>
+      <th>Approved?</th>
+      <th>User</th>
+      <th>Trial</th>
+      <th>File</th>
+      <th>Date</th>
+      <th class="comments-col">Comments</th>
+      <th class="comments-col">Curator's comments</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for dataContribution in dataContributions %}
+    <tr>
+      <td>
+        {% if dataContribution.approved %}
+          Yes
+        {% else %}
+          No
+        {% endif %}
+      </td>
+
+      <td>
+        {% if dataContribution.user %}
+          <a href="mailto:{{ dataContribution.user.email }}">
+            {{ dataContribution.user.name }}
+          </a>
+        {% endif %}
+      </td>
+      <td>
+        {% if dataContribution.trial_id %}
+          <a href="/trials/{{ dataContribution.trial_id }}">
+            {{ dataContribution.trial_id }}
+          </a>
+        {% endif %}
+      </td>
+      <td>
+        <a href="{{ dataContribution.url }}">
+          {{ dataContribution.filename }}
+        </a>
+      </td>
+      <td>
+        {{ dataContribution.created_at | formatDate }}
+      </td>
+      <td>
+        {{ dataContribution.comments }}
+      </td>
+
+      <td>
+        <form action="/admin/data-contributions/{{ dataContribution.id }}" method="POST">
+          <textarea name="curation_comments" placeholder="Explain your decision.">{{ dataContribution.curation_comments }}</textarea>
+
+          <button type="submit" name="approved" value="true" class="approve">Approve</button>
+          <button type="submit" name="approved" value="false" class="reject">Reject</button>
+        </form>
+      </td>
+
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

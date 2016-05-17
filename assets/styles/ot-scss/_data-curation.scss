@@ -1,0 +1,29 @@
+.data-curation {
+  td,
+  th,
+  tr {
+    vertical-align: top;
+    overflow: hidden;
+  }
+
+  .comments-col {
+    width: 25%;
+  }
+
+  button {
+    display: inline-block;
+    width: 100%;
+
+    @media only screen and (min-width: $large-screen) {
+      width: 48%;
+    }
+  }
+
+  .approve {
+    background-color: $success-colour;
+  }
+
+  .reject {
+    background-color: $error-colour;
+  }
+}

@@ -1,0 +1,47 @@
+@import "constants";
+
+.flash-message {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: $top-z-index;
+  padding: $base-spacing;
+  color: #fff;
+  transition: visibility 0s linear 2s, opacity 2s ease-in;
+
+  .success {
+    background-color: $success-colour;
+    border-color: lighten($success-colour, 10%);
+  }
+
+  .error {
+    background-color: $error-colour;
+    border-color: lighten($error-colour, 10%);
+  }
+
+  em {
+    font-style: normal;
+    font-weight: bold;
+  }
+
+  li {
+    padding: $small-spacing / 2;
+    margin: $small-spacing;
+    border: $base-border;
+    border-radius: $base-border-radius;
+  }
+
+  // The .js class is set by Modernizr after the page is loaded, if JS is
+  // available. This is a way to delay the animation start to after the page
+  // was loaded.
+  .js & {
+    opacity: 0;
+    visibility: hidden;
+
+    &:hover {
+      transition: none;
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}

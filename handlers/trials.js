@@ -10,6 +10,7 @@ function getTrial(request, reply) {
     reply.view('trials-details', {
       title: trial.public_title,
       trial,
+      contributeDataUrl: `/contribute-data?trial_id=${trial.id}&redirectTo=/trials/${trial.id}`,
     });
   }).catch((err) => {
     if (err.status === 404) {

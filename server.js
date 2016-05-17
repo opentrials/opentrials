@@ -11,6 +11,21 @@ server.connection({
   port: config.port,
 });
 
+function _addFlashMessagesToContext(request, reply) {
+  const response = request.response;
+
+  if (request.yar.flash && response.variety === 'view') {
+    response.source.context = Object.assign(
+      {},
+      response.source.context || {},
+      { flash: request.yar.flash() }
+    );
+  }
+
+  return reply.continue();
+}
+server.ext('onPreResponse', _addFlashMessagesToContext);
+
 server.register(config.hapi.plugins)
   .then(() => {
     const baseConfiguration = {
@@ -53,5 +68,6 @@ server.register(config.hapi.plugins)
       console.info('Server started at', server.info.uri); // eslint-disable-line no-console
     });
   });
+
 
 module.exports = server;

@@ -11,7 +11,7 @@
     "test": "node ./node_modules/.bin/istanbul cover _mocha -- --grep e2e --invert --require test/common",
     "posttest": "npm run lint",
     "pree2e": "gulp build",
-    "e2e": "mocha --grep e2e test/e2e",
+    "e2e": "mocha --grep e2e --require test/e2e/common test/e2e",
     "lint": "eslint *.js **/*.js",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "migrate": "knex migrate:latest",
@@ -46,11 +46,13 @@
     "nock": "^7.4.0",
     "node-uuid": "^1.4.7",
     "selenium-webdriver": "^2.53.1",
-    "should": "^8.2.2"
+    "should": "^8.2.2",
+    "sinon": "^1.17.4"
   },
   "dependencies": {
-    "bluebird": "^3.3.5",
     "bell": "^7.6.0",
+    "bluebird": "^3.3.5",
+    "blueimp-file-upload": "^9.12.1",
     "bookshelf": "^0.9.4",
     "boom": "^3.1.2",
     "bourbon-neat": "^1.7.4",
@@ -73,6 +75,7 @@
     "hapi-auth-cookie": "^6.1.1",
     "hapi-context-credentials": "^2.0.0",
     "inert": "^3.2.0",
+    "jquery-ui": "github:jquery/jquery-ui",
     "jquery.mmenu": "FrDH/jQuery.mmenu#v5.6.3",
     "knex": "^0.10.0",
     "lodash": "^4.6.1",
@@ -85,6 +88,8 @@
     "swagger-client": "^2.1.11",
     "vision": "^4.0.1",
     "webpack": "^1.12.14",
-    "webpack-stream": "^3.1.0"
+    "webpack-stream": "^3.1.0",
+    "xml2js": "^0.4.16",
+    "yar": "^7.0.2"
   }
 }

@@ -18,6 +18,11 @@ node.js 5.xx version is required
 
 ### Running smoke test suite
 
-You can run our end to end smoke test suite using `npm run e2e`. If there's an
-`OPENTRIALS_URL` environment variable defined, it'll run the tests using that.
-Otherwise, it'll start a local server and run the tests against it.
+You can run our end to end smoke test suite using `npm run e2e`. You must to
+define the server's URL through the `OPENTRIAL_URL` environment variable. If,
+for example, the server is running in `http://localhost:5000`, you could run
+the end to end tests as:
+
+```
+OPENTRIALS_URL=http://localhost:5000 npm run e2e
+```

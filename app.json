@@ -23,6 +23,24 @@
     },
     "FACEBOOK_CLIENT_SECRET": {
       "required": true
+    },
+    "AWS_ACCESS_KEY_ID": {
+      "required": true
+    },
+    "AWS_SECRET_ACCESS_KEY": {
+      "required": true
+    },
+    "S3_BUCKET": {
+      "required": true
+    },
+    "S3_REGION": {
+      "required": true
+    },
+    "MAX_UPLOAD_SIZE": {
+      "required": true
+    },
+    "S3_CUSTOM_DOMAIN": {
+      "required": false
     }
   },
   "addons": [
