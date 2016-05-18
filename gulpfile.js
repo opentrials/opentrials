@@ -75,6 +75,10 @@ gulp.task('rev', ['js', 'styles'], () => {
 gulp.task('dev', ['watch'], () => {
   plugins.nodemon({
     script: 'server.js',
+    ignore: [
+      'dist/js',
+      'dist/styles',
+    ],
     ext: 'js html json',
   });
 });
