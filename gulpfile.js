@@ -19,7 +19,7 @@ const sassIncludePaths = [
 ];
 
 gulp.task('watch', ['build'], () => {
-  gulp.watch(paths.styles, ['styles']);
+  gulp.watch(paths.styles, ['rev']);
 });
 
 gulp.task('styles:vendor', () => (
@@ -75,8 +75,7 @@ gulp.task('rev', ['js', 'styles'], () => {
 gulp.task('dev', ['watch'], () => {
   plugins.nodemon({
     script: 'server.js',
-    ext: 'js html',
-    execMap: 'node --use_strict',
+    ext: 'js html json',
   });
 });
 
