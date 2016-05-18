@@ -11,18 +11,35 @@ OpenTrials is an app to explore, discover, and submit information on clinical tr
 
 ## Developer notes
 
-These notes are intended to help people that want to contribute to this package
-itself. If you just want to use it, you can safely ignore them.
+### Requirements
 
-node.js 5.xx version is required
+* Node 5.8
+* PostgreSQL 9.5
+* OpenTrials API (see [install notes](https://github.com/opentrials/api))
 
-### Running smoke test suite
+### Installing
 
-You can run our end to end smoke test suite using `npm run e2e`. You must to
-define the server's URL through the `OPENTRIAL_URL` environment variable. If,
-for example, the server is running in `http://localhost:5000`, you could run
-the end to end tests as:
+1. Copy the `.env.example` file to `.env` and alter its contents as needed.
+   At minimum, you should set the `OPENTRIALS_API_URL` and `DATABASE_URL`. The
+   `TEST_DATABASE_URL` is needed to run the tests. You could leave the
+   `GOOGLE_*` and `FACEBOOK_*` variables as is, although you won't be able to log
+   in. If you leave `AWS_*` and `S3_*`, you won't be able to upload data;
+2. Run `npm install`;
+3. Run `npm run migrate`;
+
+After the install and migrations ran successfully, you can run `npm run dev` to
+run the project. If you haven't changed the default `PORT`, it should be
+available at `http://localhost:5000`
+
+### Testing
+
+You can run the test suite and linting with `npm test`.
+
+We also have an end to end smoke test suite. To run it, make sure the
+OpenTrials server is running and do:
 
 ```
 OPENTRIALS_URL=http://localhost:5000 npm run e2e
 ```
+
+Remember to change the `OPENTRIALS_URL` to where is the OpenTrials URL.
