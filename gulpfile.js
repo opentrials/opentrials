@@ -7,9 +7,10 @@ const del = require('del');
 const webpack = require('webpack-stream');
 
 const paths = {
-  styles: ['./assets/styles/**/*.scss'],
+  styles: ['./assets/styles/**/*'],
   images: ['./assets/images/**/*'],
   fonts: ['./assets/fonts/**/*'],
+  clientsideJS: ['./assets/js/**/*'],
 };
 
 const sassIncludePaths = [
@@ -19,7 +20,10 @@ const sassIncludePaths = [
 ];
 
 gulp.task('watch', ['build'], () => {
-  gulp.watch(paths.styles, ['rev']);
+  gulp.watch([
+    paths.styles,
+    paths.clientsideJS,
+  ], ['rev']);
 });
 
 gulp.task('styles:vendor', () => (
