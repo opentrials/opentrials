@@ -76,6 +76,11 @@ const routes = [
     handler: require('../handlers/logout'),
   },
   {
+    path: '/stats',
+    method: 'GET',
+    handler: require('../handlers/stats'),
+  },
+  {
     path: '/contribute-data',
     method: 'GET',
     config: require('../handlers/contribute-data').get,
