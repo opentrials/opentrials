@@ -23,3 +23,9 @@
     }
   }
 }
+
+#ok-panel {
+  & > .container {
+    @include outer-container;
+  }
+}
