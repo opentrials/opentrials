@@ -1,0 +1,31 @@
+.site-header {
+  & > div {
+    position: relative;
+
+    @include MQ(L) {
+      padding-top: 20px;
+      padding-bottom: 10px;
+    }
+
+    nav ul.user-nav {
+      margin: 0px 145px 25px 10px;
+    }
+
+    .ok-ribbon {
+      margin-left: -1.6em;
+      margin-right: -1.6em;
+
+      @include MQ(L) {
+        margin-left: 0;
+        margin-right: 0;
+        position: absolute;
+      }
+    }
+  }
+}
+
+#ok-panel {
+  & > .container {
+    @include outer-container;
+  }
+}

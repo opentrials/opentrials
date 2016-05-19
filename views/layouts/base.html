@@ -10,6 +10,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css" rel="stylesheet" />
 
     <link href="{{ 'styles/index.min.css' | revPath }}" rel="stylesheet">
+    <link rel="stylesheet" href="//a.okfn.org/html/oki/panel/assets/css/frontend.css"/>
 
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -20,6 +21,7 @@
     <link rel="apple-touch-icon" type="image/png" href="/assets/images/apple-touch-icon.png">
   </head>
   <body>
+    <div id="ok-panel" class="closed"><div class="container"><iframe src="//a.okfn.org/html/oki/panel/panel.html" scrolling="no"></iframe></div></div>
     <div class="page">
       {% include "partials/flash-messages.html" %}
       {% include "partials/header.html"  %}
