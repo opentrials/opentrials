@@ -59,8 +59,8 @@ function getFilters(query) {
     values.map((val) => `"${val}"`)
   );
 
-  if (query.problem) {
-    filters.problem = quoteElements(query.problem);
+  if (query.condition) {
+    filters.condition = quoteElements(query.condition);
   }
   if (query.intervention) {
     filters.intervention = quoteElements(query.intervention);
@@ -139,7 +139,7 @@ module.exports = {
       registration_date_end: Joi.date().format('YYYY-MM-DD').empty('').raw(),
       location: Joi.array().single(true).items(Joi.string().empty('')),
       q: Joi.string().empty(''),
-      problem: Joi.array().single(true).items(Joi.string().empty('')),
+      condition: Joi.array().single(true).items(Joi.string().empty('')),
       intervention: Joi.array().single(true).items(Joi.string().empty('')),
       person: Joi.array().single(true).items(Joi.string().empty('')),
       organisation: Joi.array().single(true).items(Joi.string().empty('')),

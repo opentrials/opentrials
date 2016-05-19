@@ -68,7 +68,7 @@ $(document).ready(function() {
       .removeAttr('selected');
   });
 
-  setupSelect2For('problem');
+  setupSelect2For('condition');
   setupSelect2For('intervention');
   setupSelect2For('person');
   setupSelect2For('organisation');

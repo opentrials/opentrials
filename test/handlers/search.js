@@ -345,42 +345,42 @@ describe('search handler', () => {
     });
   });
 
-  describe('GET /search?problem={problem}&problem={problem}', () => {
+  describe('GET /search?condition={condition}&condition={condition}', () => {
     const searchResponse = { total_count: 0, items: [] };
 
-    describe('single problem', () => {
-      it('converts the query problem to an array', () => {
+    describe('single condition', () => {
+      it('converts the query condition to an array', () => {
         mockApiResponses({
           search: {
             query: {
-              q: 'problem:("HIV")',
+              q: 'condition:("HIV")',
             },
             response: searchResponse,
           },
         });
 
-        return server.inject('/search?problem=HIV')
+        return server.inject('/search?condition=HIV')
           .then((response) => {
             const context = response.request.response.source.context;
-            context.query.problem.should.deepEqual(['HIV']);
+            context.query.condition.should.deepEqual(['HIV']);
           });
       });
     });
 
-    describe('multiple problems', () => {
+    describe('multiple conditions', () => {
       let response;
 
       before(() => {
         mockApiResponses({
           search: {
             query: {
-              q: 'problem:("HIV" OR "Breast Cancer")',
+              q: 'condition:("HIV" OR "Breast Cancer")',
             },
             response: searchResponse,
           },
         });
 
-        return server.inject('/search?problem=HIV&problem=Breast+Cancer')
+        return server.inject('/search?condition=HIV&condition=Breast+Cancer')
           .then((_response) => {
             response = _response;
           });
@@ -392,10 +392,10 @@ describe('search handler', () => {
         context.trials.should.deepEqual(searchResponse);
       });
 
-      it('adds the problems to context.query', () => {
+      it('adds the conditions to context.query', () => {
         const context = response.request.response.source.context;
 
-        context.query.problem.should.deepEqual(["HIV", "Breast Cancer"]);
+        context.query.condition.should.deepEqual(["HIV", "Breast Cancer"]);
       });
     });
   });

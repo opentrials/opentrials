@@ -2,12 +2,12 @@
 
 const opentrialsApi = require('../config').opentrialsApi;
 
-function getProblem(problemId) {
+function getCondition(conditionId) {
   return opentrialsApi
-    .then((client) => client.problems.get({ id: problemId }))
+    .then((client) => client.conditions.get({ id: conditionId }))
     .then((response) => response.obj);
 }
 
 module.exports = {
-  get: getProblem,
+  get: getCondition,
 };

@@ -82,7 +82,7 @@ paths:
           description: The entity to search for
           type: string
           enum:
-            - problem
+            - condition
             - intervention
             - location
             - person
@@ -122,26 +122,26 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /problems/{id}:
-    x-swagger-router-controller: problems
+  /conditions/{id}:
+    x-swagger-router-controller: conditions
     get:
       tags:
-        - problems
-      description: Returns problem details
+        - conditions
+      description: Returns condition details
       operationId: get
       parameters:
         - name: id
           in: path
-          description: ID of the problem
+          description: ID of the condition
           required: true
           type: string
       responses:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/Problem"
+            $ref: "#/definitions/Condition"
         "404":
-          description: Problem not found
+          description: Condition not found
         default:
           description: Error
           schema:
@@ -377,10 +377,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/TrialIntervention'
-      problems:
+      conditions:
         type: array
         items:
-          $ref: '#/definitions/TrialProblem'
+          $ref: '#/definitions/TrialCondition'
       persons:
         type: array
         items:
@@ -446,7 +446,7 @@ definitions:
           - drug
           - other
 
-  TrialProblem:
+  TrialCondition:
     required:
       - attributes
     properties:
@@ -455,8 +455,8 @@ definitions:
         enum:
           - other
       attributes:
-        $ref: '#/definitions/Problem'
-  Problem:
+        $ref: '#/definitions/Condition'
+  Condition:
     required:
       - id
       - name
@@ -465,11 +465,6 @@ definitions:
         type: string
       name:
         type: string
-      type:
-        type: string
-        enum:
-          - condition
-          - other
 
   TrialPerson:
     required:

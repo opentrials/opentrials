@@ -14,8 +14,8 @@
 <article>
   <h2>Conditions</h2>
   <ul class="overview-list">
-    {% for problem in trial.problems %}
-      <li><a href="/problems/{{ problem.attributes.id }}">{{ problem.attributes.name }}</a></li>
+    {% for condition in trial.conditions %}
+      <li><a href="/conditions/{{ condition.attributes.id }}">{{ condition.attributes.name }}</a></li>
     {% endfor %}
   </ul>
 

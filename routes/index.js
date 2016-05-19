@@ -41,9 +41,9 @@ const routes = [
     config: require('../handlers/search'),
   },
   {
-    path: '/problems/{id}',
+    path: '/conditions/{id}',
     method: 'GET',
-    handler: require('../handlers/problem'),
+    handler: require('../handlers/condition'),
   },
   {
     path: '/interventions/{id}',

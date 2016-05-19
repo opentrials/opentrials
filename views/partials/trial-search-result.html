@@ -11,8 +11,8 @@
     </li>
     <li>
       <dt>Conditions:</dt>
-      {% for problem in trial.problems %}
-        <dd>{{ problem.attributes.name }}</dt>
+      {% for condition in trial.conditions %}
+        <dd>{{ condition.attributes.name }}</dt>
       {% endfor %}
     </li>
     <li>
