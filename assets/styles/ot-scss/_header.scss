@@ -92,6 +92,7 @@
         display: block;
         float: right;
         text-align: right;
+        margin-top: 1.9em;
       }
 
       ul {
@@ -107,10 +108,10 @@
         }
 
         &.user-nav {
-          margin: 10px (-$small-spacing) 14px 10px;
+          margin: 0(-$small-spacing) 0 0;
+          display: inline-block;
 
           li {
-            font-size: 13px;
             position: relative;
 
             img {
@@ -129,6 +130,7 @@
               right: 0;
               margin-top: 10px;
               display: none;
+              z-index: 1;
 
               &.active {
                 display: block;
@@ -150,6 +152,7 @@
               li {
                 display: block;
                 border-bottom: solid 1px rgba(#fff, 0.3);
+                font-size: 13px;
 
                 &:last-of-type {
                   border: none;
@@ -186,7 +189,7 @@
         }
 
         &.main-nav {
-          margin-right: 40px;
+          display: inline-block;
 
           li {
 
