@@ -62,7 +62,7 @@
   </ul>
 
   {% if trial.locations.length != 0 %}
-  <h2>Conducted in</h2>
+  <h2>Locations</h2>
   <dl>
     {% for location in trial.locations %}
       <dt>{{ location.attributes.name }}</dt>
@@ -70,7 +70,7 @@
     {% endfor %}
   </dl>
   {% else %}
-  {{ no_data_message('Conducted in', thing='"location" data') }}
+  {{ no_data_message('Locations', thing='"location" data') }}
   {% endif %}
 
   {% if trial.persons.length != 0 %}
