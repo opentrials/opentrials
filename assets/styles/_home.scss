@@ -19,7 +19,7 @@
   }
 
   @include MQ(L) {
-    background-image: url("../images/banner.jpg");
+    @include retina-image("../images/banner", 913px 765px, jpg);
     background-position: right top;
     background-repeat: no-repeat;
 
