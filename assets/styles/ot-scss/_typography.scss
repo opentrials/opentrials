@@ -65,6 +65,11 @@ h1,
 h2 {
   padding-bottom: 0.3em;
   border-bottom: solid 1px $medium-gray;
+
+  &.disabled {
+    color: rgba($base-font-color, 0.6);
+    border-bottom-color: rgba($medium-gray, 0.6);
+  }
 }
 
 h1 {
@@ -93,6 +98,10 @@ aside {
 
 p {
   margin: 0 0 $small-spacing;
+
+  &.disabled {
+    color: rgba($base-font-color, 0.6);
+  }
 }
 
 a {
