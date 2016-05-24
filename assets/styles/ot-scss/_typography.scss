@@ -90,9 +90,21 @@ h2 {
   }
 }
 
+article {
+  a {
+    font-weight: bold;
+  }
+}
+
 aside {
   h2 {
     font-size: em(18);
+  }
+
+  p {
+    a {
+      font-weight: bold;
+    }
   }
 
   dl,
