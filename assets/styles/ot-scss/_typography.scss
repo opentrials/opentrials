@@ -94,6 +94,19 @@ aside {
   h2 {
     font-size: em(18);
   }
+
+  dl,
+  ul:not(.actions) {
+    a {
+      color: inherit;
+
+      &:after {
+        @include icon-font();
+        content: " \e916";
+        opacity: 0.8;
+      }
+    }
+  }
 }
 
 p {
