@@ -47,7 +47,7 @@
 {% block main %}
 
 
-{% macro no_data_message(name, thing='', contribute='link-to-contribute') -%}
+{% macro no_data_message(name, thing='', contribute='/contribute-data') -%}
   <h2 class="disabled">{{ name }}</h2>
   <p class="disabled">
     We have no {{ thing }} for this trial. Help us by <a href="{{ contribute }}">contributing data</a>.
