@@ -51,8 +51,14 @@ dl {
     position: relative;
 
     & > a {
-      font-weight: bold;
+      color: inherit;
       display: inline-block;
+
+      &:active,
+      &:focus,
+      &:hover {
+        color: shade($action-color, 25%);
+      }
     }
   }
 
