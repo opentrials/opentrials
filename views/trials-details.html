@@ -70,7 +70,7 @@
   <h2>Treatments</h2>
   <ul class="overview-list">
     {% for intervention in trial.interventions %}
-      <li><a href="/interventions/{{ intervention.id }}">{{ intervention.name }}</a></li>
+      <li><a href="/interventions/{{ intervention.id }}" class="{{ intervention.type }}">{{ intervention.name }}</a></li>
     {% endfor %}
   </ul>
   {% else %}
