@@ -1,6 +1,8 @@
 <header class="site-header">
   <div>
-    <a class="white ok-ribbon" href="//okfn.org/" data-breakpoint="896px"><img src="//a.okfn.org/html/oki/panel/assets/images/oki-ribbon.png" alt="Open Knowledge"></a>
+    <div id="ok-panel-wrapper" data-breakpoint="896px">
+      <a class="white ok-ribbon" href="//okfn.org/"><img src="//a.okfn.org/html/oki/panel/assets/images/oki-ribbon.png" alt="Open Knowledge"></a>
+    </div>
 
     <a href="/" class="logo">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67.14 131.79">
@@ -24,21 +26,7 @@
 
     <nav id="menu">
       <ul>
-        <li>
-          <a href="/about">
-            About
-          </a>
-        </li>
-        <li>
-          <a href="/search">
-            Contribute Data
-          </a>
-        </li>
-        <li>
-          <a href="/search">
-            Search
-          </a>
-        </li>
+        {% include "partials/main-menu.html"  %}
         {% if credentials %}
           <li class="mm-divider">
             {{ credentials.name }}
@@ -74,6 +62,9 @@
     </nav>
 
     <nav>
+      <ul class="main-nav">
+        {% include "partials/main-menu.html"  %}
+      </ul>
       <ul class="user-nav">
         {% if credentials %}
           <li class="more">
@@ -109,26 +100,6 @@
             </ul>
           </li>
         {% endif %}
-      </ul>
-      <a href="/search" class="search">
-        Search
-      </a>
-      <ul class="main-nav">
-        <li>
-          <a href="/about">
-            About
-          </a>
-        </li>
-        <li>
-          <a href="/contribute-data">
-            Contribute Data
-          </a>
-        </li>
-        <li>
-          <a href="/search">
-            Search
-          </a>
-        </li>
       </ul>
     </nav>
   </div>

@@ -2,23 +2,49 @@
   & > div {
     position: relative;
 
-    @include MQ(L) {
-      padding-top: 20px;
-      padding-bottom: 10px;
+    nav {
+      margin-right: 165px;
     }
 
-    nav ul.user-nav {
-      margin: 0px 145px 25px 10px;
-    }
-
-    .ok-ribbon {
-      margin-left: -1.6em;
-      margin-right: -1.6em;
+    #ok-panel-wrapper[data-breakpoint='896px'] {
 
       @include MQ(L) {
-        margin-left: 0;
-        margin-right: 0;
         position: absolute;
+        right: 0;
+      }
+
+      & >.ok-ribbon {
+        margin-left: -1.6em;
+        margin-right: -1.6em;
+
+        @media screen and (min-width: 896px) and (max-width: $large-screen) {
+          background-color: #69b93b;
+          width: auto;
+          right: 0;
+
+          img {
+            margin-top:-36px;
+          }
+
+          &:before {
+            display: none;
+          }
+        }
+
+        @include MQ(L) {
+          margin-left: 0;
+          margin-right: 0;
+          padding-top: 24px;
+          height: 89px;
+
+          &:before {
+            height: 87px;
+            -webkit-transform: rotateX(0deg);
+            -moz-transform: rotateX(0deg);
+            transform: rotateX(0deg);
+            border-radius: 0 0 2px 2px;
+          }
+        }
       }
     }
   }

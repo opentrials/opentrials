@@ -134,6 +134,12 @@ dl {
 
 .overview-list,
 .result .meta {
+
+  li {
+    &.disabled {
+      opacity: 0.8;
+    }
+  }
   * {
     position: relative;
 

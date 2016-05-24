@@ -7,29 +7,84 @@
         Registration: {{ trial.registration_date | formatDate }}
       </span>
     </li>
+    {% if trial.target_sample_size %}
+    <li>
+      <span class="number">{{ trial.target_sample_size }}</span> Participants
+    </li>
+    {% else %}
+    <li class="disabled">
+      <em>No data for "number of participants"</em>
+    </li>
+    {% endif %}
+    {% if trial.gender %}
+    <li>
+      {% if trial.gender == 'male' %}
+      <span class="men">
+        Male
+      </span>
+      {% elif trial.gender == 'female' %}
+      <span class="women">
+        Female
+      </span>
+      {% elif trial.gender == 'both' %}
+      <span class="men-and-women">
+        Male &amp; Female
+      </span>
+      {% else %}
+      <span class="men-and-women">
+        N/A
+      </span>
+      {% endif %}
+    </li>
+    {% else %}
+    <li class="disabled">
+      <em>No data for "gender"</em>
+    </li>
+    {% endif %}
   </ul>
 {% endblock %}
 
 {% block main %}
+
+
+{% macro no_data_message(name, thing='', contribute='/contribute-data') -%}
+  <h2 class="disabled">{{ name }}</h2>
+  <p class="disabled">
+    We have no {{ thing }} for this trial. Help us by <a href="{{ contribute }}">contributing data</a>.
+  </p>
+{%- endmacro %}
+
 <article>
+  {% if trial.conditions.length != 0 %}
   <h2>Conditions</h2>
   <ul class="overview-list">
     {% for condition in trial.conditions %}
       <li><a href="/conditions/{{ condition.id }}">{{ condition.name }}</a></li>
     {% endfor %}
   </ul>
+  {% else %}
+  {{ no_data_message('Conditions', thing='"conditions" data') }}
+  {% endif %}
 
+  {% if trial.interventions.length != 0 %}
   <h2>Treatments</h2>
   <ul class="overview-list">
     {% for intervention in trial.interventions %}
       <li><a href="/interventions/{{ intervention.id }}">{{ intervention.name }}</a></li>
     {% endfor %}
   </ul>
+  {% else %}
+  {{ no_data_message('Treatments', thing='"treatment" data') }}
+  {% endif %}
 
+  {% if trial.brief_summary.length != 0 %}
   <h2>Lay summary</h2>
   <p>
     {{ trial.brief_summary }}
   </p>
+  {% else %}
+  {{ no_data_message('Lay summary', thing='"lay summary"') }}
+  {% endif %}
 </article>
 
 <aside>
@@ -40,14 +95,19 @@
     </li>
   </ul>
 
-  <h2>Conducted in</h2>
+  {% if trial.locations.length != 0 %}
+  <h2>Locations</h2>
   <dl>
     {% for location in trial.locations %}
       <dt>{{ location.name }}</dt>
       <dd>{{ location.role | underscoresToCapitalized }}</dd>
     {% endfor %}
   </dl>
+  {% else %}
+  {{ no_data_message('Locations', thing='"location" data') }}
+  {% endif %}
 
+  {% if trial.persons.length != 0 %}
   <h2>Related People</h2>
   <dl>
     {% for person in trial.persons %}
@@ -55,7 +115,11 @@
       <dd>{{ person.role | underscoresToCapitalized }}</dd>
     {% endfor %}
   </dl>
+  {% else %}
+  {{ no_data_message('Related People', thing='"related people"') }}
+  {% endif %}
 
+  {% if trial.organisations.length != 0 %}
   <h2>Related Organisations</h2>
   <dl>
     {% for organisation in trial.organisations %}
@@ -63,6 +127,9 @@
       <dd>{{ organisation.role | underscoresToCapitalized }}</dd>
     {% endfor %}
   </dl>
+  {% else %}
+  {{ no_data_message('Related Organisations', thing='"related organisations"') }}
+  {% endif %}
 
   <h2>Sources</h2>
   <dl>
