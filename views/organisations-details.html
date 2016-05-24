@@ -1,4 +1,4 @@
-{% extends "layouts/two-columns.html" %}
+{% extends "layouts/base.html" %}
 
 {% block main %}
 <article>
@@ -8,6 +8,6 @@
   </ul>
 </article>
 
-<aside>
-</aside>
+{% include "partials/trials-by-entity.html" %}
+
 {% endblock %}

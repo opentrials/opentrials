@@ -7,10 +7,23 @@ describe('conditions handler', () => {
       const condition = JSON.parse(JSON.stringify(
         fixtures.getCondition()
       ));
+      const trials = JSON.parse(JSON.stringify(
+        fixtures.searchTrialsByEntity()
+      ));
       let response;
 
       before(() => {
-        apiServer.get('/conditions/'+condition.id).reply(200, condition);
+        apiServer.get(`/conditions/${condition.id}`).reply(200, condition);
+
+        mockApiResponses({
+          search: {
+            query: {
+              q: `condition:"${condition.name}"`,
+              page: 1,
+            },
+            response: trials,
+          },
+        });
 
         return server.inject('/conditions/'+condition.id)
           .then((_response) => {
@@ -29,6 +42,11 @@ describe('conditions handler', () => {
       it('adds the requested condition to the context', () => {
         const context = response.request.response.source.context;
         context.condition.should.deepEqual(condition);
+      });
+
+      it('adds the trials to the context', () => {
+        const context = response.request.response.source.context;
+        context.trials.should.deepEqual(trials);
       });
 
       it('sets the title to the condition.name', () => {

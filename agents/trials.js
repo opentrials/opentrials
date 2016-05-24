@@ -57,8 +57,13 @@ function searchTrials(query, page, perPage, filters) {
     .then((response) => response.obj);
 }
 
+function searchTrialsByEntity(entityType, entityName) {
+  return searchTrials(`${entityType}:"${entityName.replace('"', '\\"')}"`, 1, 10);
+}
+
 module.exports = {
   get: getTrial,
   search: searchTrials,
+  searchByEntity: searchTrialsByEntity,
   getRecord,
 };

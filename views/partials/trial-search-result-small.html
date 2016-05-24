@@ -1,0 +1,13 @@
+<article class="result-small">
+  <h2 class="title"><a href="/trials/{{ trial.id }}">{{ trial.public_title }}</a></h2>
+  <ul class="meta">
+    <li>
+      <dt>Registration date:</dt>
+      <dd>
+        <time datetime="{{ trial.registration_date }}">
+          {{ trial.registration_date | formatDate }}
+        </time>
+      </dd>
+    </li>
+  </ul>
+</article>

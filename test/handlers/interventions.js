@@ -7,10 +7,23 @@ describe('interventions handler', () => {
       const intervention = JSON.parse(JSON.stringify(
         fixtures.getIntervention()
       ));
+      const trials = JSON.parse(JSON.stringify(
+        fixtures.searchTrialsByEntity()
+      ));
       let response;
 
       before(() => {
         apiServer.get('/interventions/'+intervention.id).reply(200, intervention);
+
+        mockApiResponses({
+          search: {
+            query: {
+              q: `intervention:"${intervention.name}"`,
+              page: 1,
+            },
+            response: trials,
+          },
+        });
 
         return server.inject('/interventions/'+intervention.id)
           .then((_response) => {
@@ -29,6 +42,11 @@ describe('interventions handler', () => {
       it('adds the requested intervention to the context', () => {
         const context = response.request.response.source.context;
         context.intervention.should.deepEqual(intervention);
+      });
+
+      it('adds the trials to the context', () => {
+        const context = response.request.response.source.context;
+        context.trials.should.deepEqual(trials);
       });
 
       it('sets the title to the intervention.name', () => {

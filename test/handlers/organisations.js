@@ -7,10 +7,23 @@ describe('organisations handler', () => {
       const organisation = JSON.parse(JSON.stringify(
         fixtures.getOrganisation()
       ));
+      const trials = JSON.parse(JSON.stringify(
+        fixtures.searchTrialsByEntity()
+      ));
       let response;
 
       before(() => {
         apiServer.get('/organisations/'+organisation.id).reply(200, organisation);
+
+        mockApiResponses({
+          search: {
+            query: {
+              q: `organisation:"${organisation.name}"`,
+              page: 1,
+            },
+            response: trials,
+          },
+        });
 
         return server.inject('/organisations/'+organisation.id)
           .then((_response) => {
@@ -29,6 +42,11 @@ describe('organisations handler', () => {
       it('adds the requested organisation to the context', () => {
         const context = response.request.response.source.context;
         context.organisation.should.deepEqual(organisation);
+      });
+
+      it('adds the trials to the context', () => {
+        const context = response.request.response.source.context;
+        context.trials.should.deepEqual(trials);
       });
 
       it('sets the title to the organisation.name', () => {

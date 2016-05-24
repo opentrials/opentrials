@@ -7,10 +7,23 @@ describe('persons handler', () => {
       const person = JSON.parse(JSON.stringify(
         fixtures.getPerson()
       ));
+      const trials = JSON.parse(JSON.stringify(
+        fixtures.searchTrialsByEntity()
+      ));
       let response;
 
       before(() => {
         apiServer.get('/persons/'+person.id).reply(200, person);
+
+        mockApiResponses({
+          search: {
+            query: {
+              q: `person:"${person.name}"`,
+              page: 1,
+            },
+            response: trials,
+          },
+        });
 
         return server.inject('/persons/'+person.id)
           .then((_response) => {
@@ -29,6 +42,11 @@ describe('persons handler', () => {
       it('adds the requested person to the context', () => {
         const context = response.request.response.source.context;
         context.person.should.deepEqual(person);
+      });
+
+      it('adds the trials to the context', () => {
+        const context = response.request.response.source.context;
+        context.trials.should.deepEqual(trials);
       });
 
       it('sets the title to the person.name', () => {

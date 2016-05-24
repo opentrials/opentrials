@@ -5,6 +5,7 @@ const fixtures = {
   getIntervention: require('./interventions'),
   getTrial: require('./trials').getTrial,
   getRecord: require('./trials').getRecord,
+  searchTrialsByEntity: require('./trials').searchTrialsByEntity,
   getLocation: require('./locations'),
   getStats: require('./stats'),
 }

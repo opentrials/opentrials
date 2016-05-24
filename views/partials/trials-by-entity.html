@@ -1,0 +1,14 @@
+{% if trials %}
+<article>
+  <h2>Most recent trials for {{ title }} ({{trials.total_count}} result{% if trials.total_count>1 %}s{% endif %})</h2>
+  <section class="search-results">
+    {% for trial in trials.items %}
+    {% if loop.first %}<ol>{% endif %}
+      <li>
+        {% include "partials/trial-search-result-small.html" %}
+      </li>
+      {% if loop.last %}</ol>{% endif %}
+    {% endfor %}
+  </section>
+</article>
+{% endif %}

@@ -45,7 +45,30 @@ function getRecord() {
   return record;
 }
 
+function searchTrialsByEntity() {
+  const trials = {
+    total_count: 1,
+    items: [
+      {
+        id: uuid.v1(),
+        primary_id: 'NCT00000774',
+        identifiers: {},
+        public_title: 'a public title',
+        brief_summary: 'a brief summaty',
+        target_sample_size: 2000,
+        gender: 'both',
+        has_published_results: true,
+        registration_date: '1999-11-02T00:00:00.000Z',
+      }
+    ]
+  };
+  trials.items[0].url = `http://api.opentrials.net/v1/trials/${trials.items[0].id}`;
+
+  return trials;
+}
+
 module.exports = {
   getTrial,
   getRecord,
+  searchTrialsByEntity,
 };
