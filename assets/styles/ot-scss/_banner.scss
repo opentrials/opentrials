@@ -64,11 +64,11 @@
   .overview-list {
     li {
       background-color: rgba(#fff, 0.95);
-      color: $blue;
+      color: $dark-blue;
       font-size: em(14);
 
       .number {
-        background-color: $blue;
+        background-color: $dark-blue;
       }
     }
   }
