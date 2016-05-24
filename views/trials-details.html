@@ -15,14 +15,14 @@
   <h2>Conditions</h2>
   <ul class="overview-list">
     {% for condition in trial.conditions %}
-      <li><a href="/conditions/{{ condition.attributes.id }}">{{ condition.attributes.name }}</a></li>
+      <li><a href="/conditions/{{ condition.id }}">{{ condition.name }}</a></li>
     {% endfor %}
   </ul>
 
   <h2>Treatments</h2>
   <ul class="overview-list">
     {% for intervention in trial.interventions %}
-      <li><a href="/interventions/{{ intervention.attributes.id }}">{{ intervention.attributes.name }}</a></li>
+      <li><a href="/interventions/{{ intervention.id }}">{{ intervention.name }}</a></li>
     {% endfor %}
   </ul>
 
@@ -43,7 +43,7 @@
   <h2>Conducted in</h2>
   <dl>
     {% for location in trial.locations %}
-      <dt>{{ location.attributes.name }}</dt>
+      <dt>{{ location.name }}</dt>
       <dd>{{ location.role | underscoresToCapitalized }}</dd>
     {% endfor %}
   </dl>
@@ -51,7 +51,7 @@
   <h2>Related People</h2>
   <dl>
     {% for person in trial.persons %}
-      <dt><a href="/persons/{{ person.attributes.id }}">{{ person.attributes.name }}</a></dt>
+      <dt><a href="/persons/{{ person.id }}">{{ person.name }}</a></dt>
       <dd>{{ person.role | underscoresToCapitalized }}</dd>
     {% endfor %}
   </dl>
@@ -59,7 +59,7 @@
   <h2>Related Organisations</h2>
   <dl>
     {% for organisation in trial.organisations %}
-      <dt><a href="/organisations/{{ organisation.attributes.id }}">{{ organisation.attributes.name }}</a></dt>
+      <dt><a href="/organisations/{{ organisation.id }}">{{ organisation.name }}</a></dt>
       <dd>{{ organisation.role | underscoresToCapitalized }}</dd>
     {% endfor %}
   </dl>

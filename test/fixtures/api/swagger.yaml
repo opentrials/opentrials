@@ -376,11 +376,11 @@ definitions:
       interventions:
         type: array
         items:
-          $ref: '#/definitions/TrialIntervention'
+          $ref: '#/definitions/Intervention'
       conditions:
         type: array
         items:
-          $ref: '#/definitions/TrialCondition'
+          $ref: '#/definitions/Condition'
       persons:
         type: array
         items:
@@ -395,16 +395,15 @@ definitions:
           $ref: '#/definitions/RecordSummary'
 
   TrialLocation:
-    required:
-      - attributes
-    properties:
-      role:
-        type: string
-        enum:
-          - recruitment_countries
-          - other
-      attributes:
-        $ref: '#/definitions/Location'
+    allOf:
+      - $ref: '#/definitions/Location'
+      - type: object
+        properties:
+          role:
+            type: string
+            enum:
+              - recruitment_countries
+              - other
   Location:
     required:
       - id
@@ -421,16 +420,6 @@ definitions:
           - city
           - other
 
-  TrialIntervention:
-    required:
-      - attributes
-    properties:
-      role:
-        type: string
-        enum:
-          - other
-      attributes:
-        $ref: '#/definitions/Intervention'
   Intervention:
     required:
       - id
@@ -446,16 +435,6 @@ definitions:
           - drug
           - other
 
-  TrialCondition:
-    required:
-      - attributes
-    properties:
-      role:
-        type: string
-        enum:
-          - other
-      attributes:
-        $ref: '#/definitions/Condition'
   Condition:
     required:
       - id
@@ -467,18 +446,17 @@ definitions:
         type: string
 
   TrialPerson:
-    required:
-      - attributes
-    properties:
-      role:
-        type: string
-        enum:
-          - principal_investigator
-          - public_queries
-          - scientific_queries
-          - other
-      attributes:
-        $ref: '#/definitions/Person'
+    allOf:
+      - $ref: '#/definitions/Location'
+      - type: object
+        properties:
+          role:
+            type: string
+            enum:
+              - principal_investigator
+              - public_queries
+              - scientific_queries
+              - other
   Person:
     required:
       - id
@@ -494,18 +472,17 @@ definitions:
           - other
 
   TrialOrganisation:
-    required:
-      - attributes
-    properties:
-      role:
-        type: string
-        enum:
-          - primary_sponsor
-          - sponsor
-          - funder
-          - other
-      attributes:
-        $ref: '#/definitions/Organisation'
+    allOf:
+      - $ref: '#/definitions/Location'
+      - type: object
+        properties:
+          role:
+            type: string
+            enum:
+              - primary_sponsor
+              - sponsor
+              - funder
+              - other
   Organisation:
     required:
       - id
@@ -515,10 +492,6 @@ definitions:
         type: string
       name:
         type: string
-      type:
-        type: string
-        enum:
-          - other
 
   Record:
     required:

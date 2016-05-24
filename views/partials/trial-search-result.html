@@ -12,13 +12,13 @@
     <li>
       <dt>Conditions:</dt>
       {% for condition in trial.conditions %}
-        <dd>{{ condition.attributes.name }}</dt>
+        <dd>{{ condition.name }}</dt>
       {% endfor %}
     </li>
     <li>
       <dt>Treatments:</dt>
       {% for intervention in trial.interventions %}
-        <dd>{{ intervention.attributes.name }}</dd>
+        <dd>{{ intervention.name }}</dd>
       {% endfor %}
     </li>
   </ul>
