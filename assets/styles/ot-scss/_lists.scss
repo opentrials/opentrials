@@ -179,6 +179,14 @@ dl {
         font-size: em(24);
       }
     }
+    &.other {
+      padding-left: em(29);
+
+      &:before {
+        content: "\e917";
+        font-size: em(24);
+      }
+    }
 
     &.date {
       padding-left: em(28);

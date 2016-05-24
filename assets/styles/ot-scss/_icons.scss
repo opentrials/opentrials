@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'opentrials';
-    src:    url('#{$path-to-fonts}/opentrials/opentrials.eot?kdwbnk');
-    src:    url('#{$path-to-fonts}/opentrials/opentrials.eot?kdwbnk#iefix') format('embedded-opentype'),
-        url('#{$path-to-fonts}/opentrials/opentrials.ttf?kdwbnk') format('truetype'),
-        url('#{$path-to-fonts}/opentrials/opentrials.woff?kdwbnk') format('woff'),
-        url('#{$path-to-fonts}/opentrials/opentrials.svg?kdwbnk#opentrials') format('svg');
+    src:    url('#{$path-to-fonts}/opentrials/opentrials.eot?b2fxzg');
+    src:    url('#{$path-to-fonts}/opentrials/opentrials.eot?b2fxzg#iefix') format('embedded-opentype'),
+        url('#{$path-to-fonts}/opentrials/opentrials.ttf?b2fxzg') format('truetype'),
+        url('#{$path-to-fonts}/opentrials/opentrials.woff?b2fxzg') format('woff'),
+        url('#{$path-to-fonts}/opentrials/opentrials.svg?b2fxzg#opentrials') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -57,6 +57,9 @@
 }
 .icon-behavioral:before {
     content: "\e914";
+}
+.icon-treatment:before {
+    content: "\e917";
 }
 .icon-procedure:before {
     content: "\e915";
