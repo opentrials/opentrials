@@ -7,6 +7,40 @@
         Registration: {{ trial.registration_date | formatDate }}
       </span>
     </li>
+    {% if trial.target_sample_size %}
+    <li>
+      <span class="number">{{ trial.target_sample_size }}</span> Participants
+    </li>
+    {% else %}
+    <li class="disabled">
+      <em>No data for "number of participants"</em>
+    </li>
+    {% endif %}
+    {% if trial.gender %}
+    <li>
+      {% if trial.gender == 'male' %}
+      <span class="men">
+        Male
+      </span>
+      {% elif trial.gender == 'female' %}
+      <span class="women">
+        Female
+      </span>
+      {% elif trial.gender == 'both' %}
+      <span class="men-and-women">
+        Male &amp; Female
+      </span>
+      {% else %}
+      <span class="men-and-women">
+        N/A
+      </span>
+      {% endif %}
+    </li>
+    {% else %}
+    <li class="disabled">
+      <em>No data for "gender"</em>
+    </li>
+    {% endif %}
   </ul>
 {% endblock %}
 
