@@ -4,7 +4,7 @@ main {
 }
 
 .two-columns {
-  article {
+  & > article {
     @include MQ(M) {
       @include span-columns(8);
     }

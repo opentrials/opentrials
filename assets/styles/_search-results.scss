@@ -6,9 +6,18 @@
   border-bottom: solid 1px $light-gray;
 
   .title {
-    font-size: em(22);
+    font-size: em(16);
     border: 0;
     margin: auto;
+    line-height: 1.3;
+
+    @include MQ(L) {
+      font-size: em(22);
+
+      a {
+        font-weight: normal;
+      }
+    }
   }
 
   .follow {
@@ -61,10 +70,15 @@
 }
 
 .result-small {
-  padding-bottom: 0;
+  padding-bottom: $base-spacing * 0.75;
 
   h2.title  {
-    font-size: em(14);
+    font-size: em(16);
+
+    @include MQ(L) {
+      font-size: em(18);
+      font-weight: normal;
+    }
   }
 }
 

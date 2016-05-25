@@ -21,6 +21,11 @@
   h2 {
     border-color: rgba(#fff, 0.2);
     margin-bottom: 0.2em;
+
+    small {
+      display: block;
+      margin-bottom: 0.1em;
+    }
   }
 
   input {
