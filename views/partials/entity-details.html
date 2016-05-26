@@ -1,11 +1,15 @@
 {% if type == "person" %}
 {% set name = person.name %}
+{% set api_url = person.url %}
 {% elif type == "organisation" %}
 {% set name = organisation.name %}
+{% set api_url = organisation.url %}
 {% elif type == "intervention" %}
 {% set name = intervention.name %}
+{% set api_url = intervention.url %}
 {% elif type == "condition" %}
 {% set name = condition.name %}
+{% set api_url = condition.url %}
 {% endif %}
 
 {% extends "layouts/two-columns.html" %}
@@ -29,7 +33,7 @@
 <aside>
   <ul class="actions">
     <li>
-      <a href="#" class="download">Download JSON</a>
+      <a href="{{ api_url }}" class="download">Download JSON</a>
       <a href="/contribute-data" class="upload">Contribute Data</a>
     </li>
   </ul>
