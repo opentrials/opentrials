@@ -95,6 +95,36 @@
     </li>
   </ul>
 
+  <div class="note">
+    <h2>Identifiers</h2>
+    <dl class="id-list">
+      <dt>
+        OpenTrials ID:
+      </dt>
+      <dd>
+        {{ trial.id }}
+      </dd>
+      {% if trial.primary_id %}
+      <dt>
+        Primary ID:
+      </dt>
+      <dd>
+        {{ trial.primary_id }}
+      </dd>
+      {% endif %}
+      {% if trial.secondary_ids %}
+      <dt>
+        Secondary IDs:
+      </dt>
+      {% for sid in trial.secondary_ids %}
+      <dd>
+        {{ sid }}
+      </dd>
+      {% endfor %}
+      {% endif %}
+    </dl>
+  </div>
+
   {% if trial.locations.length != 0 %}
   <h2>Locations</h2>
   <dl>

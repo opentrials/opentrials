@@ -64,7 +64,7 @@ h6 {
 h1,
 h2 {
   padding-bottom: 0.3em;
-  border-bottom: solid 1px $medium-gray;
+  border-bottom: solid 1px rgba($dark-gray, 0.1);
 
   &.disabled {
     color: rgba($base-font-color, 0.6);
@@ -97,8 +97,14 @@ article {
 }
 
 aside {
-  h2 {
-    font-size: em(18);
+  @include MQ(M) {
+    & > * {
+      font-size: 90%;
+    }
+
+    h2 {
+      font-size: em(18);
+    }
   }
 
   p {
@@ -153,4 +159,11 @@ img,
 picture {
   margin: 0;
   max-width: 100%;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: $mono-font-family;
 }

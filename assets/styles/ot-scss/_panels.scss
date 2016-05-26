@@ -1,0 +1,19 @@
+.note {
+  background-color: rgba($light-blue, 0.1);
+  padding: $base-spacing * 0.75;
+  margin-top: $base-spacing;
+  border-radius: $base-border-radius;
+
+  & > ul,
+  & > dl,
+  & > p {
+    font-size: 90%;
+  }
+
+  :first-child {
+    margin-top: 0;
+  }
+  :last-child {
+    margin-bottom: 0;
+  }
+}

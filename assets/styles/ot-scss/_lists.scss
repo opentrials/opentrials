@@ -278,3 +278,17 @@ dl {
     }
   }
 }
+
+.id-list {
+  dd {
+    font-family: $mono-font-family;
+    background-color: lighten($blue, 60);
+    border: solid 1px rgba($blue, 0.2);
+    border-radius: 3px;
+    padding: 0.1em 0.3em;
+
+    & + dd {
+      margin-top: $small-spacing /2;
+    }
+  }
+}
