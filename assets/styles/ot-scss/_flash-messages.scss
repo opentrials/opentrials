@@ -5,18 +5,37 @@
   top: 0;
   width: 100%;
   z-index: $top-z-index;
-  padding: $base-spacing;
   color: #fff;
-  transition: visibility 0s linear 2s, opacity 2s ease-in;
+  box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.5);
+  @include keyframes(slideIn) {
+    from {
+      top: -50%;
+    }
+    to {
+      top: 0;
+    }
+  }
+  @include keyframes(slideOut) {
+    from {
+      top: 0;
+    }
+    to {
+      top: -100%;
+      visibility: hidden;
+    }
+  }
+  @include animation(slideIn 1s ease-out, slideOut 2s ease-in 6s forwards);
+
+  &:hover {
+    @include animation-play-state(paused);
+  }
 
   .success {
     background-color: $success-colour;
-    border-color: lighten($success-colour, 10%);
   }
 
   .error {
     background-color: $error-colour;
-    border-color: lighten($error-colour, 10%);
   }
 
   em {
@@ -25,23 +44,12 @@
   }
 
   li {
-    padding: $small-spacing / 2;
-    margin: $small-spacing;
-    border: $base-border;
-    border-radius: $base-border-radius;
-  }
+    border-bottom: solid 5px $dark-gray;
 
-  // The .js class is set by Modernizr after the page is loaded, if JS is
-  // available. This is a way to delay the animation start to after the page
-  // was loaded.
-  .js & {
-    opacity: 0;
-    visibility: hidden;
-
-    &:hover {
-      transition: none;
-      visibility: visible;
-      opacity: 1;
+    & > span {
+      display: block;
+      @include outer-container;
+      padding: $small-spacing $base-spacing;
     }
   }
 }

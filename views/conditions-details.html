@@ -1,13 +1,3 @@
-{% extends "layouts/base.html" %}
+{% set type = "condition" %}
 
-{% block main %}
-<article>
-  <h2>Condition description</h2>
-  <ul class="overview-list">
-    <li>{{ condition.name }}</li>
-  </ul>
-</article>
-
-{% include "partials/trials-by-entity.html" %}
-
-{% endblock %}
+{% include "partials/entity-details.html" %}

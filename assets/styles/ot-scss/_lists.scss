@@ -51,8 +51,14 @@ dl {
     position: relative;
 
     & > a {
-      font-weight: bold;
+      color: inherit;
       display: inline-block;
+
+      &:active,
+      &:focus,
+      &:hover {
+        color: shade($action-color, 25%);
+      }
     }
   }
 
@@ -173,6 +179,14 @@ dl {
         font-size: em(24);
       }
     }
+    &.other {
+      padding-left: em(29);
+
+      &:before {
+        content: "\e917";
+        font-size: em(24);
+      }
+    }
 
     &.date {
       padding-left: em(28);
@@ -261,6 +275,20 @@ dl {
         text-align: center;
         padding-top: 0.65em;
       }
+    }
+  }
+}
+
+.id-list {
+  dd {
+    font-family: $mono-font-family;
+    background-color: lighten($blue, 60);
+    border: solid 1px rgba($blue, 0.2);
+    border-radius: 3px;
+    padding: 0.1em 0.3em;
+
+    & + dd {
+      margin-top: $small-spacing /2;
     }
   }
 }

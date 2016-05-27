@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'opentrials';
-    src:    url('#{$path-to-fonts}/opentrials/opentrials.eot?xloqec');
-    src:    url('#{$path-to-fonts}/opentrials/opentrials.eot?xloqec#iefix') format('embedded-opentype'),
-        url('#{$path-to-fonts}/opentrials/opentrials.ttf?xloqec') format('truetype'),
-        url('#{$path-to-fonts}/opentrials/opentrials.woff?xloqec') format('woff'),
-        url('#{$path-to-fonts}/opentrials/opentrials.svg?xloqec#opentrials') format('svg');
+    src:    url('#{$path-to-fonts}/opentrials/opentrials.eot?b2fxzg');
+    src:    url('#{$path-to-fonts}/opentrials/opentrials.eot?b2fxzg#iefix') format('embedded-opentype'),
+        url('#{$path-to-fonts}/opentrials/opentrials.ttf?b2fxzg') format('truetype'),
+        url('#{$path-to-fonts}/opentrials/opentrials.woff?b2fxzg') format('woff'),
+        url('#{$path-to-fonts}/opentrials/opentrials.svg?b2fxzg#opentrials') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -28,23 +28,8 @@
   @include icon-font();
 }
 
-.icon-behavioral:before {
-    content: "\e914";
-}
-.icon-procedure:before {
-    content: "\e915";
-}
-.icon-pill:before {
-    content: "\e905";
-}
-.icon-man:before {
-    content: "\e906";
-}
-.icon-man-woman:before {
-    content: "\e907";
-}
-.icon-woman:before {
-    content: "\e908";
+.icon-link:before {
+    content: "\e916";
 }
 .icon-flag:before {
     content: "\e910";
@@ -70,6 +55,27 @@
 .icon-messages:before {
     content: "\e902";
 }
+.icon-behavioral:before {
+    content: "\e914";
+}
+.icon-treatment:before {
+    content: "\e917";
+}
+.icon-procedure:before {
+    content: "\e915";
+}
+.icon-pill:before {
+    content: "\e905";
+}
+.icon-man:before {
+    content: "\e906";
+}
+.icon-man-woman:before {
+    content: "\e907";
+}
+.icon-woman:before {
+    content: "\e908";
+}
 .icon-arrow-circle-o-down:before {
     content: "\e909";
 }
@@ -81,18 +87,6 @@
 }
 .icon-eye:before {
     content: "\e90c";
-}
-.icon-more_vert:before {
-    content: "\e90e";
-}
-.icon-twitter:before {
-    content: "\e900";
-}
-.icon-mail:before {
-    content: "\e901";
-}
-.icon-messages:before {
-    content: "\e902";
 }
 .icon-log-out:before {
     content: "\e90f";

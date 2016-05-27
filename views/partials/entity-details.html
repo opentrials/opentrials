@@ -1,0 +1,41 @@
+{% if type == "person" %}
+{% set name = person.name %}
+{% set api_url = person.url %}
+{% elif type == "organisation" %}
+{% set name = organisation.name %}
+{% set api_url = organisation.url %}
+{% elif type == "intervention" %}
+{% set name = intervention.name %}
+{% set api_url = intervention.url %}
+{% elif type == "condition" %}
+{% set name = condition.name %}
+{% set api_url = condition.url %}
+{% endif %}
+
+{% extends "layouts/two-columns.html" %}
+
+{% block banner %}
+  {% block title %}<h1><small>{{ type | capitalize }}:</small>{{ title }}</h1>{% endblock %}
+  {% block subtitle %}<p>{{ subtitle }}</p>{% endblock %}
+  {% block bannerFooter %}{% endblock %}
+{% endblock %}
+
+{% block main %}
+<article>
+  <h2>Description</h2>
+  <p>
+    We do not have any more information on <em>{{ name }}</em>. If you do, please <a href="/contribute-data">contribute some data</a>.
+  </p>
+
+  {% include "partials/trials-by-entity.html" %}
+</article>
+
+<aside>
+  <ul class="actions">
+    <li>
+      <a href="{{ api_url }}" class="download">Download JSON</a>
+      <a href="/contribute-data" class="upload">Contribute Data</a>
+    </li>
+  </ul>
+</aside>
+{% endblock %}

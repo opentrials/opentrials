@@ -70,7 +70,7 @@
   <h2>Treatments</h2>
   <ul class="overview-list">
     {% for intervention in trial.interventions %}
-      <li><a href="/interventions/{{ intervention.id }}">{{ intervention.name }}</a></li>
+      <li><a href="/interventions/{{ intervention.id }}" class="{{ intervention.type }}">{{ intervention.name }}</a></li>
     {% endfor %}
   </ul>
   {% else %}
@@ -94,6 +94,36 @@
       <a href="{{ contributeDataUrl }}" class="upload">Contribute Data</a>
     </li>
   </ul>
+
+  <div class="note">
+    <h2>Identifiers</h2>
+    <dl class="id-list">
+      <dt>
+        OpenTrials ID:
+      </dt>
+      <dd>
+        {{ trial.id }}
+      </dd>
+      {% if trial.primary_id %}
+      <dt>
+        Primary ID:
+      </dt>
+      <dd>
+        {{ trial.primary_id }}
+      </dd>
+      {% endif %}
+      {% if trial.secondary_ids %}
+      <dt>
+        Secondary IDs:
+      </dt>
+      {% for sid in trial.secondary_ids %}
+      <dd>
+        {{ sid }}
+      </dd>
+      {% endfor %}
+      {% endif %}
+    </dl>
+  </div>
 
   {% if trial.locations.length != 0 %}
   <h2>Locations</h2>

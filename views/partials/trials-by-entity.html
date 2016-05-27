@@ -1,5 +1,5 @@
 {% if trials %}
-<article>
+
   <h2>Most recent trials for {{ title }} ({{trials.total_count}} result{% if trials.total_count>1 %}s{% endif %})</h2>
   <section class="search-results">
     {% for trial in trials.items %}
@@ -10,5 +10,13 @@
       {% if loop.last %}</ol>{% endif %}
     {% endfor %}
   </section>
-</article>
+
+  <h2>More results</h2>
+  <p>
+    OpenTrials has <a href="/search?{{ type }}={{ name }}">{{trials.total_count}} result{% if trials.total_count>1 %}s{% endif %}</a> for this {{ type }}, <a href="/search?{{ type }}={{ name }}">see all</a>.
+  </p>
+  <p>
+    Search for this {{ type }} on <a href="http://www.google.com/search?q={{ name }}" rel="external">Google</a>.
+  </p>
+
 {% endif %}

@@ -1,13 +1,3 @@
-{% extends "layouts/base.html" %}
+{% set type = "organisation" %}
 
-{% block main %}
-<article>
-  <h2>Organisation description</h2>
-  <ul class="overview-list">
-    <li>{{ organisation.name }}</li>
-  </ul>
-</article>
-
-{% include "partials/trials-by-entity.html" %}
-
-{% endblock %}
+{% include "partials/entity-details.html" %}
