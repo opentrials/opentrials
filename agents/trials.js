@@ -1,5 +1,6 @@
 'use strict';
 
+const _ = require('lodash');
 const opentrialsApi = require('../config').opentrialsApi;
 
 function getTrial(trialId) {
@@ -12,6 +13,46 @@ function getRecord(id, trialId) {
   return opentrialsApi
     .then((client) => client.trials.getRecord({ trialId, id }))
     .then((response) => response.obj);
+}
+
+function getRecords(id) {
+  return opentrialsApi
+    .then((client) => client.trials.getRecords({ id }))
+    .then((response) => response.obj);
+}
+
+function getDiscrepancies(id) {
+  function recordsToDiscrepancies(records) {
+    const fields = [
+      'public_title',
+      'brief_summary',
+      'target_sample_size',
+      'gender',
+      'registration_date',
+    ];
+
+    const fieldsDiscrepancies = fields.map((field) => {
+      const values = records.map((record) => (
+        {
+          source_name: record.source.name,
+          id: record.id,
+          value: record[field],
+        }
+      ));
+
+      return { field, records: values };
+    });
+
+    return fieldsDiscrepancies.filter((fieldDiscrepancies) => {
+      // Have to convert to JSON to handle values that normally aren't
+      // comparable like dates.
+      const cleanRecords = JSON.parse(JSON.stringify(fieldDiscrepancies.records));
+      return _.uniqBy(cleanRecords, 'value').length > 1;
+    });
+  }
+
+  return getRecords(id)
+    .then((records) => recordsToDiscrepancies(records));
 }
 
 function generateQueryString(query, filters) {
@@ -66,4 +107,6 @@ module.exports = {
   search: searchTrials,
   searchByEntity: searchTrialsByEntity,
   getRecord,
+  getRecords,
+  getDiscrepancies,
 };

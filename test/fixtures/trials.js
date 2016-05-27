@@ -14,6 +14,7 @@ function getTrial() {
     study_type: 'study_type',
     study_design: 'study_design',
     study_phase: 'study_phase',
+    gender: 'both',
   };
 
   return trial;
@@ -38,6 +39,7 @@ function getRecord() {
     registration_date: new Date('2016-01-01'),
     created_at: new Date('2016-01-01'),
     updated_at: new Date('2016-02-01'),
+    gender: 'both',
   };
   record.trial_url = `http://api.opentrials.net/v1/trials/${record.trial_id}`;
   record.url = `${record.trial_url}/records/${record.id}`;
