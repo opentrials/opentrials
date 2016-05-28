@@ -39,7 +39,26 @@ function getRecord(request, reply) {
   });
 }
 
+function getDiscrepancies(request, reply) {
+  const id = request.params.id;
+
+  trials.getDiscrepancies(id).then((discrepancies) => {
+    reply.view('trial-discrepancies', {
+      title: 'Discrepancies',
+      trial_id: id,
+      discrepancies,
+    });
+  }).catch((err) => {
+    if (err.status === 404) {
+      reply(Boom.notFound('Trial discrepancies not found.', err));
+    } else {
+      reply(Boom.badGateway('Error accessing OpenTrials API.', err));
+    }
+  });
+}
+
 module.exports = {
   getTrial,
   getRecord,
+  getDiscrepancies,
 };

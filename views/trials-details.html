@@ -92,6 +92,9 @@
     <li>
       <a href="{{ trial.url }}" class="download">Download JSON</a>
       <a href="{{ contributeDataUrl }}" class="upload">Contribute Data</a>
+      {% if trial.has_discrepancies %}
+        <a href="/trials/{{ trial.id }}/discrepancies">Data discrepancies</a>
+      {% endif %}
     </li>
   </ul>
 

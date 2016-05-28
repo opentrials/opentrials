@@ -1,5 +1,7 @@
 'use strict';
+
 const server = require('../../server');
+const trialsAgent = require('../../agents/trials');
 
 describe('trials handler', () => {
   describe('GET /trials/{id}', () => {
@@ -110,6 +112,66 @@ describe('trials handler', () => {
         apiServer.get('/trials/foo/records/bar').reply(500);
 
         return server.inject('/trials/foo/records/bar')
+          .then((_response) => {
+            _response.statusCode.should.equal(502);
+          });
+      });
+    });
+  });
+
+  describe('GET /trials/{id}/discrepancies', () => {
+    describe('API is OK', () => {
+      const records = JSON.parse(JSON.stringify(
+        [
+          fixtures.getRecord(),
+          fixtures.getRecord(),
+        ]
+      ));
+      const trialId = records[0].trial_id;
+      let response;
+
+      before(() => {
+        apiServer.get(`/trials/${trialId}/records`)
+          .reply(200, records);
+
+        return server.inject(`/trials/${trialId}/discrepancies`)
+          .then((_response) => {
+            response = _response;
+          });
+      });
+
+      it('is successful', () => {
+        response.statusCode.should.equal(200)
+      });
+
+      it('adds the trial_id to the context', () => {
+        const context = response.request.response.source.context;
+        context.trial_id.should.eql(trialId);
+      });
+
+      it('adds the discrepancies to the context', () => {
+        apiServer.get(`/trials/${trialId}/records`).reply(200, records);
+
+        const context = response.request.response.source.context;
+        return trialsAgent.getDiscrepancies(trialId)
+          .then((discrepancies) => context.discrepancies.should.deepEqual(discrepancies));
+      });
+
+      it('returns 404 when trial doesnt exist', () => {
+        apiServer.get('/trials/foo/records').reply(404);
+
+        return server.inject('/trials/foo/discrepancies')
+          .then((_response) => {
+            _response.statusCode.should.equal(404);
+          });
+      });
+    });
+
+    describe('API is not OK', () => {
+      it('returns error 502', () => {
+        apiServer.get('/trials/foo/records').reply(500);
+
+        return server.inject('/trials/foo/discrepancies')
           .then((_response) => {
             _response.statusCode.should.equal(502);
           });

@@ -172,6 +172,27 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /trials/{id}/records:
+    x-swagger-router-controller: trials
+    get:
+      tags:
+        - trials
+      description: Returns all trial's raw records from its sources
+      operationId: getRecords
+      parameters:
+        - name: id
+          in: path
+          description: ID of the trial
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/RecordList"
+        "404":
+          description: Trial not found
+
   /trials/{trialId}/records/{id}:
     x-swagger-router-controller: trials
     get:
@@ -341,6 +362,7 @@ definitions:
       - public_title
       - brief_summary
       - registration_date
+      - has_discrepancies
       - locations
       - interventions
       - persons
@@ -366,6 +388,9 @@ definitions:
           - female
       has_published_results:
         type: boolean
+      has_discrepancies:
+        type: boolean
+        description: Describes if there are any data discrepancies among the sources of this Trial.
       registration_date:
         type: string
         format: date-time
@@ -408,10 +433,13 @@ definitions:
     required:
       - id
       - name
+      - url
     properties:
       id:
         type: string
       name:
+        type: string
+      url:
         type: string
       type:
         type: string
@@ -424,10 +452,13 @@ definitions:
     required:
       - id
       - name
+      - url
     properties:
       id:
         type: string
       name:
+        type: string
+      url:
         type: string
       type:
         type: string
@@ -439,15 +470,18 @@ definitions:
     required:
       - id
       - name
+      - url
     properties:
       id:
         type: string
       name:
         type: string
+      url:
+        type: string
 
   TrialPerson:
     allOf:
-      - $ref: '#/definitions/Location'
+      - $ref: '#/definitions/Person'
       - type: object
         properties:
           role:
@@ -461,10 +495,13 @@ definitions:
     required:
       - id
       - name
+      - url
     properties:
       id:
         type: string
       name:
+        type: string
+      url:
         type: string
       type:
         type: string
@@ -473,7 +510,7 @@ definitions:
 
   TrialOrganisation:
     allOf:
-      - $ref: '#/definitions/Location'
+      - $ref: '#/definitions/Organisation'
       - type: object
         properties:
           role:
@@ -487,11 +524,19 @@ definitions:
     required:
       - id
       - name
+      - url
     properties:
       id:
         type: string
       name:
         type: string
+      url:
+        type: string
+
+  RecordList:
+    type: array
+    items:
+      $ref: '#/definitions/Record'
 
   Record:
     required:

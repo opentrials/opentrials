@@ -1,0 +1,27 @@
+{% extends 'layouts/base.html' %}
+
+{% block main %}
+<article class="record-data">
+{% if discrepancies.length == 0 %}
+There are no discrepancies in this Trial's records.
+{% else %}
+<dl>
+  {% for discrepancy in discrepancies %}
+    <dt>{{ discrepancy.field | underscoresToCapitalized }}<dt>
+    <dd>
+      <dl>
+      {% for record in discrepancy.records %}
+        <dt>
+          <a href="/trials/{{ trial_id }}/records/{{ record.id }}">
+            {{ record.source_name }}
+          </a>
+        </dt>
+        <dd>{{ record.value or 'N/A' }}</dd>
+      {% endfor %}
+      </dl>
+    <dd>
+  {% endfor %}
+</dl>
+{% endif %}
+</article>
+{% endblock %}
