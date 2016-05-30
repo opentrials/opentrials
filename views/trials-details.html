@@ -47,10 +47,10 @@
 {% block main %}
 
 
-{% macro no_data_message(name, thing='', contribute='/contribute-data') -%}
+{% macro no_data_message(name, thing='') -%}
   <h2 class="disabled">{{ name }}</h2>
   <p class="disabled">
-    We have no {{ thing }} for this trial. Help us by <a href="{{ contribute }}">contributing data</a>.
+    We have no {{ thing }} for this trial. Help us by <a href="{{ contributeDataUrl }}">contributing data</a>.
   </p>
 {%- endmacro %}
 
