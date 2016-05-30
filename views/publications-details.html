@@ -2,33 +2,32 @@
 
 {% block main %}
 <article>
-  <h2>Publication description</h2>
-  <ul class="overview-list">
-    <li>{{ publication.title }}</li>
+  <h2>Abstract</h2>
+  <p>
+  {{ publication.abstract }}
+  </p>
+
+</article>
+
+<aside>
+  <ul class="actions">
+    <a href="{{ publication.url }}" class="download">Download JSON</a>
+    <a href="/contribute-data" class="upload">Contribute Data</a>
   </ul>
 
-  <h2>Source</h2>
-  <a href="{{publication.source_url}}">{{publication.source.name}}</a>
-
-  <h2>Abstract</h2>
-  {{publication.abstract}}
-
   <h2>Authors</h2>
-  <ul class="overview-list">
+  <ul>
     {% for author in publication.authors %}
       <li>{{ author }}</li>
     {% endfor %}
   </ul>
 
   <h2>Facts</h2>
-  <ul class="overview-list">
+  <ul>
     {% for fact in publication.facts %}
     <li>{{ fact }}</li>
     {% endfor %}
   </ul>
 
-</article>
-
-<aside>
 </aside>
 {% endblock %}
