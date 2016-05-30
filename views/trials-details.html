@@ -179,6 +179,7 @@
     {% endfor %}
   </dl>
 
+  {% if trial.publications.length != 0 %}
   <h2>Publications</h2>
   <ul>
     {% for publication in trial.publications %}
@@ -189,6 +190,9 @@
       </li>
     {% endfor %}
   </ul>
+  {% else %}
+  {{ no_data_message('Publications', thing='"publications"') }}
+  {% endif %}
 
 </aside>
 {% endblock %}
