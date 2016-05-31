@@ -22,13 +22,6 @@
     {% endfor %}
   </ul>
 
-  <h2>Facts</h2>
-  <ul>
-    {% for fact in publication.facts %}
-    <li>{{ fact }}</li>
-    {% endfor %}
-  </ul>
-
   <h2>Source</h2>
   <p>
     <a href="{{ publication.source_url }}">{{ publication.source.name }}</a>
