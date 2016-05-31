@@ -183,5 +183,19 @@ describe('Trials', () => {
           should(fields.sort()).eql(expectedFields.sort());
         });
     });
+
+    it('ignores undefined fields', () => {
+      const record = fixtures.getRecord();
+      const anotherRecord = fixtures.getRecord();
+      anotherRecord.gender = undefined;
+      const response = [
+        record,
+        anotherRecord,
+      ];
+      apiServer.get(`/trials/${trial.id}/records`).reply(200, response);
+
+      return trials.getDiscrepancies(trial.id)
+        .then((discrepancies) => should(discrepancies).deepEqual([]));
+    });
   });
 });

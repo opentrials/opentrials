@@ -32,13 +32,17 @@ function getDiscrepancies(id) {
     ];
 
     const fieldsDiscrepancies = fields.map((field) => {
-      const values = records.map((record) => (
-        {
-          source_name: record.source.name,
-          id: record.id,
-          value: record[field],
+      const values = records.reduce((result, record) => {
+        if (record[field] !== undefined) {
+          result.push({
+            source_name: record.source.name,
+            id: record.id,
+            value: record[field],
+          });
         }
-      ));
+
+        return result;
+      }, []);
 
       return { field, records: values };
     });
