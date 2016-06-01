@@ -7,10 +7,17 @@ function getTrial(request, reply) {
   const trialId = request.params.id;
 
   trials.get(trialId).then((trial) => {
+    const identifiers = trial.identifiers || {};
+    const primaryId = identifiers[trial.primary_source_id];
+    const secondaryIds = Object.assign({}, identifiers);
+    delete secondaryIds[trial.primary_source_id];
+
     reply.view('trials-details', {
       title: trial.public_title,
       trial,
       contributeDataUrl: `/contribute-data?trial_id=${trial.id}&redirectTo=/trials/${trial.id}`,
+      primaryId,
+      secondaryIds,
     });
   }).catch((err) => {
     if (err.status === 404) {

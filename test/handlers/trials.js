@@ -1,5 +1,6 @@
 'use strict';
 
+const should = require('should');
 const server = require('../../server');
 const trialsAgent = require('../../agents/trials');
 
@@ -12,9 +13,9 @@ describe('trials handler', () => {
       let response;
 
       before(() => {
-        apiServer.get('/trials/'+trial.id).reply(200, trial);
+        apiServer.get(`/trials/${trial.id}`).reply(200, trial);
 
-        return server.inject('/trials/'+trial.id)
+        return server.inject(`/trials/${trial.id}`)
           .then((_response) => {
             response = _response;
           });
@@ -39,7 +40,17 @@ describe('trials handler', () => {
         context.contributeDataUrl.should.equal(contributeDataUrl);
       });
 
-      it('sets the title to the trial.public_title', () => {
+      it('adds the primaryId and secondaryIds to the context', () => {
+        const context = response.request.response.source.context;
+        const primaryId = trial.identifiers[trial.primary_source_id];
+        const secondaryIds = Object.assign({}, trial.identifiers);
+        delete secondaryIds[trial.primary_source_id];
+
+        should(context.primaryId).equal(primaryId);
+        should(context.secondaryIds).deepEqual(secondaryIds);
+      });
+
+      it('sets the title as the trial.public_title', () => {
         const context = response.request.response.source.context;
         context.title.should.equal(trial.public_title);
       });

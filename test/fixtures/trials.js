@@ -5,7 +5,7 @@ function getTrial() {
     id: uuid.v1(),
     primary_register: 'primary_register',
     primary_id: 'primary_id',
-    secondary_ids: JSON.stringify([]),
+    identifiers: JSON.stringify({}),
     registration_date: new Date('2016-01-01'),
     public_title: 'public_title',
     brief_summary: 'brief_summary',
@@ -15,6 +15,8 @@ function getTrial() {
     study_design: 'study_design',
     study_phase: 'study_phase',
     gender: 'both',
+    identifiers: { nct: 'NCT00000000', isrctn: 'ISRCTN0000000' },
+    primary_source_id: 'nct',
   };
 
   return trial;
@@ -40,6 +42,8 @@ function getRecord() {
     created_at: new Date('2016-01-01'),
     updated_at: new Date('2016-02-01'),
     gender: 'both',
+    identifiers: { nct: 'NCT00000000', isrctn: 'ISRCTN0000000' },
+    primary_source_id: 'nct',
   };
   record.trial_url = `http://api.opentrials.net/v1/trials/${record.trial_id}`;
   record.url = `${record.trial_url}/records/${record.id}`;
