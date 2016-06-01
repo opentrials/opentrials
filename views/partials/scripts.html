@@ -15,10 +15,11 @@
 <script src="{{ 'js/main.min.js' | revPath }}" defer></script>
 <script src="//a.okfn.org/html/oki/panel/assets/js/frontend.js" type="text/javascript" defer></script>
 
-<!-- TODO: Only include below if google analytics is set -->
+{% if googleAnalyticsCode %}
 <script type="text/javascript">
     window.cookieconsent_options = {"message":"This site uses cookies. For more information, see our ","dismiss":"OK, Got it","learnMore":"Cookie policy.","link":"https://okfn.org/cookie-policy/"};
 </script>
 <script type="text/javascript" src="//a.okfn.org/html/oki/cookie-bar/js/cookie-bar.js"></script>
+{% endif %}
 
 <!--<![endif]-->
