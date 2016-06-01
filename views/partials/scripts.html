@@ -1,4 +1,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" defer async></script>
+<script src="//a.okfn.org/html/oki/panel/assets/js/frontend.js" defer async></script>
 <!--[if lte IE 9]>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
@@ -13,13 +14,16 @@
 <script src="{{ 'js/commons.min.js' | revPath }}" defer></script>
 <script src="{{ 'js/vendor.min.js' | revPath }}" defer></script>
 <script src="{{ 'js/main.min.js' | revPath }}" defer></script>
-<script src="//a.okfn.org/html/oki/panel/assets/js/frontend.js" type="text/javascript" defer></script>
+<!--<![endif]-->
 
 {% if googleAnalyticsCode %}
-<script type="text/javascript">
-    window.cookieconsent_options = {"message":"This site uses cookies. For more information, see our ","dismiss":"OK, Got it","learnMore":"Cookie policy.","link":"https://okfn.org/cookie-policy/"};
+<script>
+    window.cookieconsent_options = {
+      message: 'This site uses cookies. For more information, see our ',
+      dismiss: 'OK, Got it',
+      learnMore: 'Cookie policy.',
+      link: 'https://okfn.org/cookie-policy/'
+    };
 </script>
-<script type="text/javascript" src="//a.okfn.org/html/oki/cookie-bar/js/cookie-bar.js"></script>
+<script src="//a.okfn.org/html/oki/cookie-bar/js/cookie-bar.js" defer async></script>
 {% endif %}
-
-<!--<![endif]-->
