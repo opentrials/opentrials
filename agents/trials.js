@@ -1,6 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
+const escapeElasticSearch = require('../helpers/escape-elastic-search');
 const opentrialsApi = require('../config').opentrialsApi;
 
 function getTrial(trialId) {
@@ -103,7 +104,7 @@ function searchTrials(query, page, perPage, filters) {
 }
 
 function searchTrialsByEntity(entityType, entityName) {
-  return searchTrials(`${entityType}:"${entityName.replace('"', '\\"')}"`, 1, 10);
+  return searchTrials(`${entityType}:"${escapeElasticSearch(entityName)}"`, 1, 10);
 }
 
 module.exports = {

@@ -83,6 +83,26 @@ describe('Trials', () => {
     });
   });
 
+  describe('#searchByEntity', () => {
+    const response = {
+      total_count: 2,
+      items: [
+        fixtures.getTrial(),
+        fixtures.getTrial(),
+      ]
+    };
+    const expectedResponse = JSON.parse(JSON.stringify(response));
+
+    it('escapes special elasticsearch values', () => {
+      apiServer.get('/search')
+        .query({q: 'entity:"foo\\(bar\\)"', page: 1, per_page: 10})
+        .reply(200, response);
+
+      return trials.searchByEntity('entity', 'foo(bar)')
+        .should.be.fulfilledWith(expectedResponse);
+    });
+  });
+
   describe('#getRecord', () => {
     it('returns the record', () => {
       const record = fixtures.getRecord();

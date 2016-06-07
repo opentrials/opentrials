@@ -1,4 +1,6 @@
 'use strict';
+
+const escapeElasticSearch = require('../../helpers/escape-elastic-search');
 const server = require('../../server');
 
 describe('persons handler', () => {
@@ -18,7 +20,7 @@ describe('persons handler', () => {
         mockApiResponses({
           search: {
             query: {
-              q: `person:"${person.name}"`,
+              q: `person:"${escapeElasticSearch(person.name)}"`,
               page: 1,
             },
             response: trials,

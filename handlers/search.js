@@ -3,8 +3,9 @@
 const URL = require('url');
 const Boom = require('boom');
 const _ = require('lodash');
-const trials = require('../agents/trials');
 const Joi = require('joi');
+const escapeElasticSearch = require('../helpers/escape-elastic-search');
+const trials = require('../agents/trials');
 
 function getPagination(url, currentPage, perPage, maxPages, totalCount) {
   const getPageUrl = (pageNumber) => {
@@ -55,24 +56,24 @@ function getPagination(url, currentPage, perPage, maxPages, totalCount) {
 
 function getFilters(query) {
   const filters = {};
-  const quoteElements = (values) => (
-    values.map((val) => `"${val}"`)
+  const quoteAndEscapeElements = (values) => (
+    values.map((val) => `"${escapeElasticSearch(val)}"`)
   );
 
   if (query.condition) {
-    filters.condition = quoteElements(query.condition);
+    filters.condition = quoteAndEscapeElements(query.condition);
   }
   if (query.intervention) {
-    filters.intervention = quoteElements(query.intervention);
+    filters.intervention = quoteAndEscapeElements(query.intervention);
   }
   if (query.location) {
-    filters.location = quoteElements(query.location);
+    filters.location = quoteAndEscapeElements(query.location);
   }
   if (query.person) {
-    filters.person = quoteElements(query.person);
+    filters.person = quoteAndEscapeElements(query.person);
   }
   if (query.organisation) {
-    filters.organisation = quoteElements(query.organisation);
+    filters.organisation = quoteAndEscapeElements(query.organisation);
   }
 
   const registrationDateStart = query.registration_date_start;

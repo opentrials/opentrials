@@ -1,4 +1,6 @@
 'use strict';
+
+const escapeElasticSearch = require('../../helpers/escape-elastic-search');
 const server = require('../../server');
 
 describe('conditions handler', () => {
@@ -18,7 +20,7 @@ describe('conditions handler', () => {
         mockApiResponses({
           search: {
             query: {
-              q: `condition:"${condition.name}"`,
+              q: `condition:"${escapeElasticSearch(condition.name)}"`,
               page: 1,
             },
             response: trials,

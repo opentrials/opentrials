@@ -398,6 +398,22 @@ describe('search handler', () => {
         context.query.condition.should.deepEqual(["HIV", "Breast Cancer"]);
       });
     });
+
+    it('escapes special elasticsearch values', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'condition:("foo\\(bar\\)")',
+          },
+        },
+        response: searchResponse,
+      });
+
+      return server.inject('/search?condition=foo(bar)')
+        .then((response) => {
+          response.statusCode.should.equal(200)
+        });
+    });
   });
 
   describe('GET /search?intervention={intervention}&intervention={intervention}', () => {
@@ -452,6 +468,21 @@ describe('search handler', () => {
 
         context.query.intervention.should.deepEqual(["Placebo", "Aspirin"]);
       });
+    });
+
+    it('escapes special elasticsearch values', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'intervention:("foo\\(bar\\)")',
+          },
+        },
+      });
+
+      return server.inject('/search?intervention=foo(bar)')
+        .then((response) => {
+          response.statusCode.should.equal(200)
+        });
     });
   });
 
@@ -508,6 +539,21 @@ describe('search handler', () => {
         context.query.person.should.deepEqual(["Hippocrates", "Florence Nightingale"]);
       });
     });
+
+    it('escapes special elasticsearch values', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'person:("foo\\(bar\\)")',
+          },
+        },
+      });
+
+      return server.inject('/search?person=foo(bar)')
+        .then((response) => {
+          response.statusCode.should.equal(200)
+        });
+    });
   });
 
   describe('GET /search?organisation={organisation}&organisation={organisation}', () => {
@@ -562,6 +608,21 @@ describe('search handler', () => {
 
         context.query.organisation.should.deepEqual(["ACME", "NSA"]);
       });
+    });
+
+    it('escapes special elasticsearch values', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'organisation:("foo\\(bar\\)")',
+          },
+        },
+      });
+
+      return server.inject('/search?organisation=foo(bar)')
+        .then((response) => {
+          response.statusCode.should.equal(200)
+        });
     });
   });
 
@@ -622,6 +683,21 @@ describe('search handler', () => {
 
         context.advancedSearchIsVisible.should.equal(true);
       });
+    });
+
+    it('escapes special elasticsearch values', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'location:("foo\\(bar\\)")',
+          },
+        },
+      });
+
+      return server.inject('/search?location=foo(bar)')
+        .then((response) => {
+          response.statusCode.should.equal(200)
+        });
     });
   });
 
