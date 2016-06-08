@@ -75,6 +75,7 @@
     "hapi-auth-cookie": "^6.1.1",
     "hapi-context-credentials": "^2.0.0",
     "inert": "^3.2.0",
+    "joi": "^8.4.1",
     "jquery-ui": "github:jquery/jquery-ui",
     "jquery.mmenu": "FrDH/jQuery.mmenu#v5.6.3",
     "knex": "^0.10.0",
