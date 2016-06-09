@@ -2,11 +2,17 @@
 
 {% block bannerFooter %}
   <ul class="overview-list">
+    {% if trial.registration_date %}
     <li>
       <span class="date">
         Registration: {{ trial.registration_date | formatDate }}
       </span>
     </li>
+    {% else %}
+    <li class="disabled">
+      <em>No data for "registration date"</em>
+    </li>
+    {% endif %}
     {% if trial.target_sample_size %}
     <li>
       <span class="number">{{ trial.target_sample_size }}</span> Participants
