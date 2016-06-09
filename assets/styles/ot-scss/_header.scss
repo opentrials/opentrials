@@ -269,6 +269,10 @@ html.mm-opened .show-menu {
   }
 }
 
+#menu:not(.mm-menu) {
+  display: none;
+}
+
 nav .more {
   a {
     cursor: pointer;
