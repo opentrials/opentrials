@@ -65,7 +65,7 @@ function generateQueryString(query, filters) {
     let value = filters[filterName];
     let result = prev;
 
-    if (value) {
+    if (value !== undefined) {
       if (!Array.isArray(value)) {
         value = [value];
       }

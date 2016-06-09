@@ -314,7 +314,7 @@ describe('search handler', () => {
         });
     });
 
-    it('filter by trials with published results if has_published_results is "true"', () => {
+    it('filter by trials with published results if has_published_results is true', () => {
       mockApiResponses({
         search: {
           query: {
@@ -329,11 +329,11 @@ describe('search handler', () => {
         });
     });
 
-    it('doesnt filter if has_published_results is "false"', () => {
+    it('filter by trials without published results if has_published_results is false', () => {
       mockApiResponses({
         search: {
           query: {
-            q: undefined,
+            q: 'has_published_results:(false)',
           },
         },
       });

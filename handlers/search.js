@@ -94,9 +94,9 @@ function getFilters(query) {
     filters.gender = `${gender} OR both`;
   }
 
-  const hasPublishedResults = query.has_published_results;
+  const hasPublishedResults = (query.has_published_results !== undefined);
   if (hasPublishedResults) {
-    filters.has_published_results = hasPublishedResults;
+    filters.has_published_results = query.has_published_results;
   }
 
   return filters;

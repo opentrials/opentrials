@@ -90,13 +90,13 @@
         <option value="">All</option>
         <option
           value="true"
-          {% if query.has_published_results == 'true' %}selected{% endif %}
+          {% if query.has_published_results %}selected{% endif %}
           >
           Trials with published results
         </option>
         <option
           value="false"
-          {% if query.has_published_results == 'false' %}selected{% endif %}
+          {% if query.has_published_results == false %}selected{% endif %}
           >
           Trials without published results
         </option>
