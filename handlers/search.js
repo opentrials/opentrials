@@ -109,6 +109,7 @@ function searchPage(request, reply) {
   const perPage = 10;
   const maxPages = 100;
   const filters = getFilters(query);
+  const advancedSearch = query.advanced_search || (Object.keys(filters).length > 0);
 
   trials.search(queryStr, page, perPage, filters).then((_trials) => {
     const currentPage = page || 1;
@@ -121,7 +122,7 @@ function searchPage(request, reply) {
       query,
       currentPage,
       pagination,
-      advancedSearchIsVisible: Object.keys(filters).length > 0,
+      advancedSearchIsVisible: advancedSearch,
       trials: _trials,
     });
   }).catch((err) => (
@@ -135,6 +136,7 @@ module.exports = {
   handler: searchPage,
   validate: {
     query: {
+      advanced_search: Joi.boolean().default(false),
       page: Joi.number().integer().min(1).max(100),
       registration_date_start: Joi.date().format('YYYY-MM-DD').empty('').raw(),
       registration_date_end: Joi.date().format('YYYY-MM-DD').empty('').raw(),

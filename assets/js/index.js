@@ -52,7 +52,8 @@ $(document).ready(function() {
   });
 
   // home page
-  $(".toggle-advanced").click(function() {
+  $(".toggle-advanced").click(function(e) {
+    e.preventDefault();
     $(".advanced").slideToggle("slow", function() {
       $(".home").toggleClass("advanced-search")
     });

@@ -27,22 +27,30 @@ function clearDB() {
 }
 
 function mockApiResponses(responses) {
+  // When "responses" is undefined, mocks all API responses
   const defaultResponses = {
     search: {
-      query: {
-        per_page: 10,
-      },
       response: { total_count: 0, items: [] },
       statusCode: 200,
     },
   };
   const theResponses = _.merge({}, defaultResponses, responses);
+  if (theResponses.search.query && theResponses.search.query.per_page === undefined) {
+    theResponses.search.query.per_page = 10;
+  }
 
   for (const endpoint of Object.keys(defaultResponses)) {
     const endpointResponse = theResponses[endpoint];
+    let query = endpointResponse.query;
+    if (query) {
+      query = _.omitBy(query, _.isUndefined);
+    } else {
+      // Ignore query values
+      query = true;
+    }
 
     apiServer.get(`/${endpoint}`)
-      .query(endpointResponse.query)
+      .query(query)
       .reply(endpointResponse.statusCode, endpointResponse.response);
   }
 }
