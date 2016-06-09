@@ -9,6 +9,7 @@
       <th>User</th>
       <th>Trial</th>
       <th>File</th>
+      <th>Category</th>
       <th>Date</th>
       <th class="comments-col">Comments</th>
       <th class="comments-col">Curator's comments</th>
@@ -40,9 +41,12 @@
         {% endif %}
       </td>
       <td>
-        <a href="{{ dataContribution.url }}">
+        <a href="{{ dataContribution.data_url }}">
           {{ dataContribution.filename }}
         </a>
+      </td>
+      <td>
+        {{ dataContribution.category.name }}
       </td>
       <td>
         {{ dataContribution.created_at | formatDate }}

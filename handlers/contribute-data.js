@@ -7,21 +7,30 @@ const parseXml = bluebird.promisify(require('xml2js').parseString);
 const config = require('../config');
 const s3 = require('../agents/s3');
 const DataContribution = require('../models/data-contribution');
+const DataCategory = require('../models/data-category');
 
 function _getContributeData(request, reply) {
   const additionalConditions = [
     ['starts-with', '$comments', ''],
   ];
 
-  return reply.view('contribute-data', {
-    title: 'Contribute data',
-    s3: s3.getSignedFormFields(additionalConditions),
-    maxUploadSize: s3.MAX_UPLOAD_SIZE,
-    redirectTo: request.headers.referer,
-  });
+  return new DataCategory().fetchAll()
+    .then((categories) => (
+      reply.view('contribute-data', {
+        title: 'Contribute data',
+        s3: s3.getSignedFormFields(additionalConditions),
+        maxUploadSize: s3.MAX_UPLOAD_SIZE,
+        redirectTo: request.headers.referer,
+        categories: categories.toJSON(),
+      })
+    ));
 }
 
 function _getDataUrl(s3Response) {
+  if (s3Response === undefined) {
+    return undefined;
+  }
+
   if (s3Response.Error) {
     throw s3Response.Error;
   }
@@ -43,8 +52,14 @@ function _getDataUrl(s3Response) {
 
 function _postContributeData(request, reply) {
   const payload = request.payload;
+  const fileWasUploaded = (payload.response !== undefined);
+  let result = Promise.resolve();
 
-  parseXml(payload.response)
+  if (fileWasUploaded) {
+    result = result.then(() => parseXml(payload.response));
+  }
+
+  result
     .then((s3Response) => {
       const dataUrl = _getDataUrl(s3Response);
       const trialId = request.query.trial_id;
@@ -53,12 +68,14 @@ function _postContributeData(request, reply) {
       return new DataContribution({
         trial_id: trialId,
         user_id: userId,
-        url: dataUrl,
+        data_url: dataUrl,
+        url: payload.url,
+        data_category_id: payload.data_category_id,
         comments: payload.comments,
       }).save();
     })
     .then(() => {
-      request.yar.flash('success', 'File was uploaded successfully. Thanks for your contribution!');
+      request.yar.flash('success', 'Data was received successfully. Thanks for your contribution!');
       return reply.redirect(request.query.redirectTo);
     })
     .catch((err) => {
@@ -72,12 +89,12 @@ function _postContributeData(request, reply) {
 
       request.yar.flash('error', `${errorMessage} (${errorCode}`);
       return _getContributeData(request, reply)
-        .code(payload.responseStatus);
+        .then((response) => response.code(payload.responseStatus));
     })
     .catch(() => {
       request.yar.flash('error', 'An internal error occurred, please try again later.');
       return _getContributeData(request, reply)
-        .code(payload.responseStatus);
+        .then((response) => response.code(payload.responseStatus));
     });
 }
 
@@ -94,7 +111,9 @@ module.exports = {
       },
       payload: {
         file: Joi.string().empty(''),
-        response: Joi.string(),
+        url: Joi.string().empty(''),
+        data_category_id: Joi.number().integer().empty(''),
+        response: Joi.string().empty(''),
         responseStatus: Joi.number().integer().default(500),
         comments: Joi.string().empty(''),
         'Content-Type': Joi.string().empty(''),

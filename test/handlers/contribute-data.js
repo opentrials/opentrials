@@ -4,22 +4,41 @@ const should = require('should');
 const config = require('../../config');
 const server = require('../../server');
 const DataContribution = require('../../models/data-contribution');
+const DataCategory = require('../../models/data-category');
 
 
 describe('contribute-data handler', () => {
   describe('GET /contribute-data', () => {
-
-    it('is successful', () => {
+    it('is successful and uses the correct template', () => {
       return server.inject('/contribute-data')
         .then((response) => {
           const context = response.request.response.source.context;
           should(response.statusCode).equal(200);
           should(response.request.response.source.template).equal('contribute-data');
+        })
+    });
+
+    it('adds the data categories to the context', () => {
+      let categories;
+
+      return new DataCategory().fetchAll()
+        .then((_categories) => categories = _categories)
+        .then(() => server.inject('/contribute-data'))
+        .then((response) => {
+          const context = response.request.response.source.context;
+          should(context.categories).deepEqual(categories.toJSON());
+        });
+    });
+
+    it('adds S3\'s signed form fields to the context', () => {
+      return server.inject('/contribute-data')
+        .then((response) => {
+          const context = response.request.response.source.context;
           should(context.s3).have.keys([
             'action',
             'fields',
           ]);
-        })
+        });
     });
 
     it('adds "comments" field to the S3 Policy', () => {
@@ -31,7 +50,6 @@ describe('contribute-data handler', () => {
 
           should(policy.conditions).containEql(['starts-with', '$comments', '']);
         });
-
     });
   });
 
@@ -45,7 +63,7 @@ describe('contribute-data handler', () => {
       return clearDB();
     });
 
-    it('creates the DataContribution with related User and Trial', () => {
+    it('creates the DataContribution with related User, Trial and DataCategory', () => {
       delete config.s3.customDomain;
       const dataKey = 'uploads/00000000-0000-0000-0000-000000000000/data.pdf'
       const dataUrl = `https://opentrials-test.s3.amazonaws.com/${dataKey}`;
@@ -62,33 +80,36 @@ describe('contribute-data handler', () => {
         method: 'post',
         payload: {
           response,
+          url: 'http://somewhere.com/data.pdf',
           comments: 'A test PDF',
         },
       };
 
-      return factory.create('user')
-        .then((user) => {
-          options.credentials = user.toJSON();
-          return server.inject(options)
-        })
+      return factory.create('dataCategory')
+        .then((category) => options.payload.data_category_id = category.attributes.id)
+        .then(() => factory.create('user'))
+        .then((user) => options.credentials = user.toJSON())
+        .then(() => server.inject(options))
         .then((response) => {
           should(response.statusCode).equal(302);
           should(response.headers.location).equal('/');
           should(response.request.yar.flash('success')).not.be.empty();
           should(response.request.yar.flash('error')).be.empty();
         })
-        .then(() => new DataContribution({ url: dataUrl }).fetch({ require: true }))
+        .then(() => new DataContribution({ data_url: dataUrl }).fetch({ require: true }))
         .then((dataContribution) => {
           should(dataContribution.toJSON()).containEql({
-            url: dataUrl,
+            data_url: dataUrl,
             trial_id: trialId,
             user_id: options.credentials.id,
+            data_category_id: options.payload.data_category_id,
+            url: options.payload.url,
             comments: options.payload.comments,
           });
         });
     });
 
-    it('doesn\'t require neither a User nor a Trial', () => {
+    it('accepts anonymous contributions with only an uploaded file', () => {
       delete config.s3.customDomain;
       const dataKey = 'uploads/00000000-0000-0000-0000-000000000000/data.pdf'
       const dataUrl = `https://opentrials-test.s3.amazonaws.com/${dataKey}`;
@@ -104,14 +125,29 @@ describe('contribute-data handler', () => {
         method: 'post',
         payload: {
           response,
-          comments: 'A test PDF',
         },
       };
 
-      return new DataContribution({ url: dataUrl }).fetch()
+      return new DataContribution({ data_url: dataUrl }).fetch()
         .then((dataContribution) => should(dataContribution).be.null())
         .then(() => server.inject(options))
-        .then(() => new DataContribution({ url: dataUrl }).fetch({ require: true }));
+        .then(() => new DataContribution({ data_url: dataUrl }).fetch({ require: true }));
+    });
+
+    it('accepts anonymous contributions with only a URL', () => {
+      const sourceUrl = 'http://somewhere.com/data.pdf';
+      const options = {
+        url: '/contribute-data',
+        method: 'post',
+        payload: {
+          url: sourceUrl,
+        },
+      };
+
+      return new DataContribution({ url: sourceUrl }).fetch()
+        .then((dataContribution) => should(dataContribution).be.null())
+        .then(() => server.inject(options))
+        .then(() => new DataContribution({ url: sourceUrl }).fetch({ require: true }));
     });
 
     it('redirects to the redirectTo query param when successful', () => {
@@ -212,7 +248,7 @@ describe('contribute-data handler', () => {
         },
       };
 
-      return new DataContribution({ url: dataUrl }).save()
+      return new DataContribution({ data_url: dataUrl }).save()
         .then(() => server.inject(options))
         .then((response) => {
           const context = response.request.response.source.context;
@@ -242,10 +278,10 @@ describe('contribute-data handler', () => {
         },
       };
 
-      return new DataContribution({ url: expectedUrl }).fetch()
+      return new DataContribution({ data_url: expectedUrl }).fetch()
         .then((dataContribution) => should(dataContribution).be.null())
         .then(() => server.inject(options))
-        .then(() => new DataContribution({ url: expectedUrl }).fetch({ require: true }));
+        .then(() => new DataContribution({ data_url: expectedUrl }).fetch({ require: true }));
     });
   });
 });

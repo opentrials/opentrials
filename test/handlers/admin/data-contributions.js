@@ -42,7 +42,7 @@ describe('admin data contributions handler', () => {
       return factory.createMany('dataContribution', 2)
         .then(() => new DataContribution()
                       .query('orderBy', 'created_at', 'desc')
-                      .fetchAll({ withRelated: ['user'] }))
+                      .fetchAll({ withRelated: DataContribution.relatedModels }))
         .then((_dataContributions) => dataContributions = _dataContributions )
         .then(() => server.inject(options))
         .then((response) => {

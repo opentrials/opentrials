@@ -11,15 +11,35 @@
   method="POST"
   data-url="{{ s3.action }}"
   >
+
   {% for name, value in s3.fields %}
     <input type="hidden" name="{{ name }}" value="{{ value }}" />
   {% endfor %}
 
-  <label for="data">File (max {{ maxUploadSize | formatBytes }})</label>
+  <label for="data">File (maximum {{ maxUploadSize | formatBytes }})</label>
   <input id="data" type="file" name="file" />
 
+  <label for="url">Link</label>
+  <input
+    id="url"
+    name="url"
+    placeholder="It can be a link to the file you're uploading or just an interesting link, like a trial's webpage (e.g. http://www.somewhere.com/data.pdf)"
+    />
+
+  <label for="data_category_id">Category</label>
+  <select name="data_category_id">
+    <option value="" disabled selected>Which category best describes your contribution?</option>
+    {% for category in categories %}
+    <option value="{{ category.id }}">{{ category.name }}</option>
+    {% endfor %}
+  </select>
+
   <label for="comments">Comments</label>
-  <textarea id="comments" name="comments"></textarea>
+  <textarea
+    id="comments"
+    name="comments"
+    placeholder="Tell us about what you're sending"
+    ></textarea>
 
   <button type="submit">
     Submit

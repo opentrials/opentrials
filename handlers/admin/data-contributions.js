@@ -26,7 +26,7 @@ function editDataContribution(request, reply) {
 function listDataContributions(request, reply) {
   return new DataContribution()
     .query('orderBy', 'created_at', 'desc')
-    .fetchAll({ withRelated: ['user'] })
+    .fetchAll({ withRelated: DataContribution.relatedModels })
     .then((dataContributions) => {
       reply.view('admin/data-contributions', {
         title: 'Data contributions',

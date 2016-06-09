@@ -12,6 +12,7 @@ const config = require('../config');
 function clearDB() {
   const tables = [
     'data_contributions',
+    'data_categories',
     'oauth_credentials',
     'users',
   ];
