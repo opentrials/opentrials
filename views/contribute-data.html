@@ -27,7 +27,7 @@
     />
 
   <label for="data_category_id">Category</label>
-  <select name="data_category_id">
+  <select id="data_category_id" name="data_category_id">
     <option value="" disabled selected>Which category best describes your contribution?</option>
     {% for category in categories %}
     <option value="{{ category.id }}">{{ category.name }}</option>

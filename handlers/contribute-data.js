@@ -12,6 +12,8 @@ const DataCategory = require('../models/data-category');
 function _getContributeData(request, reply) {
   const additionalConditions = [
     ['starts-with', '$comments', ''],
+    ['starts-with', '$url', ''],
+    ['starts-with', '$data_category_id', ''],
   ];
 
   return new DataCategory().fetchAll()

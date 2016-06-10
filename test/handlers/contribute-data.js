@@ -41,14 +41,18 @@ describe('contribute-data handler', () => {
         });
     });
 
-    it('adds "comments" field to the S3 Policy', () => {
+    it('adds "comments", "url" and "data_category_id" fields to the S3 Policy', () => {
       return server.inject('/contribute-data')
         .then((response) => {
           const context = response.request.response.source.context;
           const policyBase64 = context.s3.fields.Policy
           const policy = JSON.parse(new Buffer(policyBase64, 'base64'));
 
-          should(policy.conditions).containEql(['starts-with', '$comments', '']);
+          should(policy.conditions).containDeep([
+            ['starts-with', '$comments', ''],
+            ['starts-with', '$url', ''],
+            ['starts-with', '$data_category_id', ''],
+          ]);
         });
     });
   });
