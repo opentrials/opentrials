@@ -175,14 +175,14 @@
   <h2>Sources</h2>
   <dl>
     {% for record in trial.records %}
-      <dt>{{ record.source.name }}</dt>
+      <dt>
+        <a href="/trials/{{ trial.id }}/records/{{ record.id }}">{{ record.source.name }}</a>
+      </dt>
       <dd>
         Last updated on
-        <a href="/trials/{{ trial.id }}/records/{{ record.id }}">
-          <time datetime="{{ record.updated_at }}">
-            {{ record.updated_at | formatDate }}
-          </time>
-        </a>
+        <time datetime="{{ record.updated_at }}">
+          {{ record.updated_at | formatDate }}
+        </time>
       </dd>
     {% endfor %}
   </dl>
