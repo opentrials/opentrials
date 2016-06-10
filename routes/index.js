@@ -18,7 +18,7 @@ const routes = [
   {
     path: '/',
     method: 'GET',
-    handler: require('../handlers/homepage'),
+    config: require('../handlers/homepage'),
   },
   {
     path: '/about',

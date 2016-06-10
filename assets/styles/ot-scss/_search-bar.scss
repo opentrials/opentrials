@@ -57,6 +57,12 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .advanced {
+  display: none;
+
+  &.visible {
+    display: block;
+  }
+
   & > div {
     margin-bottom: $small-spacing;
 
@@ -98,16 +104,6 @@ input[type="search"]::-webkit-search-cancel-button {
     #clear-fieldset {
       color: inherit;
       background-color: $dark-blue;
-    }
-  }
-}
-
-.js {
-  .advanced {
-    display: none;
-
-    &.visible {
-      display: block;
     }
   }
 }

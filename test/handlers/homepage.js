@@ -1,5 +1,6 @@
 'use strict';
 
+const should = require('should');
 const server = require('../../server');
 
 describe('homepage handler', () => {
@@ -24,6 +25,24 @@ describe('homepage handler', () => {
     it('sets the title', () => {
       const context = response.request.response.source.context;
       context.should.have.property('title');
+    });
+  });
+
+  describe('GET /?advanced_search={advanced_search}', () => {
+    it('sets advancedSearchIsVisible to false by default', () => {
+      return server.inject('/')
+        .then((response) => {
+          const context = response.request.response.source.context;
+          should(context.advancedSearchIsVisible).be.false();
+        });
+    });
+
+    it('sets advancedSearchIsVisible to true when advanced_search is true', () => {
+      return server.inject('/?advanced_search=true')
+        .then((response) => {
+          const context = response.request.response.source.context;
+          should(context.advancedSearchIsVisible).be.true();
+        });
     });
   });
 });

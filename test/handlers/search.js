@@ -1,4 +1,6 @@
 'use strict';
+
+const should = require('should');
 const server = require('../../server');
 
 describe('search handler', () => {
@@ -797,6 +799,28 @@ describe('search handler', () => {
         .then((_response) => {
           _response.statusCode.should.equal(200)
           _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
+        });
+    });
+  });
+
+  describe('GET /search?advanced_search{advancedSearch}', () => {
+    it('sets advancedSearchIsVisible to true when advanced_search is true', () => {
+      mockApiResponses();
+
+      return server.inject('/search?advanced_search=true')
+        .then((response) => {
+          const context = response.request.response.source.context;
+          should(context.advancedSearchIsVisible).be.true();
+        });
+    });
+
+    it('ignores advanced_search when there are filters', () => {
+      mockApiResponses();
+
+      return server.inject('/search?advanced_search=false&location=UK')
+        .then((response) => {
+          const context = response.request.response.source.context;
+          should(context.advancedSearchIsVisible).be.true();
         });
     });
   });
