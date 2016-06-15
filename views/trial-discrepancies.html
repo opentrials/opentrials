@@ -2,17 +2,17 @@
 
 {% block main %}
 <article class="record-data">
-{% if discrepancies.length == 0 %}
+{% if not trial.discrepancies %}
 There are no discrepancies in this Trial's records.
 {% else %}
 <dl>
-  {% for discrepancy in discrepancies %}
-    <dt>{{ discrepancy.field | underscoresToCapitalized }}<dt>
+  {% for field, discrepantRecords in trial.discrepancies %}
+    <dt id="{{ field }}">{{ field | underscoresToCapitalized }}<dt>
     <dd>
       <dl>
-      {% for record in discrepancy.records %}
+      {% for record in discrepantRecords %}
         <dt>
-          <a href="/trials/{{ trial_id }}/records/{{ record.id }}">
+          <a href="/trials/{{ trial.id }}/records/{{ record.record_id }}">
             {{ record.source_name }}
           </a>
         </dt>

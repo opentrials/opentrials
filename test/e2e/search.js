@@ -55,6 +55,7 @@ describe('(e2e) search', function() {
     // it if you find a better way.
     driver.findElement(By.name('gender')).sendKeys(webdriver.Key.PAGE_DOWN);
     driver.findElement(By.name('has_published_results')).sendKeys(webdriver.Key.PAGE_DOWN);
+    driver.findElement(By.name('has_discrepancies')).sendKeys(webdriver.Key.PAGE_DOWN);
 
     driver.findElement(By.css('.search-bar input')).submit();
 

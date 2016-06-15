@@ -7,17 +7,19 @@
 {% endblock %}
 
 {% block main %}
-  {% if trials %}
   <section class="search-results">
-    {% for trial in trials.items %}
-      {% if loop.first %}<ol>{% endif %}
-      <li>
-        {% include "partials/trial-search-result.html" %}
-      </li>
-      {% if loop.last %}</ol>{% endif %}
-    {% endfor %}
+    {% if trials.items.length > 0 %}
+      {% for trial in trials.items %}
+        {% if loop.first %}<ol>{% endif %}
+        <li>
+          {% include "partials/trial-search-result.html" %}
+        </li>
+        {% if loop.last %}</ol>{% endif %}
+      {% endfor %}
 
-    {% include "partials/search-pagination.html" %}
-  {% endif %}
+      {% include "partials/search-pagination.html" %}
+    {% else %}
+      No trials found.
+    {% endif %}
   </section>
 {% endblock %}

@@ -132,20 +132,16 @@ describe('trials handler', () => {
 
   describe('GET /trials/{id}/discrepancies', () => {
     describe('API is OK', () => {
-      const records = JSON.parse(JSON.stringify(
-        [
-          fixtures.getRecord(),
-          fixtures.getRecord(),
-        ]
+      const trial = JSON.parse(JSON.stringify(
+        fixtures.getTrial()
       ));
-      const trialId = records[0].trial_id;
       let response;
 
       before(() => {
-        apiServer.get(`/trials/${trialId}/records`)
-          .reply(200, records);
+        apiServer.get(`/trials/${trial.id}`)
+          .reply(200, trial);
 
-        return server.inject(`/trials/${trialId}/discrepancies`)
+        return server.inject(`/trials/${trial.id}/discrepancies`)
           .then((_response) => {
             response = _response;
           });
@@ -155,23 +151,15 @@ describe('trials handler', () => {
         response.statusCode.should.equal(200)
       });
 
-      it('adds the trial_id to the context', () => {
+      it('adds the trial to the context', () => {
         const context = response.request.response.source.context;
-        context.trial_id.should.eql(trialId);
-      });
-
-      it('adds the discrepancies to the context', () => {
-        apiServer.get(`/trials/${trialId}/records`).reply(200, records);
-
-        const context = response.request.response.source.context;
-        return trialsAgent.getDiscrepancies(trialId)
-          .then((discrepancies) => context.discrepancies.should.deepEqual(discrepancies));
+        should(context.trial).deepEqual(trial);
       });
 
       it('returns 404 when trial doesnt exist', () => {
-        apiServer.get('/trials/foo/records').reply(404);
+        apiServer.get('/trials/00000000-0000-0000-0000-000000000000').reply(404);
 
-        return server.inject('/trials/foo/discrepancies')
+        return server.inject('/trials/00000000-0000-0000-0000-000000000000/discrepancies')
           .then((_response) => {
             _response.statusCode.should.equal(404);
           });
@@ -180,9 +168,9 @@ describe('trials handler', () => {
 
     describe('API is not OK', () => {
       it('returns error 502', () => {
-        apiServer.get('/trials/foo/records').reply(500);
+        apiServer.get('/trials/00000000-0000-0000-0000-000000000000/records').reply(500);
 
-        return server.inject('/trials/foo/discrepancies')
+        return server.inject('/trials/00000000-0000-0000-0000-000000000000/discrepancies')
           .then((_response) => {
             _response.statusCode.should.equal(502);
           });

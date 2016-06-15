@@ -35,16 +35,19 @@
   &.download,
   &.follow,
   &.unfollow,
-  &.flag {
+  &.flag,
+  &.discrepancies {
     padding-left: $base-spacing * 0.75;
+    text-indent: 1em;
+    position: relative;
 
     &:before {
       @include icon-font();
       font-size: em(22);
-      float: left;
-      margin-right: $small-spacing /2;
-      position: relative;
-      top: - em(2);
+      position: absolute;
+      margin-top: - em(2);
+      text-indent: 0;
+      left: 0.5em;
     }
   }
 
@@ -63,21 +66,24 @@
   &.follow {
     &:before {
       content: "\e90c";
-      margin-right:0.27em;
     }
   }
 
   &.unfollow {
     &:before {
       content: "\e90b";
-      margin-right:0.27em;
     }
   }
 
   &.flag {
     &:before {
       content: "\e910";
-      margin-right:0.27em;
+    }
+  }
+
+  &.discrepancies {
+    &:before {
+      @include icon-discrepancy;
     }
   }
 }

@@ -1,5 +1,11 @@
 {% extends "layouts/two-columns.html" %}
 
+{% macro add_discrepancy_icon_if_needed(trial, name) %}
+{% if trial.discrepancies[name] %}
+<a class="discrepancy" href="/trials/{{ trial.id }}/discrepancies#{{ name }}"><span>(</span><span class="text">There are discrepancies for this data</span><span>)</span></a>
+{% endif %}
+{% endmacro %}
+
 {% block bannerFooter %}
   <ul class="overview-list">
     {% if trial.registration_date %}
@@ -7,6 +13,7 @@
       <span class="date">
         Registration: {{ trial.registration_date | formatDate }}
       </span>
+      {{ add_discrepancy_icon_if_needed(trial, 'registration_date') }}
     </li>
     {% else %}
     <li class="disabled">
@@ -16,6 +23,7 @@
     {% if trial.target_sample_size %}
     <li>
       <span class="number">{{ trial.target_sample_size }}</span> Participants
+      {{ add_discrepancy_icon_if_needed(trial, 'target_sample_size') }}
     </li>
     {% else %}
     <li class="disabled">
@@ -41,6 +49,7 @@
         N/A
       </span>
       {% endif %}
+      {{ add_discrepancy_icon_if_needed(trial, 'gender') }}
     </li>
     {% else %}
     <li class="disabled">
@@ -62,7 +71,9 @@
 
 <article>
   {% if trial.conditions.length != 0 %}
-  <h2>Conditions</h2>
+  <h2>
+    Conditions
+  </h2>
   <ul class="overview-list">
     {% for condition in trial.conditions %}
       <li><a href="/conditions/{{ condition.id }}">{{ condition.name }}</a></li>
@@ -73,7 +84,9 @@
   {% endif %}
 
   {% if trial.interventions.length != 0 %}
-  <h2>Treatments</h2>
+  <h2>
+    Treatments
+  </h2>
   <ul class="overview-list">
     {% for intervention in trial.interventions %}
       <li><a href="/interventions/{{ intervention.id }}" class="{{ intervention.type }}">{{ intervention.name }}</a></li>
@@ -84,7 +97,10 @@
   {% endif %}
 
   {% if trial.brief_summary.length != 0 %}
-  <h2>Lay summary</h2>
+  <h2>
+    Lay summary
+    {{ add_discrepancy_icon_if_needed(trial, 'brief_summary') }}
+  </h2>
   <p>
     {{ trial.brief_summary }}
   </p>
@@ -98,8 +114,8 @@
     <li>
       <a href="{{ trial.url }}" class="download">Download JSON</a>
       <a href="{{ contributeDataUrl }}" class="upload">Contribute Data</a>
-      {% if trial.has_discrepancies %}
-        <a href="/trials/{{ trial.id }}/discrepancies">Data discrepancies</a>
+      {% if trial.discrepancies %}
+        <a href="/trials/{{ trial.id }}/discrepancies" class="discrepancies">Discrepancies</a>
       {% endif %}
     </li>
   </ul>
@@ -137,7 +153,9 @@
   </div>
 
   {% if trial.locations.length != 0 %}
-  <h2>Locations</h2>
+  <h2>
+    Locations
+  </h2>
   <dl>
     {% for location in trial.locations %}
       <dt>{{ location.name }}</dt>
@@ -172,6 +190,7 @@
   {{ no_data_message('Related Organisations', thing='"related organisations"') }}
   {% endif %}
 
+  {% if trial.records.length != 0 %}
   <h2>Sources</h2>
   <dl>
     {% for record in trial.records %}
@@ -186,6 +205,9 @@
       </dd>
     {% endfor %}
   </dl>
+  {% else %}
+  {{ no_data_message('Sources', thing='"sources"') }}
+  {% endif %}
 
   {% if trial.publications.length != 0 %}
   <h2>Publications</h2>

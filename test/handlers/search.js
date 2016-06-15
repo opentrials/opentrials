@@ -172,6 +172,15 @@ describe('search handler', () => {
       });
     });
 
+    describe('has_discrepancies', () => {
+      it('rejects values other than "true" and "false"', () => {
+        return server.inject('/search?has_discrepancies=maybe')
+          .then((_response) => {
+            _response.statusCode.should.equal(400)
+          });
+      });
+    });
+
     describe('sample_size_start', () => {
       it('rejects non-numeric values', () => {
         return server.inject('/search?sample_size_start=ddd')
@@ -341,6 +350,53 @@ describe('search handler', () => {
       });
 
       return server.inject('/search?has_published_results=false')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+        });
+    });
+  });
+
+  describe('GET /search?has_discrepancies={has_discrepancies}', () => {
+    it('doesnt filter if has_discrepancies is empty', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: undefined,
+          },
+        },
+      });
+
+      return server.inject('/search?has_discrepancies=')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+        });
+    });
+
+    it('filter by trials with published results if has_discrepancies is true', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: '_exists_:(discrepancies)',
+          },
+        },
+      });
+
+      return server.inject('/search?has_discrepancies=true')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+        });
+    });
+
+    it('filter by trials without published results if has_discrepancies is false', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: '_missing_:(discrepancies)',
+          },
+        },
+      });
+
+      return server.inject('/search?has_discrepancies=false')
         .then((_response) => {
           _response.statusCode.should.equal(200)
         });

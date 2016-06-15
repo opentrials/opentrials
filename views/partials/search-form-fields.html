@@ -104,6 +104,27 @@
     </div>
   </div>
 
+  <div>
+    <label for="has_discrepancies">Discrepancies</label>
+    <div class="select">
+      <select name="has_discrepancies" id="has_discrepancies">
+        <option value="">All</option>
+        <option
+          value="true"
+          {% if query.has_discrepancies %}selected{% endif %}
+          >
+          Trials with discrepancies
+        </option>
+        <option
+          value="false"
+          {% if query.has_discrepancies == false %}selected{% endif %}
+          >
+          Trials without discrepancies
+        </option>
+      </select>
+    </div>
+  </div>
+
   <div class="two-columns-fields">
     <fieldset>
         <legend style="display:none;">Registration date period</legend>
