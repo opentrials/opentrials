@@ -15,12 +15,12 @@ describe('persons handler', () => {
       let response;
 
       before(() => {
-        apiServer.get('/persons/'+person.id).reply(200, person);
+        apiServer.get(`/persons/${person.id}`).reply(200, person);
 
         mockApiResponses({
           search: {
             query: {
-              q: `person:"${escapeElasticSearch(person.name)}"`,
+              q: `person:("${escapeElasticSearch(person.name)}")`,
               page: 1,
             },
             response: trials,

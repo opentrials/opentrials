@@ -15,12 +15,12 @@ describe('organisations handler', () => {
       let response;
 
       before(() => {
-        apiServer.get('/organisations/'+organisation.id).reply(200, organisation);
+        apiServer.get(`/organisations/${organisation.id}`).reply(200, organisation);
 
         mockApiResponses({
           search: {
             query: {
-              q: `organisation:"${escapeElasticSearch(organisation.name)}"`,
+              q: `organisation:("${escapeElasticSearch(organisation.name)}")`,
               page: 1,
             },
             response: trials,

@@ -15,12 +15,12 @@ describe('interventions handler', () => {
       let response;
 
       before(() => {
-        apiServer.get('/interventions/'+intervention.id).reply(200, intervention);
+        apiServer.get(`/interventions/${intervention.id}`).reply(200, intervention);
 
         mockApiResponses({
           search: {
             query: {
-              q: `intervention:"${escapeElasticSearch(intervention.name)}"`,
+              q: `intervention:("${escapeElasticSearch(intervention.name)}")`,
               page: 1,
             },
             response: trials,

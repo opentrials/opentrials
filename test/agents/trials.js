@@ -46,6 +46,12 @@ describe('Trials', () => {
       return trials.search('foo bar').should.be.fulfilledWith(expectedResponse);
     });
 
+    it('escapes the query string', () => {
+      apiServer.get('/search').query({q: 'foo\\/bar'}).reply(200, response);
+
+      return trials.search('foo/bar').should.be.fulfilledWith(expectedResponse);
+    });
+
     it('passes the page number to the query', () => {
       apiServer.get('/search').query({page: 2}).reply(200, response);
 
@@ -95,7 +101,7 @@ describe('Trials', () => {
 
     it('escapes special elasticsearch values', () => {
       apiServer.get('/search')
-        .query({q: 'entity:"foo\\(bar\\)"', page: 1, per_page: 10})
+        .query({q: 'entity:("foo\\(bar\\)")', page: 1, per_page: 10})
         .reply(200, response);
 
       return trials.searchByEntity('entity', 'foo(bar)')

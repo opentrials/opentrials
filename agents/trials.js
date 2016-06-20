@@ -34,10 +34,11 @@ function generateQueryString(query, filters) {
 
   let queryString;
   if (query) {
+    const escapedQuery = escapeElasticSearch(query);
     if (queryValues) {
-      queryString = `(${query}) AND ${queryValues}`;
+      queryString = `(${escapedQuery}) AND ${queryValues}`;
     } else {
-      queryString = query;
+      queryString = escapedQuery;
     }
   } else {
     queryString = queryValues || undefined;
@@ -59,7 +60,9 @@ function searchTrials(query, page, perPage, filters) {
 }
 
 function searchTrialsByEntity(entityType, entityName) {
-  return searchTrials(`${entityType}:"${escapeElasticSearch(entityName)}"`, 1, 10);
+  const filters = {};
+  filters[entityType] = `"${escapeElasticSearch(entityName)}"`;
+  return searchTrials(undefined, 1, 10, filters);
 }
 
 module.exports = {

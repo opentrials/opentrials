@@ -20,14 +20,14 @@ describe('conditions handler', () => {
         mockApiResponses({
           search: {
             query: {
-              q: `condition:"${escapeElasticSearch(condition.name)}"`,
+              q: `condition:("${escapeElasticSearch(condition.name)}")`,
               page: 1,
             },
             response: trials,
           },
         });
 
-        return server.inject('/conditions/'+condition.id)
+        return server.inject(`/conditions/${condition.id}`)
           .then((_response) => {
             response = _response;
           });
