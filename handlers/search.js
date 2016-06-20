@@ -99,12 +99,25 @@ function getFilters(query) {
     filters.has_published_results = query.has_published_results;
   }
 
+  const hasPublications = (query.has_publications !== undefined);
+  if (hasPublications) {
+    if (query.has_publications) {
+      filters._exists_ = filters._exists_ || [];
+      filters._exists_.push('publications');
+    } else {
+      filters._missing_ = filters._missing_ || [];
+      filters._missing_.push('publications');
+    }
+  }
+
   const hasDiscrepancies = (query.has_discrepancies !== undefined);
   if (hasDiscrepancies) {
     if (query.has_discrepancies) {
-      filters._exists_ = 'discrepancies';
+      filters._exists_ = filters._exists_ || [];
+      filters._exists_.push('discrepancies');
     } else {
-      filters._missing_ = 'discrepancies';
+      filters._missing_ = filters._missing_ || [];
+      filters._missing_.push('discrepancies');
     }
   }
 
@@ -157,6 +170,7 @@ module.exports = {
       organisation: Joi.array().single(true).items(Joi.string().empty('')),
       gender: Joi.valid(['male', 'female']).empty(''),
       has_published_results: Joi.boolean().empty(''),
+      has_publications: Joi.boolean().empty(''),
       has_discrepancies: Joi.boolean().empty(''),
       sample_size_start: Joi.number().integer().empty(''),
       sample_size_end: Joi.number().integer().empty(''),

@@ -172,6 +172,15 @@ describe('search handler', () => {
       });
     });
 
+    describe('has_publications', () => {
+      it('rejects values other than "true" and "false"', () => {
+        return server.inject('/search?has_publications=maybe')
+          .then((_response) => {
+            _response.statusCode.should.equal(400)
+          });
+      });
+    });
+
     describe('has_discrepancies', () => {
       it('rejects values other than "true" and "false"', () => {
         return server.inject('/search?has_discrepancies=maybe')
@@ -350,6 +359,53 @@ describe('search handler', () => {
       });
 
       return server.inject('/search?has_published_results=false')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+        });
+    });
+  });
+
+  describe('GET /search?has_publications={has_publications}', () => {
+    it('doesnt filter if has_publications is empty', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: undefined,
+          },
+        },
+      });
+
+      return server.inject('/search?has_publications=')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+        });
+    });
+
+    it('filter by trials with published results if has_publications is true', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: '_exists_:(publications)',
+          },
+        },
+      });
+
+      return server.inject('/search?has_publications=true')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+        });
+    });
+
+    it('filter by trials without published results if has_publications is false', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: '_missing_:(publications)',
+          },
+        },
+      });
+
+      return server.inject('/search?has_publications=false')
         .then((_response) => {
           _response.statusCode.should.equal(200)
         });

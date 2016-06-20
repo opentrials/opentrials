@@ -105,6 +105,27 @@
   </div>
 
   <div>
+    <label for="has_publications">Publications</label>
+    <div class="select">
+      <select name="has_publications" id="has_publications">
+        <option value="">All</option>
+        <option
+          value="true"
+          {% if query.has_publications %}selected{% endif %}
+          >
+          Trials with publications
+        </option>
+        <option
+          value="false"
+          {% if query.has_publications == false %}selected{% endif %}
+          >
+          Trials without publications
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div>
     <label for="has_discrepancies">Discrepancies</label>
     <div class="select">
       <select name="has_discrepancies" id="has_discrepancies">
