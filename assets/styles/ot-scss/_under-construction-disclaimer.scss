@@ -1,0 +1,32 @@
+@import "constants";
+
+.under-construction {
+  background: $dark-blue;
+  color: #fff;
+  width: 100%;
+
+  span {
+    max-width: $max-width;
+    margin: auto;
+    display: block;
+    padding: $small-spacing $base-spacing;
+  }
+
+  a {
+    color: #fff;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+#ok-panel {
+  border-bottom: 0;
+}
+
+#ok-panel-wrapper {
+  .ok-ribbon {
+    position: static !important;
+  }
+}
