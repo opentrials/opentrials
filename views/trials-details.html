@@ -85,7 +85,7 @@
 
   {% if trial.interventions.length != 0 %}
   <h2>
-    Treatments
+    Interventions
   </h2>
   <ul class="overview-list">
     {% for intervention in trial.interventions %}
@@ -93,7 +93,7 @@
     {% endfor %}
   </ul>
   {% else %}
-  {{ no_data_message('Treatments', thing='"treatment" data') }}
+  {{ no_data_message('Interventions', thing='"intervention" data') }}
   {% endif %}
 
   {% if trial.brief_summary.length != 0 %}

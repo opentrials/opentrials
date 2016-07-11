@@ -63,7 +63,7 @@
 				"isMulticolor": false,
 				"tags": [
 					"health",
-					"treatment"
+					"intervention"
 				],
 				"grid": 16
 			},
@@ -73,7 +73,7 @@
 				"id": 1,
 				"prevSize": 32,
 				"code": 59671,
-				"name": "treatment"
+				"name": "intervention"
 			},
 			"setIdx": 1,
 			"setId": 1,

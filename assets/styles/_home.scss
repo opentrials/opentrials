@@ -109,66 +109,23 @@
     }
   }
 
-  &:not(.advanced-search) {
-
-    @media only screen and (min-width: $medium-screen) and (min-height: 768px) {
-      height: 100%;
-
-      body {
-        height: 100%;
-
-        .page {
-          height: 100%;
-        }
-
-        main {
-          height: 100%;
-          display: table;
-          top: -100px;
-          position: relative;
-          z-index: -1;
-          padding: $small-spacing;
-
-          form {
-            display: table-cell;
-            vertical-align: middle;
-          }
-        }
-
-        .site-footer {
-          position: absolute;
-          bottom: 0;
-          width: 100%;
-        }
-      }
-    }
-  }
-
-  @media only screen and (min-width: $medium-screen) and (min-height: 900px) {
+  @media only screen and (min-width: $medium-screen) and (min-height: 768px) {
+    $footer-height: 150px;
     height: 100%;
 
     body {
       height: 100%;
 
       .page {
-        height: 100%;
+        min-height: 100%;
       }
 
       main {
-        height: 100%;
-        display: table;
-        top: -100px;
-        position: relative;
-        z-index: -1;
-        padding: $small-spacing;
-
-        form {
-          display: table-cell;
-          vertical-align: middle;
-        }
+        padding: $footer-height $small-spacing;
       }
 
       .site-footer {
+        height: $footer-height;
         position: absolute;
         bottom: 0;
         width: 100%;
