@@ -22,7 +22,7 @@
     {% endif %}
     {% if trial.target_sample_size %}
     <li>
-      <span class="number">{{ trial.target_sample_size }}</span> Participants
+      <span class="number">{{ trial.target_sample_size | formatNumber }}</span> Participants
       {{ add_discrepancy_icon_if_needed(trial, 'target_sample_size') }}
     </li>
     {% else %}

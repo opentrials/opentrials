@@ -3,7 +3,7 @@
 {% block main %}
 <article class="result">
   <div class="stats-node">
-    <h3>Number of trials: <span id="trialsCount">{{stats.trialsCount}}</span></h3>
+    <h3>Number of trials: <span id="trialsCount">{{stats.trialsCount | formatNumber}}</span></h3>
   </div>
 
   <div class="stats-node">
@@ -12,7 +12,7 @@
       {% for trialPerRegistry in stats.trialsPerSource %}
       <li>
         <dt>{{ trialPerRegistry.name }}</dt>
-        <dd>{{ trialPerRegistry.count }}</dd>
+        <dd>{{ trialPerRegistry.count | formatNumber }}</dd>
       </li>
       {% endfor %}
     </ul>
@@ -24,7 +24,7 @@
       {% for trialPerYear in stats.trialsPerYear %}
       <li>
         <dt>{{ trialPerYear.year }}</dt>
-        <dd>{{ trialPerYear.count }}</dd>
+        <dd>{{ trialPerYear.count | formatNumber }}</dd>
       </li>
       {% endfor %}
     </ul>
@@ -36,7 +36,7 @@
       {% for topLocation in stats.topLocations %}
       <li>
         <dt>{{ topLocation.name }}</dt>
-        <dd>{{ topLocation.count }}</dd>
+        <dd>{{ topLocation.count | formatNumber }}</dd>
       </li>
       {% endfor %}
     </ul>
