@@ -28,7 +28,7 @@
         <a href="/search">Search</a>
       </li>
       <li>
-        Found {{ trials.total_count }} trial{% if trials.total_count != 1 %}s{% endif %}
+        Found {{ trials.total_count | formatNumber }} trial{% if trials.total_count != 1 %}s{% endif %}
       </li>
     </ul>
   {% endif %}
