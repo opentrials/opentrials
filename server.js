@@ -2,6 +2,7 @@
 
 const Hapi = require('hapi');
 const url = require('url');
+const plugins = require('./lib/plugins');
 const config = require('./config');
 const routes = require('./routes');
 const server = new Hapi.Server();
@@ -11,20 +12,8 @@ server.connection({
   port: config.port,
 });
 
-function _addFlashMessagesToContext(request, reply) {
-  const response = request.response;
-
-  if (request.yar.flash && response.variety === 'view') {
-    response.source.context = Object.assign(
-      {},
-      response.source.context || {},
-      { flash: request.yar.flash() }
-    );
-  }
-
-  return reply.continue();
-}
-server.ext('onPreResponse', _addFlashMessagesToContext);
+server.ext('onPreResponse', plugins.addFlashMessagesToContext);
+server.ext('onPreResponse', plugins.httpErrorHandler);
 
 server.register(config.hapi.plugins)
   .then(() => {
