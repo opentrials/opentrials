@@ -261,7 +261,7 @@ dl {
       color: $red;
       padding-right: 0.8em + 2.9em;
 
-      &:after {
+      a:after {
         @include icon-font();
         content: "\e90a";
         border-left: solid 1px #fff;

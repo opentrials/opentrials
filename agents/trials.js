@@ -2,11 +2,12 @@
 
 const escapeElasticSearch = require('../helpers/escape-elastic-search');
 const opentrialsApi = require('../config').opentrialsApi;
+const decorateTrial = require('../presenters/trial');
 
 function getTrial(trialId) {
   return opentrialsApi
     .then((client) => client.trials.get({ id: trialId }))
-    .then((response) => response.obj);
+    .then((response) => decorateTrial(response.obj));
 }
 
 function getRecord(id, trialId) {

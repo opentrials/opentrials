@@ -3,6 +3,7 @@
 const should = require('should');
 const server = require('../../server');
 const trialsAgent = require('../../agents/trials');
+const trialDecorator = require('../../presenters/trial');
 
 describe('trials handler', () => {
   describe('GET /trials/{id}', () => {
@@ -29,9 +30,9 @@ describe('trials handler', () => {
         response.request.response.source.template.should.equal('trials-details')
       ));
 
-      it('adds the requested trial to the context', () => {
+      it('adds the decorated requested trial to the context', () => {
         const context = response.request.response.source.context;
-        context.trial.should.deepEqual(trial);
+        context.trial.should.deepEqual(trialDecorator(trial));
       });
 
       it('adds the contributeDataUrl to the context', () => {
@@ -151,9 +152,9 @@ describe('trials handler', () => {
         response.statusCode.should.equal(200)
       });
 
-      it('adds the trial to the context', () => {
+      it('adds the decorated trial to the context', () => {
         const context = response.request.response.source.context;
-        should(context.trial).deepEqual(trial);
+        should(context.trial).deepEqual(trialDecorator(trial));
       });
 
       it('returns 404 when trial doesnt exist', () => {

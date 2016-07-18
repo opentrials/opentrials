@@ -107,6 +107,26 @@
   {% else %}
   {{ no_data_message('Lay summary', thing='"lay summary"') }}
   {% endif %}
+
+  <h2>
+    Data
+  </h2>
+  <p>
+    {% for category, documents in trial.documents %}
+      <section class="document-list">
+        <h3>{{ category }}</h3>
+        <ul>
+        {% for document in documents %}
+          <li class="{{ 'needed' if not document.url }}">
+            <a href="{{ document.url or contributeDataUrl }}">
+              {{ document.name }}
+            </a>
+          </li>
+        {% endfor %}
+        </ul>
+      </section>
+    {% endfor %}
+  </p>
 </article>
 
 <aside>

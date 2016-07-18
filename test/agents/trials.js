@@ -2,17 +2,18 @@
 
 const should = require('should');
 const trials = require('../../agents/trials');
+const trialDecorator = require('../../presenters/trial');
 
 describe('Trials', () => {
   describe('#get', () => {
-    it('returns the trial', () => {
+    it('returns the decorated trial', () => {
       const data = {
         id: 1,
         title: 'foo',
       };
       apiServer.get('/trials/1').reply(200, data);
 
-      return trials.get(1).should.be.fulfilledWith(data);
+      return trials.get(1).should.be.fulfilledWith(trialDecorator(data));
     });
 
     it('rejects if trialId is inexistent', () => {
