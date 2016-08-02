@@ -20,4 +20,6 @@ function publicationsDetails(request, reply) {
   });
 }
 
-module.exports = publicationsDetails;
+module.exports = {
+  handler: publicationsDetails,
+};

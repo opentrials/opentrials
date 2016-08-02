@@ -10,4 +10,6 @@ function logout(request, reply) {
   reply.redirect(redirectToPage);
 }
 
-module.exports = logout;
+module.exports = {
+  handler: logout,
+};

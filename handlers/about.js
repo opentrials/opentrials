@@ -6,4 +6,6 @@ function about(request, reply) {
   });
 }
 
-module.exports = about;
+module.exports = {
+  handler: about,
+};

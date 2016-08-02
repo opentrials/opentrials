@@ -13,4 +13,6 @@ function getStats(request, reply) {
   });
 }
 
-module.exports = getStats;
+module.exports = {
+  handler: getStats,
+};

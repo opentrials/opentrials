@@ -24,4 +24,6 @@ function conditionsDetails(request, reply) {
   });
 }
 
-module.exports = conditionsDetails;
+module.exports = {
+  handler: conditionsDetails,
+};

@@ -24,4 +24,6 @@ function organisationsDetails(request, reply) {
   });
 }
 
-module.exports = organisationsDetails;
+module.exports = {
+  handler: organisationsDetails,
+};

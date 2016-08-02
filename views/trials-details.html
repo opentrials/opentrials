@@ -6,7 +6,14 @@
 {% endif %}
 {% endmacro %}
 
+{% block breadcrumb %}
+  <li><a href="/">Home</a></li>
+  <li><a href="/search">Search</a></li>
+  <li>{{ title | truncate(35) }}</li>
+{% endblock %}
+
 {% block bannerFooter %}
+
   <ul class="overview-list">
     {% if trial.registration_date %}
     <li>

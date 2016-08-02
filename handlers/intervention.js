@@ -24,4 +24,6 @@ function interventionsDetails(request, reply) {
   });
 }
 
-module.exports = interventionsDetails;
+module.exports = {
+  handler: interventionsDetails,
+};

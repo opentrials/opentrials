@@ -1,5 +1,12 @@
 {% extends "layouts/one-column.html" %}
 
+{% block breadcrumb %}
+  <li><a href="/">Home</a></li>
+  <li><a href="/search">Search</a></li>
+  <li><a href="/trials/{{ trial.id }}">{{ trial.public_title | truncate(35) }}</a></li>
+  <li>{{ title | truncate(35) }}</li>
+{% endblock %}
+
 {% block main %}
 <article class="record-data">
 {% if not trial.discrepancies %}

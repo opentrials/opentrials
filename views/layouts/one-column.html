@@ -6,6 +6,9 @@
     {% block banner %}
       {% block title %}<h1>{{ title }}</h1>{% endblock %}
       {% block subtitle %}<p>{{ subtitle }}</p>{% endblock %}
+      <ul class="breadcrumb">
+        {% block breadcrumb %}{% endblock %}
+      </ul>
       {% block bannerFooter %}{% endblock %}
     {% endblock %}
   </div>

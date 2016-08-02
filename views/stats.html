@@ -1,5 +1,10 @@
 {% extends "layouts/one-column.html" %}
 
+{% block breadcrumb %}
+  <li><a href="/">Home</a></li>
+  <li>{{ title | truncate(35) }}</li>
+{% endblock %}
+
 {% block main %}
 <article class="result">
   <div class="stats-node">

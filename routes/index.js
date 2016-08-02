@@ -23,22 +23,22 @@ const routes = [
   {
     path: '/about',
     method: 'GET',
-    handler: require('../handlers/about'),
+    config: require('../handlers/about'),
   },
   {
     path: '/trials/{id}',
     method: 'GET',
-    handler: require('../handlers/trials').getTrial,
+    config: require('../handlers/trials').trial,
   },
   {
     path: '/trials/{id}/discrepancies',
     method: 'GET',
-    handler: require('../handlers/trials').getDiscrepancies,
+    config: require('../handlers/trials').discrepancies,
   },
   {
     path: '/trials/{trialId}/records/{id}',
     method: 'GET',
-    handler: require('../handlers/trials').getRecord,
+    config: require('../handlers/trials').record,
   },
   {
     path: '/search',
@@ -48,27 +48,27 @@ const routes = [
   {
     path: '/conditions/{id}',
     method: 'GET',
-    handler: require('../handlers/condition'),
+    config: require('../handlers/condition'),
   },
   {
     path: '/interventions/{id}',
     method: 'GET',
-    handler: require('../handlers/intervention'),
+    config: require('../handlers/intervention'),
   },
   {
     path: '/persons/{id}',
     method: 'GET',
-    handler: require('../handlers/person'),
+    config: require('../handlers/person'),
   },
   {
     path: '/organisations/{id}',
     method: 'GET',
-    handler: require('../handlers/organisation'),
+    config: require('../handlers/organisation'),
   },
   {
     path: '/publications/{id}',
     method: 'GET',
-    handler: require('../handlers/publication'),
+    config: require('../handlers/publication'),
   },
   {
     path: '/login/google',
@@ -83,12 +83,12 @@ const routes = [
   {
     path: '/logout',
     method: 'GET',
-    handler: require('../handlers/logout'),
+    config: require('../handlers/logout'),
   },
   {
     path: '/stats',
     method: 'GET',
-    handler: require('../handlers/stats'),
+    config: require('../handlers/stats'),
   },
   {
     path: '/contribute-data',

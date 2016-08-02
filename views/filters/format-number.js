@@ -1,7 +1,7 @@
 'use strict';
 
 function formatNumber(number) {
-  if (number) {
+  if (number !== undefined) {
     return number.toLocaleString('en-GB');
   }
 }

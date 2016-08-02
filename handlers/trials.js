@@ -64,7 +64,13 @@ function getDiscrepancies(request, reply) {
 }
 
 module.exports = {
-  getTrial,
-  getRecord,
-  getDiscrepancies,
+  trial: {
+    handler: getTrial,
+  },
+  record: {
+    handler: getRecord,
+  },
+  discrepancies: {
+    handler: getDiscrepancies,
+  },
 };

@@ -6,6 +6,6 @@ const filters = {
   formatObject: require('./format-object'),
   formatBytes: require('./format-bytes'),
   gravatar: require('./gravatar'),
-}
+};
 
-module.exports = filters
+module.exports = filters;

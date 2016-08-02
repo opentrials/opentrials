@@ -8,11 +8,11 @@ function editDataContribution(request, reply) {
   const data = {
     approved: request.payload.approved,
     curation_comments: request.payload.curation_comments,
-  }
+  };
 
   return new DataContribution({ id: request.params.id })
     .save(data, { patch: true, require: true })
-    .then((dataContribution) => {
+    .then(() => {
       request.yar.flash('success', 'Data Contribution updated successfully.');
       return reply.redirect('/admin/data-contributions');
     })

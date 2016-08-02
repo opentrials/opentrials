@@ -14,10 +14,12 @@
 
 {% extends "layouts/two-columns.html" %}
 
-{% block banner %}
-  {% block title %}<h1><small>{{ type | capitalize }}:</small>{{ title }}</h1>{% endblock %}
-  {% block subtitle %}<p>{{ subtitle }}</p>{% endblock %}
-  {% block bannerFooter %}{% endblock %}
+{% block title %}<h1><small>{{ type | capitalize }}:</small>{{ title }}</h1>{% endblock %}
+{% block subtitle %}<p>{{ subtitle }}</p>{% endblock %}
+{% block breadcrumb %}
+  <li><a href="/">Home</a></li>
+  <li><a href="/search">Search</a></li>
+  <li>{{ title | truncate(35) }}</li>
 {% endblock %}
 
 {% block main %}

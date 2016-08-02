@@ -23,13 +23,19 @@
   <a href="?advanced_search=true" class="toggle-advanced">Advanced search</a>
 
   {% if trials %}
+    {% if trials.total_count == 1 %}
+      {% set trials_count = '1 trial' %}
+    {% else %}
+      {% set trials_count = trials.total_count | formatNumber + ' trials' %}
+    {% endif %}
     <ul class="breadcrumb">
-      <li>
-        <a href="/search">Search</a>
-      </li>
-      <li>
-        Found {{ trials.total_count | formatNumber }} trial{% if trials.total_count != 1 %}s{% endif %}
-      </li>
+      <li><a href="/">Home</a></li>
+      {% if query.q %}
+        <li><a href="/search">Search</a></li>
+        <li>{{ query.q }} ({{ trials_count }})</li>
+      {% else %}
+        <li>Search ({{ trials_count }})</li>
+      {% endif %}
     </ul>
   {% endif %}
 </div>

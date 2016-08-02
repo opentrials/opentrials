@@ -24,4 +24,6 @@ function personsDetails(request, reply) {
   });
 }
 
-module.exports = personsDetails;
+module.exports = {
+  handler: personsDetails,
+};
