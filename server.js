@@ -14,6 +14,7 @@ server.connection({
 
 server.ext('onPreResponse', plugins.addFlashMessagesToContext);
 server.ext('onPreResponse', plugins.httpErrorHandler);
+server.ext('onPreResponse', plugins.addCurrentURLToContext);
 
 server.register(config.hapi.plugins)
   .then(() => {

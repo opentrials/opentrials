@@ -26,6 +26,20 @@ body {
       }
     }
 
+    .footer-links {
+      float: right;
+      a {
+        font-size: .9em;
+        margin-right: 16px;
+        &:hover {
+          text-decoration: underline;
+        }
+        &:last-child {
+          padding-right: 0;
+        }
+      }
+    }
+
     hr {
       margin: 1em 0;
       opacity: 0.5;
