@@ -77,7 +77,10 @@ function _postContributeData(request, reply) {
       }).save();
     })
     .then(() => {
-      request.yar.flash('success', 'Data was received successfully. Thanks for your contribution!');
+      const msg = 'Thanks for your contribution!' +
+                  ' It\'ll be reviewed by our researchers and should soon' +
+                  ' appear on OpenTrials.';
+      request.yar.flash('success', msg);
       return reply.redirect(request.query.redirectTo);
     })
     .catch((err) => {

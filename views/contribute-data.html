@@ -11,45 +11,56 @@
 
 {% block main %}
 
-<form
-  class="direct-upload"
-  method="POST"
-  data-url="{{ s3.action }}"
-  >
+<article>
 
-  {% for name, value in s3.fields %}
-    <input type="hidden" name="{{ name }}" value="{{ value }}" />
-  {% endfor %}
+  <p>
+    You can upload a file or send us a link. The contributions are then
+    submitted to moderation before being displayed on OpenTrials.
+  </p>
 
-  <label for="data">File (maximum {{ maxUploadSize | formatBytes }})</label>
-  <input id="data" type="file" name="file" />
+  <h2>Contribution form</h2>
 
-  <label for="url">Link</label>
-  <input
-    id="url"
-    name="url"
-    placeholder="It can be a link to the file you're uploading or just an interesting link, like a trial's webpage (e.g. http://www.somewhere.com/data.pdf)"
-    />
+  <form
+    class="direct-upload"
+    method="POST"
+    data-url="{{ s3.action }}"
+    >
 
-  <label for="data_category_id">Category</label>
-  <select id="data_category_id" name="data_category_id">
-    <option value="" disabled selected>Which category best describes your contribution?</option>
-    {% for category in categories %}
-    <option value="{{ category.id }}">{{ category.name }}</option>
+    {% for name, value in s3.fields %}
+      <input type="hidden" name="{{ name }}" value="{{ value }}" />
     {% endfor %}
-  </select>
 
-  <label for="comments">Comments</label>
-  <textarea
-    id="comments"
-    name="comments"
-    placeholder="Tell us about what you're sending"
-    ></textarea>
+    <label for="data">File (maximum {{ maxUploadSize | formatBytes }})</label>
+    <input id="data" type="file" name="file" />
 
-  <button type="submit">
-    Submit
-    <span class="progress-text"></span>
-  </button>
-</form>
+    <label for="url">Link</label>
+    <input
+      id="url"
+      name="url"
+      placeholder="It can be a link to the file you're uploading or just an interesting link, like a trial's webpage (e.g. http://www.somewhere.com/data.pdf)"
+      />
+
+    <label for="data_category_id">Category</label>
+    <select id="data_category_id" name="data_category_id">
+      <option value="" disabled selected>Which category best describes your contribution?</option>
+      {% for category in categories %}
+      <option value="{{ category.id }}">{{ category.name }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="comments">Comments</label>
+    <textarea
+      id="comments"
+      name="comments"
+      placeholder="Tell us about what you're sending"
+      ></textarea>
+
+    <button type="submit">
+      Submit
+      <span class="progress-text"></span>
+    </button>
+  </form>
+
+</article>
 
 {% endblock %}
