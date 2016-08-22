@@ -78,8 +78,8 @@ function _postContributeData(request, reply) {
     })
     .then(() => {
       const msg = 'Thanks for your contribution!' +
-                  ' It\'ll be reviewed by our researchers and should soon' +
-                  ' appear on OpenTrials.';
+                  ' It will be reviewed by our researchers and should appear' +
+                  ' on OpenTrials soon.';
       request.yar.flash('success', msg);
       return reply.redirect(request.query.redirectTo);
     })
