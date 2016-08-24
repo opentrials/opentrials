@@ -3,8 +3,6 @@ const uuid = require('node-uuid');
 function getTrial() {
   const trial = {
     id: uuid.v1(),
-    primary_register: 'primary_register',
-    primary_id: 'primary_id',
     identifiers: JSON.stringify({}),
     registration_date: new Date('2016-01-01'),
     public_title: 'public_title',
@@ -16,7 +14,7 @@ function getTrial() {
     study_phase: 'study_phase',
     gender: 'both',
     identifiers: { nct: 'NCT00000000', isrctn: 'ISRCTN0000000' },
-    primary_source_id: 'nct',
+    source_id: 'nct',
   };
 
   return trial;
@@ -43,7 +41,7 @@ function getRecord() {
     updated_at: new Date('2016-02-01'),
     gender: 'both',
     identifiers: { nct: 'NCT00000000', isrctn: 'ISRCTN0000000' },
-    primary_source_id: 'nct',
+    source_id: 'nct',
   };
   record.trial_url = `http://api.opentrials.net/v1/trials/${record.trial_id}`;
   record.url = `${record.trial_url}/records/${record.id}`;
@@ -57,7 +55,6 @@ function searchTrialsByEntity() {
     items: [
       {
         id: uuid.v1(),
-        primary_id: 'NCT00000774',
         identifiers: {},
         public_title: 'a public title',
         brief_summary: 'a brief summaty',

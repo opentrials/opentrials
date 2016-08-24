@@ -398,7 +398,7 @@ definitions:
       identifiers:
         type: object
         description: Object that maps the Trial's sources ids with its identifiers.
-      primary_source_id:
+      source_id:
         type: string
       url:
         type: string
@@ -597,7 +597,7 @@ definitions:
       identifiers:
         type: object
         description: Object that maps the Trial's sources ids with its identifiers.
-      primary_source_id:
+      source_id:
         type: string
       url:
         type: string

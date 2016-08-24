@@ -8,9 +8,9 @@ function getTrial(request, reply) {
 
   trials.get(trialId).then((trial) => {
     const identifiers = trial.identifiers || {};
-    const primaryId = identifiers[trial.primary_source_id];
+    const primaryId = identifiers[trial.source_id];
     const secondaryIds = Object.assign({}, identifiers);
-    delete secondaryIds[trial.primary_source_id];
+    delete secondaryIds[trial.source_id];
 
     reply.view('trials-details', {
       title: trial.public_title,

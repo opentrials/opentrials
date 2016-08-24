@@ -43,9 +43,9 @@ describe('trials handler', () => {
 
       it('adds the primaryId and secondaryIds to the context', () => {
         const context = response.request.response.source.context;
-        const primaryId = trial.identifiers[trial.primary_source_id];
+        const primaryId = trial.identifiers[trial.source_id];
         const secondaryIds = Object.assign({}, trial.identifiers);
-        delete secondaryIds[trial.primary_source_id];
+        delete secondaryIds[trial.source_id];
 
         should(context.primaryId).equal(primaryId);
         should(context.secondaryIds).deepEqual(secondaryIds);
