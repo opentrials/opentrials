@@ -59,12 +59,12 @@ $(document).ready(function() {
     });
   });
 
-  // clear fieldset button
-  $("#clear-fieldset").click(function(ev) {
-    var fieldset = $(this).parents('fieldset');
-    fieldset.find('input, select, textarea')
+  // clear form button
+  $(".clear-form").click(function(ev) {
+    var form = $(this).parents('form');
+    form.find('input, select, textarea')
       .val('');
-    fieldset.find('input:radio, input:checkbox')
+    form.find('input:radio, input:checkbox')
       .removeAttr('checked')
       .removeAttr('selected');
   });
