@@ -21,5 +21,15 @@
         <dd>{{ intervention.name }}</dd>
       {% endfor %}
     </li>
+    <li>
+      {% set status = trial.status or 'unknown' %}
+      <dt>Status:</dt>
+      <dd>{{ status | underscoresToCapitalized }}</dd>
+    </li>
+    <li>
+      {% set recruitment_status = trial.recruitment_status or 'unknown' %}
+      <dt>Recruitment status:</dt>
+      <dd>{{ recruitment_status | underscoresToCapitalized }}</dd>
+    </li>
   </ul>
 </article>
