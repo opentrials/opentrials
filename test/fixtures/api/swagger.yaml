@@ -385,7 +385,6 @@ definitions:
       - id
       - url
       - public_title
-      - has_discrepancies
       - locations
       - interventions
       - persons
@@ -395,11 +394,11 @@ definitions:
     properties:
       id:
         type: string
+      source_id:
+        type: string
       identifiers:
         type: object
         description: Object that maps the Trial's sources ids with its identifiers.
-      source_id:
-        type: string
       url:
         type: string
       public_title:
@@ -417,19 +416,24 @@ definitions:
           - female
       has_published_results:
         type: boolean
-      has_discrepancies:
-        type: boolean
-        description: Describes if there are any data discrepancies among the sources of this Trial.
       registration_date:
         type: string
         format: date-time
+      status:
+        type: string
+        enum:
+          - ongoing
+          - withdrawn
+          - suspended
+          - terminated
+          - complete
+          - other
       recruitment_status:
         type: string
         enum:
-          - pending
           - recruiting
-          - suspended
-          - complete
+          - not_recruiting
+          - unknown
           - other
       locations:
         type: array
@@ -459,6 +463,14 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/PublicationSummary'
+      discrepancies:
+        type: object
+        items:
+          $ref: '#/definitions/Discrepancies'
+      documents:
+        type: array
+        items:
+          $ref: '#/definitions/Document'
 
   TrialLocation:
     allOf:
@@ -470,6 +482,7 @@ definitions:
             enum:
               - recruitment_countries
               - other
+
   Location:
     required:
       - id
@@ -613,13 +626,21 @@ definitions:
         type: object
       public_title:
         type: string
+      status:
+        type: string
+        enum:
+          - ongoing
+          - withdrawn
+          - suspended
+          - terminated
+          - complete
+          - other
       recruitment_status:
         type: string
         enum:
-          - pending
           - recruiting
-          - suspended
-          - complete
+          - not_recruiting
+          - unknown
           - other
       created_at:
         type: string
@@ -695,6 +716,89 @@ definitions:
         type: string
       source:
         $ref: '#/definitions/Source'
+
+  Discrepancies:
+    description: Object listing the Trial's discrepant fields
+    properties:
+      public_title:
+        type: array
+        items:
+          $ref: '#/definitions/DiscrepantFieldString'
+      brief_summary:
+        type: array
+        items:
+          $ref: '#/definitions/DiscrepantFieldString'
+      gender:
+        type: array
+        items:
+          $ref: '#/definitions/DiscrepantFieldString'
+      target_sample_size:
+        type: array
+        items:
+          $ref: '#/definitions/DiscrepantFieldInteger'
+      registration_date:
+        type: array
+        items:
+          $ref: '#/definitions/DiscrepantFieldDateTime'
+
+  DiscrepantFieldString:
+    allOf:
+      - $ref: '#/definitions/DiscrepancyFieldBase'
+      - type: object
+        properties:
+          value:
+            type: string
+
+  DiscrepantFieldInteger:
+    allOf:
+      - $ref: '#/definitions/DiscrepancyFieldBase'
+      - type: object
+        properties:
+          value:
+            type: integer
+
+  DiscrepantFieldDateTime:
+    allOf:
+      - $ref: '#/definitions/DiscrepancyFieldBase'
+      - type: object
+        properties:
+          value:
+            type: string
+            format: date-time
+
+  DiscrepancyFieldBase:
+    required:
+      - record_id
+      - source_name
+    properties:
+      record_id:
+        type: string
+      source_name:
+        type: string
+
+  Document:
+    required:
+      - name
+      - type
+      - url
+    properties:
+      name:
+        type: string
+      type:
+        type: string
+        enum:
+          - csr
+          - epar_segment
+          - blank_consent_form
+          - patient_information_sheet
+          - blank_case_report_form
+          - other
+      url:
+        type: string
+      documentcloud_url:
+        type: string
+      text:
+        type: string
 
   Source:
     required:
