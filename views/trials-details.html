@@ -27,6 +27,7 @@
       <em>No data for "registration date"</em>
     </li>
     {% endif %}
+
     {% if trial.target_sample_size %}
     <li>
       <span class="number">{{ trial.target_sample_size | formatNumber }}</span> Participants
@@ -37,6 +38,7 @@
       <em>No data for "number of participants"</em>
     </li>
     {% endif %}
+
     {% if trial.gender %}
     <li>
       {% if trial.gender == 'male' %}
@@ -63,6 +65,31 @@
       <em>No data for "gender"</em>
     </li>
     {% endif %}
+
+    {% if trial.status %}
+    <li>
+      Status:
+      {{ trial.status | underscoresToCapitalized }}
+      {{ add_discrepancy_icon_if_needed(trial, 'status') }}
+    </li>
+    {% else %}
+    <li class="disabled">
+      <em>No data for "status"</em>
+    </li>
+    {% endif %}
+
+    {% if trial.recruitment_status %}
+    <li>
+      Recruitment status:
+      {{ trial.recruitment_status | underscoresToCapitalized }}
+      {{ add_discrepancy_icon_if_needed(trial, 'recruitment_status') }}
+    </li>
+    {% else %}
+    <li class="disabled">
+      <em>No data for "recruitment status"</em>
+    </li>
+    {% endif %}
+
   </ul>
 {% endblock %}
 
