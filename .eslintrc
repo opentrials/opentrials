@@ -12,3 +12,8 @@ rules:
     - error
     - single
     - avoid-escape
+  no-underscore-dangle:
+    - off
+  no-use-before-define:
+    - error
+    - functions: false
