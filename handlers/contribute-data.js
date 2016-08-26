@@ -16,7 +16,7 @@ function _getContributeData(request, reply) {
     ['starts-with', '$data_category_id', ''],
   ];
 
-  return new DataCategory().fetchAll()
+  return new DataCategory().orderBy('name').fetchAll()
     .then((categories) => (
       reply.view('contribute-data', {
         title: 'Contribute data',

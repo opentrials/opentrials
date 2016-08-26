@@ -18,10 +18,11 @@ describe('contribute-data handler', () => {
         })
     });
 
-    it('adds the data categories to the context', () => {
+    it('adds the ordered data categories to the context', () => {
       let categories;
 
-      return new DataCategory().fetchAll()
+      return factory.createMany('dataCategory', [{ name: 'z' }, { name: 'a' }])
+        .then(() => new DataCategory().orderBy('name').fetchAll())
         .then((_categories) => categories = _categories)
         .then(() => server.inject('/contribute-data'))
         .then((response) => {
