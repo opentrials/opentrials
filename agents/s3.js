@@ -77,7 +77,7 @@ function _getActionUrl(region, bucket) {
 
 
 function getSignedFormFields(additionalConditions) {
-  const key = 'uploads/' + uuid.v4() + '/${filename}'; // eslint-disable-line prefer-template
+  const key = 'uploads/' + uuid.v1() + '/${filename}'; // eslint-disable-line prefer-template
   const form = _s3Params(config.s3, key, additionalConditions || []);
 
   return {
