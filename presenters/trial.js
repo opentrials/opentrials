@@ -28,7 +28,7 @@ function decorateDocuments(documents) {
     },
     csr: {
       type: 'csr',
-      name: 'Clinical Study Report (CSR)',
+      name: 'Clinical study report',
     },
     epar_segment: {
       type: 'epar_segment',
