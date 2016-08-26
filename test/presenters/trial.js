@@ -15,18 +15,25 @@ describe('trial presenter', () => {
   describe('documents', () => {
     it('adds default documents grouped by category and ordered by type', () => {
       const trial = trialPresenter({});
-
-      should(trial.documents).be.containDeepOrdered({
+      const expectedDocumentTypes = {
         Paperwork: [
-          { type: 'blank_case_report_form' },
-          { type: 'blank_consent_form' },
-          { type: 'patient_information_sheet' },
+          'blank_case_report_form',
+          'blank_consent_form',
+          'patient_information_sheet',
         ],
         'Regulatory documents': [
-          { type: 'csr' },
-          { type: 'epar_segment' },
+          'csr',
+          'epar_segment',
         ],
+      };
+
+      Object.keys(expectedDocumentTypes).forEach((category) => {
+        const documentTypes = trial.documents[category].map((doc) => doc.type);
+        const expected = expectedDocumentTypes[category];
+
+        should(documentTypes).deepEqual(expected);
       });
+      should(Object.keys(trial.documents)).deepEqual(Object.keys(expectedDocumentTypes));
     });
 
     it('documents in the trial overwrite default documents', () => {

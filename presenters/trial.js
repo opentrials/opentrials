@@ -10,6 +10,7 @@ function decorateDocuments(documents) {
     blank_case_report_form: 'Paperwork',
     // regulatory
     csr: 'Regulatory documents',
+    csr_synopsis: 'Regulatory documents',
     epar_segment: 'Regulatory documents',
   };
   const defaultDocuments = {
