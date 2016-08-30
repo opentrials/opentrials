@@ -20,7 +20,6 @@
       <span class="date">
         Registration: {{ trial.registration_date | formatDate }}
       </span>
-      {{ add_discrepancy_icon_if_needed(trial, 'registration_date') }}
     </li>
     {% else %}
     <li class="disabled">
@@ -133,7 +132,6 @@
   {% if trial.brief_summary.length != 0 %}
   <h2>
     Lay summary
-    {{ add_discrepancy_icon_if_needed(trial, 'brief_summary') }}
   </h2>
   <p>
     {{ trial.brief_summary }}
