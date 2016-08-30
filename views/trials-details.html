@@ -161,12 +161,27 @@
       </section>
     {% endfor %}
   </p>
+
+  {% if trial.records.length != 0 %}
+  <h2>Sources</h2>
+  <ul class="overview-list">
+    {% for record in trial.records %}
+      <li>
+        <a href="{{ record.source_url }}"
+           title="Last updated on {{ record.updated_at | formatDate }}">
+          {{ record.source.name }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  {{ no_data_message('Sources', thing='"sources"') }}
+  {% endif %}
 </article>
 
 <aside>
   <ul class="actions">
     <li>
-      <a href="{{ trial.url }}" class="download">Download JSON</a>
       <a href="{{ contributeDataUrl }}" class="upload">Contribute Data</a>
       {% if trial.discrepancies %}
         <a href="/trials/{{ trial.id }}/discrepancies" class="discrepancies">Discrepancies</a>
@@ -242,25 +257,6 @@
   </dl>
   {% else %}
   {{ no_data_message('Related Organisations', thing='"related organisations"') }}
-  {% endif %}
-
-  {% if trial.records.length != 0 %}
-  <h2>Sources</h2>
-  <dl>
-    {% for record in trial.records %}
-      <dt>
-        <a href="/trials/{{ trial.id }}/records/{{ record.id }}">{{ record.source.name }}</a>
-      </dt>
-      <dd>
-        Last updated on
-        <time datetime="{{ record.updated_at }}">
-          {{ record.updated_at | formatDate }}
-        </time>
-      </dd>
-    {% endfor %}
-  </dl>
-  {% else %}
-  {{ no_data_message('Sources', thing='"sources"') }}
   {% endif %}
 
   {% if trial.publications.length != 0 %}

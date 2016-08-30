@@ -26,9 +26,8 @@ describe('(e2e) search', function() {
     driver.get(SERVER_URL);
     driver.findElement(By.css('.search-bar input')).submit();
     driver.findElement(By.css('.search-results .title a')).click();
-    driver.findElement(By.css('.actions .download')).click();
-    return driver.getPageSource()
-      .then((body) => should(body).not.containEql('"error"'))
+    return driver.getCurrentUrl()
+      .then((url) => should(url).match(/\/trials\//));
   });
 
   it('should work with all search filters enabled', () => {
