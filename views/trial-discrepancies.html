@@ -19,7 +19,7 @@ There are no discrepancies in this Trial's records.
       <dl>
       {% for record in discrepantRecords %}
         <dt>
-          <a href="/trials/{{ trial.id }}/records/{{ record.record_id }}">
+          <a href="{{ record.source_url }}">
             {{ record.source_name }}
           </a>
         </dt>
