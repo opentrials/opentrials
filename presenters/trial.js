@@ -12,6 +12,8 @@ function decorateDocuments(documents) {
     csr: 'Regulatory documents',
     csr_synopsis: 'Regulatory documents',
     epar_segment: 'Regulatory documents',
+    // data
+    results: 'Data',
   };
   const defaultDocuments = {
     blank_consent_form: {
@@ -33,6 +35,10 @@ function decorateDocuments(documents) {
     epar_segment: {
       type: 'epar_segment',
       name: 'EPAR Segment',
+    },
+    results: {
+      type: 'results',
+      name: 'Results',
     },
   };
 

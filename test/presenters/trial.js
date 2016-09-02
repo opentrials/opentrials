@@ -25,6 +25,9 @@ describe('trial presenter', () => {
           'csr',
           'epar_segment',
         ],
+        'Data': [
+          'results',
+        ],
       };
 
       Object.keys(expectedDocumentTypes).forEach((category) => {
