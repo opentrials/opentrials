@@ -4,7 +4,7 @@ const opentrialsApi = require('../config').opentrialsApi;
 
 function getCondition(conditionId) {
   return opentrialsApi
-    .then((client) => client.conditions.get({ id: conditionId }))
+    .then((client) => client.conditions.getCondition({ id: conditionId }))
     .then((response) => response.obj);
 }
 

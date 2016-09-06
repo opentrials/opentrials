@@ -4,7 +4,7 @@ const opentrialsApi = require('../config').opentrialsApi;
 
 function getPerson(personId) {
   return opentrialsApi
-    .then((client) => client.persons.get({ id: personId }))
+    .then((client) => client.persons.getPerson({ id: personId }))
     .then((response) => response.obj);
 }
 

@@ -4,7 +4,7 @@ const opentrialsApi = require('../config').opentrialsApi;
 
 function getStats() {
   return opentrialsApi
-    .then((client) => client.statistics.get())
+    .then((client) => client.statistics.getStats())
     .then((response) => response.obj);
 }
 

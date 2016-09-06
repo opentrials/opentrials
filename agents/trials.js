@@ -6,7 +6,7 @@ const decorateTrial = require('../presenters/trial');
 
 function getTrial(trialId) {
   return opentrialsApi
-    .then((client) => client.trials.get({ id: trialId }))
+    .then((client) => client.trials.getTrial({ id: trialId }))
     .then((response) => decorateTrial(response.obj));
 }
 
@@ -56,7 +56,7 @@ function searchTrials(query, page, perPage, filters) {
   };
 
   return opentrialsApi
-    .then((client) => client.trials.search(searchQuery))
+    .then((client) => client.trials.searchTrials(searchQuery))
     .then((response) => response.obj);
 }
 

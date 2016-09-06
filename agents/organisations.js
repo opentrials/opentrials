@@ -4,7 +4,7 @@ const opentrialsApi = require('../config').opentrialsApi;
 
 function getOrganisation(organisationId) {
   return opentrialsApi
-    .then((client) => client.organisations.get({ id: organisationId }))
+    .then((client) => client.organisations.getOrganisation({ id: organisationId }))
     .then((response) => response.obj);
 }
 
