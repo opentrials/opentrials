@@ -17,3 +17,6 @@ rules:
   no-use-before-define:
     - error
     - functions: false
+  arrow-parens:
+    - error
+    - always

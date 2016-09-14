@@ -18,18 +18,30 @@ const User = BaseModel.extend({
   findByEmailOrOAuth: (email, oauthProvider, oauthId) => (
     new User().query((qb) => {
       qb.leftJoin('oauth_credentials', 'oauth_credentials.user_id', '=', 'users.id');
-      qb.where(function userOAuthWhereClauses() {
-        this.where({
-          'oauth_credentials.provider': oauthProvider,
-          'oauth_credentials.id': oauthId,
-        });
-      }).orWhere({
-        'users.email': email,
+      const whereClause = qb.where(function userOAuthWhereClauses() {
+        const clauses = {};
+
+        if (oauthProvider) {
+          clauses['oauth_credentials.provider'] = oauthProvider;
+        }
+
+        if (oauthId) {
+          clauses['oauth_credentials.id'] = oauthId;
+        }
+
+        this.where(clauses);
       });
+
+      if (email) {
+        whereClause.orWhere({
+          'users.email': email,
+        });
+      }
     })
   ),
   findOrCreateByEmail: (userAttrs, oauthProvider, oauthId) => (
-    new User().findByEmailOrOAuth(userAttrs.email, oauthProvider, oauthId).fetch()
+    new User().findByEmailOrOAuth(userAttrs.email, oauthProvider, oauthId)
+      .fetch({ require: false })
       .then((user) => {
         let _user = user;
 
@@ -38,7 +50,8 @@ const User = BaseModel.extend({
         }
 
         return _user;
-      }).then((user) => {
+      })
+      .then((user) => {
         const oauthAttrs = {
           provider: oauthProvider,
           id: oauthId,

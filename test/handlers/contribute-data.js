@@ -35,7 +35,7 @@ describe('contribute-data handler', () => {
       return server.inject('/contribute-data')
         .then((response) => {
           const context = response.request.response.source.context;
-          should(context.s3).have.keys([
+          should(context.s3).have.properties([
             'action',
             'fields',
           ]);

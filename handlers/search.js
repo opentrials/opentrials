@@ -27,10 +27,10 @@ function getPagination(url, currentPage, perPage, maxPages, totalCount) {
                          : 1;
   const lastVisiblePage = (firstVisiblePage + visiblePages > numberOfPages)
                           ? numberOfPages
-                          : firstVisiblePage + visiblePages - 1;
+                          : (firstVisiblePage + visiblePages) - 1;
 
   if (lastVisiblePage - firstVisiblePage < visiblePages && lastVisiblePage - visiblePages >= 1) {
-    firstVisiblePage = lastVisiblePage - visiblePages + 1;
+    firstVisiblePage = (lastVisiblePage - visiblePages) + 1;
   }
 
   const pages = _.range(firstVisiblePage, lastVisiblePage + 1).map((pageNumber) => (

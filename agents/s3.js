@@ -25,9 +25,10 @@ function _s3UploadSignature(s3Config, policyBase64) {
 }
 
 function _s3UploadPolicy(s3Config, key, credential, additionalConditions) {
+  const currentTime = new (Date)().getTime();
   return {
     // 30 minutes into the future
-    expiration: new Date((new Date).getTime() + (30 * 60 * 1000)).toISOString(),
+    expiration: new (Date)(currentTime + (30 * 60 * 1000)).toISOString(),
     conditions: [
       { bucket: s3Config.bucket },
       ['starts-with', '$key', 'uploads/'],
@@ -77,7 +78,7 @@ function _getActionUrl(region, bucket) {
 
 
 function getSignedFormFields(additionalConditions) {
-  const key = 'uploads/' + uuid.v1() + '/${filename}'; // eslint-disable-line prefer-template
+  const key = 'uploads/' + uuid.v1() + '/${filename}'; // eslint-disable-line prefer-template,no-template-curly-in-string
   const form = _s3Params(config.s3, key, additionalConditions || []);
 
   return {

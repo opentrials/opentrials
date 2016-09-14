@@ -5,6 +5,9 @@ const gulp = require('gulp');
 const plugins = require('gulp-load-plugins')();
 const del = require('del');
 const webpack = require('webpack-stream');
+const bourbon = require('bourbon');
+const neat = require('bourbon-neat');
+const webpackConfig = require('./webpack.config.js');
 
 const paths = {
   styles: ['./assets/styles/**/*'],
@@ -15,8 +18,8 @@ const paths = {
 
 const sassIncludePaths = [
   path.join(__dirname, 'node_modules'),
-  ...require('bourbon').includePaths,
-  ...require('bourbon-neat').includePaths,
+  ...bourbon.includePaths,
+  ...neat.includePaths,
 ];
 
 gulp.task('watch', ['build'], () => {
@@ -51,7 +54,7 @@ gulp.task('styles', ['styles:vendor'], () => (
 
 gulp.task('js', () => (
   gulp.src('./assets/js/**/*.js')
-    .pipe(webpack(require('./webpack.config.js')))
+    .pipe(webpack(webpackConfig))
     .pipe(gulp.dest('dist/js'))
 ));
 

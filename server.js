@@ -5,6 +5,7 @@ const url = require('url');
 const plugins = require('./lib/plugins');
 const config = require('./config');
 const routes = require('./routes');
+
 const server = new Hapi.Server();
 
 server.connection({

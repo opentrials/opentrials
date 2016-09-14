@@ -7,6 +7,7 @@ const _ = require('lodash');
 const nock = require('nock');
 const apiServer = require('./fixtures/api');
 const fixtures = require('./fixtures');
+const factory = require('./factory');
 const config = require('../config');
 
 function clearDB() {
@@ -58,6 +59,6 @@ function mockApiResponses(responses) {
 global.clearDB = clearDB;
 global.apiServer = apiServer;
 global.fixtures = fixtures;
-global.factory = require('./factory');
+global.factory = factory;
 global.mockApiResponses = mockApiResponses;
 global.cleanAllApiMocks = nock.cleanAll;
