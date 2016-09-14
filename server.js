@@ -57,6 +57,10 @@ server.register(config.hapi.plugins)
     server.start(() => {
       console.info('Server started at', server.info.uri); // eslint-disable-line no-console
     });
+  })
+  .catch((err) => {
+    console.error(err.stack); // eslint-disable-line no-console
+    process.exit(1);
   });
 
 
