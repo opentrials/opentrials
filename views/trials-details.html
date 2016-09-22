@@ -167,7 +167,7 @@
       <li>
         <a href="{{ record.source_url }}"
            title="Last updated on {{ record.updated_at | formatDate }}">
-          {{ record.source.name }}
+          {{ trial.sources[record.source_id].name }}
         </a>
       </li>
     {% endfor %}
@@ -191,29 +191,18 @@
     <h2>Identifiers</h2>
     <dl class="id-list">
       <dt>
-        OpenTrials ID:
+        OpenTrials
       </dt>
       <dd>
         {{ trial.id }}
       </dd>
 
-      {% if primaryId %}
+      {% for identifier in trial.identifiers %}
       <dt>
-        Primary ID:
+        {{ identifier.name }}
       </dt>
       <dd>
-        {{ primaryId }}
-      </dd>
-      {% endif %}
-
-      {% for name, item in secondaryIds %}
-      {% if loop.first %}
-      <dt>
-        Secondary IDs:
-      </dt>
-      {% endif %}
-      <dd>
-        {{ item }}
+        {{ identifier.value }}
       </dd>
       {% endfor %}
     </dl>

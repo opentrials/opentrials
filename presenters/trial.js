@@ -56,12 +56,27 @@ function decorateDocuments(documents) {
   return documentsByCategory;
 }
 
+function decorateIdentifiers(identifiers, sources) {
+  const result = Object.keys(identifiers).map((ident) => {
+    const source = sources[ident] || {};
+
+    return {
+      id: ident,
+      name: source.name || ident,
+      value: identifiers[ident],
+    };
+  });
+
+  return _.sortBy(result, 'name');
+}
+
 function decorateTrial(trial) {
   return Object.assign(
     {},
     trial,
     {
       documents: decorateDocuments(trial.documents || []),
+      identifiers: decorateIdentifiers(trial.identifiers || {}, trial.sources || {}),
     }
   );
 }

@@ -41,16 +41,6 @@ describe('trials handler', () => {
         context.contributeDataUrl.should.equal(contributeDataUrl);
       });
 
-      it('adds the primaryId and secondaryIds to the context', () => {
-        const context = response.request.response.source.context;
-        const primaryId = trial.identifiers[trial.source_id];
-        const secondaryIds = Object.assign({}, trial.identifiers);
-        delete secondaryIds[trial.source_id];
-
-        should(context.primaryId).equal(primaryId);
-        should(context.secondaryIds).deepEqual(secondaryIds);
-      });
-
       it('sets the title as the trial.public_title', () => {
         const context = response.request.response.source.context;
         context.title.should.equal(trial.public_title);

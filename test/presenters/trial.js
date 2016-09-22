@@ -55,4 +55,51 @@ describe('trial presenter', () => {
       should(regulatoryDocumentsByType.csr).deepEqual([doc]);
     });
   });
+
+  describe('identifiers', () => {
+    it('adds identifiers with source metadata sorted by source name', () => {
+      const trialAttributes = {
+        identifiers: {
+          isrctn: 'ISRCTN00000',
+          nct: 'NCT000000',
+        },
+        sources: {
+          isrctn: {
+            id: 'isrctn',
+            name: 'ISRCTN',
+          },
+          euctr: {
+            id: 'euctr',
+            name: 'EU CTR',
+          },
+          nct: {
+            id: 'nct',
+            name: 'ClinicalTrials.gov',
+          },
+        },
+      };
+      const trial = trialPresenter(trialAttributes);
+
+      should(trial.identifiers).deepEqual([
+        { id: 'nct', name: 'ClinicalTrials.gov', value: trialAttributes.identifiers.nct },
+        { id: 'isrctn', name: 'ISRCTN', value: trialAttributes.identifiers.isrctn },
+      ]);
+    });
+
+    it('defaults to the source id if the source doesnt exist', () => {
+      const trialAttributes = {
+        identifiers: {
+          nct: 'NCT00000',
+        },
+      };
+
+      const trial = trialPresenter(trialAttributes);
+
+      should(trial.identifiers).deepEqual([{
+        id: 'nct',
+        name: 'nct',
+        value: trialAttributes.identifiers.nct,
+      }]);
+    });
+  });
 });
