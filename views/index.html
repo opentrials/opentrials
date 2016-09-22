@@ -11,6 +11,12 @@
       </p>
     </header>
 
-    {% include "partials/search-form-fields.html" %}
+    <fieldset class="search-bar">
+      <input type="search" title="Search" placeholder="Find trial by title, identifier or other keywords (e.g. &quot;heart attack&quot;)" name="q" value="{{ query.q }}" />
+      <button type="submit"><span>Search</span></button>
+    </fieldset>
+    <div class="search-controls">
+      <button type="submit"><span>Advanced search</span></button>
+    </div>
   </form>
 {% endblock %}

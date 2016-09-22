@@ -1,35 +1,47 @@
 <article class="result">
   <h1 class="title"><a href="/trials/{{ trial.id }}">{{ trial.public_title }}</a></h1>
-  <ul class="meta">
-    <li>
-      <dt>Registration date:</dt>
-      <dd>
-        <time datetime="{{ trial.registration_date }}">
-          {{ trial.registration_date | formatDate }}
-        </time>
-      </dd>
-    </li>
-    <li>
-      <dt>Conditions:</dt>
-      {% for condition in trial.conditions %}
-        <dd>{{ condition.name }}</dt>
-      {% endfor %}
-    </li>
-    <li>
-      <dt>Interventions:</dt>
+  <dl class="status meta">
+
+    <dt title="Registration date" class="date"><span>Registration date:</span></dt>
+    <dd>
+      <time datetime="{{ trial.registration_date }}">
+        {{ trial.registration_date | formatDate }}
+      </time>
+    </dd>
+
+    {% set status = trial.status or 'unknown' %}
+    <dt title="Status" class="progress"><span>Status:</span></dt>
+    <dd>{{ status | underscoresToCapitalized }}</dd>
+
+    {% set recruitment_status = trial.recruitment_status or 'unknown' %}
+    <dt title="Recruitment status" class="recruitment"><span>Recruitment status:</span></dt>
+    <dd>{{ recruitment_status | underscoresToCapitalized }}</dd>
+
+  </dl>
+
+  {% if trial.brief_summary.length != 0 %}
+  <p>
+    {{ trial.brief_summary | truncate(200) }}
+  </p>
+  {% endif %}
+
+  <dl class="meta lists">
+    <dt>Conditions:</dt>
+    <dd>
+      <ul>
+        {% for condition in trial.conditions %}
+        <li>{{ condition.name }}</li>
+        {% endfor %}
+      </ul>
+    </dd>
+
+    <dt>Interventions:</dt>
+    <dd>
+      <ul>
       {% for intervention in trial.interventions %}
-        <dd>{{ intervention.name }}</dd>
+        <li>{{ intervention.name }}</li>
       {% endfor %}
-    </li>
-    <li>
-      {% set status = trial.status or 'unknown' %}
-      <dt>Status:</dt>
-      <dd>{{ status | underscoresToCapitalized }}</dd>
-    </li>
-    <li>
-      {% set recruitment_status = trial.recruitment_status or 'unknown' %}
-      <dt>Recruitment status:</dt>
-      <dd>{{ recruitment_status | underscoresToCapitalized }}</dd>
-    </li>
-  </ul>
+      </ul>
+    </dd>
+  </dl>
 </article>

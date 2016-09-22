@@ -10,7 +10,8 @@ input[type="search"]::-webkit-search-cancel-button {
   position: relative;
 
   input[type="search"] {
-    padding: 1em 3.5em 1em 1.5em;
+    box-shadow: $form-box-shadow;
+    padding-right: 3em;
 
     @include MQ(M) {
       font-size: em(18);
@@ -19,11 +20,10 @@ input[type="search"]::-webkit-search-cancel-button {
 
     + button {
       position: absolute;
-      top: 50%;
-      right: 1em;
+      bottom: 2em;
+      right: 2em;
       width: 3em;
-      height: 3em;
-      margin-top: -2em;
+      height: 2.2em;
       background-color: transparent;
       color: $base-font-color;
 
@@ -35,7 +35,7 @@ input[type="search"]::-webkit-search-cancel-button {
       &:before {
         @include icon-font();
         content: "\e904";
-        font-size: 3em;
+        font-size: 2.2em;
         position: absolute;
         left: 0;
         right: 0;
@@ -45,65 +45,59 @@ input[type="search"]::-webkit-search-cancel-button {
   }
 }
 
-.search-controls {
-  overflow: auto;
+.home,
+.banner {
+  .search-bar {
+    input[type="search"] {
+      padding: 1em 3.5em 1em 1.5em;
 
-  .toggle-advanced {
-    float: right;
-    display: inline-block;
-    cursor: pointer;
-    font-size: em(15);
-  }
-}
+      + button {
+        top: 50%;
+        bottom: auto;
+        height: 3em;
+        right: 1em;
+        margin-top: -2em;
 
-.advanced {
-  display: none;
-
-  &.visible {
-    display: block;
-  }
-
-  & > div {
-    margin-bottom: $small-spacing;
-
-    @include MQ(M) {
-      @include span-columns(6);
-      @include omega(2n);
-    }
-
-    label,
-    legend {
-      text-align: left;
-      font-weight: normal;
-    }
-
-    &.two-columns-fields {
-      div {
-        @include MQ(M) {
-          @include span-columns(3 of 6);
+        &:before {
+          font-size: 3em;
         }
       }
     }
   }
 
-  .controls {
-    width: 100%;
+  .advanced {
+    display: none;
 
-    button {
-      background-color: #fff;
-      color: $blue;
-      margin-top: $base-spacing;
-      width: 100%;
-      padding: 1em 3.5em;
+    &.visible {
+      display: block;
+    }
 
-      @include MQ(M) {
-        width: auto;
+    & > div,
+    .size,
+    .date {
+      label,
+      legend {
+        text-align: left;
+        font-weight: normal;
       }
     }
 
-    .clear-form {
-      color: inherit;
-      background-color: $dark-blue;
+    & > div {
+      margin-bottom: $small-spacing;
+
+      @include MQ(M) {
+        @include span-columns(6);
+        @include omega(2n);
+      }
+    }
+
+    .size,
+    .date {
+      div {
+        @include MQ(M) {
+          @include span-columns(3 of 6);
+        }
+      }
     }
   }
 }

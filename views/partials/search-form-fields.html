@@ -1,6 +1,6 @@
-{% macro createSelectMultiple(name, label) %}
-  <div>
-    <label for="{{ name }}">{{ label }}</label>
+{% macro createSelectMultiple(name, label, tip) %}
+  <div class="filter">
+    <label for="{{ name }}"{% if tip %} class="hastip" title="{{ tip }}"{% endif %}>{{ label }}</label>
     <div class="select">
       <select name="{{ name }}" style="width: 100%;" id="{{ name }}" multiple="multiple">
         {% if query[name] %}
@@ -16,63 +16,45 @@
 {% endmacro %}
 
 <fieldset class="search-bar">
-  <input type="search" title="Search" placeholder="Find trial by title, identifier or other keywords (e.g. &quot;heart attack&quot;)" name="q" value="{{ query.q }}" />
+  <label>Trial title, identifier or other keywords</label>
+  <input type="search" title="Search" placeholder="e.g. &quot;heart attack&quot;" name="q" value="{{ query.q }}" />
   <button type="submit"><span>Search</span></button>
 </fieldset>
 <div class="search-controls">
   <a href="?advanced_search=true" class="toggle-advanced">Advanced search</a>
-
-  {% if trials %}
-    {% if trials.total_count == 1 %}
-      {% set trials_count = '1 trial' %}
-    {% else %}
-      {% set trials_count = trials.total_count | formatNumber + ' trials' %}
-    {% endif %}
-    <ul class="breadcrumb">
-      <li><a href="/">Home</a></li>
-      {% if query.q %}
-        <li><a href="/search">Search</a></li>
-        <li>{{ query.q }} ({{ trials_count }})</li>
-      {% else %}
-        <li>Search ({{ trials_count }})</li>
-      {% endif %}
-    </ul>
-  {% endif %}
 </div>
 <fieldset class="advanced {% if advancedSearchIsVisible %}visible{% endif %}">
-  {{ createSelectMultiple('condition', 'Conditions') }}
-  {{ createSelectMultiple('intervention', 'Interventions') }}
+  {{ createSelectMultiple('condition', 'Conditions', 'Disease, disorder, syndrome, illness or injury that is being studied.') }}
+  {{ createSelectMultiple('intervention', 'Interventions', 'Process or action that is the focus of a clinical study. This can include giving participants drugs, medical devices, procedures, vaccines, and other products that are either investigational or already available. Interventions can also include noninvasive approaches such as surveys, education, and interviews.') }}
   {{ createSelectMultiple('person', 'People') }}
   {{ createSelectMultiple('organisation', 'Organisations') }}
   {{ createSelectMultiple('location', 'Locations') }}
 
-  <div class="two-columns-fields">
-    <fieldset>
-      <legend>Sample size</legend>
-      <div>
-        <input
-          type="number"
-          min="0"
-          step="10"
-          name="sample_size_start"
-          placeholder="from"
-          value="{{ query.sample_size_start }}"
-        >
-      </div>
-      <div>
-        <input
-          type="number"
-          min="0"
-          step="10"
-          name="sample_size_end"
-          placeholder="to"
-          value="{{ query.sample_size_end }}"
-        >
-      </div>
-    </fieldset>
-  </div>
+  <fieldset class="sample size filter">
+    <legend>Sample size</legend>
+    <div>
+      <input
+        type="number"
+        min="0"
+        step="10"
+        name="sample_size_start"
+        placeholder="from"
+        value="{{ query.sample_size_start }}"
+      >
+    </div>
+    <div>
+      <input
+        type="number"
+        min="0"
+        step="10"
+        name="sample_size_end"
+        placeholder="to"
+        value="{{ query.sample_size_end }}"
+      >
+    </div>
+  </fieldset>
 
-  <div>
+  <div class="filter">
     <label for="gender">Gender</label>
     <div class="select">
       <select name="gender" id="gender">
@@ -89,7 +71,7 @@
     </div>
   </div>
 
-  <div>
+  <div class="filter">
     <label for="has_published_results">Study results</label>
     <div class="select">
       <select name="has_published_results" id="has_published_results">
@@ -110,7 +92,7 @@
     </div>
   </div>
 
-  <div>
+  <div class="filter">
     <label for="has_publications">Publications</label>
     <div class="select">
       <select name="has_publications" id="has_publications">
@@ -131,7 +113,7 @@
     </div>
   </div>
 
-  <div>
+  <div class="filter">
     <label for="has_discrepancies">Discrepancies</label>
     <div class="select">
       <select name="has_discrepancies" id="has_discrepancies">
@@ -152,33 +134,31 @@
     </div>
   </div>
 
-  <div class="two-columns-fields">
-    <fieldset>
-        <legend style="display:none;">Registration date period</legend>
-        <div>
-          <label for="registration_date_start">Registration period start date</label>
-          <input
-            type="date"
-            data-format="dd/MMM/yyyy"
-            class="form-control"
-            name="registration_date_start"
-            id="registration_date_start"
-            placeholder="e.g. 2015-01-31"
-            value="{{ query.registration_date_start }}">
-        </div>
-        <div>
-          <label for="registration_date_end">Registration period end date</label>
-          <input
-            type="date"
-            data-format="dd/MMM/yyyy"
-            class="form-control"
-            name="registration_date_end"
-            id="registration_date_end"
-            placeholder="e.g. 2016-01-31"
-            value="{{ query.registration_date_end }}">
-        </div>
-    </fieldset>
-  </div>
+  <fieldset class="registration date">
+      <legend style="display:none;">Registration date period</legend>
+      <div class="filter">
+        <label for="registration_date_start">Registration period start date</label>
+        <input
+          type="date"
+          data-format="dd/MMM/yyyy"
+          class="form-control"
+          name="registration_date_start"
+          id="registration_date_start"
+          placeholder="e.g. 2015-01-31"
+          value="{{ query.registration_date_start }}">
+      </div>
+      <div class="filter">
+        <label for="registration_date_end">Registration period end date</label>
+        <input
+          type="date"
+          data-format="dd/MMM/yyyy"
+          class="form-control"
+          name="registration_date_end"
+          id="registration_date_end"
+          placeholder="e.g. 2016-01-31"
+          value="{{ query.registration_date_end }}">
+      </div>
+  </fieldset>
 
   <div class="controls">
     <button type="submit"><span>Search</span></button>

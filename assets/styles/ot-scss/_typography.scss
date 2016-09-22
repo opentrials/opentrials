@@ -75,7 +75,6 @@ h2 {
 
 h1 {
   font-size: em(24);
-  font-weight: normal;
 
   @include MQ(M) {
     font-size: em(36);

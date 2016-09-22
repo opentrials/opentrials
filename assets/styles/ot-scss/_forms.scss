@@ -30,7 +30,6 @@ select[multiple],
   background-color: $base-background-color;
   border: $base-border;
   border-radius: $base-border-radius;
-  box-shadow: $form-box-shadow;
   box-sizing: border-box;
   font-family: $base-font-family;
   font-size: $base-font-size;
@@ -68,13 +67,25 @@ select[multiple],
 
   .select2-selection {
     .select2-selection__choice {
-      background-color: $blue;
-      color: #fff;
-      border: $base-border;
+      background-color: $base-background-color;
+      border-color: $blue;
+      border-width: 2px;
+      border-radius: $base-border-radius;
+      font-size: 0.9em;
     }
 
    .select2-selection__choice__remove {
-      color: $base-font-color;
+     background-color: $blue;
+     color: $base-background-color;
+     padding-left: $small-spacing/2;
+     padding-right: $small-spacing/2;
+     position: relative;
+     left: -5px;
+     float: left;
+
+     &:hover {
+       color: $base-background-color;
+     }
     }
   }
 
@@ -82,6 +93,18 @@ select[multiple],
     border-color: $action-color;
     box-shadow: $form-box-shadow-focus;
     outline: none;
+  }
+}
+
+.select2-container--default .select2-selection--multiple {
+  border-color: $base-background-color;
+  border-radius: $base-border-radius;
+  min-height: 2.5em;
+}
+
+.select2-search {
+  .select2-search__field {
+    margin-bottom: 0;
   }
 }
 
@@ -112,6 +135,9 @@ select {
 
 .select {
   position: relative;
+  background-color: $base-background-color;
+  border: $base-border;
+  border-radius: $base-border-radius;
 
 	select {
 		position: relative;
@@ -122,6 +148,8 @@ select {
     border: none;
     border-radius: $base-border-radius;
     color: $base-font-color;
+    margin: 0;
+    background-color: transparent;
 
 		&::-ms-expand {
 	      display: none;
@@ -138,4 +166,41 @@ select {
     color: $base-font-color;
     pointer-events: none;
 	}
+}
+
+
+date-input-polyfill {
+  border-top: solid 45px $blue !important;
+
+  .yearSelect,
+  .monthSelect {
+    @include appearance(none);
+    float: left;
+    background-color: $blue;
+    color: #fff;
+    margin: 0;
+    position: relative;
+    top: -34px;
+    border: none !important;
+  }
+
+  .yearSelect {
+    margin-left: 5%;
+  }
+
+  .monthSelect {
+    width: 40%;
+  }
+
+  button {
+    padding: 0;
+    background-color: $dark-blue !important;
+    color: #fff;
+    position: relative;
+    top: -34px;
+    border: none !important;
+  }
+  table {
+    margin-top: 0;
+  }
 }

@@ -28,6 +28,23 @@
     }
   }
 
+  header {
+    border-bottom: solid 1px rgba(#fff, 0.2);
+    margin-bottom: $small-spacing;
+    padding-bottom: $small-spacing;
+
+    @include MQ(M) {
+      font-size: 26px;
+    }
+
+    h1,
+    h2 {
+      border: none;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
   input {
     color: $base-font-color;
   }
@@ -44,7 +61,6 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
-    margin-bottom: $small-spacing;
     color: rgba(#fff, 0.9);
 
     li {

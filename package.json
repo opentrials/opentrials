@@ -89,6 +89,7 @@
     "nunjucks-hapi": "^2.1.0",
     "pg": "^6.0.1",
     "swagger-client": "^2.1.18",
+    "tooltipster": "^4.1.4",
     "vision": "^4.1.0",
     "webpack": "^1.13.2",
     "webpack-stream": "^3.2.0",

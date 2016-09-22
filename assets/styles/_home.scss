@@ -106,11 +106,18 @@
         }
       }
 
+      .search-controls {
+        button {
+          font-weight: normal;
+          background-color: transparent;
+        }
+      }
+
     }
   }
 
+  $footer-height: 150px;
   @media only screen and (min-width: $medium-screen) and (min-height: 768px) {
-    $footer-height: 150px;
     height: 100%;
 
     body {
@@ -121,7 +128,7 @@
       }
 
       main {
-        padding: $footer-height $small-spacing;
+        padding: 70px $small-spacing $footer-height $small-spacing;
       }
 
       .site-footer {
@@ -129,6 +136,13 @@
         position: absolute;
         bottom: 0;
         width: 100%;
+      }
+    }
+  }
+  @media only screen and (min-width: $medium-screen) and (min-height: 880px) {
+    body {
+      main {
+        padding-top: $footer-height;
       }
     }
   }

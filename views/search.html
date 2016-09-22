@@ -1,12 +1,34 @@
 {% extends "layouts/one-column.html" %}
 
 {% block banner %}
-  <form action="/search" method="get">
-    {% include "partials/search-form-fields.html" %}
-  </form>
+  <header>
+    <h1>Explore</h1>
+    Find trial by title and other identifiers
+  </header>
+  {% if trials %}
+    {% if trials.total_count == 1 %}
+      {% set trials_count = '1 trial' %}
+    {% else %}
+      {% set trials_count = trials.total_count | formatNumber + ' trials' %}
+    {% endif %}
+    <ul class="breadcrumb">
+      <li><a href="/">Home</a></li>
+      {% if query.q %}
+        <li><a href="/search">Search</a></li>
+        <li>{{ query.q }} ({{ trials_count }})</li>
+      {% else %}
+        <li>Search ({{ trials_count }})</li>
+      {% endif %}
+    </ul>
+  {% endif %}
 {% endblock %}
 
 {% block main %}
+  <section class="filters">
+    <form action="/search" method="get">
+      {% include "partials/search-form-fields.html" %}
+    </form>
+  </section>
   <section class="search-results">
     {% if trials.items.length > 0 %}
       {% for trial in trials.items %}

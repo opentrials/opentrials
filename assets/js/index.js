@@ -74,6 +74,20 @@ $(document).ready(function() {
   setupSelect2For('person');
   setupSelect2For('organisation');
   setupSelect2For('location');
+
+  // tooltips
+  $('.hastip').tooltipster({
+    theme: 'tooltipster-custom',
+    trigger: 'custom',
+    triggerOpen: {
+      mouseenter: true,
+      tap: true
+    },
+    triggerClose: {
+      mouseleave: true,
+      tap: true
+    }
+  });
 });
 
 })();

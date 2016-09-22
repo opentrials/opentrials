@@ -1,3 +1,85 @@
+.filters {
+  font-size: 0.9em;
+
+  .advanced {
+    display: none;
+
+    &.visible {
+      display: block;
+    }
+  }
+
+  .search-bar {
+    background-color: rgba($blue, 0.1);
+    padding: $small-spacing $base-spacing;
+    margin: 0 (-$base-spacing) 1px (-$base-spacing);
+
+    label {
+      display: inline-block;
+    }
+  }
+
+  .search-controls {
+    padding-top: $base-spacing;
+    padding-bottom: $small-spacing/2;
+    border-bottom: solid 1px $light-gray;
+  }
+
+  .filter {
+    padding: $small-spacing $base-spacing;
+    margin: 0 (-$base-spacing) 1px (-$base-spacing);
+
+    label {
+      display: inline-block;
+    }
+
+    legend {
+      float: left;
+      @include clearfix;
+    }
+
+    & > :last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .select {
+    &:after {
+      top: 0.85em;
+    }
+  }
+
+  @include MQ(L) {
+    @include span-columns(3);
+    padding-top: $base-spacing /2;
+
+    .toggle-advanced {
+      pointer-events: none;
+      color: inherit;
+    }
+    .advanced {
+      display: block;
+    }
+  }
+}
+
+.search-results {
+  & > ol {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+}
+
+main {
+  & > .search-results {
+    @include MQ(L) {
+      @include span-columns(8);
+      @include shift(1);
+    }
+  }
+}
+
 .result,
 .result-small {
   padding-top: $base-spacing /2;
@@ -13,10 +95,6 @@
 
     @include MQ(L) {
       font-size: em(22);
-
-      a {
-        font-weight: normal;
-      }
     }
   }
 
@@ -47,18 +125,67 @@
   .meta {
     font-size: em(14);
     line-height: 1.8;
+    padding: 0;
+    margin: 0;
 
-    li {
-      @include MQ(M) {
-        display: table-row;
+    dt {
+      span {
+        @include hide-text;
+        display: inline-block;
+        width: 0;
+      }
+    }
 
-        & > dt {
+    &.status {
+      padding-bottom: $small-spacing;
+
+      dt,
+      dd {
+        display: inline-block;
+        margin-top: 0;
+      }
+
+      dt {
+        &.date {
+          &:before {
+            @include icon-font();
+            @include icon-calendar;
+          }
+        }
+        &.progress {
+          padding-left: $base-spacing;
+          &:before {
+            @include icon-font();
+            @include icon-hourglass;
+          }
+        }
+        &.recruitment {
+          padding-left: $base-spacing;
+          &:before {
+            @include icon-font();
+            @include icon-recruiting;
+          }
+        }
+      }
+    }
+
+    &.lists {
+      margin-top: $base-spacing;
+
+      @include MQ(L) {
+        display: table;
+
+        dt,
+        dd {
           display: table-cell;
         }
+        width: 100%;
 
-        & > dt {
-          font-weight: bold;
-          padding-right: $small-spacing;
+        dt {
+          width: 10%;
+        }
+        dd {
+          width: 40%;
         }
       }
     }
@@ -79,6 +206,13 @@
       font-size: em(18);
       font-weight: normal;
     }
+  }
+}
+
+li:last-child {
+  .result,
+  .result-small {
+    border: none;
   }
 }
 

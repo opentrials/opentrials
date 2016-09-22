@@ -1,0 +1,57 @@
+.hastip {
+  &:after {
+    $icon-size: 1.5em;
+    content: '?';
+    display: inline-block;
+    background-color: $dark-gray;
+    width: $icon-size;
+    height: $icon-size;
+    text-align: center;
+    line-height: $icon-size;
+    border-radius: 50%;
+    color: $base-background-color;
+    margin-left: 0.5em;
+    opacity: 0.5;
+    font-size: 0.9em;
+    font-weight: normal;
+  }
+}
+
+.tooltipster-custom {
+  $bgcolour: $dark-gray;
+  .tooltipster-box {
+    background-color: $bgcolour;
+    color: #fff;
+    font-size: 0.9em;
+    padding: $small-spacing;
+    border-radius: $base-border-radius;
+    max-width: 20em;
+    border: none;
+  }
+
+  &.tooltipster-bottom .tooltipster-arrow-background {
+  	border-bottom-color: $bgcolour;
+  }
+  &.tooltipster-left .tooltipster-arrow-background {
+  	border-left-color: $bgcolour;
+  }
+  &.tooltipster-right .tooltipster-arrow-background {
+  	border-right-color: $bgcolour;
+  }
+  &.tooltipster-top .tooltipster-arrow-background {
+  	border-top-color: $bgcolour;
+  }
+
+  &.tooltipster-bottom .tooltipster-arrow-border {
+  	border-bottom-color: $bgcolour;
+  }
+  &.tooltipster-left .tooltipster-arrow-border {
+  	border-left-color: $bgcolour;
+  }
+  &.tooltipster-right .tooltipster-arrow-border {
+  	border-right-color: $bgcolour;
+  }
+  &.tooltipster-top .tooltipster-arrow-border {
+  	border-top-color: $bgcolour;
+  }
+}

@@ -33,10 +33,9 @@ describe('(e2e) search', function() {
   it('should work with all search filters enabled', () => {
     driver.get(SERVER_URL);
 
-    driver.findElement(By.css('.toggle-advanced')).click();
+    driver.findElement(By.css('.search-controls button')).click();
 
     driver.findElement(By.name('q')).sendKeys('query');
-    driver.wait(until.elementIsVisible(driver.findElement(By.css('.select2-container input'))));
     driver.findElements(By.css('.select2-container input'))
       .then((elements) => {
         return elements.reduce((resolved, el) => {
