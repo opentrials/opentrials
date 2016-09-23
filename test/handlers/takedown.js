@@ -5,13 +5,14 @@ const server = require('../../server');
 describe('takedown handler', () => {
   describe('GET /takedown', () => {
 
-    it('redirects to Google Forms passing the received URL', () => {
+    it('redirects to Google Forms passing the received URL encoded', () => {
       const sourceURL = 'http://explorer.opentrials.net/about';
 
       return server.inject(`/takedown?url=${sourceURL}`)
         .then((response) => {
+          const encodedURL = encodeURIComponent(sourceURL);
           response.statusCode.should.equal(302);
-          response.headers.location.should.endWith(sourceURL);
+          response.headers.location.should.endWith(encodedURL);
         });
     });
 

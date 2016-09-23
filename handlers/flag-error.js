@@ -5,7 +5,7 @@ function flag(request, reply) {
 
   const url = request.query.url;
   if (url) {
-    redirectTo += `?entry.783048384=${url}`;
+    redirectTo += `?entry.783048384=${encodeURIComponent(url)}`;
   }
 
   return reply.redirect(redirectTo);

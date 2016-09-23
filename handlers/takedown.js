@@ -5,7 +5,7 @@ function takedown(request, reply) {
 
   const url = request.query.url;
   if (url) {
-    redirectTo += `?entry.579116872=${url}`;
+    redirectTo += `?entry.579116872=${encodeURIComponent(url)}`;
   }
 
   return reply.redirect(redirectTo);
