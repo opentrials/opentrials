@@ -186,6 +186,15 @@ main {
         }
         dd {
           width: 40%;
+
+          ul {
+            margin-right: $base-spacing;
+          }
+          &:last-of-type {
+            ul {
+              margin-right: 0;
+            }
+          }
         }
       }
     }
