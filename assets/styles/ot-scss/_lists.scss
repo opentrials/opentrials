@@ -233,6 +233,24 @@ dl {
         top: em(1);
       }
     }
+
+    &.progress {
+      padding-left: em(28);
+      &:before {
+        @include icon-hourglass;
+        font-size: em(22);
+        top: em(1);
+      }
+    }
+
+    &.recruitment {
+      padding-left: em(28);
+      &:before {
+        @include icon-recruiting;
+        font-size: em(22);
+        top: em(1);
+      }
+    }
   }
 
   .number {

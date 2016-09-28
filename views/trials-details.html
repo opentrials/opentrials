@@ -67,8 +67,10 @@
 
     {% if trial.status %}
     <li>
-      Status:
-      {{ trial.status | underscoresToCapitalized }}
+      <span class="progress">
+        Status:
+        {{ trial.status | underscoresToCapitalized }}
+      </span>
       {{ add_discrepancy_icon_if_needed(trial, 'status') }}
     </li>
     {% else %}
@@ -79,8 +81,10 @@
 
     {% if trial.recruitment_status %}
     <li>
-      Recruitment status:
-      {{ trial.recruitment_status | underscoresToCapitalized }}
+      <span class="recruitment">
+        Recruitment status:
+        {{ trial.recruitment_status | underscoresToCapitalized }}
+      </span>
       {{ add_discrepancy_icon_if_needed(trial, 'recruitment_status') }}
     </li>
     {% else %}
