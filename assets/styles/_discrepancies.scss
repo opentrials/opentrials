@@ -1,0 +1,42 @@
+.discrepancies-table {
+  overflow-x: auto;
+  margin-bottom: $base-spacing;
+
+  table {
+    width: auto;
+    min-width: 100%;
+
+    th,
+    td {
+
+      & > a,
+      & > span {
+        display: block;
+        padding-left: 2.5em;
+      }
+    }
+
+    th {
+      white-space: nowrap;
+      &.field {
+        span {
+          @include sr-only;
+        }
+      }
+    }
+    td {
+      font-style: italic;
+
+      &.field {
+        font-style: normal;
+        font-weight: bold;
+        white-space: nowrap;
+        width: 50%;
+
+        span {
+          padding-left: 0;
+        }
+      }
+    }
+  }
+}

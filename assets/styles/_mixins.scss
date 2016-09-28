@@ -6,3 +6,9 @@
    @media only screen and (min-width: $large-screen) { @content; }
   }
 }
+
+@mixin sr-only {
+  position: absolute;
+  clip: rect(0,0,0,0);
+  border: 0;
+}

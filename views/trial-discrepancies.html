@@ -9,26 +9,48 @@
 
 {% block main %}
 <article class="record-data">
-{% if not trial.discrepancies %}
-There are no discrepancies in this Trial's records.
-{% else %}
-<dl>
+  <h2>Discrepancies</h2>
+  <p>
+    For a trial with multiple data sources, occasionally a particular piece of data (e.g. number of participants) differs between registries for that trial -  we consider this a <em>discrepancy</em>. Below are the discrepancies for this <a href="/trials/{{ trial.id }}">trial</a>.
+  </p>
+  {% if not trial.discrepancies %}
+  There are no discrepancies in this Trial's records.
+  {% else %}
   {% for field, discrepantRecords in trial.discrepancies %}
-    <dt id="{{ field }}">{{ field | underscoresToCapitalized }}<dt>
-    <dd>
-      <dl>
-      {% for record in discrepantRecords %}
-        <dt>
+
+  <div class="discrepancies-table">
+    <table id="{{ field }}">
+      <tr>
+        <th class="field">
+          <span>Field</span>
+        </th>
+        {% for record in discrepantRecords %}
+        <th>
           <a href="{{ record.source_url }}">
             {{ record.source_name }}
           </a>
-        </dt>
-        <dd>{{ record.value }}</dd>
-      {% endfor %}
-      </dl>
-    <dd>
+        </th>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td class="field">
+          <span>{{ field | underscoresToCapitalized }}</span>
+        </td>
+        {% for record in discrepantRecords %}
+        <td>
+          <span>{{ record.value | replace("_", " ") }}</span>
+        </td>
+        {% endfor %}
+      </tr>
+    </table>
+  </div>
+
   {% endfor %}
-</dl>
-{% endif %}
+  {% endif %}
+
+  <h3>Why do discrepancies occur?</h3>
+  <p>
+    We collect data from multiple clinical trial registries, matching them by trial ID and presenting them on a single page. For those trials with multiple data sources, occasionally a particular piece of data differs between registries for a specific trial. This may be due to data having been incorrectly submitted to one of these registries, not updated following a change of status, or both.
+  </p>
 </article>
 {% endblock %}
