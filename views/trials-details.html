@@ -255,7 +255,7 @@
   <ul>
     {% for publication in trial.publications %}
       <li>
-        <a href="/publications/{{ publication.id }}">
+        <a href="{{ publication.source_url }}">
           {{ publication.title }}
         </a>
       </li>
