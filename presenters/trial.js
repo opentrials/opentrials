@@ -56,6 +56,10 @@ function decorateDocuments(documents) {
   return documentsByCategory;
 }
 
+function decorateRecords(records) {
+  return _.sortBy(records, 'source_id');
+}
+
 function decorateIdentifiers(identifiers, sources) {
   const result = Object.keys(identifiers).map((ident) => {
     const source = sources[ident] || {};
@@ -77,6 +81,7 @@ function decorateTrial(trial) {
     {
       documents: decorateDocuments(trial.documents || []),
       identifiers: decorateIdentifiers(trial.identifiers || {}, trial.sources || {}),
+      records: decorateRecords(trial.records || []),
     }
   );
 }
