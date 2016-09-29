@@ -265,5 +265,24 @@
   {{ no_data_message('Publications', thing='"publications"') }}
   {% endif %}
 
+  {% if trial.research_summaries.length != 0 %}
+  <h2>Research summaries</h2>
+  <ul>
+    {% for summary in trial.research_summaries %}
+      <li>
+        <a href="{{ summary.source_url }}">
+          {% if summary.source_id == 'hra' %}
+            NHS Health Research Authority (HRA)
+          {% else %}
+            {{ summary.title }}
+          {% endif %}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  {{ no_data_message('Research summaries', thing='"research summaries"') }}
+  {% endif %}
+
 </aside>
 {% endblock %}

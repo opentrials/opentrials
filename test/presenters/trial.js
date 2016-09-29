@@ -141,4 +141,39 @@ describe('trial presenter', () => {
       }]);
     });
   });
+
+  describe('publications', () => {
+    it('does not add HRA publications to the publications set', () => {
+      const trialAttributes = {
+        publications: [
+          { source_id: 'hra' },
+          { source_id: 'pubmed' },
+          { source_id: 'nct' },
+        ]
+      };
+
+      const trial = trialPresenter(trialAttributes);
+
+      should(trial.publications).deepEqual([
+        { source_id: 'pubmed' },
+        { source_id: 'nct' },
+      ]);
+    })
+
+    it('adds HRA publications to the research_summaries set', () => {
+      const trialAttributes = {
+        publications: [
+          { source_id: 'hra' },
+          { source_id: 'pubmed' },
+          { source_id: 'nct' },
+        ]
+      };
+
+      const trial = trialPresenter(trialAttributes);
+
+      should(trial.research_summaries).deepEqual([
+          { source_id: 'hra' },
+      ]);
+    })
+  });
 });

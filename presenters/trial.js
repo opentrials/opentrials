@@ -74,6 +74,14 @@ function decorateIdentifiers(identifiers, sources) {
   return _.sortBy(result, 'name');
 }
 
+function decoratePublications(publications) {
+  return _.filter(publications, (p) => p.source_id !== 'hra');
+}
+
+function decorateResearchSummaries(publications) {
+  return _.filter(publications, (p) => p.source_id === 'hra');
+}
+
 function decorateTrial(trial) {
   return Object.assign(
     {},
@@ -82,6 +90,8 @@ function decorateTrial(trial) {
       documents: decorateDocuments(trial.documents || []),
       identifiers: decorateIdentifiers(trial.identifiers || {}, trial.sources || {}),
       records: decorateRecords(trial.records || []),
+      publications: decoratePublications(trial.publications || []),
+      research_summaries: decorateResearchSummaries(trial.publications || []),
     }
   );
 }
