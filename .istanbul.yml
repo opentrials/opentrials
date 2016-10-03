@@ -1,2 +1,2 @@
 instrumentation:
-    excludes: ["**/migrations/**", "**/seed/**"]
+    excludes: ["**/migrations/**", "**/seed/**", "config/index.js"]

@@ -62,7 +62,9 @@ server.register(config.hapi.plugins)
     });
   })
   .catch((err) => {
+    // istanbul ignore next
     console.error(err.stack); // eslint-disable-line no-console
+    // istanbul ignore next
     process.exit(1);
   });
 
