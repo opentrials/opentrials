@@ -20,7 +20,11 @@ const config = {
             console: [
               {
                 module: 'good-console',
-                args: [{ log: '*', response: '*' }],
+                args: [{
+                  log: '*',
+                  response: '*',
+                  error: '*',
+                }],
               },
             ],
           },
