@@ -1,4 +1,5 @@
 /* eslint-disable global-require */
+
 'use strict';
 
 const path = require('path');
@@ -87,7 +88,7 @@ const config = {
 };
 
 const env = process.env.NODE_ENV || 'development';
-const knexConfig = require(path.join(__dirname, '..', './knexfile'))[env];
+const knexConfig = require(path.join(__dirname, '..', './knexfile'))[env];  // eslint-disable-line import/no-dynamic-require
 const knex = require('knex')(knexConfig);
 const bookshelf = require('bookshelf')(knex);
 

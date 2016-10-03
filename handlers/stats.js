@@ -1,4 +1,5 @@
 'use strict';
+
 const Boom = require('boom');
 const stats = require('../agents/stats');
 
