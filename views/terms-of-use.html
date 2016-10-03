@@ -1,0 +1,37 @@
+{% extends "layouts/one-column.html" %}
+
+{% block breadcrumb %}
+  <li><a href="/">Home</a></li>
+  <li>{{ title | truncate(35) }}</li>
+{% endblock %}
+
+{% block main %}
+
+<section>
+  <h2>External sources</h2>
+
+  Most of the data available at OpenTrials wasn't produced by us, so we have no
+  copyright over it. Whenever using data taken from our website, make sure you
+  comply with the terms and conditions of the original sources. Below is a list
+  of all our sources and a link to their terms and conditions.
+  Bear in mind that you only have to comply with the terms and conditions of
+  the sources of the data you're interested in.
+
+  <ul>
+    {% for source in sources %}
+      <li>
+        {% if source.url %}
+          <a href="{{ source.url }}">{{ source.name }}</a>
+        {% else %}
+          {{ source.name }}
+        {% endif %}
+        {% if source.terms_and_conditions_url %}
+          <a href="{{ source.terms_and_conditions_url }}">
+            (Terms and Conditions)
+          </a>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

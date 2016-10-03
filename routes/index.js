@@ -27,6 +27,11 @@ const routes = [
     config: require('../handlers/about'),
   },
   {
+    path: '/terms-of-use',
+    method: 'GET',
+    config: require('../handlers/terms-of-use'),
+  },
+  {
     path: '/trials/{id}',
     method: 'GET',
     config: require('../handlers/trials').trial,
