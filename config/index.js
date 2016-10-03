@@ -27,6 +27,7 @@ const config = {
                   error: '*',
                 }],
               },
+              'stdout',
             ],
           },
         },
