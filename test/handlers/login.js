@@ -22,17 +22,14 @@ describe('login handler', () => {
           profile: {
             id: '123',
             displayName: 'Foo Bar',
-            emails: [
-              { value: 'foo@bar.com', type: 'account' },
-              { value: 'foo@foobar.com', type: 'account' },
-            ]
+            email: 'foo@bar.com',
           },
         },
       };
       const profile = options.credentials.profile;
       const userData = {
         name: profile.displayName,
-        email: profile.emails[0].value,
+        email: profile.email,
       };
 
       return new User({ email: userData.email }).fetch()

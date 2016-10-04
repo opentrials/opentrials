@@ -7,7 +7,7 @@ const profileParsers = {
   google: (profile) => (
     {
       name: profile.displayName,
-      email: profile.emails[0].value,  // Ignore multiple emails for now
+      email: profile.email,
     }
   ),
   facebook: (profile) => (
