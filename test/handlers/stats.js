@@ -18,35 +18,8 @@ describe('stats handler', () => {
           });
       });
 
-      it('is successful', () => {
-        response.statusCode.should.equal(200)
-      });
-
-      it('adds the requested stats info to the context', () => {
-        const context = response.request.response.source.context;
-        context.stats.should.deepEqual(stats);
-      });
-
-      it('uses the "stats" template', () => (
-        response.request.response.source.template.should.equal('stats')
-      ));
-
-      it('sets the title to the Statistics', () => {
-        const context = response.request.response.source.context;
-        context.title.should.equal('Statistics');
-      });
-    });
-
-    describe('API is not OK', () => {
-      it('returns error 502', () => {
-        mockApiResponses({
-          stats: { statusCode: 500 },
-        });
-
-        return server.inject('/stats')
-          .then((_response) => {
-            _response.statusCode.should.equal(502);
-          });
+      it('is not found', () => {
+        response.statusCode.should.equal(404)
       });
     });
   });

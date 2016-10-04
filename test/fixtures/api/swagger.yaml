@@ -320,51 +320,7 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /stats:
-    x-swagger-router-controller: stats
-    get:
-      tags:
-        - statistics
-      description: Returns statistics for the entire database
-      operationId: getStats
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/Stats"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
 definitions:
-  Stats:
-    type: object
-    properties:
-      trialsCount:
-        type: integer
-        description: Trials count
-      trialsPerSource:
-        type: array
-        description: Array of objects containing counts of trials, grouped by source
-        items:
-          $ref: '#/definitions/TrialsPerSource'
-      trialsPerYear:
-        type: array
-        description: Array of objects containing counts of trials, grouped by year
-        items:
-          $ref: '#/definitions/TrialsPerYear'
-      topLocations:
-        type: array
-        description: Array of objects containing counts of trials, grouped by location
-        items:
-          $ref: '#/definitions/TopLocations'
-      sourcesLatestUpdatedDate:
-        type: array
-        description: Array of objects containing the available sources and their latest update date
-        items:
-          $ref: '#/definitions/SourcesLatestUpdatedDate'
-
   TrialsPerSource:
     type: object
     properties:
