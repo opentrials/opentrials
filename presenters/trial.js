@@ -82,6 +82,21 @@ function decorateResearchSummaries(publications) {
   return _.filter(publications, (p) => p.source_id === 'hra');
 }
 
+function decorateDiscrepancies(discrepancies, records) {
+  const decoratedDiscrepancies = {};
+  const recordsById = _.groupBy(records, 'id');
+
+  for (const key of Object.keys(discrepancies)) {
+    decoratedDiscrepancies[key] = discrepancies[key].map((discrepancy) => {
+      const record = recordsById[discrepancy.record_id][0];
+      const sourceUrl = record.source_url;
+      return Object.assign({}, discrepancy, { source_url: sourceUrl });
+    });
+  }
+
+  return decoratedDiscrepancies;
+}
+
 function decorateTrial(trial) {
   return Object.assign(
     {},
@@ -92,6 +107,7 @@ function decorateTrial(trial) {
       records: decorateRecords(trial.records || []),
       publications: decoratePublications(trial.publications || []),
       research_summaries: decorateResearchSummaries(trial.publications || []),
+      discrepancies: decorateDiscrepancies(trial.discrepancies || {}, trial.records || []),
     }
   );
 }

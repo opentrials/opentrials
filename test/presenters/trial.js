@@ -176,4 +176,39 @@ describe('trial presenter', () => {
       ]);
     })
   });
+
+  describe('discrepancies', () => {
+    it('adds the record\'s source_url', () => {
+      const trialAttributes = {
+        records: [
+          {
+            id: '3e5ffed2-5a62-4a99-ba4c-e616567ccdaf',
+            source_url: 'http://example.org/record1',
+          },
+          {
+            id: '4755e93d-14d4-4bc0-98a5-51196637e45b',
+            source_url: 'http://example.org/record2',
+          },
+        ],
+        discrepancies: {
+          status: [
+            {
+              record_id: '3e5ffed2-5a62-4a99-ba4c-e616567ccdaf',
+              value: 'ongoing',
+            },
+            {
+              record_id: '4755e93d-14d4-4bc0-98a5-51196637e45b',
+              value: 'complete',
+            },
+          ],
+        },
+      };
+
+      const trial = trialPresenter(trialAttributes);
+
+      const discrepanciesSourcesUrls = trial.discrepancies.status.map((d) => d.source_url);
+      const expectedSourcesUrls = trialAttributes.records.map((record) => record.source_url);
+      should(discrepanciesSourcesUrls).deepEqual(expectedSourcesUrls);
+    });
+  });
 });
