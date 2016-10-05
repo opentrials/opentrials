@@ -13,10 +13,6 @@ server.connection({
   port: config.port,
 });
 
-server.ext('onPreResponse', plugins.addFlashMessagesToContext);
-server.ext('onPreResponse', plugins.httpErrorHandler);
-server.ext('onPreResponse', plugins.addCurrentURLToContext);
-
 server.register(config.hapi.plugins)
   .then(() => {
     const baseConfiguration = {
@@ -51,6 +47,12 @@ server.register(config.hapi.plugins)
       strategy: 'session',
       mode: 'optional',
     });
+
+    const hapiRaven = server.plugins['hapi-raven'];
+    server.ext('onPreResponse', plugins.sendErrorsToSentry(hapiRaven));
+    server.ext('onPreResponse', plugins.addFlashMessagesToContext);
+    server.ext('onPreResponse', plugins.addCurrentURLToContext);
+    server.ext('onPreResponse', plugins.httpErrorHandler);
   })
   .then(() => server.views(config.hapi.views))
   .then(() => server.route(routes))
@@ -60,7 +62,9 @@ server.register(config.hapi.plugins)
     });
   })
   .catch((err) => {
+    // istanbul ignore next
     console.error(err.stack); // eslint-disable-line no-console
+    // istanbul ignore next
     process.exit(1);
   });
 

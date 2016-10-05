@@ -27,6 +27,7 @@ const config = {
                   error: '*',
                 }],
               },
+              'stdout',
             ],
           },
         },
@@ -95,5 +96,19 @@ const bookshelf = require('bookshelf')(knex);
 bookshelf.plugin('registry');
 bookshelf.plugin('virtuals');
 config.bookshelf = bookshelf;
+
+// Sentry
+const sentryDsn = process.env.SENTRY_DSN;
+if (sentryDsn && env === 'production') {
+  config.hapi.plugins.push({
+    register: require('hapi-raven'),
+    options: {
+      dsn: sentryDsn,
+    },
+    tags: [
+      env,
+    ],
+  });
+}
 
 module.exports = config;
