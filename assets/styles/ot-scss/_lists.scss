@@ -10,10 +10,18 @@ dl {
     margin: 0;
   }
 }
+
+aside {
+  li {
+    margin-top: $small-spacing;
+  }
+}
+
 .overview-list,
 .registry-list,
 .document-list,
-.actions {
+.actions,
+aside ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
