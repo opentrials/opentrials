@@ -7,15 +7,170 @@
 
 {% block main %}
 
-<section>
-  <h2>External sources</h2>
+<p>
+OpenTrials is a service provided by Open Knowledge International. Open
+Knowledge International’s contract with you for this service are on the terms
+of our <a href="https://okfn.org/terms-of-use/">general terms of use</a>, as
+supplemented by these terms. In the case of any conflict, these specific terms
+will take precedence over the general terms.
+</p>
 
-  Most of the data available at OpenTrials wasn't produced by us, so we have no
-  copyright over it. Whenever using data taken from our website, make sure you
-  comply with the terms and conditions of the original sources. Below is a list
-  of all our sources and a link to their terms and conditions.
-  Bear in mind that you only have to comply with the terms and conditions of
-  the sources of the data you're interested in.
+<p>
+  <em>
+    Warning: We make absolutely no promises about the quality or existence of
+    OpenTrials. Please read the sections below, and our general terms of use,
+    including our general exclusion of liability.
+  </em>
+</p>
+
+<section>
+  <h2>Privacy</h2>
+  <p>
+    We process personal data in accordance with our <a
+      href="https://okfn.org/privacy-policy/">privacy policy</a>. As part of
+    this agreement you consent to our doing so. You should read the policy
+    carefully, especially if you have any concerns about your privacy.
+  </p>
+
+  <p>
+    If you extract any email addresses or other contact information from our
+    database, you should not use it for marketing or other promotional
+    purposes.  Please let us know about such addresses via our <a
+      href="http://explorer.opentrials.net/report-error">correction form</a> or
+    <a href="mailto:opentrials@okfn.org">opentrials@okfn.org</a>,
+    so that we can remove or obfuscate them as appropriate.
+  </p>
+</section>
+
+<section>
+  <h2>Disclaimers</h2>
+  <p>
+    We collect information from reputable sources, but we make no promises
+    about the completeness, timeliness, or accuracy of the information we store
+    and display. For example, we:
+
+    <ul>
+      <li>
+        Gather some data from historical sources, which may have gaps common to
+        any historical record;
+      </li>
+      <li>
+        May not be able to access all updates from the original sources, so a
+        trial may be listed as ongoing after it has closed, or may not list all
+        outcomes of the trial; and
+      </li>
+      <li>
+        Gather information from formats that may not perfectly preserve the
+        original information, such as databases that contain scans of PDFs.
+      </li>
+    </ul>
+  <p>
+
+  <p>
+    If you’re aware of such an issue, we invite you to <a
+      href="/flag-error">submit corrections</a> to us! We will attempt to
+    correct it when possible.
+  </p>
+  <p>
+    We do not endorse the scientific, clinical, or ethical aspects of the
+    trials we publish.
+  </p>
+  <p>
+    The information we publish is not a recommendation to use a particular
+    medicine or participate in a particular trial. If you have questions
+    about a particular treatment, please consult a healthcare professional.
+  </p>
+</section>
+
+<section>
+  <h2>Content and intellectual property</h2>
+
+  <section>
+    <h3>Using content from this site</h3>
+    <p>
+      You are free to use the data published on this site for any purpose,
+      subject to the following conditions:
+
+      <ul>
+        <li>
+          Content created by third parties is offered to you under their terms.
+          Please see the full list of sources and links to their licensing terms,
+          where available, in the <a href="#tou-sources">External Sources</a> section on this page.
+          You should refer to the original source
+          if you have questions about your rights to use this content.
+        </li>
+        <li>
+          Content we create, or which contributors submit directly to us, is
+          offered under the <a
+          href="https://creativecommons.org/publicdomain/zero/1.0/">Creative
+          Commons Public Domain Dedication</a> (usually called "CC0"). However,
+          we encourage you to give appropriate credit to OpenTrials and OpenTrials
+          contributors. For more details, see <a
+          href="https://creativecommons.org/publicdomain/zero/1.0/">the full text
+          of the license</a>.
+        </li>
+      </ul>
+    </p>
+
+    <p>
+      In addition, when using this data, we encourage you to:
+      <ul>
+        <li>Note the date you retrieved the data from us; and</li>
+        <li>Describe any modifications you made to the data.</li>
+      </ul>
+    </p>
+  </section>
+
+  <section>
+    <h3>Giving your content to us</h3>
+
+    <p>
+      If you contribute your data or content to us, for example by uploading
+      it to our <a href="/contribute-data">data contribution page</a>, then
+      you agree to license that content to the public under the <a
+        href="https://creativecommons.org/publicdomain/zero/1.0/">Creative
+        Commons Public Domain Dedication</a> (usually called "CC0"). We will
+      encourage others to attribute the material to you, as described in the
+      previous section. 
+    </p>
+
+    <p>
+      If you would like to contribute data to us, but cannot agree to the CC0
+      license, please send us an e-mail at <a
+          href="mailto:opentrials@okfn.org">opentrials@okfn.org</a>.
+    </p>
+  </section>
+
+  <section>
+    <h3>Taking down content</h3>
+
+    <p>
+      If you believe that any content on OpenTrials is hosted in violation of
+      relevant law, please notify us through <a href="/takedown">this
+        form</a>.
+    </p>
+  </section>
+
+  <section>
+    <h3>Our software</h3>
+
+    The source code behind OpenTrials is available under a free license on
+    <a href="https://github.com/opentrials">GitHub</a>.
+  </section>
+</section>
+
+<section>
+  <h2>General conditions</h2>
+  
+  <p>
+    We may update these terms at any time. If we do so, we will announce the
+    change on the OpenTrials website. Any changes will be binding on you when
+    we announce them.
+  </p>
+</section>
+
+<section id="tou-sources">
+  <h2>External sources</h2>
 
   <ul>
     {% for source in sources %}
@@ -34,4 +189,5 @@
     {% endfor %}
   </ul>
 </section>
+
 {% endblock %}
