@@ -45,16 +45,6 @@ body {
       opacity: 0.5;
     }
 
-    .cc,
-    .cc-by {
-      &:before {
-        @include icon-font();
-        font-size: 20px;
-        float: left;
-        margin-right: 5px;
-      }
-    }
-
     .cc {
       font-size: 12px;
       display: inline-block;
@@ -62,12 +52,11 @@ body {
       opacity: 0.8;
 
       &:before {
+        @include icon-font();
+        font-size: 20px;
+        float: left;
+        margin-right: 5px;
         content: "\e601";
-      }
-    }
-    .cc-by {
-      &:before {
-        content: "\e600";
       }
     }
 
