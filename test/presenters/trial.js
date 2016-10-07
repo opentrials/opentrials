@@ -211,4 +211,66 @@ describe('trial presenter', () => {
       should(discrepanciesSourcesUrls).deepEqual(expectedSourcesUrls);
     });
   });
+
+  describe('risks_of_bias', () => {
+    it('generates the expected risk of bias message', () => {
+      const trialAttributes = {
+        risks_of_bias: [
+          {
+            id: "4a592278-8c98-11e6-aad1-f8165487599c",
+            trial_id: "a63246de-1329-4532-b805-140b9065e379",
+            source_id: "cochrane",
+            study_id: "STD-Bachmann-2003",
+            source_url: "http://onlinelibrary.wiley.com/doi/10.1002/14651858.CD006918.pub2/full",
+            risk_of_bias_criteria: [
+              {
+                id: "4a5a46ee-8c98-11e6-aad1-f8165487599c",
+                name: "sequence generation",
+                value: "yes"
+              },
+              {
+                id: "4a5b9620-8c98-11e6-aad1-f8165487599c",
+                name: "allocation concealment",
+                value: "unknown"
+              },
+              {
+                id: "4a5cd5e4-8c98-11e6-aad1-f8165487599c",
+                name: "blinding (performance and/or detection)",
+                value: "yes"
+              },
+              {
+                id: "4a5e2f34-8c98-11e6-aad1-f8165487599c",
+                name: "attrition",
+                value: "yes"
+              },
+              {
+                id: "4a5f204c-8c98-11e6-aad1-f8165487599c",
+                name: "reporting",
+                value: "yes"
+              },
+              {
+                id: "4a5ffae4-8c98-11e6-aad1-f8165487599c",
+                name: "other biases",
+                value: "no"
+              }
+            ],
+            created_at: "2016-10-07T13:13:59.160Z",
+            updated_at: "2016-10-07T13:13:59.160Z"
+          }
+        ],
+      };
+      const expectedMessage = (
+          '"low risk" of bias for "sequence generation"' +
+          ', "unclear" for "allocation concealment"' +
+          ', "low risk" of bias for "blinding (performance and/or detection)"' +
+          ', "low risk" of bias for "attrition"' +
+          ', "low risk" of bias for "reporting"' +
+          ', and "high risk" of bias for "other biases"'
+      );
+
+      const trial = trialPresenter(trialAttributes);
+
+      should(trial.risks_of_bias[0].message).equal(expectedMessage);
+    });
+  });
 });

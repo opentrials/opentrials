@@ -185,18 +185,7 @@
     {% for rob in trial.risks_of_bias %}
       <p>The methodological rigour of this trial was scored in a
         <a href="{{ rob.source_url }}">systematic review</a>, where it was scored as
-        being
-        {% for c in rob.risk_of_bias_criteria %}
-          {% if c.value == 'yes' %}
-            "low risk" of bias
-          {% elif c.value == 'no' %}
-            "high risk" of bias
-          {% else %}
-            "unclear"
-          {% endif %}
-          for "{{ c.name }}"
-        {% endfor %}
-        .
+        being at {{ rob.message }}.
       </p>
     {% endfor %}
   {% endif %}

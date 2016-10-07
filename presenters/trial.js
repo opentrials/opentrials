@@ -97,6 +97,41 @@ function decorateDiscrepancies(discrepancies, records) {
   return decoratedDiscrepancies;
 }
 
+function decorateRisksOfBias(risksOfBias) {
+  return risksOfBias.map((rob) => {
+    const messages = rob.risk_of_bias_criteria.map((criteria) => {
+      let msg;
+
+      switch (criteria.value) {
+        case 'yes':
+          msg = '"low risk" of bias';
+          break;
+        case 'no':
+          msg = '"high risk" of bias';
+          break;
+        default:
+          msg = '"unclear"';
+          break;
+      }
+
+      return `${msg} for "${criteria.name}"`;
+    });
+
+    if (messages.length >= 2) {
+      const lastIndex = (messages.length - 1);
+      messages[lastIndex] = `and ${messages[lastIndex]}`;
+    }
+
+    return Object.assign(
+      {},
+      rob,
+      {
+        message: messages.join(', '),
+      }
+    );
+  });
+}
+
 function decorateTrial(trial) {
   return Object.assign(
     {},
@@ -108,6 +143,7 @@ function decorateTrial(trial) {
       publications: decoratePublications(trial.publications || []),
       research_summaries: decorateResearchSummaries(trial.publications || []),
       discrepancies: decorateDiscrepancies(trial.discrepancies || {}, trial.records || []),
+      risks_of_bias: decorateRisksOfBias(trial.risks_of_bias || []),
     }
   );
 }
