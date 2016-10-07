@@ -1,0 +1,11 @@
+iframe {
+  width: 100%;
+  border: none;
+  overflow: hidden;
+  &#stats-deduplicated {
+    height: 43em;
+  }
+  &#stats-registered {
+    height: 32em;
+  }
+}

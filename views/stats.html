@@ -7,56 +7,12 @@
 
 {% block main %}
 <article class="result">
-  <div class="stats-node">
-    <h3>Number of trials: <span id="trialsCount">{{stats.trialsCount | formatNumber}}</span></h3>
-  </div>
-
-  <div class="stats-node">
-    <h3>Number of trials per source:</h3>
-    <ul class="meta" id="trialsPerSource">
-      {% for trialPerRegistry in stats.trialsPerSource %}
-      <li>
-        <dt>{{ trialPerRegistry.name }}</dt>
-        <dd>{{ trialPerRegistry.count | formatNumber }}</dd>
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
-
-  <div class="stats-node">
-    <h3>Number of trials per year:</h3>
-    <ul class="meta" id="trialsPerYear">
-      {% for trialPerYear in stats.trialsPerYear %}
-      <li>
-        <dt>{{ trialPerYear.year }}</dt>
-        <dd>{{ trialPerYear.count | formatNumber }}</dd>
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
-
-  <div class="stats-node">
-    <h3>Top 10 locations with most trials:</h3>
-    <ul class="meta" id="topLocation">
-      {% for topLocation in stats.topLocations %}
-      <li>
-        <dt>{{ topLocation.name }}</dt>
-        <dd>{{ topLocation.count | formatNumber }}</dd>
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
-
-  <div class="stats-node">
-    <h3>Date when we updated each registry: </h3>
-    <ul class="meta" id="updatedRegistry">
-      {% for sourceLatestUpdatedDate in stats.sourcesLatestUpdatedDate %}
-      <li>
-        <dt>{{ sourceLatestUpdatedDate.name }}</dt>
-        <dd>{{ sourceLatestUpdatedDate.latest_updated_date | formatDate }}</dd>
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
+  <iframe id="stats-deduplicated" scrolling="no"
+          src="https://query.opentrials.net/embed/query/10/visualization/12?api_key=28b9e757367a91d395ee4444e9a168742b332ca0"
+  ></iframe>
+  <iframe id="stats-registered" scrolling="no"
+          src="https://query.opentrials.net/embed/query/15/visualization/20?api_key=d4dfba385b7332c5c62b08438944968991f9e682"
+  ></iframe>
 </article>
 {% endblock %}
+

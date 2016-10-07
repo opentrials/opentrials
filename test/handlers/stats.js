@@ -3,24 +3,26 @@ const server = require('../../server');
 
 describe('stats handler', () => {
   describe('GET /stats', () => {
-    describe('API is OK', () => {
-      const stats = JSON.parse(JSON.stringify(
-        fixtures.getStats()
-      ));
-      let response;
+    let response;
 
-      before(() => {
-        apiServer.get('/stats').reply(200, stats);
+    before(() => (
+      server.inject('/stats')
+        .then((_response) => {
+          response = _response;
+        })
+    ));
 
-        return server.inject('/stats')
-          .then((_response) => {
-            response = _response;
-          });
-      });
+    it('is successful', () => (
+      response.statusCode.should.equal(200)
+    ));
 
-      it('is not found', () => {
-        response.statusCode.should.equal(404)
-      });
+    it('uses the "stats" template', () => (
+      response.request.response.source.template.should.equal('stats')
+    ));
+
+    it('sets the title', () => {
+      const context = response.request.response.source.context;
+      context.should.have.property('title');
     });
   });
 });
