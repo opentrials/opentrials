@@ -12,7 +12,14 @@
     </header>
 
     <fieldset class="search-bar">
-      <input type="search" title="Search" placeholder="Find trial by title, identifier or other keywords (e.g. &quot;heart attack&quot;)" name="q" value="{{ query.q }}" />
+      <input
+        type="search"
+        title="Search"
+        placeholder="Find trial by title, identifier or other keywords (e.g. &quot;heart attack&quot;)"
+        name="q"
+        value="{{ query.q }}"
+        autofocus
+        />
       <button type="submit"><span>Search</span></button>
     </fieldset>
     <div class="search-controls">
