@@ -1,14 +1,15 @@
 'use strict';
 
+const _ = require('lodash');
 const server = require('../../server');
 
 describe('terms-of-use handler', () => {
   describe('GET /terms-of-use', () => {
     describe('API is OK', () => {
-      const sources = JSON.parse(JSON.stringify([
+      const sources = _.orderBy(JSON.parse(JSON.stringify([
         fixtures.getSource(),
         fixtures.getSource(),
-      ]));
+      ])), 'name', 'desc');
       let response;
 
       beforeEach(() => {
@@ -25,13 +26,14 @@ describe('terms-of-use handler', () => {
           .then((response) => response.request.response.source.template.should.equal('terms-of-use'))
       ));
 
-      it('adds the requested person to the context', () => {
+      it('adds the sources sorted by name to the context', () => (
         server.inject('/terms-of-use')
           .then((response) => {
             const context = response.request.response.source.context;
-            context.sources.should.deepEqual(sources);
+            const sortedSources = _.sortBy(sources, 'name');
+            context.sources.should.deepEqual(sortedSources);
           })
-      });
+      ));
     });
 
     describe('API is not OK', () => {
