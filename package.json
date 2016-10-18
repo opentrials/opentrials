@@ -17,7 +17,7 @@
     "migrate": "knex migrate:latest",
     "dev": "gulp dev",
     "prestart": "gulp build",
-    "start": "node server.js"
+    "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 server.js"
   },
   "repository": {
     "type": "git",
