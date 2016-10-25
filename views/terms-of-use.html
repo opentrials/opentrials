@@ -175,8 +175,8 @@ will take precedence over the general terms.
   <ul>
     {% for source in sources %}
       <li>
-        {% if source.url %}
-          <a href="{{ source.url }}">{{ source.name }}</a>
+        {% if source.source_url %}
+          <a href="{{ source.source_url }}">{{ source.name }}</a>
         {% else %}
           {{ source.name }}
         {% endif %}

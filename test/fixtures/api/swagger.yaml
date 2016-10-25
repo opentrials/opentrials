@@ -847,7 +847,7 @@ definitions:
     required:
       - name
       - type
-      - url
+      - source_url
     properties:
       name:
         type: string
@@ -862,8 +862,9 @@ definitions:
           - blank_case_report_form
           - results
           - other
-      url:
+      source_url:
         type: string
+        description: URL to the website where the document comes from
       documentcloud_id:
         type: string
       text:
@@ -923,7 +924,7 @@ definitions:
         type: string
       name:
         type: string
-      url:
+      source_url:
         type: string
         description: URL to source's website
       terms_and_conditions_url:

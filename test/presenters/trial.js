@@ -43,7 +43,7 @@ describe('trial presenter', () => {
       const doc = {
         type: 'csr',
         name: 'Clinical Study Report',
-        url: 'http://somewhere.com/csr.pdf',
+        source_url: 'http://somewhere.com/csr.pdf',
       };
       const trial = trialPresenter({
         documents: [

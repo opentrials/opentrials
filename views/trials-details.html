@@ -153,8 +153,8 @@
         <h3>{{ category }}</h3>
         <ul>
         {% for document in documents %}
-          <li class="{{ 'needed' if not document.url }}">
-            <a href="{{ document.url or contributeDataUrl }}">
+          <li class="{{ 'needed' if not document.source_url }}">
+            <a href="{{ document.source_url or contributeDataUrl }}">
               {{ document.name }}
             </a>
           </li>
