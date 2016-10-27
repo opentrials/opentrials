@@ -294,5 +294,17 @@
   {{ no_data_message('Research summaries', thing='"research summaries"') }}
   {% endif %}
 
+  <h2>Acknowledgements</h2>
+  This trial contains data from:
+  <ul>
+  {% for _, source in trial.sources %}
+    <li>
+      <a href="{{ source.source_url }}">
+        {{ source.name }}
+      </a>
+    </li>
+  {% endfor %}
+  </ul>
+
 </aside>
 {% endblock %}
