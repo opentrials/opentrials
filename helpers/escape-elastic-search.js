@@ -2,7 +2,7 @@
 
 function escapeElasticSearch(query) {
   return query
-    .replace(/[\*\+\-"~\?^{}\(\):!\/[\]\\]/g, '\\$&')
+    .replace(/[*+\-"~?^{}():!/[\]\\]/g, '\\$&')
     .replace(/\|\|/g, '\\||')
     .replace(/&&/g, '\\&&');
 }

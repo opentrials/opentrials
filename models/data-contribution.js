@@ -20,7 +20,7 @@ const DataContribution = BaseModel.extend({
   },
   virtuals: {
     filename: function filename() {
-      const filenameRegexp = /.*uploads\/[^\/]+\/(.+)/;
+      const filenameRegexp = /.*uploads\/[^/]+\/(.+)/;
       const dataUrl = this.attributes.data_url;
       let result;
 
