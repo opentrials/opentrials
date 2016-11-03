@@ -42,10 +42,12 @@ function decorateDocuments(documents) {
     },
   };
 
-  const unknownDocuments = Object.assign({}, defaultDocuments);
-  documents.forEach((doc) => delete unknownDocuments[doc.type]);
+  const nonFDADocuments = _.filter(documents, (doc) => doc.source_id !== 'fda');
 
-  const allDocuments = _.values(unknownDocuments).concat(documents);
+  const unknownDocuments = Object.assign({}, defaultDocuments);
+  nonFDADocuments.forEach((doc) => delete unknownDocuments[doc.type]);
+
+  const allDocuments = _.values(unknownDocuments).concat(nonFDADocuments);
   const documentsByCategory = _.groupBy(allDocuments,
                                         (doc) => documentTypesCategories[doc.type]);
 

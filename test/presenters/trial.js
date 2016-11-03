@@ -54,6 +54,24 @@ describe('trial presenter', () => {
       const regulatoryDocumentsByType = _.groupBy(trial.documents['Regulatory documents'], 'type');
       should(regulatoryDocumentsByType.csr).deepEqual([doc]);
     });
+
+    it('removes documents from the FDA', () => {
+      const doc = {
+        type: 'other',
+        name: 'Medical Review',
+        source_id: 'fda',
+      };
+      const trial = trialPresenter({
+        documents: [
+          doc,
+        ],
+      });
+
+      Object.keys(trial.documents).forEach((category) => {
+        const fdaDocs = _.find(trial.documents[category], {source_id: 'fda'});
+        should(fdaDocs).be.undefined();
+      });
+    });
   });
 
   describe('records', () => {
