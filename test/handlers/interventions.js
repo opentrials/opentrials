@@ -1,9 +1,12 @@
 'use strict';
 
 const escapeElasticSearch = require('../../helpers/escape-elastic-search');
-const server = require('../../server');
 
 describe('interventions handler', () => {
+  let server;
+
+  before(() => getExplorerServer().then((_server) => server = _server));
+
   describe('GET /interventions/{id}', () => {
     describe('API is OK', () => {
       const intervention = JSON.parse(JSON.stringify(

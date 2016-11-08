@@ -1,7 +1,6 @@
 'use strict';
 
 const should = require('should');
-const server = require('../../server');
 
 describe('search handler', () => {
   const apiResponse = JSON.parse(JSON.stringify({
@@ -11,6 +10,9 @@ describe('search handler', () => {
       fixtures.getTrial(),
     ],
   }));
+  let server;
+
+  before(() => getExplorerServer().then((_server) => server = _server));
 
   afterEach(() => {
     cleanAllApiMocks();

@@ -1,14 +1,18 @@
 'use strict';
 
 const should = require('should');
-const server = require('../../server');
 const loginHandler = require('../../handlers/login');
 const User = require('../../models/user');
 const OAuthCredential = require('../../models/oauth-credential');
 
 describe('login handler', () => {
+  let server;
 
-  before(clearDB);
+  before(() => (
+    clearDB()
+      .then(() => getExplorerServer())
+      .then((_server) => server = _server)
+  ));
 
   afterEach(clearDB);
 

@@ -1,9 +1,12 @@
 'use strict';
 
 const _ = require('lodash');
-const server = require('../../server');
 
 describe('terms-of-use handler', () => {
+  let server;
+
+  before(() => getExplorerServer().then((_server) => server = _server));
+
   describe('GET /terms-of-use', () => {
     describe('API is OK', () => {
       const sources = _.orderBy(JSON.parse(JSON.stringify([

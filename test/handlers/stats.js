@@ -1,7 +1,10 @@
 'use strict';
-const server = require('../../server');
 
 describe('stats handler', () => {
+  let server;
+
+  before(() => getExplorerServer().then((_server) => server = _server));
+
   describe('GET /stats', () => {
     let response;
 

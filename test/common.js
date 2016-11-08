@@ -56,9 +56,18 @@ function mockApiResponses(responses) {
   }
 }
 
+function getExplorerServer() {
+  const serverPromise = require('../server'); // eslint-disable-line global-require
+
+  return serverPromise
+    .then((server) => server.select('web'));
+}
+
+
 global.clearDB = clearDB;
 global.apiServer = apiServer;
 global.fixtures = fixtures;
 global.factory = factory;
 global.mockApiResponses = mockApiResponses;
 global.cleanAllApiMocks = nock.cleanAll;
+global.getExplorerServer = getExplorerServer;
