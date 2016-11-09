@@ -4,20 +4,6 @@
 
 const routes = [
   {
-    path: '/assets/{param*}',
-    method: 'GET',
-    handler: {
-      directory: {
-        path: './dist',
-      },
-    },
-    config: {
-      cache: {
-        expiresIn: 7 * 24 * 60 * 60 * 1000,
-      },
-    },
-  },
-  {
     path: '/',
     method: 'GET',
     config: require('../handlers/homepage'),

@@ -1,0 +1,75 @@
+{% macro addSelectOption(value, currentValues) %}
+  {% if currentValues and value in currentValues %}
+    {% set selected=true %}
+  {% endif %}
+  <option
+    value="{{ value }}"
+    {% if selected %}selected{% endif %}
+    >
+    {{ value }}
+  </option>
+{% endmacro %}
+
+<fieldset class="search-bar">
+  <label>Drug, ingredients, or other keywords</label>
+  <input type="search" title="Search" placeholder="e.g. &quot;aspirin&quot;" name="q" value="{{ query.q }}" autofocus />
+  <button type="submit"><span>Search</span></button>
+</fieldset>
+
+<fieldset class="advanced {% if advancedSearchIsVisible %}visible{% endif %}">
+  <label for="drug">Drug</label>
+  <input type="search" title="Drug" placeholder="e.g. &quot;Botox&quot;" id="drug" name="drug" value="{{ query.drug }}" />
+
+  <label for="active_ingredients">Active Ingredients</label>
+  <input type="search" title="Active Ingredients" placeholder="e.g.  &quot;OnabotulinumtoxinA&quot;" id="active_ingredients" name="active_ingredients" value="{{ query.active_ingredients }}" />
+
+  <label for="name">Document Name</label>
+  <input type="search" title="Document Name" placeholder="e.g. &quot;Medical Review&quot;" id="name" name="name" value="{{ query.name }}" />
+
+  <label for="application_id">Application ID</label>
+  <input type="search" title="Application ID" placeholder="e.g.  &quot;NDA000000&quot;" id="application_id" name="application_id" value="{{ query.application_id }}" />
+
+  <div class="filter">
+    <label for="application_type">Application Type</label>
+    <div class="select">
+      <select name="application_type" id="application_type" multiple="multiple">
+        {{ addSelectOption("NDA", query["application_type"]) }}
+        {{ addSelectOption("ANDA", query["application_type"]) }}
+        {{ addSelectOption("BLA", query["application_type"]) }}
+      </select>
+    </div>
+  </div>
+
+  <fieldset class="registration date">
+      <legend style="display:none;">Period</legend>
+      <div class="filter">
+        <label for="action_date_start">Period start date</label>
+        <input
+          type="date"
+          data-format="dd/MMM/yyyy"
+          class="form-control"
+          name="action_date_start"
+          id="action_date_start"
+          placeholder="e.g. 2015-01-31"
+          value="{{ query.action_date_start }}">
+      </div>
+      <div class="filter">
+        <label for="action_date_end">Period end date</label>
+        <input
+          type="date"
+          data-format="dd/MMM/yyyy"
+          class="form-control"
+          name="action_date_end"
+          id="action_date_end"
+          placeholder="e.g. 2016-01-31"
+          value="{{ query.action_date_end }}">
+      </div>
+  </fieldset>
+
+  <div class="controls">
+    <button type="submit"><span>Search</span></button>
+    {% if advancedSearchIsVisible %}
+      <button class="clear-form">Clear</button>
+    {% endif %}
+  </div>
+</fieldset>

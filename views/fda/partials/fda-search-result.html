@@ -1,0 +1,20 @@
+<article class="result">
+  <h1 class="title">{{ fdaDocument.name }}</h1>
+  <dl class="status meta">
+    <dt title="Date" class="date"><span>Date:</span></dt>
+    <dd>
+      <time datetime="{{ trial.registration_date }}">
+        {{ fdaDocument.fda_approval.action_date | formatDate }}
+      </time>
+    </dd>
+    <dt title="FDA Application"><span>FDA Application:</span></dt>
+    <dd>{{ fdaDocument.fda_approval.fda_application.id }}</dd>
+  </dl>
+
+  <dl class="meta">
+    <dt>Drug:</dt>
+    <dd>{{ fdaDocument.fda_approval.fda_application.drug_name }}</dd>
+    <dt>Active Ingredients:</dt>
+    <dd>{{ fdaDocument.fda_approval.fda_application.active_ingredients }}</dd>
+  </dl>
+</article>

@@ -103,17 +103,30 @@ if (sentryDsn && env === 'production') {
     plugin: {
       register: 'hapi-raven',
       options: {
-        select: ['web'],
+        dsn: sentryDsn,
       },
+      tags: [
+        env,
+      ],
+    },
+    options: {
+      select: ['web', 'web-fda'],
     },
   });
 }
 
+// Our modules
 manifest.registrations = manifest.registrations.concat([
   {
     plugin: './lib/modules/explorer',
     options: {
       select: ['web'],
+    },
+  },
+  {
+    plugin: './lib/modules/fda',
+    options: {
+      select: ['web-fda'],
     },
   },
 ]);

@@ -25,7 +25,9 @@
       <div id="ok-panel" class="closed"><div class="container"><iframe src="//a.okfn.org/html/oki/panel/panel.html" scrolling="no"></iframe></div></div>
       {% include "partials/under-construction-disclaimer.html" %}
       {% include "partials/flash-messages.html" %}
-      {% include "partials/header.html"  %}
+      {% block header %}
+        {% include "partials/header.html"  %}
+      {% endblock %}
 
       {% block innerPage %}{% endblock %}
 

@@ -10,6 +10,7 @@ const fixtures = {
   getLocation: require('./locations'),
   getPublication: require('./publications'),
   getStats: require('./stats'),
+  getFDADocument: require('./fda_documents'),
 }
 
 module.exports = fixtures;

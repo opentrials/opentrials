@@ -13,6 +13,23 @@ const options = {
 function startOrInitializeServer(resolve, reject) {
   Promise.promisify(Glue.compose)(config.hapi.manifest, options)
     .then((server) => {
+      server.route([
+        {
+          path: '/assets/{param*}',
+          method: 'GET',
+          handler: {
+            directory: {
+              path: './dist',
+            },
+          },
+          config: {
+            cache: {
+              expiresIn: 7 * 24 * 60 * 60 * 1000,
+            },
+          },
+        },
+      ]);
+
       const hapiRaven = server.plugins['hapi-raven'];
       server.ext('onPreResponse', plugins.sendErrorsToSentry(hapiRaven));
       server.ext('onPreResponse', plugins.addFlashMessagesToContext);

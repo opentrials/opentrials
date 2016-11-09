@@ -3,9 +3,6 @@ info:
   version: "0.0.1"
   title: OpenTrials API
 basePath: /v1
-schemes:
-  - http
-  - https
 consumes:
   - application/json
 produces:
@@ -19,9 +16,11 @@ paths:
     get:
       tags:
         - trials
-      description: Find trials using a simple keyword(s) based search. At the moment, operators (`AND`, `OR`)are not implemented.
-                   If the results span across multiple pages, use the `page` parameter to request a specific page and `per_page`
-                   to alter the number of results returned on a single page.
+      description: Returns trials based on a search query. By default, it'll search in all of a trial's attributes.
+
+                   - `q` is a [ElasticSearch query
+                     string](https://www.elastic.co/guide/en/elasticsearch/reference/2.3/query-dsl-query-string-query.html#query-string-syntax)
+                     (e.g. `public_title:(depressive OR depression)`)
 
                    - `page` can take a value between `1` and `100`
 
@@ -30,7 +29,7 @@ paths:
       parameters:
         - name: q
           in: query
-          description: The search query
+          description: The search query (follows the [ElasticSearch Query String](https://www.elastic.co/guide/en/elasticsearch/reference/2.3/query-dsl-query-string-query.html#query-string-syntax) syntax)
           type: string
         - name: page
           in: query
@@ -101,6 +100,46 @@ paths:
           description: Success
           schema:
             $ref: "#/definitions/AutocompleteResults"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /search/fda_documents:
+    x-swagger-router-controller: search
+    get:
+      tags:
+        - search
+      description: Search the FDA documents
+      operationId: searchFDADocuments
+      parameters:
+        - name: q
+          in: query
+          description: The search query (follows the [ElasticSearch Query String](https://www.elastic.co/guide/en/elasticsearch/reference/2.3/query-dsl-query-string-query.html#query-string-syntax) syntax)
+          type: string
+        - name: text
+          in: query
+          description: Search query on the documents file's text (follows the [ElasticSearch Simple Query String](https://www.elastic.co/guide/en/elasticsearch/reference/2.3/query-dsl-simple-query-string-query.html#_simple_query_string_syntax) syntax)
+          type: string
+        - name: page
+          in: query
+          description: The page number
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 1
+        - name: per_page
+          in: query
+          description: Number of items per page
+          type: integer
+          minimum: 10
+          maximum: 100
+          default: 20
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/FDADocumentSearchResults"
         default:
           description: Error
           schema:
@@ -320,6 +359,118 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /fda_applications:
+    x-swagger-router-controller: fda_applications
+    get:
+      tags:
+        - fda_applications
+      description: Returns FDA applications
+      operationId: listFDAApplications
+      parameters:
+        - name: page
+          in: query
+          description: The page number
+          type: integer
+          minimum: 1
+          default: 1
+        - name: per_page
+          in: query
+          description: Number of items per page
+          type: integer
+          minimum: 10
+          maximum: 100
+          default: 20
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/FDAApplicationList"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /fda_applications/{id}:
+    x-swagger-router-controller: fda_applications
+    get:
+      tags:
+        - fda_applications
+      description: Returns an FDA application details
+      operationId: getFDAApplication
+      parameters:
+        - name: id
+          in: path
+          description: ID of the FDA application
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/FDAApplication"
+        "404":
+          description: FDA application not found
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  
+  /documents:
+    x-swagger-router-controller: documents
+    get:
+      tags:
+        - documents
+      description: Returns documents
+      operationId: listDocuments
+      parameters:
+        - name: page
+          in: query
+          description: The page number
+          type: integer
+          minimum: 1
+          default: 1
+        - name: per_page
+          in: query
+          description: Number of items per page
+          type: integer
+          minimum: 10
+          maximum: 100
+          default: 20
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/DocumentList"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /documents/{id}:
+    x-swagger-router-controller: documents
+    get:
+      tags:
+        - documents
+      description: Returns details of a document
+      operationId: getDocument
+      parameters:
+        - name: id
+          in: path
+          description: ID of the document
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Document"
+        "404":
+          description: Document not found
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
 definitions:
   TrialsPerSource:
     type: object
@@ -422,6 +573,10 @@ definitions:
         type: string
         description: Date the trial was registered
         format: date-time
+      completion_date:
+        type: string
+        description: Date the trial was completed
+        format: date-time
       status:
         type: string
         description: Completion status of the trial
@@ -484,7 +639,7 @@ definitions:
         type: array
         description: Documents related to the trial
         items:
-          $ref: '#/definitions/Document'
+          $ref: '#/definitions/DocumentSummary'
       sources:
         type: object
         items:
@@ -506,6 +661,16 @@ definitions:
               - recruitment_countries
               - other
     description: Location of a trial
+
+  TrialSummary:
+    type: object
+    properties:
+      id:
+        type: string
+        description: ID of the trial
+      url:
+        type: string
+        description: OpenTrials API URL for this trial
 
   Location:
     type: object
@@ -548,6 +713,7 @@ definitions:
         description: Type of the intervention (drug / other)
         enum:
           - drug
+          - procedure
           - other
 
   Condition:
@@ -845,30 +1011,131 @@ definitions:
   Document:
     type: object
     required:
+      - id
       - name
+      - url
       - type
-      - source_url
     properties:
+      id:
+        type: string
+        description: ID of the document
       name:
         type: string
-      type:
+      url:
         type: string
-        enum:
-          - csr
-          - csr_synopsis
-          - epar_segment
-          - blank_consent_form
-          - patient_information_sheet
-          - blank_case_report_form
-          - results
-          - other
+        description: OpenTrials API URL of the document
+      type:
+        $ref: '#/definitions/DocumentType'
       source_url:
         type: string
-        description: URL to the website where the document comes from
+        description: URL of origin for this document
+      trials:
+        type: array
+        items:
+          $ref: '#/definitions/TrialSummary'
+      file:
+        type: object
+        $ref: '#/definitions/File'
+      fda_application:
+        $ref: '#/definitions/FDAApplication'
+      source:
+        type: object
+        $ref: '#/definitions/Source'
+
+  DocumentSummary:
+    type: object
+    required:
+      - id
+      - name
+      - url
+      - type
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      url:
+        type: string
+        description: OpenTrials API URL of the document
+      type:
+        $ref: '#/definitions/DocumentType'
+      trials:
+        type: array
+        items:
+          $ref: '#/definitions/TrialSummary'
+      file:
+        type: object
+        $ref: '#/definitions/FileSummary'
+      fda_application:
+        $ref: '#/definitions/FDAApplication'
+      source_id:
+        type: string
+        description: ID of the document's source
+      source_url:
+        type: string
+        description: URL of origin for this document
+
+  DocumentType:
+    type: string
+    description: Type of the document
+    enum:
+      - csr
+      - csr_synopsis
+      - epar_segment
+      - blank_consent_form
+      - patient_information_sheet
+      - blank_case_report_form
+      - results
+      - other
+
+  DocumentList:
+    type: object
+    required:
+      - total_count
+      - items
+    properties:
+      total_count:
+        type: integer
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/DocumentSummary'
+
+  FileSummary:
+    type: object
+    properties:
+      id:
+        type: string
+        description: ID of the file
+      sha1:
+        type: string
+      source_url:
+        type: string
+        description: URL of origin for this file
       documentcloud_id:
         type: string
-      text:
-        type: string
+
+  File:
+    type: object
+    allOf:
+      - $ref: '#/definitions/FileSummary'
+      - type: object
+        properties:
+          pages:
+            type: array
+            description: Array with text of each of the file's pages
+            items:
+              type: object
+              required:
+                - num
+                - text
+              properties:
+                num:
+                  type: integer
+                  minimum: 1
+                  description: Page number
+                text:
+                  type: string
 
   RiskOfBias:
     type: object
@@ -935,6 +1202,27 @@ definitions:
           - register
           - other
 
+  FDADocumentSearchResults:
+    type: object
+    required:
+      - total_count
+      - items
+    properties:
+      total_count:
+        type: integer
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/FDADocumentSearchResult'
+
+  FDADocumentSearchResult:
+    allOf:
+      - $ref: '#/definitions/DocumentSummary'
+      - type: object
+        properties:
+          file:
+            $ref: '#/definitions/File'
+
   TrialSearchResults:
     type: object
     required:
@@ -971,6 +1259,75 @@ definitions:
         type: string
       name:
         type: string
+
+  FDAApplicationList:
+    type: object
+    required:
+      - total_count
+      - items
+    properties:
+      total_count:
+        type: integer
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/FDAApplication'
+
+  FDAApplication:
+    type: object
+    required:
+      - id
+      - url
+    properties:
+      id:
+        type: string
+        description: FDA application ID
+      drug_name:
+        type: string
+        description: Name of the drug
+      active_ingredients:
+        type: string
+        description: Active ingredients contained in the drug
+      fda_approvals:
+        type: array
+        description: Associated FDA approvals
+        items:
+          $ref: '#/definitions/FDAApproval'
+      organisation:
+        type: object
+        description: Associated organisation
+        $ref: '#/definitions/Organisation'
+      type:
+        type: string
+        description: The FDA application type (e.g. "NDA", "ANDA", etc.)
+      url:
+        type: string
+        description: OpenTrials API URL for this FDA application
+
+  FDAApproval:
+    type: object
+    required:
+      - id
+      - action_date
+      - supplement_number
+      - type
+    properties:
+      id:
+        type: string
+        description: FDA approval ID
+      supplement_number:
+        type: integer
+      type:
+        type: string
+        description: Type of FDA approval
+      action_date:
+        type: string
+        format: date-time
+      notes:
+        type: string
+        description: Additional information about the FDA approval
+      fda_application:
+        $ref: '#/definitions/FDAApplication'
 
   ErrorResponse:
     type: object

@@ -1,58 +1,10 @@
 'use strict';
 
-const URL = require('url');
 const Boom = require('boom');
-const _ = require('lodash');
 const Joi = require('joi');
 const escapeElasticSearch = require('../helpers/escape-elastic-search');
+const generatePaginationLinks = require('../helpers/generate-pagination-links');
 const trials = require('../agents/trials');
-
-function getPagination(url, currentPage, perPage, maxPages, totalCount) {
-  const getPageUrl = (pageNumber) => {
-    const pageUrl = _.omit(url, 'search');
-    pageUrl.query.page = pageNumber;
-    return URL.format(pageUrl);
-  };
-  let numberOfPages = Math.ceil(totalCount / perPage);
-  if (numberOfPages > maxPages) {
-    numberOfPages = maxPages;
-  }
-
-  const previousPage = (currentPage > 1) ? currentPage - 1 : 1;
-  const nextPage = (currentPage < numberOfPages) ? currentPage + 1 : numberOfPages;
-  const visiblePages = 10;
-  const halfCountOfVisiblePage = Math.floor((visiblePages - 1) / 2);
-  let firstVisiblePage = (currentPage > halfCountOfVisiblePage)
-                         ? currentPage - halfCountOfVisiblePage
-                         : 1;
-  const lastVisiblePage = (firstVisiblePage + visiblePages > numberOfPages)
-                          ? numberOfPages
-                          : (firstVisiblePage + visiblePages) - 1;
-
-  if (lastVisiblePage - firstVisiblePage < visiblePages && lastVisiblePage - visiblePages >= 1) {
-    firstVisiblePage = (lastVisiblePage - visiblePages) + 1;
-  }
-
-  const pages = _.range(firstVisiblePage, lastVisiblePage + 1).map((pageNumber) => (
-    {
-      page: pageNumber,
-      label: pageNumber,
-      url: getPageUrl(pageNumber),
-    }
-  ));
-
-  if (numberOfPages <= 1) {
-    return [];
-  }
-
-  return [
-    { page: 1, label: '«', url: getPageUrl(1) },
-    { page: previousPage, label: '‹', url: getPageUrl(previousPage) },
-    ...pages,
-    { page: nextPage, label: '›', url: getPageUrl(nextPage) },
-    { page: numberOfPages, label: '»', url: getPageUrl(numberOfPages) },
-  ];
-}
 
 function getFilters(query) {
   const filters = {};
@@ -127,7 +79,7 @@ function getFilters(query) {
 function searchPage(request, reply) {
   const query = request.query;
   const queryStr = query.q;
-  const page = (query.page) ? parseInt(query.page, 10) : undefined;
+  const page = query.page;
   const perPage = 10;
   const maxPages = 100;
   const filters = getFilters(query);
@@ -135,9 +87,11 @@ function searchPage(request, reply) {
 
   trials.search(queryStr, page, perPage, filters).then((_trials) => {
     const currentPage = page || 1;
-    const pagination = getPagination(request.url, currentPage,
-                                     perPage, maxPages,
-                                     _trials.total_count);
+    const pagination = generatePaginationLinks(
+      request.url, currentPage,
+      perPage, maxPages,
+      _trials.total_count
+    );
 
     reply.view('search', {
       title: 'Search',
@@ -159,7 +113,8 @@ module.exports = {
   validate: {
     query: {
       advanced_search: Joi.boolean().default(false),
-      page: Joi.number().integer().min(1).max(100),
+      // eslint-disable-next-line newline-per-chained-call
+      page: Joi.number().integer().min(1).max(100).empty(''),
       registration_date_start: Joi.date().format('YYYY-MM-DD').empty('').raw(),
       registration_date_end: Joi.date().format('YYYY-MM-DD').empty('').raw(),
       location: Joi.array().single(true).items(Joi.string().empty('')),
