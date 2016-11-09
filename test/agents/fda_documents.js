@@ -2,6 +2,7 @@
 
 const should = require('should');
 const fdaDocuments = require('../../agents/fda_documents');
+const decorateFDADocument = require('../../presenters/fda_document');
 
 describe('FDA Documents', () => {
   describe('#search', () => {
@@ -12,23 +13,27 @@ describe('FDA Documents', () => {
         fixtures.getFDADocument(),
       ],
     };
+    const expectedResponse = {
+      total_count: response.total_count,
+      items: response.items.map((doc) => decorateFDADocument(doc)),
+    };
 
     it('returns the response from the search API', () => {
       apiServer.get('/search/fda_documents').reply(200, response);
 
-      return should(fdaDocuments.search()).be.fulfilledWith(response);
+      return should(fdaDocuments.search()).be.fulfilledWith(expectedResponse);
     });
 
     it('passes the page number to the query', () => {
       apiServer.get('/search/fda_documents').query({page: 2}).reply(200, response);
 
-      return should(fdaDocuments.search(undefined, 2)).be.fulfilledWith(response);
+      return should(fdaDocuments.search(undefined, 2)).be.fulfilledWith(expectedResponse);
     });
 
     it('passes the number of items per page to the query', () => {
       apiServer.get('/search/fda_documents').query({per_page: 12}).reply(200, response);
 
-      return should(fdaDocuments.search(undefined, undefined, 12)).be.fulfilledWith(response);
+      return should(fdaDocuments.search(undefined, undefined, 12)).be.fulfilledWith(expectedResponse);
     });
 
     it('rejects the promise if there was some problem with the API call', () => {

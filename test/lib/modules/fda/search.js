@@ -1,6 +1,7 @@
 'use strict';
 
 const should = require('should');
+const decorateFDADocument = require('../../../../presenters/fda_document');
 
 describe('FDA Search Handler', () => {
   const apiResponse = {
@@ -40,11 +41,18 @@ describe('FDA Search Handler', () => {
           })
       ));
 
-      it('adds the trials into the context', () => (
+      it('adds the decorated FDA documents into the context', () => (
         server.inject('/search')
           .then((response) => {
             const context = response.request.response.source.context;
-            should(context.fdaDocuments).deepEqual(apiResponse);
+            const expectedApiResponse = Object.assign(
+              {},
+              apiResponse,
+              {
+                items: apiResponse.items.map((doc) => decorateFDADocument(doc)),
+              }
+            );
+            should(context.fdaDocuments).deepEqual(expectedApiResponse);
           })
       ));
 

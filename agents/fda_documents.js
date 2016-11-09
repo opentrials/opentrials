@@ -1,6 +1,7 @@
 'use strict';
 
 const opentrialsApi = require('../config').opentrialsApi;
+const decorateFDADocument = require('../presenters/fda_document');
 const generateESQueryString = require('../helpers/generate-es-query-string');
 
 function searchFDADocuments(query, page, perPage, filters) {
@@ -12,7 +13,11 @@ function searchFDADocuments(query, page, perPage, filters) {
 
   return opentrialsApi
     .then((client) => client.search.searchFDADocuments(searchQuery))
-    .then((response) => response.obj);
+    .then((response) => {
+      const data = response.obj;
+      data.items = data.items.map((doc) => decorateFDADocument(doc));
+      return data;
+    });
 }
 
 module.exports = {

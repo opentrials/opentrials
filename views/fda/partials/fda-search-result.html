@@ -1,5 +1,13 @@
 <article class="result">
-  <h1 class="title">{{ fdaDocument.name }}</h1>
+  <h1 class="title">
+    {% if fdaDocument.file and fdaDocument.file.documentcloud_url %}
+      <a href="{{ fdaDocument.file.documentcloud_url }}" target="_blank">
+        {{ fdaDocument.name }}
+      </a>
+    {% else %}
+      {{ fdaDocument.name }}
+    {% endif %}
+  </h1>
   <dl class="status meta">
     <dt title="Date" class="date"><span>Date:</span></dt>
     <dd>
