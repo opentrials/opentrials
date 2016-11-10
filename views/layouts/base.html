@@ -35,7 +35,9 @@
         {% block main %}{% endblock %}
       </main>
 
-      {% include "partials/footer.html"  %}
+      {% block footer %}
+        {% include "partials/footer.html"  %}
+      {% endblock %}
       {% include "partials/scripts.html" %}
       {% block scripts %}{% endblock %}
     </div>

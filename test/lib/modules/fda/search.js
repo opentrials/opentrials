@@ -120,6 +120,37 @@ describe('FDA Search Handler', () => {
     ));
   });
 
+  describe('GET /search?text={textQuery}', () => {
+    const textQuery = 'foo bar';
+    let response;
+
+    beforeEach(() => {
+      mockApiResponses({
+        'search/fda_documents': {
+          query: {
+            text: textQuery,
+          },
+        },
+      });
+    });
+
+    it('adds the text query into the context', () => (
+      server.inject(`/search?text=${encodeURIComponent(textQuery)}`)
+        .then((response) => {
+          const context = response.request.response.source.context;
+          should(context.query.text).eql(textQuery);
+        })
+    ));
+
+    it('adds advancedSearchIsVisible as true into the context', () => (
+      server.inject(`/search?text=${encodeURIComponent(textQuery)}`)
+        .then((response) => {
+          const context = response.request.response.source.context;
+          should(context.advancedSearchIsVisible).eql(true);
+        })
+    ));
+  });
+
   describe('GET /search?page={page}', () => {
     it('adds the currentPage number into the context', () => {
       const page = 51;

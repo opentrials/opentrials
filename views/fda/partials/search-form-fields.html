@@ -17,6 +17,8 @@
 </fieldset>
 
 <fieldset class="advanced {% if advancedSearchIsVisible %}visible{% endif %}">
+  <label for="text">Document text</label>
+  <input type="search" title="Document's text" placeholder="e.g.  &quot;Schizophrenia&quot;" id="text" name="text" value="{{ query.text }}" />
   <label for="drug">Drug</label>
   <input type="search" title="Drug" placeholder="e.g. &quot;Botox&quot;" id="drug" name="drug" value="{{ query.drug }}" />
 

@@ -1,0 +1,25 @@
+@import "bourbon";
+@import "ot-scss/constants";
+
+.search-results {
+  em {
+    background: #ff6;
+  }
+}
+
+.dl-horizontal {
+  dd:after {
+    content: '\A';
+    white-space: pre;
+  }
+
+  dt,
+  dd {
+    display: inline;
+    margin: 0;
+  }
+}
+
+.search-results .pages {
+  margin-top: $small-spacing;
+}

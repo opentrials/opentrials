@@ -4,9 +4,10 @@ const opentrialsApi = require('../config').opentrialsApi;
 const decorateFDADocument = require('../presenters/fda_document');
 const generateESQueryString = require('../helpers/generate-es-query-string');
 
-function searchFDADocuments(query, page, perPage, filters) {
+function searchFDADocuments(query, text, page, perPage, filters) {
   const searchQuery = {
     q: generateESQueryString(query, filters),
+    text,
     page,
     per_page: perPage,
   };
