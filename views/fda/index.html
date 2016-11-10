@@ -3,22 +3,17 @@
 {% block banner %}
   <header>
     <h1>Explore</h1>
-    Find trial by title and other identifiers
+    Find FDA Documents by name, text and other keywords
   </header>
-  {% if trials %}
-    {% if trials.total_count == 1 %}
-      {% set trials_count = '1 trial' %}
+  {% if fdaDocuments %}
+    {% if fdaDocuments.total_count == 1 %}
+      {% set documents_count = '1 document' %}
     {% else %}
-      {% set trials_count = trials.total_count | formatNumber + ' trials' %}
+      {% set documents_count = fdaDocuments.total_count | formatNumber + ' documents' %}
     {% endif %}
     <ul class="breadcrumb">
       <li><a href="/">Home</a></li>
-      {% if query.q %}
-        <li><a href="/search">Search</a></li>
-        <li>{{ query.q }} ({{ trials_count }})</li>
-      {% else %}
-        <li>Search ({{ trials_count }})</li>
-      {% endif %}
+      <li>Search ({{ documents_count }})</li>
     </ul>
   {% endif %}
 {% endblock %}
