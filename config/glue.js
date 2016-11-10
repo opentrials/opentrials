@@ -2,14 +2,26 @@
 
 const port = Number(process.env.PORT || 5000);
 
+// Heroku doesn't allow multiple web servers on the same instance, so we need
+// to decide who's the main one.
+let explorerPort;
+let fdaPort;
+if (process.env.MAIN_APP === 'fda') {
+  explorerPort = port + 1;
+  fdaPort = port;
+} else {
+  explorerPort = port;
+  fdaPort = port + 1;
+}
+
 const manifest = {
   connections: [
     {
-      port,
+      port: explorerPort,
       labels: ['web'],
     },
     {
-      port: port + 1,
+      port: fdaPort,
       labels: ['web-fda'],
     },
   ],
