@@ -1,0 +1,51 @@
+/*
+ *  jq-accordion - vv1.0.0
+ *  Responsive, CSS powered, jQuery accordion plugin
+ *  http://nayzawoo.github.com/jquery-accordion
+ *
+ *  (c) 2014 Victor Fernandez <victor@vctrfrnndz.com>
+ *  (c) 2016 Nay Zaw Oo <nayzawoo.me@gmail.com>
+ *  Under MIT License
+ */
+/* Requirements */
+
+[data-accordion] [data-content] {
+    overflow: hidden;
+    max-height: 0;
+}
+
+/* Basic Theme */
+
+[data-accordion] {
+    line-height: 1;
+}
+
+[data-content] [data-accordion] {
+    border: 0;
+    padding: 0;
+}
+
+[data-accordion] [data-control] {
+    position: relative;
+    padding-right: 40px;
+}
+
+[data-accordion] > [data-control]:after {
+    content: "";
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    font-size: 25px;
+    font-weight: 200;
+    color: #444;
+    height: 15px;
+    width: 24px;
+    background: url('/assets/images/down.png') center center no-repeat !important;
+    background-size: 50%;
+}
+
+[data-accordion].open > [data-control]:after {
+    -webkit-transform: rotate(-180deg);
+    -ms-transform: rotate(-180deg);
+    transform: rotate(-180deg);
+}

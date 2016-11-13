@@ -58,6 +58,10 @@ function decorateDocuments(documents) {
   return documentsByCategory;
 }
 
+function decorateFDADocuments(documents) {
+  return _.filter(documents, (doc) => doc.source_id === 'fda');
+}
+
 function decorateRecords(records) {
   return _.sortBy(records, 'source_id');
 }
@@ -140,6 +144,7 @@ function decorateTrial(trial) {
     trial,
     {
       documents: decorateDocuments(trial.documents || []),
+      fda_documents: decorateFDADocuments(trial.documents || []),
       identifiers: decorateIdentifiers(trial.identifiers || {}, trial.sources || {}),
       records: decorateRecords(trial.records || []),
       publications: decoratePublications(trial.publications || []),

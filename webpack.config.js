@@ -44,6 +44,7 @@ module.exports = {
       'jquery.ui.widget': 'jquery-ui/ui/widget.js',
       'jquery.mmenu': 'jquery.mmenu/dist/js/jquery.mmenu.min.js',
       'nodep-date-input-polyfill': 'nodep-date-input-polyfill/nodep-date-input-polyfill.dist.js',
+      'jq-accordion': 'jq-accordion/dist/js/jquery.accordion.js',
     },
   },
 };

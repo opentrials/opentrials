@@ -98,6 +98,60 @@
 
 {% block main %}
 
+<div data-accordion-group>
+  <div class="fda-container accordion" data-accordion>
+    <div class="fda-header" data-control>
+      <div class="fda-logo"></div>
+      <p class="fda-title">
+        {% for intervention in trial.interventions %}
+          <span class="fda-title-item">{{intervention.name}}</span>
+        {% endfor %}
+      </p>
+    </div>
+
+    <div class="fda-content" data-content>
+      <div class="fda-details">
+        <ul class="fda-documents-list">
+          {% for fda_doc in trial.fda_documents | sort(false, false, 'name') %}
+            <li class="fda-document">
+              <a name="{{fda_doc.name | replace(' ', '-')}}"></a>
+              <span class="fda-document-title">
+                {{fda_doc.name}}
+              </span>
+              <div class="fda-tooltip tooltip">
+                <div class="tooltip-content">
+                  <p class="tooltip-text">
+                    This text has been extracted from a scanned document. <br>
+                  </p>
+                  <a href="{{fda_doc.file.source_url}}">See original</a>
+                </div>
+              </div>
+              <pre class="fda-document-text">{{fda_doc.file.pagesPreview}}</pre>
+              <a class="fda-document-link"
+                 href="{{fda_doc.file.source_url}}">
+                Read more
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="fda-source-container">
+        <h2 class="fda-source-title">Source data</h2>
+        <ul class="fda-source-list">
+          {% for fda_doc in trial.fda_documents | sort(false, false, 'name') %}
+            <li class="fda-source-item">
+              <a href="#{{fda_doc.name | replace(' ', '-')}}">
+                {{fda_doc.name}}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
 
 {% macro no_data_message(name, thing='') -%}
   <h2 class="disabled">{{ name }}</h2>

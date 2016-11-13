@@ -1,0 +1,115 @@
+@import "constants";
+
+.clearfix {
+  clear: both;
+}
+
+.fda-container {
+  border: 1px solid #E7FBF2;
+
+  .fda-header {
+    background-color: #E7FBF2;
+    height: 30px;
+    padding: 0;
+
+    .fda-logo {
+      display: inline-block;
+      padding: 0;
+      width: 70px;
+      height: 30px;
+      background-color: #14C885;
+      background-image: url('/assets/images/fda-logo.png');
+      background-position: 5px;
+      background-repeat: no-repeat;
+    }
+    .fda-title {
+      display: table-cell;
+      vertical-align: middle;
+      color: #14C885;
+      display: inline-block;
+      margin-left: 5px;
+      margin-top: -8px;
+      font-weight: bold;
+
+      .fda-title-item:after {
+        content: ", ";
+      }
+      .fda-title-item:last-child:after {
+        content: "";
+      }
+    }
+  }
+
+  .fda-content {
+    .tooltip-content {
+      display: none;
+    }
+
+    .fda-details {
+      margin: 1.5em;
+      display: inline-block;
+      width: 70%;
+
+      .fda-documents-list {
+        list-style: none;
+        .fda-document {
+          margin-bottom: 3em;
+          .fda-document-title {
+            display: inline-block;
+            font-weight: bold;
+            color: $base-font-color;
+          }
+          .fda-tooltip {
+            display: inline-block;
+            width:  16px;
+            height: 16px;
+            background: url('/assets/images/icons/file_search.png');
+          }
+          .fda-document-text {
+            font-family: sans;
+          }
+          .fda-document-link {
+            color: #14c885;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+
+    .fda-source-container {
+      margin: 1.5em;
+      float: right;
+      width: 20%;
+      background-color: #E7FBF2;
+
+      .fda-source-title {
+        margin: 0 auto;
+        padding: 1em;
+        font-size: 1.375em;
+        font-weight: normal;
+      }
+
+      .fda-source-list {
+        list-style: none;
+        padding: 0;
+
+        .fda-source-item {
+          padding: 1em;
+          border-bottom: 1px solid #EEE;
+          color: $base-font-color;
+          a {
+            color: $base-font-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Minor tweaks */
+.tooltipster-box {
+  border: 0;
+}
+.tooltipster-sidetip {
+  width: 240px;
+}

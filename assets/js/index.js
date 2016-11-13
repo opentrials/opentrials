@@ -69,6 +69,22 @@ $(document).ready(function() {
       .removeAttr('selected');
   });
 
+  // set up accordion
+  $('.accordion').accordion({
+    "transitionSpeed": 400
+  });
+
+  // set up tooltips
+  $('.tooltip').tooltipster({
+    functionInit: function(instance, helper){
+      var content = $(helper.origin).find('.tooltip-content').detach();
+      instance.content(content);
+    },
+    contentAsHTML: true,
+    delay: [100, 2000],
+    interactive: true,
+  });
+
   setupSelect2For('condition');
   setupSelect2For('intervention');
   setupSelect2For('person');
