@@ -16,6 +16,10 @@
   <button type="submit"><span>Search</span></button>
 </fieldset>
 
+<div class="search-controls">
+  <a href="?advanced_search=true" class="toggle-advanced">Advanced search</a>
+</div>
+
 <fieldset class="advanced {% if advancedSearchIsVisible %}visible{% endif %}">
   <label for="text">Document text</label>
   <input type="search" title="Document's text" placeholder="e.g.  &quot;Schizophrenia&quot;" id="text" name="text" value="{{ query.text }}" />
