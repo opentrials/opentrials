@@ -8,6 +8,7 @@ module.exports = {
   entry: {
     main: path.join(__dirname, 'assets', 'js', 'index.js'),
     fileupload: path.join(__dirname, 'assets', 'js', 'fileupload.js'),
+    fda: path.join(__dirname, 'assets', 'js', 'fda.js'),
     vendor: path.join(__dirname, 'assets', 'js', 'vendor', 'index.js'),
   },
 

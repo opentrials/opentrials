@@ -1,5 +1,10 @@
 {% extends "fda/layouts/one-column.html" %}
 
+{% block scripts %}
+{{ super() }}
+<script src="{{ 'js/fda.min.js' | revPath }}" defer></script>
+{% endblock %}
+
 {% block banner %}
   <header>
     <h1>Explore</h1>
