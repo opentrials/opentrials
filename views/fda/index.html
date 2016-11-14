@@ -37,6 +37,10 @@
       {% include "partials/search-pagination.html" %}
     {% else %}
       No documents found.
+      {% if query.q and not query.text %}
+        Did you mean to <a href="?text={{ query.q | escape }}">search in the
+          documents text?</a>
+      {% endif %}
     {% endif %}
   </section>
 {% endblock %}
