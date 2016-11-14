@@ -21,22 +21,34 @@
 </div>
 
 <fieldset class="advanced {% if advancedSearchIsVisible %}visible{% endif %}">
-  <label for="text">Document text</label>
+  <label for="text" class="hastip" title="Search inside the text of the document">
+    Document text
+  </label>
   <input type="search" title="Document's text" placeholder="e.g.  &quot;Schizophrenia&quot;" id="text" name="text" value="{{ query.text }}" />
-  <label for="drug">Drug</label>
+  <label for="drug" class="hastip" title="Search by drug name">
+    Drug
+  </label>
   <input type="search" title="Drug" placeholder="e.g. &quot;Botox&quot;" id="drug" name="drug" value="{{ query.drug }}" />
 
-  <label for="active_ingredients">Active Ingredients</label>
+  <label for="active_ingredients" class="hastip" title="any component that provides pharmacological activity or other direct effect in the diagnosis, cure, mitigation, treatment, or prevention of disease, or to affect the structure or any function of the body of man or animals.">
+    Active Ingredients
+  </label>
   <input type="search" title="Active Ingredients" placeholder="e.g.  &quot;OnabotulinumtoxinA&quot;" id="active_ingredients" name="active_ingredients" value="{{ query.active_ingredients }}" />
 
-  <label for="name">Document Name</label>
+  <label for="name">
+    Document Name
+  </label>
   <input type="search" title="Document Name" placeholder="e.g. &quot;Medical Review&quot;" id="name" name="name" value="{{ query.name }}" />
 
-  <label for="application_id">Application ID</label>
+  <label for="application_id" class="hastip" title="The application identifier is the application type joined with the FDA application number">
+    Application ID
+  </label>
   <input type="search" title="Application ID" placeholder="e.g.  &quot;NDA000000&quot;" id="application_id" name="application_id" value="{{ query.application_id }}" />
 
   <div class="filter">
-    <label for="application_type">Application Type</label>
+    <label for="application_type" class="hastip" title="The FDA applications types are New Drug Application (NDA), Abbreviated New Drug Application (ANDA), or Biologic License Application (BLA)">
+      Application Type
+    </label>
     <div class="select">
       <select name="application_type" id="application_type" multiple="multiple">
         {{ addSelectOption("NDA", query["application_type"]) }}
@@ -47,9 +59,9 @@
   </div>
 
   <fieldset class="registration date">
-      <legend style="display:none;">Period</legend>
+      <legend style="display:none;">Action period</legend>
       <div class="filter">
-        <label for="action_date_start">Period start date</label>
+        <label for="action_date_start">Start date</label>
         <input
           type="date"
           data-format="dd/MMM/yyyy"
@@ -60,7 +72,7 @@
           value="{{ query.action_date_start }}">
       </div>
       <div class="filter">
-        <label for="action_date_end">Period end date</label>
+        <label for="action_date_end">End date</label>
         <input
           type="date"
           data-format="dd/MMM/yyyy"
