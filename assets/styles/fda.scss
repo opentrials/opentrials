@@ -1,6 +1,22 @@
 @import "bourbon";
 @import "ot-scss/constants";
 
+$original-blue: $blue;
+$blue: #028090;
+$dark-blue: darken($blue, 10%);
+$action-color: $blue;
+$colour-2: $blue;
+
+@import "base";
+
+.banner {
+  background-image: none;
+}
+
+.site-header>div .logo svg {
+  fill: $original-blue;
+}
+
 .search-results {
   em {
     background: #ff6;
