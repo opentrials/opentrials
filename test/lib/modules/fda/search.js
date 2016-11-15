@@ -205,20 +205,43 @@ describe('FDA Search Handler', () => {
   });
 
   describe('GET /search?name={name}', () => {
-    it('filters by document name', () => {
-      mockApiResponses({
-        'search/fda_documents': {
-          query: {
-            q: 'name:(Medical review)',
+    describe('single document type', () => {
+      it('filters by document type and converts it to array', () => {
+        mockApiResponses({
+          'search/fda_documents': {
+            query: {
+              q: 'name:("Letter")',
+            },
           },
-        },
-      });
-
-      return server.inject('/search?name=Medical review')
-        .then((response) => {
-          should(response.statusCode).equal(200);
         });
+
+        return server.inject('/search?name=Letter')
+          .then((response) => {
+            const context = response.request.response.source.context;
+            should(response.statusCode).equal(200);
+            should(context.query.name).deepEqual(['Letter']);
+          });
+      });
     })
+
+    describe('multiple document types', () => {
+      it('filters by document type', () => {
+        mockApiResponses({
+          'search/fda_documents': {
+            query: {
+              q: 'name:("Medical review" OR "Letter")',
+            },
+          },
+        });
+
+        return server.inject('/search?name=Medical review&name=Letter')
+          .then((response) => {
+            const context = response.request.response.source.context;
+            should(response.statusCode).equal(200);
+            should(context.query.name).deepEqual(['Medical review', 'Letter']);
+          });
+      });
+    });
   });
 
   describe('GET /search?application_id={id}', () => {
