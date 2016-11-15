@@ -50,6 +50,13 @@
       display: inline-block;
       width: 70%;
 
+     .fda-documents-details {
+        margin-bottom: 5px;
+        ul {
+          list-style: none;
+        }
+      }
+
       .fda-documents-list {
         list-style: none;
         .fda-document {

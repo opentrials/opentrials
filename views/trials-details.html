@@ -98,19 +98,29 @@
 
 {% block main %}
 
+{% for application_id, fda_docs in trial.fda_documents | groupby("application_id") %}
 <div data-accordion-group>
   <div class="fda-container accordion" data-accordion>
     <div class="fda-header" data-control>
       <div class="fda-logo"></div>
       <p class="fda-title">
-        {% for intervention in trial.interventions %}
-          <span class="fda-title-item">{{intervention.name}}</span>
-        {% endfor %}
+        <span class="fda-title-item">
+          {{application_id}}:
+          {{fda_docs[0].fda_approval.fda_application.drug_name}}
+        </span>
       </p>
     </div>
 
     <div class="fda-content" data-content>
       <div class="fda-details">
+       <div class="fda-documents-details">
+          <ul>
+            <li><b>FDA application ID:</b> {{fda_docs[0].fda_approval.fda_application.id}}</li>
+            <li><b>Date:</b> {{fda_docs[0].fda_approval.action_date | formatDate}}</li>
+            <li><b>Type:</b> {{fda_docs[0].fda_approval.type}}</li>
+            <li><b>Active ingredients:</b> {{fda_docs[0].fda_approval.fda_application.active_ingredients}}</li>
+          </ul>
+        </div>
         <ul class="fda-documents-list">
           {% for fda_doc in trial.fda_documents | sort(false, false, 'name') %}
             <li class="fda-document">
@@ -126,7 +136,7 @@
                   <a href="{{fda_doc.file.source_url}}">See original</a>
                 </div>
               </div>
-              <pre class="fda-document-text">{{fda_doc.file.pagesPreview}}</pre>
+              <pre class="fda-document-text">{{fda_doc.file.pages_preview}}</pre>
               <a class="fda-document-link"
                  href="{{fda_doc.file.source_url}}">
                 Read more
@@ -152,6 +162,7 @@
     </div>
   </div>
 </div>
+{% endfor %}
 
 {% macro no_data_message(name, thing='') -%}
   <h2 class="disabled">{{ name }}</h2>

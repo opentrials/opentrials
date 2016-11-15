@@ -60,6 +60,14 @@ function decorateDocuments(documents) {
 
 function decorateFDADocuments(documents) {
   return _.filter(documents, (doc) => doc.source_id === 'fda');
+     const docs = _.filter(documents, (doc) => doc.source_id === 'fda');
+     _.map(docs, (doc) => {
+       if (doc.fda_approval) {
+         // eslint-disable-next-line no-param-reassign
+         doc.application_id = doc.fda_approval.fda_application.id;
+       }
+     });
+     return docs;
 }
 
 function decorateRecords(records) {
