@@ -1,0 +1,94 @@
+@import "constants";
+@import "icons";
+
+.clearfix {
+  clear: both;
+}
+
+.fda-container {
+  border: 1px solid #E7FBF2;
+  margin-bottom: 5px;
+
+  .fda-header {
+    background-color: #E7FBF2;
+    height: 30px;
+    padding: 0;
+    cursor: pointer;
+    user-select: none;
+
+    .fda-logo {
+      display: inline-block;
+      padding: 0;
+      width: 70px;
+      height: 30px;
+      background-color: #14C885;
+      background-image: url('/assets/images/fda-logo.png');
+      background-position: 5px;
+      background-repeat: no-repeat;
+    }
+    .fda-title {
+      display: table-cell;
+      vertical-align: middle;
+      color: #14C885;
+      display: inline-block;
+      margin-left: 5px;
+      margin-top: -8px;
+      font-weight: bold;
+
+    }
+  }
+
+  .fda-content {
+    .fda-details {
+      margin: 1.5em;
+      display: inline-block;
+      width: 70%;
+
+      .fda-documents-details {
+        margin-bottom: 5px;
+        ul {
+          list-style: none;
+        }
+      }
+      .fda-documents-list {
+        list-style: none;
+        .fda-document {
+          .fda-document-title {
+            display: inline-block;
+            font-weight: bold;
+            color: $base-font-color;
+          }
+          .fda-document-link {
+            color: #14c885;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Expander set up */
+
+.expander-hidden::before {
+  @include icon-font();
+  @include icon-chevron-thin-down();
+  color: #14C885;
+  font-weight: bold;
+  float: right;
+  margin: 6px;
+  transform: rotate(270deg) !important;
+}
+
+.expander-trigger::before {
+  @include icon-font();
+  @include icon-chevron-thin-down();
+  color: #14C885;
+  font-weight: bold;
+  float: right;
+  margin: 6px;
+}
+
+.expander-hidden + .expander-content {
+  display: none;
+}

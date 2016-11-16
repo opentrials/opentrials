@@ -98,6 +98,46 @@
 
 {% block main %}
 
+{% for application_id, fda_docs in trial.fda_documents | groupby('application_id') %}
+<div class="expander">
+  <div class="fda-container">
+    <div class="fda-header expander-trigger expander-hidden">
+      <div class="fda-logo"></div>
+      <p class="fda-title">
+        <span class="fda-title-item">
+          {{application_id}}: {{fda_docs[0].fda_approval.fda_application.drug_name}}
+        </span>
+      </p>
+    </div>
+
+    <div class="fda-content expander-content" data-content>
+      <div class="fda-details">
+        <div class="fda-documents-details">
+          <ul>
+            <li><b>FDA application ID:</b> {{application_id}}</li>
+            <li><b>Type:</b> {{fda_docs[0].fda_approval.type}}</li>
+            <li><b>Active ingredients:</b> {{fda_docs[0].fda_approval.fda_application.active_ingredients}}</li>
+          </ul>
+        </div>
+        <ul class="fda-documents-list">
+          {% for fda_doc in fda_docs | sort(false, false, 'name') %}
+            <li class="fda-document">
+              <a name="{{fda_doc.name | replace(' ', '-')}}"></a>
+              <span class="fda-document-title">
+                <a class="fda-document-link"
+                  href="{{fda_doc.file.source_url}}">
+                  {{fda_doc.name}}
+                </a>
+              </span>
+              <p><b>Date:</b> {{fda_docs[0].fda_approval.action_date | formatDate}}</p>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
 
 {% macro no_data_message(name, thing='') -%}
   <h2 class="disabled">{{ name }}</h2>

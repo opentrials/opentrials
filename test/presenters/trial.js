@@ -72,6 +72,43 @@ describe('trial presenter', () => {
         should(fdaDocs).be.undefined();
       });
     });
+
+  });
+  describe('fda_documents', () => {
+    it('adds documents from the FDA as a separate property', () => {
+      const doc = {
+        type: 'other',
+        name: 'Medical Review',
+        source_id: 'fda',
+      };
+      const trial = trialPresenter({
+        documents: [
+          doc,
+        ],
+      });
+
+      should(trial.fda_documents.length).equal(1);
+    });
+
+    it('adds the application ID to the FDA documents', () => {
+      const doc = {
+        type: 'other',
+        name: 'Medical Review',
+        source_id: 'fda',
+        fda_approval: {
+          fda_application: {
+            id: 1234
+          }
+        }
+      };
+      const trial = trialPresenter({
+        documents: [
+          doc,
+        ],
+      });
+
+      should(trial.fda_documents[0].application_id).equal(1234);
+    });
   });
 
   describe('records', () => {

@@ -58,6 +58,17 @@ function decorateDocuments(documents) {
   return documentsByCategory;
 }
 
+function decorateFDADocuments(documents) {
+  const fdaDocs = _.filter(documents, (doc) => doc.source_id === 'fda');
+  return fdaDocs.map((doc) => {
+    let applicationId;
+    if (_.has(doc, 'fda_approval') && _.has(doc, 'fda_approval.fda_application')) {
+      applicationId = doc.fda_approval.fda_application.id;
+    }
+    return _.set(doc, 'application_id', applicationId);
+  });
+}
+
 function decorateRecords(records) {
   return _.sortBy(records, 'source_id');
 }
@@ -140,6 +151,7 @@ function decorateTrial(trial) {
     trial,
     {
       documents: decorateDocuments(trial.documents || []),
+      fda_documents: decorateFDADocuments(trial.documents || []),
       identifiers: decorateIdentifiers(trial.identifiers || {}, trial.sources || {}),
       records: decorateRecords(trial.records || []),
       publications: decoratePublications(trial.publications || []),

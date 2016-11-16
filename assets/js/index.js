@@ -39,34 +39,39 @@ function setupSelect2For(name) {
 
 $(document).ready(function() {
   // mobile menu
-  $("#menu").mmenu({
+  $('#menu').mmenu({
     offCanvas: {
-      pageSelector: ".page",
-      position: "right",
+      pageSelector: '.page',
+      position: 'right',
     },
    }, {
      // configuration
      classNames: {
-       selected: "active",
+       selected: 'active',
      },
   });
 
   // home page
-  $(".toggle-advanced").click(function(e) {
+  $('.toggle-advanced').click(function(e) {
     e.preventDefault();
-    $(".advanced").slideToggle("slow", function() {
-      $(".home").toggleClass("advanced-search")
+    $('.advanced').slideToggle('slow', function() {
+      $('.home').toggleClass('advanced-search')
     });
   });
 
   // clear form button
-  $(".clear-form").click(function(ev) {
+  $('.clear-form').click(function(ev) {
     var form = $(this).parents('form');
     form.find('input, select, textarea')
       .val('');
     form.find('input:radio, input:checkbox')
       .removeAttr('checked')
       .removeAttr('selected');
+  });
+
+  // set up expander
+  $('.expander-trigger').click(function(){
+    $(this).toggleClass('expander-hidden');
   });
 
   setupSelect2For('condition');
