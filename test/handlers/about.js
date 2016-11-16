@@ -1,5 +1,4 @@
 'use strict';
-const serverPromise = require('../../server');
 
 describe('about handler', () => {
   let server;

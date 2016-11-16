@@ -1,0 +1,88 @@
+{% extends "fda/layouts/one-column.html" %}
+
+{% block breadcrumb %}
+  <li><a href="/">Home</a></li>
+  <li>{{ title | truncate(35) }}</li>
+{% endblock %}
+
+{% block main %}
+
+<p>
+  The OpenTrialsFDA team is one of the six finalists for the <a
+    href="https://www.openscienceprize.org/" rel="external">Open Science
+    Prize</a>. This is a collaboration between Drs. Erick Turner, <a
+    href="http://www.badscience.net" rel="external">Ben Goldacre</a> and the
+  OpenTrials team at <a href="https://okfn.org" rel="external">Open Knowledge
+    International</a>.  The work is closely related to the <a
+    href="https://opentrials.net" rel="external">OpenTrials project</a>, which
+  aims to locate, match, and share all publicly accessible data and documents,
+  on all trials conducted, on all medicines and other treatments, globally.
+</p>
+
+<p>
+  OpenTrialsFDA works on making clinical trial data from the <a
+    href="http://www.fda.gov/" rel="external">FDA</a> (the US Food and Drug
+  Administration) more easily accessible and searchable. Until now, this
+  information has been hidden in the user-unfriendly Drug Approval Packages that
+  the FDA publishes via its dataportal <a
+  href="http://www.fda.gov/Drugs/default.htm" rel="external">Drugs@FDA</a>.
+  OpenTrialsFDA extracts the relevant data from the FDA documents, link it to
+  other clinical trial data and present it through this new user-friendly web
+  interface. Any user can type in a drug name, and see all the places where this
+  drug is mentioned in an FDA document. Users can also access, search and present
+  this information through the application programming interfaces (APIs) the team
+  will produce.
+</p>
+
+<section>
+  <h2>Unlocking the trove of FDA clinical trials data</h2>
+  <p>
+    The FDA Drug Approval Packages report the methods and results of all
+    premarketing clinical trials, both published and unpublished. Interestingly,
+    the FDA data is unbiased, compared to reports of clinical trials in academic
+    journals. This is because FDA reviewers, unlike most academic journal reviewers
+    and editors, have access to the original trial protocol and can spot and reject
+    any attempts at post hoc changes to planned outcomes and statistical analyses.
+    Therefore, a systematic review (SR) or meta-analysis (MA) based on FDA Drug
+    Approval Packages, which includes unpublished and “unspun” trial results, will
+    often conclude that the drug in question is less safe and/or less effective
+    than what one would conclude from a conventional SR or MA based solely on the
+    published literature.
+  </p>
+
+  <p>
+    Unfortunately, despite their high value, these FDA documents are notoriously
+    difficult to access, aggregate, and search. The Drugs@FDA website itself is not
+    intuitive to navigate, and the reviews are stored as individual PDFs which,
+    except for relatively new drugs, cannot be searched. As a consequence, they are
+    rarely used by clinicians and researchers. OpenTrialsFDA will improve this
+    situation, so that valuable information that is currently hidden away can be
+    discovered, presented, and used to properly inform evidence-based treatment
+    decisions.
+  </p>
+</section>
+
+<section>
+  <h2>The OpenTrialsFDA prototype</h2>
+  <p>
+    The team has scraped the FDA website and extracted the relevant information
+    from the PDFs through a process of OCR (optical character recognition). Through
+    this new OpenTrialsFDA interface, users will be able to explore and discover
+    the FDA data. In addition, the information will be integrated into the
+    OpenTrials database, so that the FDA report can be linked to reports from other
+    sources, such as ClinicalTrials.gov, EU CTR, HRA, WHO ICTRP, and PubMed.
+    The six finalists of the Open Science Prize will showcase their prototypes at
+    the <a href="http://event.capconcorp.com/wp/bd2k-odss/" rel="external">BD2K
+      Open Data Science Symposium</a> on 1 December 2016, when public voting
+    will begin. The public is asked to help select the most promising, innovative
+    and impactful prototype from among the six finalists - of which one will
+    receive the grand prize of $230,000.
+  </p>
+
+  <p>
+    Further details about the contents of the FDA website are available at
+    <a href="http://www.fda.gov/AboutFDA/AboutThisWebsite/WebsitePolicies/"
+       rel="external">http://www.fda.gov/AboutFDA/AboutThisWebsite/WebsitePolicies/</a>.
+  </p>
+</section>
+{% endblock %}
