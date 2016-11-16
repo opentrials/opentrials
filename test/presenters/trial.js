@@ -56,14 +56,9 @@ describe('trial presenter', () => {
     });
 
     it('removes documents from the FDA', () => {
-      const doc = {
-        type: 'other',
-        name: 'Medical Review',
-        source_id: 'fda',
-      };
       const trial = trialPresenter({
         documents: [
-          doc,
+          fixtures.getFDADocument(),
         ],
       });
 
@@ -72,42 +67,30 @@ describe('trial presenter', () => {
         should(fdaDocs).be.undefined();
       });
     });
-
   });
+
   describe('fda_documents', () => {
     it('adds documents from the FDA as a separate property', () => {
-      const doc = {
-        type: 'other',
-        name: 'Medical Review',
-        source_id: 'fda',
-      };
+      const doc = fixtures.getFDADocument();
       const trial = trialPresenter({
         documents: [
           doc,
         ],
       });
 
-      should(trial.fda_documents.length).equal(1);
+      should(trial.fda_documents).have.length(1);
+      should(trial.fda_documents[0].id).equal(doc.id);
     });
 
     it('adds the application ID to the FDA documents', () => {
-      const doc = {
-        type: 'other',
-        name: 'Medical Review',
-        source_id: 'fda',
-        fda_approval: {
-          fda_application: {
-            id: 1234
-          }
-        }
-      };
+      const doc = fixtures.getFDADocument();
       const trial = trialPresenter({
         documents: [
           doc,
         ],
       });
 
-      should(trial.fda_documents[0].application_id).equal(1234);
+      should(trial.fda_documents[0].application_id).equal(doc.fda_approval.fda_application.id);
     });
   });
 
