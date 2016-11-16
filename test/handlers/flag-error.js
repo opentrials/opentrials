@@ -1,8 +1,10 @@
 'use strict';
-const server = require('../../server');
-
 
 describe('flag handler', () => {
+  let server;
+
+  before(() => getExplorerServer().then((_server) => server = _server));
+
   describe('GET /flag-error', () => {
 
     it('redirects to Google Forms passing the received URL encoded', () => {

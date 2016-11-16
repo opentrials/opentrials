@@ -1,11 +1,14 @@
 'use strict';
 
 const should = require('should');
-const server = require('../../server');
 const trialsAgent = require('../../agents/trials');
 const trialDecorator = require('../../presenters/trial');
 
 describe('trials handler', () => {
+  let server;
+
+  before(() => getExplorerServer().then((_server) => server = _server));
+
   describe('GET /trials/{id}', () => {
     describe('API is OK', () => {
       const trial = JSON.parse(JSON.stringify(

@@ -1,12 +1,16 @@
 'use strict';
 
 const should = require('should');
-const server = require('../../../server');
 const DataContribution = require('../../../models/data-contribution');
-
+let server;
 
 describe('admin data contributions handler', () => {
-  before(clearDB);
+
+  before(() => (
+    clearDB()
+      .then(() => getExplorerServer())
+      .then((_server) => server = _server)
+  ));
 
   afterEach(clearDB);
 

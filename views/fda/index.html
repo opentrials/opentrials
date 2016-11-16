@@ -1,0 +1,51 @@
+{% extends "fda/layouts/one-column.html" %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ 'js/fda.min.js' | revPath }}" defer></script>
+{% endblock %}
+
+{% block banner %}
+  <header>
+    <h1>Explore</h1>
+    Find FDA Documents by name, text and other keywords
+  </header>
+  {% if fdaDocuments %}
+    {% if fdaDocuments.total_count == 1 %}
+      {% set documents_count = '1 document' %}
+    {% else %}
+      {% set documents_count = fdaDocuments.total_count | formatNumber + ' documents' %}
+    {% endif %}
+    <ul class="breadcrumb">
+      <li><a href="/">Home</a></li>
+      <li>Search ({{ documents_count }})</li>
+    </ul>
+  {% endif %}
+{% endblock %}
+
+{% block main %}
+  <section class="filters">
+    <form action="/search" method="get">
+      {% include "fda/partials/search-form-fields.html" %}
+    </form>
+  </section>
+  <section class="search-results">
+    {% if fdaDocuments.items.length > 0 %}
+      {% for fdaDocument in fdaDocuments.items %}
+        {% if loop.first %}<ol>{% endif %}
+        <li>
+          {% include "fda/partials/fda-search-result.html" %}
+        </li>
+        {% if loop.last %}</ol>{% endif %}
+      {% endfor %}
+
+      {% include "partials/search-pagination.html" %}
+    {% else %}
+      No documents found.
+      {% if query.q and not query.text %}
+        Did you mean to <a href="?text={{ query.q | escape }}">search in the
+          documents text?</a>
+      {% endif %}
+    {% endif %}
+  </section>
+{% endblock %}

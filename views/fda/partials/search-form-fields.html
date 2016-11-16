@@ -1,0 +1,109 @@
+{% macro addSelectOption(value, currentValues) %}
+  {% if currentValues and value in currentValues %}
+    {% set selected=true %}
+  {% endif %}
+  <option
+    value="{{ value }}"
+    {% if selected %}selected{% endif %}
+    >
+    {{ value }}
+  </option>
+{% endmacro %}
+
+<fieldset class="search-bar">
+  <label>Drug, ingredients, or other keywords</label>
+  <input type="search" title="Search" placeholder="e.g. &quot;aspirin&quot;" name="q" value="{{ query.q }}" autofocus />
+  <button type="submit"><span>Search</span></button>
+</fieldset>
+
+<div class="search-controls">
+  <a href="?advanced_search=true" class="toggle-advanced">Advanced search</a>
+</div>
+
+<fieldset class="advanced {% if advancedSearchIsVisible %}visible{% endif %}">
+  <label for="text" class="hastip" title="Search inside the text of the document">
+    Document text
+  </label>
+  <input type="search" title="Document's text" placeholder="e.g.  &quot;Schizophrenia&quot;" id="text" name="text" value="{{ query.text }}" />
+  <label for="drug" class="hastip" title="Search by drug name">
+    Drug
+  </label>
+  <input type="search" title="Drug" placeholder="e.g. &quot;Botox&quot;" id="drug" name="drug" value="{{ query.drug }}" />
+
+  <label for="active_ingredients" class="hastip" title="any component that provides pharmacological activity or other direct effect in the diagnosis, cure, mitigation, treatment, or prevention of disease, or to affect the structure or any function of the body of man or animals.">
+    Active Ingredients
+  </label>
+  <input type="search" title="Active Ingredients" placeholder="e.g.  &quot;OnabotulinumtoxinA&quot;" id="active_ingredients" name="active_ingredients" value="{{ query.active_ingredients }}" />
+
+  <div class="filter">
+    <label for="document_name" class="hastip" title="The FDA applications types are New Drug Application (NDA), Abbreviated New Drug Application (ANDA), or Biologic License Application (BLA)">
+      Document Type
+    </label>
+    <div class="select">
+      {% set documentTypes = ['Approval Letter', 'Chemistry Review', 'Label', 'Letter', 'Medical Review', 'Microbiology Review', 'Pharmacology Review', 'Printed Labeling', 'Results', 'Review', 'Statistical Review'] %}
+
+      <select name="name" id="document_name" multiple="multiple">
+        {% for documentType in documentTypes | sort %}
+          {{ addSelectOption(documentType, query['name']) }}
+        {% endfor %}
+
+        {% for type in query['name'] %}
+          {% if type not in documentTypes %}
+            {{ addSelectOption(type, query['name']) }}
+          {% endif %}
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <label for="application_id" class="hastip" title="The application identifier is the application type joined with the FDA application number">
+    Application ID
+  </label>
+  <input type="search" title="Application ID" placeholder="e.g.  &quot;NDA000000&quot;" id="application_id" name="application_id" value="{{ query.application_id }}" />
+
+  <div class="filter">
+    <label for="application_type" class="hastip" title="The FDA applications types are New Drug Application (NDA), Abbreviated New Drug Application (ANDA), or Biologic License Application (BLA)">
+      Application Type
+    </label>
+    <div class="select">
+      <select name="application_type" id="application_type" multiple="multiple">
+        {{ addSelectOption("NDA", query["application_type"]) }}
+        {{ addSelectOption("ANDA", query["application_type"]) }}
+        {{ addSelectOption("BLA", query["application_type"]) }}
+      </select>
+    </div>
+  </div>
+
+  <fieldset class="registration date">
+      <legend style="display:none;">Action period</legend>
+      <div class="filter">
+        <label for="action_date_start">Start date</label>
+        <input
+          type="date"
+          data-format="dd/MMM/yyyy"
+          class="form-control"
+          name="action_date_start"
+          id="action_date_start"
+          placeholder="e.g. 2015-01-31"
+          value="{{ query.action_date_start }}">
+      </div>
+      <div class="filter">
+        <label for="action_date_end">End date</label>
+        <input
+          type="date"
+          data-format="dd/MMM/yyyy"
+          class="form-control"
+          name="action_date_end"
+          id="action_date_end"
+          placeholder="e.g. 2016-01-31"
+          value="{{ query.action_date_end }}">
+      </div>
+  </fieldset>
+
+  <div class="controls">
+    <button type="submit"><span>Search</span></button>
+    {% if advancedSearchIsVisible %}
+      <button class="clear-form">Clear</button>
+    {% endif %}
+  </div>
+</fieldset>

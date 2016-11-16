@@ -1,9 +1,12 @@
 'use strict';
 
 const should = require('should');
-const server = require('../../server');
 
 describe('logout handler', () => {
+  let server;
+
+  before(() => getExplorerServer().then((_server) => server = _server));
+
   describe('GET /logout', () => {
     it('clear the credentials cookies', () => {
       return server.inject('/logout')

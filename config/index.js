@@ -6,58 +6,12 @@ const path = require('path');
 require('dotenv').config();
 
 const config = {
-  host: process.env.HOST || '0.0.0.0',
-  port: process.env.PORT || 5000,
   url: process.env.URL,
 
   opentrialsApi: require('./opentrials-api'),
 
   hapi: {
-    plugins: [
-      {
-        register: require('good'),
-        options: {
-          reporters: {
-            console: [
-              {
-                module: 'good-console',
-                args: [{
-                  log: '*',
-                  response: '*',
-                  error: '*',
-                }],
-              },
-              'stdout',
-            ],
-          },
-        },
-      },
-      {
-        register: require('inert'),
-      },
-      {
-        register: require('vision'),
-      },
-      {
-        register: require('hapi-auth-cookie'),
-      },
-      {
-        register: require('bell'),
-      },
-      {
-        register: require('hapi-context-credentials'),
-      },
-      {
-        register: require('yar'),
-        options: {
-          storeBlank: false,
-          cookieOptions: {
-            password: process.env.SESSION_PASSWORD,
-            isSecure: false,  // FIXME: Set to true in production when issue #100 is fixed
-          },
-        },
-      },
-    ],
+    manifest: require('./glue'),
 
     views: require('./nunjuck'),
 
@@ -96,19 +50,5 @@ const bookshelf = require('bookshelf')(knex);
 bookshelf.plugin('registry');
 bookshelf.plugin('virtuals');
 config.bookshelf = bookshelf;
-
-// Sentry
-const sentryDsn = process.env.SENTRY_DSN;
-if (sentryDsn && env === 'production') {
-  config.hapi.plugins.push({
-    register: require('hapi-raven'),
-    options: {
-      dsn: sentryDsn,
-    },
-    tags: [
-      env,
-    ],
-  });
-}
 
 module.exports = config;

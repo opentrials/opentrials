@@ -1,9 +1,12 @@
 'use strict';
 
 const should = require('should');
-const server = require('../../server');
 
 describe('homepage handler', () => {
+  let server;
+
+  before(() => getExplorerServer().then((_server) => server = _server));
+
   describe('GET /', () => {
     let response;
 

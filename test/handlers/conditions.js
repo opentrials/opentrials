@@ -1,9 +1,12 @@
 'use strict';
 
 const escapeElasticSearch = require('../../helpers/escape-elastic-search');
-const server = require('../../server');
 
 describe('conditions handler', () => {
+  let server;
+
+  before(() => getExplorerServer().then((_server) => server = _server));
+
   describe('GET /conditions/{id}', () => {
     describe('API is OK', () => {
       const condition = JSON.parse(JSON.stringify(

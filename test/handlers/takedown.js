@@ -1,8 +1,11 @@
 'use strict';
-const server = require('../../server');
 
 
 describe('takedown handler', () => {
+  let server;
+
+  before(() => getExplorerServer().then((_server) => server = _server));
+
   describe('GET /takedown', () => {
 
     it('redirects to Google Forms passing the received URL encoded', () => {

@@ -1,0 +1,47 @@
+<article class="result">
+  <h1 class="title">
+    {% if fdaDocument.file and fdaDocument.file.documentcloud_url %}
+      <a href="{{ fdaDocument.file.documentcloud_url }}" target="_blank" rel="external">
+        {{ fdaDocument.name }}
+      </a>
+    {% else %}
+      {{ fdaDocument.name }}
+    {% endif %}
+  </h1>
+  <dl class="status meta">
+    <dt title="Action date" class="date"><span>Action date:</span></dt>
+    <dd>
+      <time datetime="{{ fdaDocument.fda_approval.action_date }}">
+        {{ fdaDocument.fda_approval.action_date | formatDate }}
+      </time>
+    </dd>
+    <dt title="FDA Application" class="identifier"><span>FDA Application:</span></dt>
+    <dd>{{ fdaDocument.fda_approval.fda_application.id }}</dd>
+  </dl>
+
+  <dl class="meta dl-horizontal">
+    <dt>Drug:</dt>
+    <dd>{{ fdaDocument.fda_approval.fda_application.drug_name | capitalize }}</dd>
+    <dt>Active Ingredients:</dt>
+    <dd>{{ fdaDocument.fda_approval.fda_application.active_ingredients | capitalize }}</dd>
+  </dl>
+
+  <ul class="pages">
+    {% for page in fdaDocument.file.pages %}
+      <li>
+        <div>
+          {% if page.documentcloud_url %}
+          <a href="{{ page.documentcloud_url }}" target="_blank" rel="external">
+              Page {{ page.num }}
+            </a>
+          {% else %}
+            Page {{ page.num }}
+          {% endif %}
+        </div>
+        <div>
+          ...{{ page.text | safe }}...
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+</article>

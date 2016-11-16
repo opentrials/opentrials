@@ -2,12 +2,15 @@
 
 const should = require('should');
 const config = require('../../config');
-const server = require('../../server');
 const DataContribution = require('../../models/data-contribution');
 const DataCategory = require('../../models/data-category');
 
 
 describe('contribute-data handler', () => {
+  let server;
+
+  before(() => getExplorerServer().then((_server) => server = _server));
+
   describe('GET /contribute-data', () => {
     it('is successful and uses the correct template', () => {
       return server.inject('/contribute-data')

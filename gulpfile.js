@@ -39,7 +39,17 @@ gulp.task('styles:vendor', () => (
     .pipe(gulp.dest('dist/styles'))
 ));
 
-gulp.task('styles', ['styles:vendor'], () => (
+gulp.task('styles:fda', () => (
+  gulp.src('./assets/styles/fda.scss')
+    .pipe(plugins.sass({
+      includePaths: sassIncludePaths,
+    }).on('error', plugins.sass.logError))
+    .pipe(plugins.cssnano())
+    .pipe(plugins.rename('fda.min.css'))
+    .pipe(gulp.dest('dist/styles'))
+));
+
+gulp.task('styles', ['styles:vendor', 'styles:fda'], () => (
   gulp.src('./assets/styles/index.scss')
     .pipe(plugins.sourcemaps.init())
       .pipe(plugins.sass({

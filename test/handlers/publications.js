@@ -1,7 +1,10 @@
 'use strict';
-const server = require('../../server');
 
 describe('publications handler', () => {
+  let server;
+
+  before(() => getExplorerServer().then((_server) => server = _server));
+
   describe('GET /publications/{id}', () => {
     describe('API is OK', () => {
       const publication = JSON.parse(JSON.stringify(

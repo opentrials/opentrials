@@ -34,10 +34,20 @@ function mockApiResponses(responses) {
       response: { total_count: 0, items: [] },
       statusCode: 200,
     },
+    'search/fda_documents': {
+      response: { total_count: 0, items: [] },
+      statusCode: 200,
+    },
   };
   const theResponses = _.merge({}, defaultResponses, responses);
   if (theResponses.search.query && theResponses.search.query.per_page === undefined) {
     theResponses.search.query.per_page = 10;
+  }
+  if ((theResponses['search/fda_documents'].query || {}).per_page === undefined) {
+    theResponses['search/fda_documents'].query = Object.assign(
+      { per_page: 10 },
+      (theResponses['search/fda_documents'].query || {})
+    );
   }
 
   for (const endpoint of Object.keys(defaultResponses)) {
@@ -56,9 +66,25 @@ function mockApiResponses(responses) {
   }
 }
 
+function getExplorerServer() {
+  const serverPromise = require('../server'); // eslint-disable-line global-require
+
+  return serverPromise
+    .then((server) => server.select('web'));
+}
+
+function getFDAServer() {
+  const serverPromise = require('../server'); // eslint-disable-line global-require
+
+  return serverPromise
+    .then((server) => server.select('web-fda'));
+}
+
 global.clearDB = clearDB;
 global.apiServer = apiServer;
 global.fixtures = fixtures;
 global.factory = factory;
 global.mockApiResponses = mockApiResponses;
 global.cleanAllApiMocks = nock.cleanAll;
+global.getExplorerServer = getExplorerServer;
+global.getFDAServer = getFDAServer;

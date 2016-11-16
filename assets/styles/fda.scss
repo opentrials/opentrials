@@ -1,0 +1,45 @@
+@import "bourbon";
+@import "ot-scss/constants";
+
+$original-blue: $blue;
+$blue: #028090;
+$dark-blue: darken($blue, 10%);
+$action-color: $blue;
+$colour-2: $blue;
+
+@import "base";
+
+.banner {
+  background-image: none;
+}
+
+.site-header>div .logo svg {
+  fill: $original-blue;
+}
+
+.search-results {
+  em {
+    background: #ff6;
+  }
+}
+
+.dl-horizontal {
+  dd:after {
+    content: '\A';
+    white-space: pre;
+  }
+
+  dt,
+  dd {
+    display: inline;
+    margin: 0;
+  }
+}
+
+.search-results .pages {
+  margin-top: $small-spacing;
+}
+
+.title-fda {
+  color: #10ca83;
+}
