@@ -112,28 +112,50 @@
 
     <div class="fda-content expander-content" data-content>
       <div class="fda-details">
-        <div class="fda-documents-details">
+        <section class="fda-documents-details">
           <ul>
             <li><b>FDA application ID:</b> {{application_id}}</li>
             <li><b>Type:</b> {{fda_docs[0].fda_approval.type}}</li>
             <li><b>Active ingredients:</b> {{fda_docs[0].fda_approval.fda_application.active_ingredients}}</li>
           </ul>
-        </div>
-        <ul class="fda-documents-list">
+        </section>
+        <hr/>
+        <section class="fda-documents-list">
           {% for fda_doc in fda_docs | sort(false, false, 'name') %}
-            <li class="fda-document">
+            <article class="fda-document">
               <a name="{{fda_doc.name | replace(' ', '-')}}"></a>
               <span class="fda-document-title">
-                <a class="fda-document-link"
-                  href="{{fda_doc.file.source_url}}">
-                  {{fda_doc.name}}
-                </a>
+                {{fda_doc.name}}
+                <div class="tooltip-item" >
+                  <img src="/assets/images/icons/file_search.png"/>
+                  <div class="tooltip">
+                    <p>This text has been extracted from a scanned document.</p>
+                    <hr/>
+                    <a href="{{fda_doc.file.source_url}}">Show original</a>
+                  </div>
+                </div>
               </span>
               <p><b>Date:</b> {{fda_doc.fda_approval.action_date | formatDate}}</p>
+              <pre class="fda-document-preview">{{fda_doc.file.pages_preview}}</pre>
+              <a href="{{fda_doc.file.source_url}}">Read more</a>
+            </article>
+          {% endfor %}
+        </section>
+      </div>
+
+      <aside class="fda-source-container">
+        <h2 class="fda-source-title">Source data</h2>
+        <ul class="fda-source-list">
+          {% for fda_doc in trial.fda_documents | sort(false, false, 'name') %}
+            <li class="fda-source-item">
+              <a href="#{{fda_doc.name | replace(' ', '-')}}">
+                {{fda_doc.name}}
+              </a>
             </li>
           {% endfor %}
         </ul>
-      </div>
+      </aside>
+<div class="clearfix"></div>
     </div>
   </div>
 </div>

@@ -1,3 +1,5 @@
+@import 'constants';
+
 .clearfix {
   clear: both;
 }
@@ -42,14 +44,16 @@
       width: 70%;
 
       .fda-documents-details {
-        margin-bottom: 5px;
+        margin-bottom: 2em;
         ul {
           list-style: none;
+          padding: 0;
         }
       }
       .fda-documents-list {
         list-style: none;
         .fda-document {
+          margin-bottom: 2em;
           .fda-document-title {
             display: inline-block;
             font-weight: bold;
@@ -59,9 +63,38 @@
             color: #14c885;
             font-weight: bold;
           }
+          .fda-document-preview {
+            font-family: $base-font-family;
+            font-size: .8em;
+          }
         }
       }
     }
+    .fda-source-container {
+      margin: 1.5em;
+      float: right;
+      width: 20%;
+      background-color: #E7FBF2;
+
+      .fda-source-title {
+        margin: 0 auto;
+        padding: 1em;
+      }
+
+      .fda-source-list {
+        list-style: none;
+        padding: 0;
+
+        .fda-source-item {
+          padding: 1em;
+          border-bottom: 1px solid #EEE;
+          color: $base-font-color;
+          a {
+            color: $base-font-color;
+          }
+        }
+      }
+}
   }
 }
 
@@ -88,4 +121,60 @@
 
 .expander-hidden + .expander-content {
   display: none;
+}
+
+
+/* Tooltips set up */
+
+.tooltip-item {
+  $base-border-radius: 3px !default;
+  $tooltip-arrow-width: 8px;
+  $tooltip-shadow: 0 2px 2px silver;
+  $tooltip-distance-from-item: 3em;
+  $tooltip-arrow-distance-from-box: -1.3em;
+
+  display: inline-block;
+  position: relative;
+  text-align: center;
+
+  &:focus,
+  &:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .tooltip {
+    @include position(absolute, null 0 $tooltip-distance-from-item 0);
+    left: -9em;
+    background: #fff;
+    border-radius: $base-border-radius;
+    box-shadow: $tooltip-shadow;
+    font-size: 0.9em;
+    line-height: 1.5em;
+    margin: 0 auto;
+    width: 20em;
+    opacity: 0;
+    padding: 1em;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+    visibility: hidden;
+    z-index: 10;
+
+    p {
+      line-height: 1.5em;
+      margin: 0;
+    }
+
+    &::after {
+      @include position(absolute, null 0);
+      border: $tooltip-arrow-width solid transparent;
+      bottom: $tooltip-arrow-distance-from-box;
+      color: #fff;
+      content: "▼";
+      font-size: 1.4em;
+      margin-left: -$tooltip-arrow-width;
+      text-align: center;
+      text-shadow: $tooltip-shadow;
+    }
+  }
 }
