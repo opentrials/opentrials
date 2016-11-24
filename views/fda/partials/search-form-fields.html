@@ -25,18 +25,19 @@
     Document text
   </label>
   <input type="search" title="Document's text" placeholder="e.g.  &quot;Schizophrenia&quot;" id="text" name="text" value="{{ query.text }}" />
-  <label for="drug" class="hastip" title="Search by drug name">
+
+  <label for="drug" class="hastip" title="It is best to use this field to search for the brand name of the treatment. Unfortunately &quot;drug&quot; is used inconsistently by the FDA in the underlying data which OpenTrialsFDA searches across: for a New Drug Application (NDA) or a Biologic License Application (BLA), the FDA put brand names in &quot;drug&quot; and generic drug names in &quot;active ingredients&quot; but for Abbreviated New Drug Applications (ANDA), or rather generic approvals, it seems that the FDA put brand names and active ingredients in both fields, and certainly both into the &quot;drug&quot; field. The FDA data is therefore dirty, and we will aim to clean it over time.">
     Drug
   </label>
   <input type="search" title="Drug" placeholder="e.g. &quot;Botox&quot;" id="drug" name="drug" value="{{ query.drug }}" />
 
-  <label for="active_ingredients" class="hastip" title="any component that provides pharmacological activity or other direct effect in the diagnosis, cure, mitigation, treatment, or prevention of disease, or to affect the structure or any function of the body of man or animals.">
+  <label for="active_ingredients" class="hastip" title="It is best to use this field to search for the generic name of the treatment. Unfortunately &quot;drug&quot; is used inconsistently by the FDA in the underlying data which OpenTrialsFDA searches across: for a New Drug Application (NDA) or a Biologic License Application (BLA), the FDA put brand names in &quot;drug&quot; and generic drug names in &quot;active ingredients&quot; but for Abbreviated New Drug Applications (ANDA), or rather generic approvals, it seems that the FDA put brand names and active ingredients in both fields, and certainly both into the &quot;drug&quot; field. The FDA data is therefore dirty, and we will aim to clean it over time.">
     Active Ingredients
   </label>
   <input type="search" title="Active Ingredients" placeholder="e.g.  &quot;OnabotulinumtoxinA&quot;" id="active_ingredients" name="active_ingredients" value="{{ query.active_ingredients }}" />
 
   <div class="filter">
-    <label for="document_name" class="hastip" title="The FDA applications types are New Drug Application (NDA), Abbreviated New Drug Application (ANDA), or Biologic License Application (BLA)">
+    <label for="document_name" class="hastip" title="Data on drug efficacy can be found in medical reviews and statistical reviews. Data on human drug safety can also be found in medical reviews.">
       Document Type
     </label>
     <div class="select">
@@ -56,13 +57,8 @@
     </div>
   </div>
 
-  <label for="application_id" class="hastip" title="The application identifier is the application type joined with the FDA application number">
-    Application ID
-  </label>
-  <input type="search" title="Application ID" placeholder="e.g.  &quot;NDA000000&quot;" id="application_id" name="application_id" value="{{ query.application_id }}" />
-
   <div class="filter">
-    <label for="application_type" class="hastip" title="The FDA applications types are New Drug Application (NDA), Abbreviated New Drug Application (ANDA), or Biologic License Application (BLA)">
+    <label for="application_type" class="hastip" title="The FDA applications types are New Drug Application (NDA), that provides data on drug efficacy and safety; Abbreviated New Drug Application (ANDA), which is for generic drugs, will focus on bioequivalence to the original brand name drug, and; Biologic License Application (BLA), that contain information regarding biological products such as vaccines, blood and blood components, etc.">
       Application Type
     </label>
     <div class="select">
@@ -73,6 +69,11 @@
       </select>
     </div>
   </div>
+
+  <label for="application_id" class="hastip" title="The application identifier is the application type joined with the FDA application number">
+    Application ID
+  </label>
+  <input type="search" title="Application ID" placeholder="e.g.  &quot;NDA000000&quot;" id="application_id" name="application_id" value="{{ query.application_id }}" />
 
   <fieldset class="registration date">
       <legend style="display:none;">Action period</legend>
