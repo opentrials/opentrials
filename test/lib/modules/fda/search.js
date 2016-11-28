@@ -349,6 +349,25 @@ describe('FDA Search Handler', () => {
           should(response.request.response.source.context.advancedSearchIsVisible).eql(true);
         });
     });
+
+    it('accepts start and end dates in format MM/DD/YYYY', () => {
+      // FIXME: This shouldn't be needed after
+      // https://github.com/brianblakely/nodep-date-input-polyfill/issues/31 is
+      // fixed
+      mockApiResponses({
+        'search/fda_documents': {
+          query: {
+            q: 'action_date:([2015-01-20 TO 2016-01-20])',
+          },
+        },
+      });
+
+      return server.inject('/search?action_date_start=01/20/2015&action_date_end=01/20/2016')
+        .then((response) => {
+          should(response.statusCode).equal(200)
+          should(response.request.response.source.context.advancedSearchIsVisible).eql(true);
+        });
+    });
   });
 
   describe('Validation Errors', () => {
@@ -400,25 +419,11 @@ describe('FDA Search Handler', () => {
             should(response.statusCode).equal(400);
           });
       });
-
-      it('validates date format', () => {
-        return server.inject('/search?action_date_start=2016/02/25')
-          .then((response) => {
-            should(response.statusCode).equal(400);
-          });
-      });
     });
 
     describe('action_date_end', () => {
       it('rejects values not in YYYY-MM-DD format', () => {
         return server.inject('/search?action_date_end=ddd')
-          .then((response) => {
-            should(response.statusCode).equal(400);
-          });
-      });
-
-      it('validates date format', () => {
-        return server.inject('/search?action_date_end=2016/02/25')
           .then((response) => {
             should(response.statusCode).equal(400);
           });

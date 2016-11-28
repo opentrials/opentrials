@@ -123,25 +123,11 @@ describe('search handler', () => {
             _response.statusCode.should.equal(400)
           });
       });
-
-      it('validates date format', () => {
-        return server.inject('/search?registration_date_start=2016/02/25')
-          .then((_response) => {
-            _response.statusCode.should.equal(400)
-          });
-      });
     });
 
     describe('registration_date_end', () => {
       it('rejects values not in YYYY-MM-DD format', () => {
         return server.inject('/search?registration_date_end=ddd')
-          .then((_response) => {
-            _response.statusCode.should.equal(400)
-          });
-      });
-
-      it('validates date format', () => {
-        return server.inject('/search?registration_date_end=2016/02/25')
           .then((_response) => {
             _response.statusCode.should.equal(400)
           });
@@ -902,6 +888,25 @@ describe('search handler', () => {
       });
 
       return server.inject('/search?registration_date_start=2015-01-01&registration_date_end=2016-01-01')
+        .then((_response) => {
+          _response.statusCode.should.equal(200)
+          _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
+        });
+    });
+
+    it('accepts start and end dates in format MM/DD/YYYY', () => {
+      // FIXME: This shouldn't be needed after
+      // https://github.com/brianblakely/nodep-date-input-polyfill/issues/31 is
+      // fixed
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'registration_date:([2015-01-20 TO 2016-01-20])',
+          },
+        },
+      });
+
+      return server.inject('/search?registration_date_start=01/20/2015&registration_date_end=01/20/2016')
         .then((_response) => {
           _response.statusCode.should.equal(200)
           _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);

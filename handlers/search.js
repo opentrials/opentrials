@@ -115,8 +115,14 @@ module.exports = {
       advanced_search: Joi.boolean().default(false),
       // eslint-disable-next-line newline-per-chained-call
       page: Joi.number().integer().min(1).max(100).empty(''),
-      registration_date_start: Joi.date().format('YYYY-MM-DD').empty('').raw(),
-      registration_date_end: Joi.date().format('YYYY-MM-DD').empty('').raw(),
+      registration_date_start: Joi.alternatives().try(
+        Joi.date().format('YYYY-MM-DD').empty('').raw(),
+        Joi.string().replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2').regex(/\d{4}-\d{2}-\d{2}/)
+      ),
+      registration_date_end: Joi.alternatives().try(
+        Joi.date().format('YYYY-MM-DD').empty('').raw(),
+        Joi.string().replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2').regex(/\d{4}-\d{2}-\d{2}/)
+      ),
       location: Joi.array().single(true).items(Joi.string().empty('')),
       q: Joi.string().empty(''),
       condition: Joi.array().single(true).items(Joi.string().empty('')),
