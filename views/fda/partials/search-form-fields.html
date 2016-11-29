@@ -26,12 +26,16 @@
   </label>
   <input type="search" title="Document's text" placeholder="e.g.  &quot;Schizophrenia&quot;" id="text" name="text" value="{{ query.text }}" />
 
-  <label for="drug" class="hastip" title="It is best to use this field to search for the brand name of the treatment. Unfortunately &quot;drug&quot; is used inconsistently by the FDA in the underlying data which OpenTrialsFDA searches across: for a New Drug Application (NDA) or a Biologic License Application (BLA), the FDA put brand names in &quot;drug&quot; and generic drug names in &quot;active ingredients&quot; but for Abbreviated New Drug Applications (ANDA), or rather generic approvals, it seems that the FDA put brand names and active ingredients in both fields, and certainly both into the &quot;drug&quot; field. The FDA data is therefore dirty, and we will aim to clean it over time.">
+  <label for="drug" class="hastip" title="It is best to use this field to search for the BRAND NAME of the treatment.
+
+Unfortunately &quot;drug&quot; is used inconsistently by the FDA in the underlying data which OpenTrialsFDA searches across: for a New Drug Application (NDA) or a Biologic License Application (BLA), the FDA put brand names in &quot;drug&quot; and generic drug names in &quot;active ingredients&quot; but for Abbreviated New Drug Applications (ANDA), or rather generic approvals, it seems that the FDA put brand names and active ingredients in both fields, and certainly both into the &quot;drug&quot; field. The FDA data is therefore dirty, and we will aim to clean it over time.">
     Drug
   </label>
   <input type="search" title="Drug" placeholder="e.g. &quot;Botox&quot;" id="drug" name="drug" value="{{ query.drug }}" />
 
-  <label for="active_ingredients" class="hastip" title="It is best to use this field to search for the generic name of the treatment. Unfortunately &quot;drug&quot; is used inconsistently by the FDA in the underlying data which OpenTrialsFDA searches across: for a New Drug Application (NDA) or a Biologic License Application (BLA), the FDA put brand names in &quot;drug&quot; and generic drug names in &quot;active ingredients&quot; but for Abbreviated New Drug Applications (ANDA), or rather generic approvals, it seems that the FDA put brand names and active ingredients in both fields, and certainly both into the &quot;drug&quot; field. The FDA data is therefore dirty, and we will aim to clean it over time.">
+  <label for="active_ingredients" class="hastip" title="It is best to use this field to search for the GENERIC NAME of the treatment.
+
+Unfortunately &quot;drug&quot; is used inconsistently by the FDA in the underlying data which OpenTrialsFDA searches across: for a New Drug Application (NDA) or a Biologic License Application (BLA), the FDA put brand names in &quot;drug&quot; and generic drug names in &quot;active ingredients&quot; but for Abbreviated New Drug Applications (ANDA), or rather generic approvals, it seems that the FDA put brand names and active ingredients in both fields, and certainly both into the &quot;drug&quot; field. The FDA data is therefore dirty, and we will aim to clean it over time.">
     Active Ingredients
   </label>
   <input type="search" title="Active Ingredients" placeholder="e.g.  &quot;OnabotulinumtoxinA&quot;" id="active_ingredients" name="active_ingredients" value="{{ query.active_ingredients }}" />
