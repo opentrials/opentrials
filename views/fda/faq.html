@@ -1,0 +1,170 @@
+{% extends "fda/layouts/one-column.html" %}
+
+{% block breadcrumb %}
+  <li><a href="/">Home</a></li>
+  <li>{{ title | truncate(35) }}</li>
+{% endblock %}
+
+{% block main %}
+<section>
+  <dl>
+    <dt>What is the Drugs@FDA portal?</dt>
+    <dd>
+      <a href="http://www.fda.gov/Drugs/default.htm" rel="external">Drugs@FDA</a>
+      is a searchable catalog of the US Food and Drug Administration (FDA)
+      approved drug products, both prescription and over the counter, with
+      links to documents relating to marketing approval. More information is
+      available from their <a
+      href="http://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=faq.page"
+      rel="external">FAQ section</a>.
+    </dd>
+
+    <dt>What are FDA drug approval packages?</dt>
+    <dd>
+      FDA Drug Approval Packages consist of FDA employees' reviews of new drug
+      applications (NDAs) submitted by pharmaceutical companies seeking
+      approval to market their drugs in the US. These NDAs consist primarily of
+      clinical study reports (CSRs). Some drugs have more than one approval
+      package, because approval is granted not for a drug per se, but for each
+      drug-indication combination. 
+    </dd>
+
+    <dt>How will OpenTrialsFDA improve access to the FDA data?</dt>
+    <dd>
+      The team will scrape the FDA website and extract the relevant information
+      from the PDFs through a process of OCR (optical character recognition).
+      Through the new OpenTrialsFDA interface, users will be able to explore and
+      discover the FDA data. In addition, the information has been integrated into
+      the OpenTrials database, so that the FDA report can be linked to reports
+      from other sources, such as ClinicalTrials.gov, EU CTR, HRA, WHO ICTRP, and
+      PubMed.
+    </dd>
+
+    <dt>How does the FDA review process differ from the peer review process
+    used for manuscripts submitted to journals?</dt>
+    <dd>
+      The key is the before-versus-after-the-trial aspect. Before the sponsor
+      can begin a trial in the US, it must submit the trial protocol to the
+      FDA. By means of this "pre-trial" review of the protocol, the FDA learns
+      (1) that that trial is to be conducted and (2) the nitty-gritty
+      methodological details. That way, a few years later, when the sponsor
+      submits its NDA, the reviewer compares the clinical study report (CSR) to
+      the original protocol to determine (1) whether any studies have been
+      omitted and (2) whether any outcomes have been switched. By contrast, in
+      the world of peer-reviewed journal articles, there is no "pre-trial"
+      review, allowing both (1) and (2) to take place.
+    </dd>
+
+    <dt>Who authors FDA reviews?</dt>
+    <dd>
+      The FDA review team is multidisciplinary, yielding different types of
+      reviews. Medical reviews are usually authored by physicians who summarize
+      and evaluates the data on drug efficacy and safety. Statistical reviews
+      are carried out by statisticians who test whether they can replicate the
+      sponsor's results using the patient-level data submitted electronically.
+      There are other review disciplines, e.g. chemistry,
+      pharmacology-toxicology, whose reviews pertain primarily to the
+      preclinical phase and early clinical (human) phases of drug development.
+    </dd>
+
+    <dt>What is the Open Science Prize?</dt>
+    <dd>
+      The <a href="https://www.openscienceprize.org/" rel="external">Open
+      Science Prize</a> is a collaboration between the Wellcome Trust, the US
+      National Institutes of Health (NIH) and the Howard Hughes Medical
+      Institute. Its goal is to unleash the power of open content and data to
+      advance biomedical research and its application for health benefit. The
+      OpenTrialsFDA team is one of the <a
+      href="https://www.openscienceprize.org/res/p/finalists/"
+      rel="external">six finalist teams</a> that were selected in May 2016.
+      All teams will showcase their prototypes at the <a
+      href="http://event.capconcorp.com/wp/bd2k-odss/" rel="external">BD2K Open
+      Data Science Symposium</a> on 1 December 2016, when public voting will
+      begin. The public is asked to help select the most promising, innovative
+      and impactful prototypes from among the six finalists - among which one
+      will receive the grand prize of $230,000.
+    </dd>
+  </dl>
+</section>
+
+<section>
+  <h2>Troubleshooting your search</h2>
+
+  In case you're having difficulty with your search, here are some questions
+  you can consider.
+
+  <dl>
+    <dt>Was the drug approved before or after 1997?</dt>
+    <dd>
+      The FDA started posting reviews (Drug Approval Packages) in 1997. If the
+      drug in question was approved in 1996 or earlier, you probably will not
+      find it posted.
+    </dd>
+
+    <dt>Are you sure that the use you're interested in is not off-label, ie.
+    that the FDA approved it for the indication you're interested in?</dt>
+    <dd>
+      Oftentimes drugs are used widely for a certain condition (indication) for
+      which the FDA has not granted approval (off-label use). If you check the
+      product label (e.g. at <a
+      href="https://dailymed.nlm.nih.gov/dailymed/index.cfm"
+      rel="external">https://dailymed.nlm.nih.gov/dailymed/index.cfm</a>) and
+      look within the section on "Indications and Usage", you will see a list
+      of the approved indications.
+    </dd>
+
+    <dt>Are you looking for indication #1 or one of the subsequent ones?</dt>
+    <dd>
+      A given drug might be FDA-approved for multiple indications. The FDA is
+      careful about posting the Drug Approval Package for the first indication
+      (the one that allowed that drug to enter the market), but for subsequent
+      indications (#2, #3, etc.), it's more hit-or-miss.  If you are motivated,
+      one way to get such reviews is to <a
+      href="https://www.accessdata.fda.gov/scripts/foi/FOIRequest/requestinfo.cfm"
+      rel="external">file a Freedom of Information request</a>; but be warned—the
+      FDA might take months or longer to fulfill your request. If you do get such
+      reviews, we would appreciate you <a
+      href="https://explorer.opentrials.net/contribute-data">sharing it with
+      us</a> so we can add to OpenTrialsFDA and make it available to others. 
+    </dd>
+
+    <dt>Did you use the generic name or brand name?</dt>
+    <dd>
+      If you use the generic name, you will probably get lots of hits: one
+      for when the molecule was first being introduced to the market plus hits
+      for subsequent generic versions. The FDA does its review for efficacy and
+      safety when the molecule is first introduced to the market. Years later,
+      when the patent expires, generic equivalents get approved, but what the FDA
+      cares about at this stage is bioequivalence (in terms of blood levels) to
+      the original brand name version. Thus generics do not have to demonstrate
+      efficacy and safety all over again, which is why these approval packages
+      generally contain little or no such data.
+    </dd>
+
+    <dt>Is the review an NDA or an ANDA?</dt>
+    <dd>
+      Please see the question and answer immediately above. NDAs (new drug
+      applications) correspond to brand name versions, while ANDAs (abbreviated
+      new drug applications) correspond to generic equivalents. They are
+      abbreviated because less is required of the sponsor (see above). Assuming
+      you are interested in drug efficacy and/or safety (and not
+      bioequivalence), you will want to focus on NDAs and ignore ANDAs.
+    </dd>
+
+    <dt>Is this the original or a subsequent formulation of a drug?</dt>
+    <dd>
+      This is similar to the issue brand name versions vs. generic versions
+      (see above). The burden of proof regarding efficacy and safety is highest
+      when a molecule is first entering the market. A given drug will often
+      enter the market as an immediate release (IR) formulation, before which
+      the FDA will do its most comprehensive review of drug efficacy and
+      safety. Some years later, the sponsor may seek approval for a
+      sustained-release (SR) formulation, but by that time, millions of
+      patients have already been exposed to the IR formulation. Because it is
+      relatively unlikely that the efficacy and/or safety profile will differ a
+      great deal between the IR and the SR, the SR may have to do fewer
+      clinical trials compared to its IR version. 
+    </dd>
+  </dl>
+</section>
+{% endblock %}
