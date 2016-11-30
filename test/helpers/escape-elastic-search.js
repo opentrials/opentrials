@@ -1,5 +1,6 @@
 'use strict';
 
+const should = require('should');
 const escapeElasticSearch = require('../../helpers/escape-elastic-search');
 
 describe('escapeElasticSearch', () => {
@@ -31,5 +32,9 @@ describe('escapeElasticSearch', () => {
     const output = input;
 
     escapeElasticSearch(input).should.eql(output);
+  });
+
+  it('returns undefined if called with undefined', () => {
+    should(escapeElasticSearch(undefined)).be.undefined();
   });
 });

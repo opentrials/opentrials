@@ -36,6 +36,12 @@ describe('FDA Documents', () => {
       return should(fdaDocuments.search(undefined, 'foo bar')).be.fulfilledWith(expectedResponse);
     });
 
+    it('escapes the text query', () => {
+      apiServer.get('/search/fda_documents').query({text: 'foo\\('}).reply(200, response);
+
+      return should(fdaDocuments.search(undefined, 'foo(')).be.fulfilledWith(expectedResponse);
+    });
+
     it('passes the page number to the query', () => {
       apiServer.get('/search/fda_documents').query({page: 2}).reply(200, response);
 
