@@ -108,6 +108,11 @@ const routes = [
     method: 'GET',
     config: require('../handlers/flag-error'),
   },
+  {
+    path: '/stats',
+    method: 'GET',
+    config: require('../handlers/stats'),
+  },
 ];
 
 module.exports = routes;
