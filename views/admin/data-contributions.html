@@ -8,7 +8,7 @@
       <th>Approved?</th>
       <th>User</th>
       <th>Trial</th>
-      <th>File</th>
+      <th>File / URL</th>
       <th>Category</th>
       <th>Date</th>
       <th class="comments-col">Comments</th>
@@ -28,9 +28,13 @@
 
       <td>
         {% if dataContribution.user %}
-          <a href="mailto:{{ dataContribution.user.email }}">
-            {{ dataContribution.user.name }}
-          </a>
+          {% if dataContribution.user.email %}
+            <a href="mailto:{{ dataContribution.user.email }}">
+              {{ dataContribution.user.name }}
+            </a>
+          {% else %}
+            <span>Anonymous</span>
+          {% endif %}
         {% endif %}
       </td>
       <td>
@@ -41,9 +45,18 @@
         {% endif %}
       </td>
       <td>
-        <a href="{{ dataContribution.data_url }}">
-          {{ dataContribution.filename }}
-        </a>
+        {% if dataContribution.data_url %}
+          <span>File: </span>
+          <a href="{{ dataContribution.data_url }}">
+            {{ dataContribution.filename }}
+          </a><br/>
+        {% endif %}
+        {% if dataContribution.url %}
+          <span>URL: </span>
+          <a href="{{ dataContribution.url }}">
+            {{ dataContribution.url }}
+          </a>
+        {% endif %}
       </td>
       <td>
         {{ dataContribution.category.name }}
