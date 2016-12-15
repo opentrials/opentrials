@@ -73,6 +73,17 @@ function decorateRecords(records) {
   return _.sortBy(records, 'source_id');
 }
 
+function decorateLastVerified(records) {
+  const primaryRecords = _.filter(records, (rec) => rec.is_primary && rec.last_verification_date);
+  const sortedRecords = _.orderBy(primaryRecords, ['last_verification_date'], ['desc']);
+  const lastVerified = sortedRecords[0];
+  let lastVerifiedDate = null;
+  if (lastVerified) {
+    lastVerifiedDate = new Date(lastVerified.last_verification_date);
+  }
+  return lastVerifiedDate;
+}
+
 function decorateIdentifiers(identifiers, sources) {
   const result = Object.keys(identifiers).map((ident) => {
     const source = sources[ident] || {};
@@ -158,6 +169,7 @@ function decorateTrial(trial) {
       research_summaries: decorateResearchSummaries(trial.publications || []),
       discrepancies: decorateDiscrepancies(trial.discrepancies || {}, trial.records || []),
       risks_of_bias: decorateRisksOfBias(trial.risks_of_bias || []),
+      last_verified: decorateLastVerified(trial.records || []),
     }
   );
 }

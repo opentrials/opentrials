@@ -311,4 +311,78 @@ describe('trial presenter', () => {
       should(trial.risks_of_bias[0].message).equal(expectedMessage);
     });
   });
+
+  describe('last_verified', () => {
+    it('returns the date from primary record', () => {
+      const trialAttributes = {
+        records: [
+          {
+            id: '3e5ffed2-5a62-4a99-ba4c-e616567ccdaf',
+            is_primary: true,
+            last_verification_date: '2001-04-30T00:00:00.000Z',
+          },
+          {
+            id: '4755e93d-14d4-4bc0-98a5-51196637e45b',
+            is_primary: false,
+            last_verification_date: '2001-05-35T00:00:00.000Z',
+          },
+        ],
+      };
+
+      const trial = trialPresenter(trialAttributes);
+      const expectedDate = new Date(trialAttributes.records[0].last_verification_date).toISOString();
+      should(trial.last_verified.toISOString()).equal(expectedDate);
+    });
+
+    it('returns the most recent date if there are several primary records', () => {
+      const trialAttributes = {
+        records: [
+          {
+            id: '3e5ffed2-5a62-4a99-ba4c-e616567ccdaf',
+            is_primary: true,
+            last_verification_date: '2001-04-30T00:00:00.000Z',
+          },
+          {
+            id: '4755e93d-14d4-4bc0-98a5-51196637e45b',
+            is_primary: true,
+            last_verification_date: '2001-05-30T00:00:00.000Z',
+          },
+        ],
+      };
+
+      const trial = trialPresenter(trialAttributes);
+      const expectedDate = new Date(trialAttributes.records[1].last_verification_date).toISOString();
+      should(trial.last_verified.toISOString()).equal(expectedDate);
+    });
+
+    it('return null if last_verification_date is null', () => {
+      const trialAttributes = {
+        records: [
+          {
+            id: '3e5ffed2-5a62-4a99-ba4c-e616567ccdaf',
+            is_primary: true,
+            last_verification_date: null,
+          }
+        ],
+      };
+
+      const trial = trialPresenter(trialAttributes);
+      should(trial.last_verified).equal(null);
+    });
+
+    it('return null if there is no primary record', () => {
+      const trialAttributes = {
+        records: [
+          {
+            id: '3e5ffed2-5a62-4a99-ba4c-e616567ccdaf',
+            is_primary: false,
+            last_verification_date: '2001-05-30T00:00:00.000Z',
+          }
+        ],
+      };
+
+      const trial = trialPresenter(trialAttributes);
+      should(trial.last_verified).equal(null);
+    });
+  });
 });

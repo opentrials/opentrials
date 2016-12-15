@@ -156,7 +156,8 @@ aside ul {
 .overview-list {
 
   li {
-     padding: $small-spacing*0.75 $small-spacing*0.60;
+     padding-left: $small-spacing*0.60;
+     padding-right: $small-spacing*0.60;
     &.disabled {
       opacity: 0.8;
     }
