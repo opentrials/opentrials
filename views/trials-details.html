@@ -73,6 +73,19 @@
       </span>
       {{ add_discrepancy_icon_if_needed(trial, 'status') }}
     </li>
+    {% set primary_records = trial.records | selectattr("is_primary") | selectattr("last_verification_date") %}
+    {% for record in primary_records %}
+      <li>
+        <span class="eye">
+          Last verified:
+          {{ record.last_verification_date | formatDate }}
+        </span>
+      </li>
+    {% else %}
+      <li class="disabled">
+        <em>No data for "last verified"</em>
+      </li>
+    {% endfor %}
     {% else %}
     <li class="disabled">
       <em>No data for "status"</em>
