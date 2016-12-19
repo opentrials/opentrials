@@ -14,7 +14,7 @@
     For a trial with multiple data sources, occasionally a particular piece of data (e.g. number of participants) differs between registries for that trial -  we consider this a <em>discrepancy</em>. Below are the discrepancies for this <a href="/trials/{{ trial.id }}">trial</a>.
   </p>
   {% if not trial.discrepancies %}
-  There are no discrepancies in this Trial's records.
+  <p>There are no discrepancies in this Trial's records.</p>
   {% else %}
   {% for field, discrepantRecords in trial.discrepancies %}
 

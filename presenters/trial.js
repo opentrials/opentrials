@@ -96,7 +96,7 @@ function decorateResearchSummaries(publications) {
 }
 
 function decorateDiscrepancies(discrepancies, records) {
-  const decoratedDiscrepancies = {};
+  let decoratedDiscrepancies = {};
   const recordsById = _.groupBy(records, 'id');
 
   for (const key of Object.keys(discrepancies)) {
@@ -107,6 +107,9 @@ function decorateDiscrepancies(discrepancies, records) {
     });
   }
 
+  if (_.isEmpty(decoratedDiscrepancies)) {
+    decoratedDiscrepancies = undefined;
+  }
   return decoratedDiscrepancies;
 }
 
