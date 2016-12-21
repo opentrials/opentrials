@@ -248,6 +248,20 @@ describe('trial presenter', () => {
       const expectedSourcesUrls = trialAttributes.records.map((record) => record.source_url);
       should(discrepanciesSourcesUrls).deepEqual(expectedSourcesUrls);
     });
+
+    it('returns undefined if there are no discrepancies', () => {
+      const trialAttributes = {
+        records: [
+          {
+            id: '3e5ffed2-5a62-4a99-ba4c-e616567ccdaf',
+            source_url: 'http://example.org/record1',
+          },
+        ],
+      };
+
+      const trial = trialPresenter(trialAttributes);
+      should(trial.discrepancies).be.undefined;
+    });
   });
 
   describe('risks_of_bias', () => {
