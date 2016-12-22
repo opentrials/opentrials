@@ -40,6 +40,16 @@ const config = {
     maxUploadSize: process.env.MAX_UPLOAD_SIZE,
     customDomain: process.env.S3_CUSTOM_DOMAIN,
   },
+
+  smtp: {
+    host: process.env.SMTP_HOST,
+    username: process.env.SMTP_USERNAME,
+    password: process.env.SMTP_PASSWORD,
+    ssl: true,
+  },
+
+  dataContributionEmailTo: process.env.DATA_CONTRIBUTION_EMAIL_TO,
+  dataContributionEmailFrom: process.env.DATA_CONTRIBUTION_EMAIL_FROM,
 };
 
 const env = process.env.NODE_ENV || 'development';
