@@ -6,6 +6,7 @@ const bluebird = require('bluebird');
 const parseXml = bluebird.promisify(require('xml2js').parseString);
 const config = require('../config');
 const s3 = require('../agents/s3');
+const emailNotifier = require('../lib/plugins').sendEmailWithMandrill;
 const DataContribution = require('../models/data-contribution');
 const DataCategory = require('../models/data-category');
 
@@ -75,6 +76,21 @@ function _postContributeData(request, reply) {
         data_category_id: payload.data_category_id,
         comments: payload.comments,
       }).save();
+    })
+    .then((constructor) =>
+      new DataContribution({ id: constructor.id })
+        .fetch({ withRelated: DataContribution.relatedModels })
+    )
+    .then((dataContribution) => {
+      const emailNotification = emailNotifier.composeEmail(
+        'data-contribution-notification.md',
+        dataContribution.toJSON(),
+        config.emailFrom,
+        config.dataContributionNotificationEmail,
+        'New data contribution on OpenTrials'
+      );
+
+      emailNotifier.sendEmail(emailNotification);
     })
     .then(() => {
       const msg = 'Thanks for your contribution!' +
