@@ -41,14 +41,15 @@ const config = {
     customDomain: process.env.S3_CUSTOM_DOMAIN,
   },
 
-  mandrill: {
-    smtp_host: process.env.SMTP_HOST,
-    smtp_username: process.env.SMTP_USERNAME,
-    smtp_password: process.env.SMTP_PASSWORD,
+  smtp: {
+    host: process.env.SMTP_HOST,
+    username: process.env.SMTP_USERNAME,
+    password: process.env.SMTP_PASSWORD,
+    ssl: true,
   },
 
-  dataContributionNotificationEmail: process.env.DATA_CONTRIBUTION_NOTIFICATION_EMAIL,
-  emailFrom: process.env.EMAIL_FROM,
+  dataContributionEmailTo: process.env.DATA_CONTRIBUTION_EMAIL_TO,
+  dataContributionEmailFrom: process.env.DATA_CONTRIBUTION_EMAIL_FROM,
 };
 
 const env = process.env.NODE_ENV || 'development';
