@@ -44,7 +44,7 @@ const newCategories = [
     group: 'Study documents' },
   { name: 'IRB/HREC approval documents',
     group: 'Study documents' },
-  { name: 'Investigator\'s Brochure',
+  { name: 'Investigator\'\'s Brochure',
     group: 'Study documents' },
   { name: 'Patient information sheet / Consent form',
     group: 'Study documents',
@@ -130,11 +130,17 @@ exports.down = (knex) => {
                                   .then()
       );
 
-      const deleteAction = _.map(toDelete, (category) =>
-                                 knex('data_categories')
-                                 .where({ name: category.name, group: category.group })
-                                 .del()
-                                 .then()
+      const deleteAction = _.map(toDelete, (category) => knex
+                                 .raw(`UPDATE data_contributions
+                                              SET data_category_id = null
+                                              WHERE data_category_id = (
+                                                SELECT id FROM data_categories WHERE name = '${category.name}');`)
+                                 .then(() =>
+                                       knex('data_categories')
+                                       .where({ name: category.name, group: category.group })
+                                       .del()
+                                       .then()
+                                      )
       );
 
       return replaceAction && deleteAction;
