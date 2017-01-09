@@ -79,6 +79,19 @@
     </li>
     {% endif %}
 
+    {% if trial.last_verified %}
+    <li>
+      <span class="eye">
+        Last verified:
+        {{ trial.last_verified | formatDate }}
+      </span>
+    </li>
+    {% else %}
+    <li class="disabled">
+      <em>No data for "last verified"</em>
+    </li>
+    {% endif %}
+
     {% if trial.recruitment_status %}
     <li>
       <span class="recruitment">

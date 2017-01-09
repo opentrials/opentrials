@@ -156,6 +156,8 @@ aside ul {
 .overview-list {
 
   li {
+     padding-left: $small-spacing*0.60;
+     padding-right: $small-spacing*0.60;
     &.disabled {
       opacity: 0.8;
     }
@@ -246,6 +248,15 @@ aside ul {
       padding-left: em(28);
       &:before {
         @include icon-hourglass;
+        font-size: em(22);
+        top: em(1);
+      }
+    }
+
+    &.eye {
+      padding-left: em(26);
+      &:before {
+        @include icon-eye;
         font-size: em(22);
         top: em(1);
       }

@@ -924,6 +924,13 @@ definitions:
         type: string
       source_id:
         type: string
+      is_primary:
+        type: boolean
+        description: Is the record the primary source of data for its trial
+      last_verification_date:
+        type: string
+        format: date-time
+        description: Date when the record's data was last verified by provided
 
   PublicationSummary:
     type: object
