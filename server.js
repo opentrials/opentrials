@@ -36,6 +36,10 @@ function startOrInitializeServer(resolve, reject) {
       server.ext('onPreResponse', plugins.addCurrentURLToContext);
       server.ext('onPreResponse', plugins.httpErrorHandler);
 
+      // `yar` registration needs to happen after registering `addFlashMessagesToContext`
+      // and Glue does not allow anything related to `server.ext`
+      server.register(plugins.yar);
+
       server.views(config.hapi.views);
 
       return server.initialize()
