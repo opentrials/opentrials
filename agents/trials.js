@@ -11,12 +11,6 @@ function getTrial(trialId) {
     .then((response) => decorateTrial(response.obj));
 }
 
-function getRecord(id, trialId) {
-  return opentrialsApi
-    .then((client) => client.trials.getRecord({ trialId, id }))
-    .then((response) => response.obj);
-}
-
 function searchTrials(query, page, perPage, filters) {
   const searchQuery = {
     q: generateESQueryString(query, filters),
@@ -39,5 +33,4 @@ module.exports = {
   get: getTrial,
   search: searchTrials,
   searchByEntity: searchTrialsByEntity,
-  getRecord,
 };

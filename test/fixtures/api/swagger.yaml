@@ -809,7 +809,6 @@ definitions:
       - trial_url
       - source
       - source_url
-      - source_data
       - public_title
       - created_at
       - updated_at
@@ -837,9 +836,6 @@ definitions:
       source_url:
         type: string
         description: URL of the record's source (where it was collected from)
-      source_data:
-        type: object
-        description: Data extracted from the source URL
       public_title:
         type: string
         description: Title of the record

@@ -21,24 +21,6 @@ function getTrial(request, reply) {
   });
 }
 
-function getRecord(request, reply) {
-  const trialId = request.params.trialId;
-  const id = request.params.id;
-
-  trials.getRecord(id, trialId).then((record) => {
-    reply.view('trial-record', {
-      title: record.public_title,
-      record,
-    });
-  }).catch((err) => {
-    if (err.status === 404) {
-      reply(Boom.notFound('Trial record not found.', err));
-    } else {
-      reply(Boom.badGateway('Error accessing OpenTrials API.', err));
-    }
-  });
-}
-
 function getDiscrepancies(request, reply) {
   const id = request.params.id;
 
@@ -59,9 +41,6 @@ function getDiscrepancies(request, reply) {
 module.exports = {
   trial: {
     handler: getTrial,
-  },
-  record: {
-    handler: getRecord,
   },
   discrepancies: {
     handler: getDiscrepancies,

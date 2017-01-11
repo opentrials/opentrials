@@ -29,11 +29,6 @@ const routes = [
     config: require('../handlers/trials').discrepancies,
   },
   {
-    path: '/trials/{trialId}/records/{id}',
-    method: 'GET',
-    config: require('../handlers/trials').record,
-  },
-  {
     path: '/search',
     method: 'GET',
     config: require('../handlers/search'),

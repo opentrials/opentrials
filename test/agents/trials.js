@@ -109,24 +109,4 @@ describe('Trials', () => {
         .should.be.fulfilledWith(expectedResponse);
     });
   });
-
-  describe('#getRecord', () => {
-    it('returns the record', () => {
-      const record = fixtures.getRecord();
-      apiServer.get(`/trials/${record.trial_id}/records/${record.id}`).reply(200, record);
-
-      return trials.getRecord(record.id, record.trial_id)
-        .then((response) => {
-          const expectedResponse = JSON.parse(JSON.stringify(record));
-          should(response).deepEqual(expectedResponse);
-        });
-    });
-
-    it('rejects the promise if there was some problem with the API call', () => {
-      const record = fixtures.getRecord();
-      apiServer.get(`/trials/${record.trial_id}/records/${record.id}`).reply(500);
-
-      return trials.getRecord(record.id, record.trial_id).should.be.rejected();
-    });
-  });
 });
