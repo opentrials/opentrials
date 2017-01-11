@@ -54,11 +54,6 @@ const routes = [
     config: require('../handlers/organisation'),
   },
   {
-    path: '/publications/{id}',
-    method: 'GET',
-    config: require('../handlers/publication'),
-  },
-  {
     path: '/login/google',
     method: 'GET',
     config: require('../handlers/login').google,
