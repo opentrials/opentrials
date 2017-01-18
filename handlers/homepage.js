@@ -4,7 +4,9 @@ const Joi = require('joi');
 
 function homepage(request, reply) {
   reply.view('index', {
-    title: 'OpenTrials.net',
+    title: 'Search for clinical trial data with OpenTrials',
+    description: `OpenTrials is a database of information on clinical trials,
+                  collected and matched from various sources`,
     advancedSearchIsVisible: request.query.advanced_search,
   });
 }
