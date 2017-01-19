@@ -5,7 +5,7 @@ const escapeElasticSearch = require('../../helpers/escape-elastic-search');
 describe('organisations handler', () => {
   let server;
 
-  before(() => getExplorerServer().then((_server) => server = _server));
+  before(() => getExplorerServer().then((_server) => (server = _server)));
 
   describe('GET /organisations/{id}', () => {
     describe('API is OK', () => {
@@ -30,14 +30,14 @@ describe('organisations handler', () => {
           },
         });
 
-        return server.inject('/organisations/'+organisation.id)
+        return server.inject(`/organisations/${organisation.id}`)
           .then((_response) => {
             response = _response;
           });
       });
 
       it('is successful', () => {
-        response.statusCode.should.equal(200)
+        response.statusCode.should.equal(200);
       });
 
       it('uses the "organisations-list" template', () => (

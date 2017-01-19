@@ -5,7 +5,7 @@ const _ = require('lodash');
 describe('terms-of-use handler', () => {
   let server;
 
-  before(() => getExplorerServer().then((_server) => server = _server));
+  before(() => getExplorerServer().then((_server) => (server = _server)));
 
   describe('GET /terms-of-use', () => {
     describe('API is OK', () => {
@@ -13,7 +13,6 @@ describe('terms-of-use handler', () => {
         fixtures.getSource(),
         fixtures.getSource(),
       ])), 'name', 'desc');
-      let response;
 
       beforeEach(() => {
         apiServer.get('/sources').reply(200, sources);
@@ -44,7 +43,7 @@ describe('terms-of-use handler', () => {
         apiServer.get('/sources').reply(500);
 
         return server.inject('/terms-of-use')
-          .then((response) => response.statusCode.should.equal(502))
+          .then((response) => response.statusCode.should.equal(502));
       });
     });
   });

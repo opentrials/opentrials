@@ -2,7 +2,21 @@
 extends: ../.eslintrc
 env:
   mocha: true
+globals:
+  clearDB: false
+  apiServer: false
+  fixtures: false
+  factory: false
+  mockApiResponses: false
+  cleanAllApiMocks: false
+  getExplorerServer: false
+  getFDAServer: false
+  getServerUrl: false
 rules:
   import/no-extraneous-dependencies:
     - error
     - devDependencies: true
+  max-len:
+    - off
+  func-names:
+    - off

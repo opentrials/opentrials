@@ -1,4 +1,5 @@
 'use strict';
+
 const conditions = require('../../agents/conditions');
 
 describe('Conditions', () => {

@@ -9,24 +9,21 @@ const DataCategory = require('../../models/data-category');
 describe('contribute-data handler', () => {
   let server;
 
-  before(() => getExplorerServer().then((_server) => server = _server));
+  before(() => getExplorerServer().then((_server) => (server = _server)));
 
   describe('GET /contribute-data', () => {
-    it('is successful and uses the correct template', () => {
-      return server.inject('/contribute-data')
+    it('is successful and uses the correct template', () => server.inject('/contribute-data')
         .then((response) => {
-          const context = response.request.response.source.context;
           should(response.statusCode).equal(200);
           should(response.request.response.source.template).equal('contribute-data');
-        })
-    });
+        }));
 
     it('adds the ordered data categories to the context', () => {
       let categories;
 
       return factory.createMany('dataCategory', [{ name: 'z' }, { name: 'a' }])
         .then(() => new DataCategory().orderBy('name').fetchAll())
-        .then((_categories) => categories = _categories)
+        .then((_categories) => (categories = _categories))
         .then(() => server.inject('/contribute-data'))
         .then((response) => {
           const context = response.request.response.source.context;
@@ -34,22 +31,19 @@ describe('contribute-data handler', () => {
         });
     });
 
-    it('adds S3\'s signed form fields to the context', () => {
-      return server.inject('/contribute-data')
+    it('adds S3\'s signed form fields to the context', () => server.inject('/contribute-data')
         .then((response) => {
           const context = response.request.response.source.context;
           should(context.s3).have.properties([
             'action',
             'fields',
           ]);
-        });
-    });
+        }));
 
-    it('adds "comments", "url" and "data_category_id" fields to the S3 Policy', () => {
-      return server.inject('/contribute-data')
+    it('adds "comments", "url" and "data_category_id" fields to the S3 Policy', () => server.inject('/contribute-data')
         .then((response) => {
           const context = response.request.response.source.context;
-          const policyBase64 = context.s3.fields.Policy
+          const policyBase64 = context.s3.fields.Policy;
           const policy = JSON.parse(new Buffer(policyBase64, 'base64'));
 
           should(policy.conditions).containDeep([
@@ -57,8 +51,7 @@ describe('contribute-data handler', () => {
             ['starts-with', '$url', ''],
             ['starts-with', '$data_category_id', ''],
           ]);
-        });
-    });
+        }));
   });
 
   describe('POST /contribute-data', () => {
@@ -73,9 +66,9 @@ describe('contribute-data handler', () => {
 
     it('creates the DataContribution with related User, Trial and DataCategory', () => {
       delete config.s3.customDomain;
-      const dataKey = 'uploads/00000000-0000-0000-0000-000000000000/data.pdf'
+      const dataKey = 'uploads/00000000-0000-0000-0000-000000000000/data.pdf';
       const dataUrl = `https://opentrials-test.s3.amazonaws.com/${dataKey}`;
-      const response = `
+      const s3Response = `
         <?xml version="1.0" encoding="UTF-8"?>
         <PostResponse>
           <Location>${dataUrl}</Location>
@@ -87,16 +80,16 @@ describe('contribute-data handler', () => {
         url: `/contribute-data?trial_id=${trialId}`,
         method: 'post',
         payload: {
-          response,
+          response: s3Response,
           url: 'http://somewhere.com/data.pdf',
           comments: 'A test PDF',
         },
       };
 
       return factory.create('dataCategory')
-        .then((category) => options.payload.data_category_id = category.attributes.id)
+        .then((category) => (options.payload.data_category_id = category.attributes.id))
         .then(() => factory.create('user'))
-        .then((user) => options.credentials = user.toJSON())
+        .then((user) => (options.credentials = user.toJSON()))
         .then(() => server.inject(options))
         .then((response) => {
           should(response.statusCode).equal(302);
@@ -119,7 +112,7 @@ describe('contribute-data handler', () => {
 
     it('accepts anonymous contributions with only an uploaded file', () => {
       delete config.s3.customDomain;
-      const dataKey = 'uploads/00000000-0000-0000-0000-000000000000/data.pdf'
+      const dataKey = 'uploads/00000000-0000-0000-0000-000000000000/data.pdf';
       const dataUrl = `https://opentrials-test.s3.amazonaws.com/${dataKey}`;
       const response = `
         <?xml version="1.0" encoding="UTF-8"?>
@@ -159,9 +152,9 @@ describe('contribute-data handler', () => {
     });
 
     it('redirects to the redirectTo query param when successful', () => {
-      const dataKey = 'uploads/00000000-0000-0000-0000-000000000000/data.pdf'
+      const dataKey = 'uploads/00000000-0000-0000-0000-000000000000/data.pdf';
       const dataUrl = `https://opentrials-test.s3.amazonaws.com/${dataKey}`;
-      const response = `
+      const s3Response = `
         <?xml version="1.0" encoding="UTF-8"?>
         <PostResponse>
           <Location>${dataUrl}</Location>
@@ -172,7 +165,7 @@ describe('contribute-data handler', () => {
         url: '/contribute-data?redirectTo=/foo',
         method: 'post',
         payload: {
-          response,
+          response: s3Response,
         },
       };
 
@@ -181,10 +174,10 @@ describe('contribute-data handler', () => {
           should(response.statusCode).equal(302);
           should(response.headers.location).equal('/foo');
         });
-    }); 
+    });
 
     it('handles S3 errors', () => {
-      const response = `
+      const s3Response = `
         <?xml version="1.0" encoding="UTF-8"?>
         <Error>
           <Code>ErrorCode</Code>
@@ -196,7 +189,7 @@ describe('contribute-data handler', () => {
         url: '/contribute-data',
         method: 'post',
         payload: {
-          response,
+          response: s3Response,
           responseStatus,
         },
       };
@@ -217,7 +210,7 @@ describe('contribute-data handler', () => {
 
       return server.inject(options)
         .then((response) => should(response.statusCode).equal(400));
-    }); 
+    });
 
     it('handles invalid XML response errors', () => {
       const options = {
@@ -233,15 +226,15 @@ describe('contribute-data handler', () => {
           const context = response.request.response.source.context;
           should(context.flash.error).not.be.empty();
           should(response.request.response.source.template).equal('contribute-data');
-          should(response.statusCode).equal(500)
+          should(response.statusCode).equal(500);
         });
-    }); 
+    });
 
     it('handles general errors', () => {
       delete config.s3.customDomain;
-      const dataKey = 'uploads/00000000-0000-0000-0000-000000000000/data.pdf'
+      const dataKey = 'uploads/00000000-0000-0000-0000-000000000000/data.pdf';
       const dataUrl = `https://opentrials-test.s3.amazonaws.com/${dataKey}`;
-      const response = `
+      const s3Response = `
         <?xml version="1.0" encoding="UTF-8"?>
         <PostResponse>
           <Location>${dataUrl}</Location>
@@ -252,7 +245,7 @@ describe('contribute-data handler', () => {
         url: '/contribute-data',
         method: 'post',
         payload: {
-          response,
+          response: s3Response,
         },
       };
 
@@ -262,13 +255,13 @@ describe('contribute-data handler', () => {
           const context = response.request.response.source.context;
           should(context.flash.error).not.be.empty();
           should(response.request.response.source.template).equal('contribute-data');
-          should(response.statusCode).equal(500)
+          should(response.statusCode).equal(500);
         });
-    }); 
+    });
 
     it('uses the S3_CUSTOM_DOMAIN if it exists', () => {
       config.s3.customDomain = 'http://foobar.com';
-      const dataKey = 'uploads/00000000-0000-0000-0000-000000000000/data.pdf'
+      const dataKey = 'uploads/00000000-0000-0000-0000-000000000000/data.pdf';
       const dataUrl = `https://opentrials-test.s3.amazonaws.com/${dataKey}`;
       const expectedUrl = `${config.s3.customDomain}/${dataKey}`;
       const response = `

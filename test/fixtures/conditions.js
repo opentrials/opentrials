@@ -1,3 +1,5 @@
+'use strict';
+
 const uuid = require('node-uuid');
 
 function getCondition() {

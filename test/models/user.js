@@ -4,7 +4,6 @@ const should = require('should');
 const User = require('../../models/user');
 
 describe('User', () => {
-
   before(clearDB);
 
   afterEach(clearDB);
@@ -14,7 +13,7 @@ describe('User', () => {
       let user;
 
       factory.create('user')
-        .then((_user) => user = _user)
+        .then((_user) => (user = _user))
         .then(() => new User().findByEmailOrOAuth(user.attributes.email).fetch())
         .then((_user) => user.attributes.id.should.eql(_user.attributes.id));
     });
@@ -23,13 +22,13 @@ describe('User', () => {
       let user;
 
       factory.create('user')
-        .then((_user) => user = _user)
+        .then((_user) => (user = _user))
         .then(() => {
           const oauthCredentials = user.related('oauthCredentials').models[0];
           return new User().findByEmailOrOAuth('foo@bar.com',
                                                oauthCredentials.attributes.provider,
                                                oauthCredentials.attributes.id)
-                           .fetch({ require: true })
+                           .fetch({ require: true });
         })
         .then((_user) => user.attributes.id.should.eql(_user.attributes.id));
     });
@@ -56,7 +55,7 @@ describe('User', () => {
                                               oauthCredential.attributes.id);
       }).then((_user) => new User({ id: _user.attributes.id }).fetch({
         require: true,
-        withRelated: 'oauthCredentials'
+        withRelated: 'oauthCredentials',
       })).then((_user) => {
         const originalOAuthAttrs = oauthCredential.toJSON();
         delete originalOAuthAttrs.user_id;
@@ -71,6 +70,6 @@ describe('User', () => {
       const user = new User({ role: 'foobar' });
 
       should(user.toJSON().scope).eql('foobar');
-    })
+    });
   });
 });

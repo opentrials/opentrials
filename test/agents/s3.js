@@ -33,9 +33,9 @@ describe('S3 Agent', () => {
           'X-Amz-Credential': `${config.s3.accessKeyId}/19700101/${config.s3.region}/s3/aws4_request`,
           'X-Amz-Date': '19700101T000000Z',
           acl: 'public-read',
-          key: 'uploads/00000000-0000-0000-0000-000000000000/${filename}',
-          success_action_status: '201'
-        }
+          key: 'uploads/00000000-0000-0000-0000-000000000000/${filename}',  // eslint-disable-line no-template-curly-in-string
+          success_action_status: '201',
+        },
       });
     });
 
@@ -63,14 +63,14 @@ describe('S3 Agent', () => {
         expiration: '1970-01-01T00:30:00.000Z',
         conditions: [
           { bucket: config.s3.bucket },
-          [ 'starts-with', '$key', 'uploads/' ],
+          ['starts-with', '$key', 'uploads/'],
           { acl: 'public-read' },
           { success_action_status: '201' },
-          [ 'content-length-range', 0, config.s3.maxUploadSize ],
-          [ 'starts-with', '$Content-Type', '' ],
+          ['content-length-range', 0, config.s3.maxUploadSize],
+          ['starts-with', '$Content-Type', ''],
           { 'x-amz-algorithm': 'AWS4-HMAC-SHA256' },
           { 'x-amz-credential': `${config.s3.accessKeyId}/19700101/${config.s3.region}/s3/aws4_request` },
-          { 'x-amz-date': '19700101T000000Z' }
+          { 'x-amz-date': '19700101T000000Z' },
         ],
       });
     });

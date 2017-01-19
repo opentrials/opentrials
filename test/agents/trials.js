@@ -1,6 +1,5 @@
 'use strict';
 
-const should = require('should');
 const trials = require('../../agents/trials');
 const trialDecorator = require('../../presenters/trial');
 
@@ -31,7 +30,7 @@ describe('Trials', () => {
       items: [
         fixtures.getTrial(),
         fixtures.getTrial(),
-      ]
+      ],
     };
     const expectedResponse = JSON.parse(JSON.stringify(response));
 
@@ -42,32 +41,32 @@ describe('Trials', () => {
     });
 
     it('encodes the query string', () => {
-      apiServer.get('/search').query({q: 'foo bar'}).reply(200, response);
+      apiServer.get('/search').query({ q: 'foo bar' }).reply(200, response);
 
       return trials.search('foo bar').should.be.fulfilledWith(expectedResponse);
     });
 
     it('escapes the query string', () => {
-      apiServer.get('/search').query({q: 'foo\\/bar'}).reply(200, response);
+      apiServer.get('/search').query({ q: 'foo\\/bar' }).reply(200, response);
 
       return trials.search('foo/bar').should.be.fulfilledWith(expectedResponse);
     });
 
     it('passes the page number to the query', () => {
-      apiServer.get('/search').query({page: 2}).reply(200, response);
+      apiServer.get('/search').query({ page: 2 }).reply(200, response);
 
       return trials.search(undefined, 2).should.be.fulfilledWith(expectedResponse);
     });
 
     it('passes the number of items per page to the query', () => {
-      apiServer.get('/search').query({per_page: 12}).reply(200, response);
+      apiServer.get('/search').query({ per_page: 12 }).reply(200, response);
 
       return trials.search(undefined, undefined, 12).should.be.fulfilledWith(expectedResponse);
     });
 
     it('adds the filters to the query string', () => {
       apiServer.get('/search')
-        .query({q: '(foo bar) AND location:("Czech Republic")'})
+        .query({ q: '(foo bar) AND location:("Czech Republic")' })
         .reply(200, response);
 
       return trials.search('foo bar', undefined, undefined, { location: '"Czech Republic"' })
@@ -76,7 +75,7 @@ describe('Trials', () => {
 
     it('accepts list of values to a single filter', () => {
       apiServer.get('/search')
-        .query({q: '(foo bar) AND location:("Czech Republic" OR "Brazil")'})
+        .query({ q: '(foo bar) AND location:("Czech Republic" OR "Brazil")' })
         .reply(200, response);
 
       return trials.search('foo bar', undefined, undefined, { location: ['"Czech Republic"', '"Brazil"'] })
@@ -96,13 +95,13 @@ describe('Trials', () => {
       items: [
         fixtures.getTrial(),
         fixtures.getTrial(),
-      ]
+      ],
     };
     const expectedResponse = JSON.parse(JSON.stringify(response));
 
     it('escapes special elasticsearch values', () => {
       apiServer.get('/search')
-        .query({q: 'entity:("foo\\(bar\\)")', page: 1, per_page: 10})
+        .query({ q: 'entity:("foo\\(bar\\)")', page: 1, per_page: 10 })
         .reply(200, response);
 
       return trials.searchByEntity('entity', 'foo(bar)')

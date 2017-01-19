@@ -1,9 +1,10 @@
+'use strict';
+
 const uuid = require('node-uuid');
 
 function getTrial() {
   const trial = {
     id: uuid.v1(),
-    identifiers: JSON.stringify({}),
     registration_date: new Date('2016-01-01'),
     public_title: 'public_title',
     brief_summary: 'brief_summary',
@@ -34,8 +35,8 @@ function searchTrialsByEntity() {
         gender: 'both',
         has_published_results: true,
         registration_date: '1999-11-02T00:00:00.000Z',
-      }
-    ]
+      },
+    ],
   };
   trials.items[0].url = `http://api.opentrials.net/v1/trials/${trials.items[0].id}`;
 

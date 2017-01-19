@@ -5,7 +5,7 @@ const escapeElasticSearch = require('../../helpers/escape-elastic-search');
 describe('persons handler', () => {
   let server;
 
-  before(() => getExplorerServer().then((_server) => server = _server));
+  before(() => getExplorerServer().then((_server) => (server = _server)));
 
   describe('GET /persons/{id}', () => {
     describe('API is OK', () => {
@@ -30,14 +30,14 @@ describe('persons handler', () => {
           },
         });
 
-        return server.inject('/persons/'+person.id)
+        return server.inject(`/persons/${person.id}`)
           .then((_response) => {
             response = _response;
           });
       });
 
       it('is successful', () => {
-        response.statusCode.should.equal(200)
+        response.statusCode.should.equal(200);
       });
 
       it('uses the "persons-list" template', () => (

@@ -25,7 +25,7 @@ describe('trial presenter', () => {
           'csr',
           'epar_segment',
         ],
-        'Data': [
+        Data: [
           'results',
         ],
       };
@@ -63,7 +63,7 @@ describe('trial presenter', () => {
       });
 
       Object.keys(trial.documents).forEach((category) => {
-        const fdaDocs = _.find(trial.documents[category], {source_id: 'fda'});
+        const fdaDocs = _.find(trial.documents[category], { source_id: 'fda' });
         should(fdaDocs).be.undefined();
       });
     });
@@ -99,27 +99,27 @@ describe('trial presenter', () => {
       const trialAttributes = {
         records: [
           {
-            "id": "314912a3-60e5-4056-9ae4-89a37e369ae8",
-            "source_id": "ictrp",
-            "url": "http://localhost:10010/v1/trials/ee6883be-3414-456c-82aa-91d802a83c98/records/314912a3-60e5-4056-9ae4-89a37e369ae8",
-            "source_url": "http://apps.who.int/trialsearch/Trial3.aspx?trialid=EUCTR2010-018661-35-BG",
-            "updated_at": "2016-03-25T06:03:02.677Z"
+            id: '314912a3-60e5-4056-9ae4-89a37e369ae8',
+            source_id: 'ictrp',
+            url: 'http://localhost:10010/v1/trials/ee6883be-3414-456c-82aa-91d802a83c98/records/314912a3-60e5-4056-9ae4-89a37e369ae8',
+            source_url: 'http://apps.who.int/trialsearch/Trial3.aspx?trialid=EUCTR2010-018661-35-BG',
+            updated_at: '2016-03-25T06:03:02.677Z',
           },
           {
-            "id": "401ef4ea-0dca-4af3-b052-84112b2df8fe",
-            "source_id": "euctr",
-            "url": "http://localhost:10010/v1/trials/ee6883be-3414-456c-82aa-91d802a83c98/records/401ef4ea-0dca-4af3-b052-84112b2df8fe",
-            "source_url": "https://www.clinicaltrialsregister.eu/ctr-search/trial/2010-018662-23/FI",
-            "updated_at": "2016-05-25T22:45:53.280Z"
+            id: '401ef4ea-0dca-4af3-b052-84112b2df8fe',
+            source_id: 'euctr',
+            url: 'http://localhost:10010/v1/trials/ee6883be-3414-456c-82aa-91d802a83c98/records/401ef4ea-0dca-4af3-b052-84112b2df8fe',
+            source_url: 'https://www.clinicaltrialsregister.eu/ctr-search/trial/2010-018662-23/FI',
+            updated_at: '2016-05-25T22:45:53.280Z',
           },
           {
-            "id": "91d1e3eb-e512-47ca-88b9-bb1013e55ef0",
-            "source_id": "nct",
-            "url": "http://localhost:10010/v1/trials/ee6883be-3414-456c-82aa-91d802a83c98/records/91d1e3eb-e512-47ca-88b9-bb1013e55ef0",
-            "source_url": "https://clinicaltrials.gov/ct2/show/NCT01193257",
-            "updated_at": "2016-02-07T03:26:01.242Z"
+            id: '91d1e3eb-e512-47ca-88b9-bb1013e55ef0',
+            source_id: 'nct',
+            url: 'http://localhost:10010/v1/trials/ee6883be-3414-456c-82aa-91d802a83c98/records/91d1e3eb-e512-47ca-88b9-bb1013e55ef0',
+            source_url: 'https://clinicaltrials.gov/ct2/show/NCT01193257',
+            updated_at: '2016-02-07T03:26:01.242Z',
           },
-        ]
+        ],
       };
       const trial = trialPresenter(trialAttributes);
       const recordsSources = trial.records.map((record) => record.source_id);
@@ -187,7 +187,7 @@ describe('trial presenter', () => {
           { source_id: 'hra' },
           { source_id: 'pubmed' },
           { source_id: 'nct' },
-        ]
+        ],
       };
 
       const trial = trialPresenter(trialAttributes);
@@ -196,7 +196,7 @@ describe('trial presenter', () => {
         { source_id: 'pubmed' },
         { source_id: 'nct' },
       ]);
-    })
+    });
 
     it('adds HRA publications to the research_summaries set', () => {
       const trialAttributes = {
@@ -204,7 +204,7 @@ describe('trial presenter', () => {
           { source_id: 'hra' },
           { source_id: 'pubmed' },
           { source_id: 'nct' },
-        ]
+        ],
       };
 
       const trial = trialPresenter(trialAttributes);
@@ -212,7 +212,7 @@ describe('trial presenter', () => {
       should(trial.research_summaries).deepEqual([
           { source_id: 'hra' },
       ]);
-    })
+    });
   });
 
   describe('discrepancies', () => {
@@ -260,7 +260,7 @@ describe('trial presenter', () => {
       };
 
       const trial = trialPresenter(trialAttributes);
-      should(trial.discrepancies).be.undefined;
+      should(trial.discrepancies).be.undefined();
     });
   });
 
@@ -269,46 +269,46 @@ describe('trial presenter', () => {
       const trialAttributes = {
         risks_of_bias: [
           {
-            id: "4a592278-8c98-11e6-aad1-f8165487599c",
-            trial_id: "a63246de-1329-4532-b805-140b9065e379",
-            source_id: "cochrane",
-            study_id: "STD-Bachmann-2003",
-            source_url: "http://onlinelibrary.wiley.com/doi/10.1002/14651858.CD006918.pub2/full",
+            id: '4a592278-8c98-11e6-aad1-f8165487599c',
+            trial_id: 'a63246de-1329-4532-b805-140b9065e379',
+            source_id: 'cochrane',
+            study_id: 'STD-Bachmann-2003',
+            source_url: 'http://onlinelibrary.wiley.com/doi/10.1002/14651858.CD006918.pub2/full',
             risk_of_bias_criteria: [
               {
-                id: "4a5a46ee-8c98-11e6-aad1-f8165487599c",
-                name: "sequence generation",
-                value: "yes"
+                id: '4a5a46ee-8c98-11e6-aad1-f8165487599c',
+                name: 'sequence generation',
+                value: 'yes',
               },
               {
-                id: "4a5b9620-8c98-11e6-aad1-f8165487599c",
-                name: "allocation concealment",
-                value: "unknown"
+                id: '4a5b9620-8c98-11e6-aad1-f8165487599c',
+                name: 'allocation concealment',
+                value: 'unknown',
               },
               {
-                id: "4a5cd5e4-8c98-11e6-aad1-f8165487599c",
-                name: "blinding (performance and/or detection)",
-                value: "yes"
+                id: '4a5cd5e4-8c98-11e6-aad1-f8165487599c',
+                name: 'blinding (performance and/or detection)',
+                value: 'yes',
               },
               {
-                id: "4a5e2f34-8c98-11e6-aad1-f8165487599c",
-                name: "attrition",
-                value: "yes"
+                id: '4a5e2f34-8c98-11e6-aad1-f8165487599c',
+                name: 'attrition',
+                value: 'yes',
               },
               {
-                id: "4a5f204c-8c98-11e6-aad1-f8165487599c",
-                name: "reporting",
-                value: "yes"
+                id: '4a5f204c-8c98-11e6-aad1-f8165487599c',
+                name: 'reporting',
+                value: 'yes',
               },
               {
-                id: "4a5ffae4-8c98-11e6-aad1-f8165487599c",
-                name: "other biases",
-                value: "no"
-              }
+                id: '4a5ffae4-8c98-11e6-aad1-f8165487599c',
+                name: 'other biases',
+                value: 'no',
+              },
             ],
-            created_at: "2016-10-07T13:13:59.160Z",
-            updated_at: "2016-10-07T13:13:59.160Z"
-          }
+            created_at: '2016-10-07T13:13:59.160Z',
+            updated_at: '2016-10-07T13:13:59.160Z',
+          },
         ],
       };
       const expectedMessage = (
@@ -376,7 +376,7 @@ describe('trial presenter', () => {
             id: '3e5ffed2-5a62-4a99-ba4c-e616567ccdaf',
             is_primary: true,
             last_verification_date: null,
-          }
+          },
         ],
       };
 
@@ -391,7 +391,7 @@ describe('trial presenter', () => {
             id: '3e5ffed2-5a62-4a99-ba4c-e616567ccdaf',
             is_primary: false,
             last_verification_date: '2001-05-30T00:00:00.000Z',
-          }
+          },
         ],
       };
 

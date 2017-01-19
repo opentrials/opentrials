@@ -2,14 +2,14 @@
 
 const should = require('should');
 const DataContribution = require('../../../models/data-contribution');
+
 let server;
 
 describe('admin data contributions handler', () => {
-
   before(() => (
     clearDB()
       .then(() => getExplorerServer())
-      .then((_server) => server = _server)
+      .then((_server) => (server = _server))
   ));
 
   afterEach(clearDB);
@@ -23,7 +23,7 @@ describe('admin data contributions handler', () => {
 
       return server.inject(options)
         .then((response) => should(response.statusCode).equal(401));
-    })
+    });
 
     _itReturnsStatusCodeForRoles(200, ['admin', 'curator'], {
       url: '/admin/data-contributions',
@@ -47,7 +47,7 @@ describe('admin data contributions handler', () => {
         .then(() => new DataContribution()
                       .query('orderBy', 'created_at', 'desc')
                       .fetchAll({ withRelated: DataContribution.relatedModels }))
-        .then((_dataContributions) => dataContributions = _dataContributions )
+        .then((_dataContributions) => (dataContributions = _dataContributions))
         .then(() => server.inject(options))
         .then((response) => {
           const context = response.request.response.source.context;
@@ -66,7 +66,7 @@ describe('admin data contributions handler', () => {
 
       return server.inject(options)
         .then((response) => should(response.statusCode).equal(401));
-    })
+    });
 
     _itReturnsStatusCodeForRoles(302, ['admin', 'curator'], {
       url: '/admin/data-contributions/00000000-0000-0000-0000-000000000000',
@@ -84,11 +84,11 @@ describe('admin data contributions handler', () => {
       const payload = {
         approved: true,
         curation_comments: 'My comments',
-      }
+      };
       let dataContributionId;
 
       return factory.create('dataContribution')
-        .then((dataContribution) => dataContributionId = dataContribution.attributes.id)
+        .then((dataContribution) => (dataContributionId = dataContribution.attributes.id))
         .then(() => server.inject({
           url: `/admin/data-contributions/${dataContributionId}`,
           method: 'POST',
@@ -110,7 +110,7 @@ describe('admin data contributions handler', () => {
         method: 'POST',
         credentials: factory.buildSync('admin').toJSON(),
         payload: {},
-      }
+      };
 
       return server.inject(options)
         .then((response) => {
@@ -133,7 +133,7 @@ function _itReturnsStatusCodeForRoles(statusCode, roles, options) {
       );
 
       return server.inject(optionsWithCredentials)
-        .then((response) => should(response.statusCode).equal(statusCode))
+        .then((response) => should(response.statusCode).equal(statusCode));
     });
   });
 }

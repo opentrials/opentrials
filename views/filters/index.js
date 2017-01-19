@@ -1,11 +1,21 @@
+'use strict';
+
+const revPath = require('./rev-path');
+const formatDate = require('./format-date');
+const formatNumber = require('./format-number');
+const underscoresToCapitalized = require('./underscores-to-capitalized');
+const formatObject = require('./format-object');
+const formatBytes = require('./format-bytes');
+const gravatar = require('./gravatar');
+
 const filters = {
-  revPath: require('./rev-path'),
-  formatDate: require('./format-date'),
-  formatNumber: require('./format-number'),
-  underscoresToCapitalized: require('./underscores-to-capitalized'),
-  formatObject: require('./format-object'),
-  formatBytes: require('./format-bytes'),
-  gravatar: require('./gravatar'),
+  revPath,
+  formatDate,
+  formatNumber,
+  underscoresToCapitalized,
+  formatObject,
+  formatBytes,
+  gravatar,
 };
 
 module.exports = filters;

@@ -1,0 +1,21 @@
+---
+extends: ../../.eslintrc
+ecmaVersion: 5
+env:
+  browser: true
+globals:
+  $: false
+  OPENTRIALS_API_URL: false
+rules:
+  strict:
+    - error
+    - function
+  func-names:
+    - off
+  prefer-template:
+    - off
+  prefer-arrow-callback:
+    - off
+  object-shorthand:
+    - error
+    - never

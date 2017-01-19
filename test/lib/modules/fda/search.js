@@ -13,7 +13,7 @@ describe('FDA Search Handler', () => {
   };
   let server;
 
-  before(() => getFDAServer().then((_server) => server = _server));
+  before(() => getFDAServer().then((_server) => (server = _server)));
 
   afterEach(() => {
     cleanAllApiMocks();
@@ -37,7 +37,7 @@ describe('FDA Search Handler', () => {
       it('uses the "fda/index" template', () => (
         server.inject('/search')
           .then((response) => {
-            should(response.request.response.source.template).eql('fda/index')
+            should(response.request.response.source.template).eql('fda/index');
           })
       ));
 
@@ -91,7 +91,6 @@ describe('FDA Search Handler', () => {
 
   describe('GET /search?q={queryStr}', () => {
     const queryStr = 'foo bar';
-    let response;
 
     beforeEach(() => {
       mockApiResponses({
@@ -122,7 +121,6 @@ describe('FDA Search Handler', () => {
 
   describe('GET /search?text={textQuery}', () => {
     const textQuery = 'foo bar';
-    let response;
 
     beforeEach(() => {
       mockApiResponses({
@@ -184,7 +182,7 @@ describe('FDA Search Handler', () => {
         .then((response) => {
           should(response.statusCode).equal(200);
         });
-    })
+    });
   });
 
   describe('GET /search?active_ingredients={name}', () => {
@@ -201,7 +199,7 @@ describe('FDA Search Handler', () => {
         .then((response) => {
           should(response.statusCode).equal(200);
         });
-    })
+    });
   });
 
   describe('GET /search?name={name}', () => {
@@ -222,7 +220,7 @@ describe('FDA Search Handler', () => {
             should(context.query.name).deepEqual(['Letter']);
           });
       });
-    })
+    });
 
     describe('multiple document types', () => {
       it('filters by document type', () => {
@@ -258,7 +256,7 @@ describe('FDA Search Handler', () => {
         .then((response) => {
           should(response.statusCode).equal(200);
         });
-    })
+    });
   });
 
   describe('GET /search?application_type={id}', () => {
@@ -279,7 +277,7 @@ describe('FDA Search Handler', () => {
             should(context.query.application_type).deepEqual(['NDA']);
           });
       });
-    })
+    });
 
     describe('multiple application types', () => {
       it('filters by FDA application type', () => {
@@ -313,7 +311,7 @@ describe('FDA Search Handler', () => {
 
       return server.inject('/search?action_date_start=2012-01-01')
         .then((response) => {
-          should(response.statusCode).eql(200)
+          should(response.statusCode).eql(200);
           should(response.request.response.source.context.advancedSearchIsVisible).eql(true);
         });
     });
@@ -322,14 +320,14 @@ describe('FDA Search Handler', () => {
       mockApiResponses({
         'search/fda_documents': {
           query: {
-            q: 'action_date:([* TO 2016-01-01])'
+            q: 'action_date:([* TO 2016-01-01])',
           },
         },
       });
 
       return server.inject('/search?action_date_end=2016-01-01')
         .then((response) => {
-          should(response.statusCode).eql(200)
+          should(response.statusCode).eql(200);
           should(response.request.response.source.context.advancedSearchIsVisible).eql(true);
         });
     });
@@ -345,7 +343,7 @@ describe('FDA Search Handler', () => {
 
       return server.inject('/search?action_date_start=2015-01-01&action_date_end=2016-01-01')
         .then((response) => {
-          should(response.statusCode).equal(200)
+          should(response.statusCode).equal(200);
           should(response.request.response.source.context.advancedSearchIsVisible).eql(true);
         });
     });
@@ -364,7 +362,7 @@ describe('FDA Search Handler', () => {
 
       return server.inject('/search?action_date_start=01/20/2015&action_date_end=01/20/2016')
         .then((response) => {
-          should(response.statusCode).equal(200)
+          should(response.statusCode).equal(200);
           should(response.request.response.source.context.advancedSearchIsVisible).eql(true);
         });
     });
@@ -390,50 +388,40 @@ describe('FDA Search Handler', () => {
           });
       });
 
-      it('validates page is greater than zero', () => {
-        return server.inject('/search?page=0')
+      it('validates page is greater than zero', () => server.inject('/search?page=0')
           .then((response) => {
             should(response.statusCode).equal(400);
-          });
-      });
+          }));
 
-      it('validates page is less than 100', () => {
-        return server.inject('/search?page=101')
+      it('validates page is less than 100', () => server.inject('/search?page=101')
           .then((response) => {
             should(response.statusCode).equal(400);
-          });
-      });
+          }));
 
-      it('validates page is numeric', () => {
-        return server.inject('/search?page=ddd')
+      it('validates page is numeric', () => server.inject('/search?page=ddd')
           .then((response) => {
             should(response.statusCode).equal(400);
-          });
-      });
-    })
+          }));
+    });
 
     describe('action_date_start', () => {
-      it('rejects values not in YYYY-MM-DD format', () => {
-        return server.inject('/search?action_date_start=ddd')
+      it('rejects values not in YYYY-MM-DD format', () => server.inject('/search?action_date_start=ddd')
           .then((response) => {
             should(response.statusCode).equal(400);
-          });
-      });
+          }));
     });
 
     describe('action_date_end', () => {
-      it('rejects values not in YYYY-MM-DD format', () => {
-        return server.inject('/search?action_date_end=ddd')
+      it('rejects values not in YYYY-MM-DD format', () => server.inject('/search?action_date_end=ddd')
           .then((response) => {
             should(response.statusCode).equal(400);
-          });
-      });
+          }));
     });
 
     it('rejects unknown params', () => (
       server.inject('/search?some=param')
         .then((response) => {
-          should(response.statusCode).equal(400)
+          should(response.statusCode).equal(400);
         })
     ));
   });

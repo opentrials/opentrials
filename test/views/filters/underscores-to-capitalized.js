@@ -1,3 +1,5 @@
+'use strict';
+
 const should = require('should');
 const underscoresToCapitalized = require('../../../views/filters/underscores-to-capitalized');
 

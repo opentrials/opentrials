@@ -5,17 +5,15 @@ const should = require('should');
 describe('homepage handler', () => {
   let server;
 
-  before(() => getExplorerServer().then((_server) => server = _server));
+  before(() => getExplorerServer().then((_server) => (server = _server)));
 
   describe('GET /', () => {
     let response;
 
-    before(() => {
-      return server.inject('/')
+    before(() => server.inject('/')
         .then((_response) => {
           response = _response;
-        });
-    });
+        }));
 
     it('is successful', () => (
       response.statusCode.should.equal(200)
@@ -32,20 +30,16 @@ describe('homepage handler', () => {
   });
 
   describe('GET /?advanced_search={advanced_search}', () => {
-    it('sets advancedSearchIsVisible to false by default', () => {
-      return server.inject('/')
+    it('sets advancedSearchIsVisible to false by default', () => server.inject('/')
         .then((response) => {
           const context = response.request.response.source.context;
           should(context.advancedSearchIsVisible).be.false();
-        });
-    });
+        }));
 
-    it('sets advancedSearchIsVisible to true when advanced_search is true', () => {
-      return server.inject('/?advanced_search=true')
+    it('sets advancedSearchIsVisible to true when advanced_search is true', () => server.inject('/?advanced_search=true')
         .then((response) => {
           const context = response.request.response.source.context;
           should(context.advancedSearchIsVisible).be.true();
-        });
-    });
+        }));
   });
 });

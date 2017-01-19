@@ -1,4 +1,5 @@
-const should = require('should');
+'use strict';
+
 const revPath = require('../../../views/filters/rev-path');
 
 describe('revPath', () => {

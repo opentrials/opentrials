@@ -5,7 +5,7 @@ const escapeElasticSearch = require('../../helpers/escape-elastic-search');
 describe('conditions handler', () => {
   let server;
 
-  before(() => getExplorerServer().then((_server) => server = _server));
+  before(() => getExplorerServer().then((_server) => (server = _server)));
 
   describe('GET /conditions/{id}', () => {
     describe('API is OK', () => {
@@ -37,7 +37,7 @@ describe('conditions handler', () => {
       });
 
       it('is successful', () => {
-        response.statusCode.should.equal(200)
+        response.statusCode.should.equal(200);
       });
 
       it('uses the "conditions-list" template', () => (

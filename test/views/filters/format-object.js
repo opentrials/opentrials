@@ -1,3 +1,5 @@
+'use strict';
+
 const should = require('should');
 const formatObject = require('../../../views/filters/format-object');
 
@@ -45,10 +47,10 @@ describe('formatObject', () => {
         'foo',
       ],
       nested: {
-        'foo': 'bar',
+        foo: 'bar',
       },
-      'null': null,
-      'undefined': undefined,
+      null: null,
+      undefined,
       str: 'foo',
       bool: true,
     };

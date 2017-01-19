@@ -12,7 +12,7 @@ describe('search handler', () => {
   }));
   let server;
 
-  before(() => getExplorerServer().then((_server) => server = _server));
+  before(() => getExplorerServer().then((_server) => (server = _server)));
 
   afterEach(() => {
     cleanAllApiMocks();
@@ -36,7 +36,7 @@ describe('search handler', () => {
       });
 
       it('is successful', () => {
-        response.statusCode.should.equal(200)
+        response.statusCode.should.equal(200);
       });
 
       it('uses the "search" template', () => (
@@ -81,7 +81,7 @@ describe('search handler', () => {
 
         return server.inject('/search?page=1')
           .then((_response) => {
-            _response.statusCode.should.equal(200)
+            _response.statusCode.should.equal(200);
           });
       });
 
@@ -90,110 +90,86 @@ describe('search handler', () => {
 
         return server.inject('/search?page=100')
           .then((_response) => {
-            _response.statusCode.should.equal(200)
+            _response.statusCode.should.equal(200);
           });
       });
 
-      it('validates page is greater than zero', () => {
-        return server.inject('/search?page=0')
+      it('validates page is greater than zero', () => server.inject('/search?page=0')
           .then((_response) => {
-            _response.statusCode.should.equal(400)
-          });
-      });
+            _response.statusCode.should.equal(400);
+          }));
 
-      it('validates page is less than 100', () => {
-        return server.inject('/search?page=101')
+      it('validates page is less than 100', () => server.inject('/search?page=101')
           .then((_response) => {
-            _response.statusCode.should.equal(400)
-          });
-      });
+            _response.statusCode.should.equal(400);
+          }));
 
-      it('validates page is numeric', () => {
-        return server.inject('/search?page=ddd')
+      it('validates page is numeric', () => server.inject('/search?page=ddd')
           .then((_response) => {
-            _response.statusCode.should.equal(400)
-          });
-      });
-    })
+            _response.statusCode.should.equal(400);
+          }));
+    });
 
     describe('registration_date_start', () => {
-      it('rejects values not in YYYY-MM-DD format', () => {
-        return server.inject('/search?registration_date_start=ddd')
+      it('rejects values not in YYYY-MM-DD format', () => server.inject('/search?registration_date_start=ddd')
           .then((_response) => {
-            _response.statusCode.should.equal(400)
-          });
-      });
+            _response.statusCode.should.equal(400);
+          }));
     });
 
     describe('registration_date_end', () => {
-      it('rejects values not in YYYY-MM-DD format', () => {
-        return server.inject('/search?registration_date_end=ddd')
+      it('rejects values not in YYYY-MM-DD format', () => server.inject('/search?registration_date_end=ddd')
           .then((_response) => {
-            _response.statusCode.should.equal(400)
-          });
-      });
+            _response.statusCode.should.equal(400);
+          }));
     });
 
     describe('gender', () => {
-      it('rejects values other than "male" and "female"', () => {
-        return server.inject('/search?gender=some')
+      it('rejects values other than "male" and "female"', () => server.inject('/search?gender=some')
           .then((_response) => {
-            _response.statusCode.should.equal(400)
-          });
-      });
+            _response.statusCode.should.equal(400);
+          }));
     });
 
     describe('has_published_results', () => {
-      it('rejects values other than "true" and "false"', () => {
-        return server.inject('/search?has_published_results=maybe')
+      it('rejects values other than "true" and "false"', () => server.inject('/search?has_published_results=maybe')
           .then((_response) => {
-            _response.statusCode.should.equal(400)
-          });
-      });
+            _response.statusCode.should.equal(400);
+          }));
     });
 
     describe('has_publications', () => {
-      it('rejects values other than "true" and "false"', () => {
-        return server.inject('/search?has_publications=maybe')
+      it('rejects values other than "true" and "false"', () => server.inject('/search?has_publications=maybe')
           .then((_response) => {
-            _response.statusCode.should.equal(400)
-          });
-      });
+            _response.statusCode.should.equal(400);
+          }));
     });
 
     describe('has_discrepancies', () => {
-      it('rejects values other than "true" and "false"', () => {
-        return server.inject('/search?has_discrepancies=maybe')
+      it('rejects values other than "true" and "false"', () => server.inject('/search?has_discrepancies=maybe')
           .then((_response) => {
-            _response.statusCode.should.equal(400)
-          });
-      });
+            _response.statusCode.should.equal(400);
+          }));
     });
 
     describe('sample_size_start', () => {
-      it('rejects non-numeric values', () => {
-        return server.inject('/search?sample_size_start=ddd')
+      it('rejects non-numeric values', () => server.inject('/search?sample_size_start=ddd')
           .then((_response) => {
-            _response.statusCode.should.equal(400)
-          });
-      });
+            _response.statusCode.should.equal(400);
+          }));
     });
 
     describe('sample_size_end', () => {
-      it('rejects non-numeric values', () => {
-        return server.inject('/search?sample_size_end=ddd')
+      it('rejects non-numeric values', () => server.inject('/search?sample_size_end=ddd')
           .then((_response) => {
-            _response.statusCode.should.equal(400)
-          });
-      });
+            _response.statusCode.should.equal(400);
+          }));
     });
 
-    it('rejects unknown params', () => {
-      return server.inject('/search?some=param')
+    it('rejects unknown params', () => server.inject('/search?some=param')
         .then((_response) => {
-          _response.statusCode.should.equal(400)
-        });
-    });
+          _response.statusCode.should.equal(400);
+        }));
   });
 
   describe('GET /search?q={queryStr}', () => {
@@ -209,14 +185,14 @@ describe('search handler', () => {
         },
       });
 
-      return server.inject('/search?q='+encodeURIComponent(queryStr))
+      return server.inject(`/search?q=${encodeURIComponent(queryStr)}`)
         .then((_response) => {
           response = _response;
         });
     });
 
     it('adds the query into the context', () => {
-      response.request.response.source.context.query.q.should.equal(queryStr)
+      response.request.response.source.context.query.q.should.equal(queryStr);
     });
 
     it('adds advancedSearchIsVisible as false into the context', () => {
@@ -234,20 +210,20 @@ describe('search handler', () => {
       mockApiResponses({
         search: {
           query: {
-            page: page,
+            page,
           },
           response: apiResponse,
         },
       });
 
-      return server.inject('/search?page='+page)
+      return server.inject(`/search?page=${page}`)
         .then((_response) => {
           response = _response;
         });
     });
 
     it('adds the currentPage number into the context', () => {
-      response.request.response.source.context.currentPage.should.equal(page)
+      response.request.response.source.context.currentPage.should.equal(page);
     });
   });
 
@@ -263,7 +239,7 @@ describe('search handler', () => {
 
       return server.inject('/search?gender=')
         .then((_response) => {
-          _response.statusCode.should.equal(200)
+          _response.statusCode.should.equal(200);
         });
     });
 
@@ -278,7 +254,7 @@ describe('search handler', () => {
 
       return server.inject('/search?gender=male')
         .then((_response) => {
-          _response.statusCode.should.equal(200)
+          _response.statusCode.should.equal(200);
         });
     });
 
@@ -293,7 +269,7 @@ describe('search handler', () => {
 
       return server.inject('/search?gender=female')
         .then((_response) => {
-          _response.statusCode.should.equal(200)
+          _response.statusCode.should.equal(200);
         });
     });
   });
@@ -310,7 +286,7 @@ describe('search handler', () => {
 
       return server.inject('/search?has_published_results=')
         .then((_response) => {
-          _response.statusCode.should.equal(200)
+          _response.statusCode.should.equal(200);
         });
     });
 
@@ -325,7 +301,7 @@ describe('search handler', () => {
 
       return server.inject('/search?has_published_results=true')
         .then((_response) => {
-          _response.statusCode.should.equal(200)
+          _response.statusCode.should.equal(200);
         });
     });
 
@@ -340,7 +316,7 @@ describe('search handler', () => {
 
       return server.inject('/search?has_published_results=false')
         .then((_response) => {
-          _response.statusCode.should.equal(200)
+          _response.statusCode.should.equal(200);
         });
     });
   });
@@ -357,7 +333,7 @@ describe('search handler', () => {
 
       return server.inject('/search?has_publications=')
         .then((_response) => {
-          _response.statusCode.should.equal(200)
+          _response.statusCode.should.equal(200);
         });
     });
 
@@ -372,7 +348,7 @@ describe('search handler', () => {
 
       return server.inject('/search?has_publications=true')
         .then((_response) => {
-          _response.statusCode.should.equal(200)
+          _response.statusCode.should.equal(200);
         });
     });
 
@@ -387,7 +363,7 @@ describe('search handler', () => {
 
       return server.inject('/search?has_publications=false')
         .then((_response) => {
-          _response.statusCode.should.equal(200)
+          _response.statusCode.should.equal(200);
         });
     });
   });
@@ -404,7 +380,7 @@ describe('search handler', () => {
 
       return server.inject('/search?has_discrepancies=')
         .then((_response) => {
-          _response.statusCode.should.equal(200)
+          _response.statusCode.should.equal(200);
         });
     });
 
@@ -419,7 +395,7 @@ describe('search handler', () => {
 
       return server.inject('/search?has_discrepancies=true')
         .then((_response) => {
-          _response.statusCode.should.equal(200)
+          _response.statusCode.should.equal(200);
         });
     });
 
@@ -434,7 +410,7 @@ describe('search handler', () => {
 
       return server.inject('/search?has_discrepancies=false')
         .then((_response) => {
-          _response.statusCode.should.equal(200)
+          _response.statusCode.should.equal(200);
         });
     });
   });
@@ -489,7 +465,7 @@ describe('search handler', () => {
       it('adds the conditions to context.query', () => {
         const context = response.request.response.source.context;
 
-        context.query.condition.should.deepEqual(["HIV", "Breast Cancer"]);
+        context.query.condition.should.deepEqual(['HIV', 'Breast Cancer']);
       });
     });
 
@@ -505,7 +481,7 @@ describe('search handler', () => {
 
       return server.inject('/search?condition=foo(bar)')
         .then((response) => {
-          response.statusCode.should.equal(200)
+          response.statusCode.should.equal(200);
         });
     });
   });
@@ -560,7 +536,7 @@ describe('search handler', () => {
       it('adds the interventions to context.query', () => {
         const context = response.request.response.source.context;
 
-        context.query.intervention.should.deepEqual(["Placebo", "Aspirin"]);
+        context.query.intervention.should.deepEqual(['Placebo', 'Aspirin']);
       });
     });
 
@@ -575,7 +551,7 @@ describe('search handler', () => {
 
       return server.inject('/search?intervention=foo(bar)')
         .then((response) => {
-          response.statusCode.should.equal(200)
+          response.statusCode.should.equal(200);
         });
     });
   });
@@ -630,7 +606,7 @@ describe('search handler', () => {
       it('adds the persons to context.query', () => {
         const context = response.request.response.source.context;
 
-        context.query.person.should.deepEqual(["Hippocrates", "Florence Nightingale"]);
+        context.query.person.should.deepEqual(['Hippocrates', 'Florence Nightingale']);
       });
     });
 
@@ -645,7 +621,7 @@ describe('search handler', () => {
 
       return server.inject('/search?person=foo(bar)')
         .then((response) => {
-          response.statusCode.should.equal(200)
+          response.statusCode.should.equal(200);
         });
     });
   });
@@ -700,7 +676,7 @@ describe('search handler', () => {
       it('adds the organisations to context.query', () => {
         const context = response.request.response.source.context;
 
-        context.query.organisation.should.deepEqual(["ACME", "NSA"]);
+        context.query.organisation.should.deepEqual(['ACME', 'NSA']);
       });
     });
 
@@ -715,13 +691,12 @@ describe('search handler', () => {
 
       return server.inject('/search?organisation=foo(bar)')
         .then((response) => {
-          response.statusCode.should.equal(200)
+          response.statusCode.should.equal(200);
         });
     });
   });
 
   describe('GET /search?location={locationID}&location={locationID}', () => {
-    let response;
     const searchResponse = { total_count: 0, items: [] };
 
     describe('single location', () => {
@@ -744,6 +719,7 @@ describe('search handler', () => {
     });
 
     describe('multiple locations', () => {
+      let response;
       before(() => {
         mockApiResponses({
           search: {
@@ -769,7 +745,7 @@ describe('search handler', () => {
       it('adds the locations to context.query', () => {
         const context = response.request.response.source.context;
 
-        context.query.location.should.deepEqual(["Czech Republic", "Brazil"]);
+        context.query.location.should.deepEqual(['Czech Republic', 'Brazil']);
       });
 
       it('adds advancedSearchIsVisible as true into the context', () => {
@@ -790,7 +766,7 @@ describe('search handler', () => {
 
       return server.inject('/search?location=foo(bar)')
         .then((response) => {
-          response.statusCode.should.equal(200)
+          response.statusCode.should.equal(200);
         });
     });
   });
@@ -807,7 +783,7 @@ describe('search handler', () => {
 
       return server.inject('/search?sample_size_start=100')
         .then((_response) => {
-          _response.statusCode.should.equal(200)
+          _response.statusCode.should.equal(200);
           _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
         });
     });
@@ -816,14 +792,14 @@ describe('search handler', () => {
       mockApiResponses({
         search: {
           query: {
-            q: 'target_sample_size:([* TO 200])'
+            q: 'target_sample_size:([* TO 200])',
           },
         },
       });
 
       return server.inject('/search?sample_size_end=200')
         .then((_response) => {
-          _response.statusCode.should.equal(200)
+          _response.statusCode.should.equal(200);
           _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
         });
     });
@@ -839,7 +815,7 @@ describe('search handler', () => {
 
       return server.inject('/search?sample_size_start=100&sample_size_end=200')
         .then((_response) => {
-          _response.statusCode.should.equal(200)
+          _response.statusCode.should.equal(200);
           _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
         });
     });
@@ -857,7 +833,7 @@ describe('search handler', () => {
 
       return server.inject('/search?registration_date_start=2012-01-01')
         .then((_response) => {
-          _response.statusCode.should.equal(200)
+          _response.statusCode.should.equal(200);
           _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
         });
     });
@@ -866,14 +842,14 @@ describe('search handler', () => {
       mockApiResponses({
         search: {
           query: {
-            q: 'registration_date:([* TO 2016-01-01])'
+            q: 'registration_date:([* TO 2016-01-01])',
           },
         },
       });
 
       return server.inject('/search?registration_date_end=2016-01-01')
         .then((_response) => {
-          _response.statusCode.should.equal(200)
+          _response.statusCode.should.equal(200);
           _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
         });
     });
@@ -889,7 +865,7 @@ describe('search handler', () => {
 
       return server.inject('/search?registration_date_start=2015-01-01&registration_date_end=2016-01-01')
         .then((_response) => {
-          _response.statusCode.should.equal(200)
+          _response.statusCode.should.equal(200);
           _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
         });
     });
@@ -908,7 +884,7 @@ describe('search handler', () => {
 
       return server.inject('/search?registration_date_start=01/20/2015&registration_date_end=01/20/2016')
         .then((_response) => {
-          _response.statusCode.should.equal(200)
+          _response.statusCode.should.equal(200);
           _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
         });
     });

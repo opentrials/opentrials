@@ -2,20 +2,21 @@
 
 const webdriver = require('selenium-webdriver');
 const should = require('should');
+
 const By = webdriver.By;
 const until = webdriver.until;
 
 
-describe('(e2e) search', function() {
+describe('(e2e) search', function () {
   let SERVER_URL;
   let driver;
   this.timeout(60000);
 
   before(() => {
     SERVER_URL = getServerUrl();
-    driver = new webdriver.Builder().
-      withCapabilities(webdriver.Capabilities.firefox()).
-      build();
+    driver = new webdriver.Builder()
+      .withCapabilities(webdriver.Capabilities.firefox())
+      .build();
   });
 
   after(() => {
@@ -37,14 +38,10 @@ describe('(e2e) search', function() {
 
     driver.findElement(By.name('q')).sendKeys('query');
     driver.findElements(By.css('.select2-container input'))
-      .then((elements) => {
-        return elements.reduce((resolved, el) => {
-          return resolved
+      .then((elements) => elements.reduce((resolved, el) => resolved
             .then(() => el.click())
             .then(() => driver.wait(until.elementLocated(By.css('.select2-results__option--highlighted'))))
-            .then((option) => option.click());
-        }, Promise.resolve())
-      });
+            .then((option) => option.click()), Promise.resolve()));
     driver.findElement(By.name('sample_size_start')).sendKeys(10);
     driver.findElement(By.name('sample_size_end')).sendKeys(100);
     driver.findElement(By.name('registration_date_start')).sendKeys('2015-01-01');

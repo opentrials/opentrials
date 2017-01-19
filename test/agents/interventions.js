@@ -1,4 +1,5 @@
 'use strict';
+
 const interventions = require('../../agents/interventions');
 
 describe('Interventions', () => {

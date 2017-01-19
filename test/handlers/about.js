@@ -2,7 +2,7 @@
 
 describe('about handler', () => {
   let server;
-  before(() => getExplorerServer().then((_server) => server = _server));
+  before(() => getExplorerServer().then((_server) => (server = _server)));
 
   describe('GET /about', () => {
     let response;
@@ -15,7 +15,7 @@ describe('about handler', () => {
     ));
 
     it('is successful', () => {
-      response.statusCode.should.equal(200)
+      response.statusCode.should.equal(200);
     });
 
     it('uses the "about" template', () => (

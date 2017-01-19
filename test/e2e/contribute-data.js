@@ -1,22 +1,21 @@
 'use strict';
 
-
 const webdriver = require('selenium-webdriver');
 const should = require('should');
+
 const By = webdriver.By;
-const until = webdriver.until;
 
 
-describe('(e2e) contribute-data', function() {
+describe('(e2e) contribute-data', function () {
   let SERVER_URL;
   let driver;
   this.timeout(60000);
 
   before(() => {
     SERVER_URL = getServerUrl();
-    driver = new webdriver.Builder().
-      withCapabilities(webdriver.Capabilities.firefox()).
-      build();
+    driver = new webdriver.Builder()
+      .withCapabilities(webdriver.Capabilities.firefox())
+      .build();
   });
 
   after(() => {
@@ -32,6 +31,6 @@ describe('(e2e) contribute-data', function() {
     driver.findElement(By.css('form')).submit();
 
     return driver.getPageSource()
-      .then((body) => should(body).containEql('Thanks for your contribution'))
+      .then((body) => should(body).containEql('Thanks for your contribution'));
   });
 });

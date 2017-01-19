@@ -45,7 +45,7 @@ describe('sendErrorsToSentry', () => {
     };
     const hapiRaven = {
       client: {
-        captureError: (response) => {
+        captureError: () => {
           throw Error('Unexpected call to .captureError()');
         },
       },
@@ -70,7 +70,7 @@ describe('sendErrorsToSentry', () => {
     };
     const hapiRaven = {
       client: {
-        captureError: (response) => {
+        captureError: () => {
           throw Error('Unexpected call to .captureError()');
         },
       },

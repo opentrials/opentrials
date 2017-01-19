@@ -3,10 +3,9 @@
 describe('flag handler', () => {
   let server;
 
-  before(() => getExplorerServer().then((_server) => server = _server));
+  before(() => getExplorerServer().then((_server) => (server = _server)));
 
   describe('GET /flag-error', () => {
-
     it('redirects to Google Forms passing the received URL encoded', () => {
       const sourceURL = 'http://explorer.opentrials.net/about';
 
@@ -18,12 +17,9 @@ describe('flag handler', () => {
         });
     });
 
-    it('does not pass the received URL if it is undefined', () => {
-      return server.inject('/flag-error')
+    it('does not pass the received URL if it is undefined', () => server.inject('/flag-error')
         .then((response) => {
           response.headers.location.should.not.containEql('entry');
-        });
-    });
-
+        }));
   });
 });

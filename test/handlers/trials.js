@@ -1,13 +1,12 @@
 'use strict';
 
 const should = require('should');
-const trialsAgent = require('../../agents/trials');
 const trialDecorator = require('../../presenters/trial');
 
 describe('trials handler', () => {
   let server;
 
-  before(() => getExplorerServer().then((_server) => server = _server));
+  before(() => getExplorerServer().then((_server) => (server = _server)));
 
   describe('GET /trials/{id}', () => {
     describe('API is OK', () => {
@@ -26,7 +25,7 @@ describe('trials handler', () => {
       });
 
       it('is successful', () => {
-        response.statusCode.should.equal(200)
+        response.statusCode.should.equal(200);
       });
 
       it('uses the "trials-list" template', () => (
@@ -89,7 +88,7 @@ describe('trials handler', () => {
       });
 
       it('is successful', () => {
-        response.statusCode.should.equal(200)
+        response.statusCode.should.equal(200);
       });
 
       it('adds the decorated trial to the context', () => {

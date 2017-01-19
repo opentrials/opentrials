@@ -1,3 +1,5 @@
+'use strict';
+
 const gravatar = require('../../../views/filters/gravatar');
 
 describe('gravatar', () => {

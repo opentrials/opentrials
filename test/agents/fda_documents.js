@@ -25,31 +25,31 @@ describe('FDA Documents', () => {
     });
 
     it('passes the query to the search API', () => {
-      apiServer.get('/search/fda_documents').query({q: 'foo bar'}).reply(200, response);
+      apiServer.get('/search/fda_documents').query({ q: 'foo bar' }).reply(200, response);
 
       return should(fdaDocuments.search('foo bar')).be.fulfilledWith(expectedResponse);
     });
 
     it('passes the text query to the search API', () => {
-      apiServer.get('/search/fda_documents').query({text: 'foo bar'}).reply(200, response);
+      apiServer.get('/search/fda_documents').query({ text: 'foo bar' }).reply(200, response);
 
       return should(fdaDocuments.search(undefined, 'foo bar')).be.fulfilledWith(expectedResponse);
     });
 
     it('escapes the text query', () => {
-      apiServer.get('/search/fda_documents').query({text: 'foo\\('}).reply(200, response);
+      apiServer.get('/search/fda_documents').query({ text: 'foo\\(' }).reply(200, response);
 
       return should(fdaDocuments.search(undefined, 'foo(')).be.fulfilledWith(expectedResponse);
     });
 
     it('passes the page number to the query', () => {
-      apiServer.get('/search/fda_documents').query({page: 2}).reply(200, response);
+      apiServer.get('/search/fda_documents').query({ page: 2 }).reply(200, response);
 
       return should(fdaDocuments.search(undefined, undefined, 2)).be.fulfilledWith(expectedResponse);
     });
 
     it('passes the number of items per page to the query', () => {
-      apiServer.get('/search/fda_documents').query({per_page: 12}).reply(200, response);
+      apiServer.get('/search/fda_documents').query({ per_page: 12 }).reply(200, response);
 
       return should(fdaDocuments.search(undefined, undefined, undefined, 12)).be.fulfilledWith(expectedResponse);
     });

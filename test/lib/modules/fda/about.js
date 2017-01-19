@@ -3,7 +3,7 @@
 describe('FDA About Handler', () => {
   let server;
 
-  before(() => getFDAServer().then((_server) => server = _server));
+  before(() => getFDAServer().then((_server) => (server = _server)));
 
   describe('GET /about', () => {
     it('is successful', () => (
@@ -16,7 +16,7 @@ describe('FDA About Handler', () => {
     it('uses the "fda/about" template', () => (
       server.inject('/about')
         .then((response) => {
-          response.request.response.source.template.should.equal('fda/about')
+          response.request.response.source.template.should.equal('fda/about');
         })
     ));
 

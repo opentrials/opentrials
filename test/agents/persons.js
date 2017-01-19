@@ -1,4 +1,5 @@
 'use strict';
+
 const persons = require('../../agents/persons');
 
 describe('Persons', () => {

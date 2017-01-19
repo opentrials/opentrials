@@ -1,4 +1,5 @@
 'use strict';
+
 const organisations = require('../../agents/organisations');
 
 describe('Organisations', () => {

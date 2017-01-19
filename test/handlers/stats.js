@@ -3,7 +3,7 @@
 describe('stats handler', () => {
   let server;
 
-  before(() => getExplorerServer().then((_server) => server = _server));
+  before(() => getExplorerServer().then((_server) => (server = _server)));
 
   describe('GET /stats', () => {
     let response;

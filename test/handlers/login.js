@@ -1,9 +1,7 @@
 'use strict';
 
 const should = require('should');
-const loginHandler = require('../../handlers/login');
 const User = require('../../models/user');
-const OAuthCredential = require('../../models/oauth-credential');
 
 describe('login handler', () => {
   let server;
@@ -11,7 +9,7 @@ describe('login handler', () => {
   before(() => (
     clearDB()
       .then(() => getExplorerServer())
-      .then((_server) => server = _server)
+      .then((_server) => (server = _server))
   ));
 
   afterEach(clearDB);
@@ -56,18 +54,14 @@ describe('login handler', () => {
         });
     });
 
-    it('redirects to Google OAuth2 endpoint if not logged in', () => {
-      return server.inject('/login/google')
+    it('redirects to Google OAuth2 endpoint if not logged in', () => server.inject('/login/google')
         .then((response) => {
           response.statusCode.should.eql(302);
           should(response.headers.location).startWith('https://accounts.google.com/o/oauth2/');
-        });
-    });
+        }));
 
-    it('returns status code 400 if login wasn\'t authorized', () => {
-      return server.inject('/login/google?error=access_denied')
-        .then((response) => response.statusCode.should.eql(400));
-    });
+    it('returns status code 400 if login wasn\'t authorized', () => server.inject('/login/google?error=access_denied')
+        .then((response) => response.statusCode.should.eql(400)));
   });
 
   describe('POST /login/facebook', () => {
@@ -127,20 +121,16 @@ describe('login handler', () => {
         .then((user) => should(user).be.null())
         .then(() => server.inject(options))
         .then(() => new User().findByEmailOrOAuth(undefined, 'facebook', '123').fetch())
-        .then((user) => should(user).be.not.null())
+        .then((user) => should(user).be.not.null());
     });
 
-    it('redirects to Facebook OAuth2 endpoint if not logged in', () => {
-      return server.inject('/login/facebook')
+    it('redirects to Facebook OAuth2 endpoint if not logged in', () => server.inject('/login/facebook')
         .then((response) => {
           response.statusCode.should.eql(302);
           should(response.headers.location).startWith('https://www.facebook.com');
-        });
-    });
+        }));
 
-    it('returns status code 400 if login wasn\'t authorized', () => {
-      return server.inject('/login/facebook?error=access_denied')
-        .then((response) => response.statusCode.should.eql(400));
-    });
+    it('returns status code 400 if login wasn\'t authorized', () => server.inject('/login/facebook?error=access_denied')
+        .then((response) => response.statusCode.should.eql(400)));
   });
 });

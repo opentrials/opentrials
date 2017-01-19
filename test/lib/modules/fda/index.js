@@ -6,7 +6,7 @@ const should = require('should');
 describe('FDA Index Handler', () => {
   let server;
 
-  before(() => getFDAServer().then((_server) => server = _server));
+  before(() => getFDAServer().then((_server) => (server = _server)));
 
   describe('GET /', () => {
     it('redirects to /search', () => (
