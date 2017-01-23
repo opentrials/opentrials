@@ -92,9 +92,14 @@ function searchPage(request, reply) {
       perPage, maxPages,
       _trials.total_count
     );
+    const queryDescription = queryStr || 'clinical trial data';
+    const title = `Search results for ${queryDescription} in OpenTrials`;
+    const description = `OpenTrials has ${_trials.total_count} matches for
+                        ${queryDescription} in its clinical trials database`;
 
     reply.view('search', {
-      title: 'Search',
+      title,
+      description,
       query,
       currentPage,
       pagination,

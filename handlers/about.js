@@ -1,8 +1,11 @@
 'use strict';
 
 function about(request, reply) {
+  const title = 'Learn more about OpenTrials';
+
   reply.view('about', {
-    title: 'About',
+    title,
+    description: title,
   });
 }
 
