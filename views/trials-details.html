@@ -160,6 +160,13 @@
 {%- endmacro %}
 
 <article>
+  {% if trial.results_exemption_date %}
+  <p class='note'>
+    This trial was exempted from publishing its results within 1 year of completion on
+    {{ trial.results_exemption_date | formatDate }}.
+  </p>
+  {% endif %}
+
   {% if trial.conditions.length != 0 %}
   <h2>
     Conditions

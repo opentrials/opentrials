@@ -577,6 +577,10 @@ definitions:
         type: string
         description: Date the trial was completed
         format: date-time
+      results_exemption_date:
+        type: string
+        description: Date when a certification of exemption has been filed for the trial
+        format: date-time
       status:
         type: string
         description: Completion status of the trial
