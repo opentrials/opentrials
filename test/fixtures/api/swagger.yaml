@@ -1017,7 +1017,7 @@ definitions:
       - id
       - name
       - url
-      - type
+      - document_category
     properties:
       id:
         type: string
@@ -1027,8 +1027,9 @@ definitions:
       url:
         type: string
         description: OpenTrials API URL of the document
-      type:
-        $ref: '#/definitions/DocumentType'
+      document_category:
+        type: object
+        $ref: '#/definitions/DocumentCategory'
       source_url:
         type: string
         description: URL of origin for this document
@@ -1051,7 +1052,7 @@ definitions:
       - id
       - name
       - url
-      - type
+      - document_category
     properties:
       id:
         type: string
@@ -1060,8 +1061,9 @@ definitions:
       url:
         type: string
         description: OpenTrials API URL of the document
-      type:
-        $ref: '#/definitions/DocumentType'
+      document_category:
+        type: object
+        $ref: '#/definitions/DocumentCategory'
       trials:
         type: array
         items:
@@ -1078,18 +1080,20 @@ definitions:
         type: string
         description: URL of origin for this document
 
-  DocumentType:
-    type: string
-    description: Type of the document
-    enum:
-      - csr
-      - csr_synopsis
-      - epar_segment
-      - blank_consent_form
-      - patient_information_sheet
-      - blank_case_report_form
-      - results
-      - other
+  DocumentCategory:
+    type: object
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: integer
+      group:
+        type: string
+        description: Name of document category
+      name:
+        type: string
+        description: Name of document sub-category
 
   DocumentList:
     type: object

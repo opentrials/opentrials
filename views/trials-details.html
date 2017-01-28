@@ -201,13 +201,13 @@
     Documents
   </h2>
   <p>
-    {% for category, documents in trial.documents %}
+    {% for group, documents in trial.documents %}
       <section class="document-list">
-        <h3>{{ category }}</h3>
+        <h3>{{ group }}</h3>
         <ul>
         {% for document in documents %}
-          <li class="{{ 'needed' if not document.source_url }}">
-            <a href="{{ document.source_url or contributeDataUrl }}">
+          <li>
+            <a href="{{ document.source_url }}">
               {{ document.name }}
             </a>
           </li>
@@ -215,6 +215,14 @@
         </ul>
       </section>
     {% endfor %}
+    <section class="document-list">
+      <h3>&nbsp;</h3>
+      <ul>
+        <li class="needed">
+          <a href="{{ contributeDataUrl }}">Add new document</a>
+        </li>
+      </ul>
+    </section>
   </p>
 
   {% if trial.records.length != 0 %}

@@ -3,59 +3,17 @@
 const _ = require('lodash');
 
 function decorateDocuments(documents) {
-  const documentTypesCategories = {
-    // paperwork
-    blank_consent_form: 'Paperwork',
-    patient_information_sheet: 'Paperwork',
-    blank_case_report_form: 'Paperwork',
-    // regulatory
-    csr: 'Regulatory documents',
-    csr_synopsis: 'Regulatory documents',
-    epar_segment: 'Regulatory documents',
-    // data
-    results: 'Data',
-  };
-  const defaultDocuments = {
-    blank_consent_form: {
-      type: 'blank_consent_form',
-      name: 'Blank consent form',
-    },
-    patient_information_sheet: {
-      type: 'patient_information_sheet',
-      name: 'Patient information sheet',
-    },
-    blank_case_report_form: {
-      type: 'blank_case_report_form',
-      name: 'Blank case report form',
-    },
-    csr: {
-      type: 'csr',
-      name: 'Clinical study report',
-    },
-    epar_segment: {
-      type: 'epar_segment',
-      name: 'EPAR Segment',
-    },
-    results: {
-      type: 'results',
-      name: 'Results',
-    },
-  };
-
   const nonFDADocuments = _.filter(documents, (doc) => doc.source_id !== 'fda');
-
-  const unknownDocuments = Object.assign({}, defaultDocuments);
-  nonFDADocuments.forEach((doc) => delete unknownDocuments[doc.type]);
-
-  const allDocuments = _.values(unknownDocuments).concat(nonFDADocuments);
-  const documentsByCategory = _.groupBy(allDocuments,
-                                        (doc) => documentTypesCategories[doc.type]);
-
-  Object.keys(documentsByCategory).forEach((category) => {
-    documentsByCategory[category] = _.sortBy(documentsByCategory[category], 'type');
-  });
-
-  return documentsByCategory;
+  const documentsDefaultGroup = _.remove(nonFDADocuments, (doc) =>
+    _.isUndefined(doc.document_category.group)
+  );
+  const groupedDocuments = _.groupBy(nonFDADocuments, (doc) =>
+    doc.document_category.group
+  );
+  if (documentsDefaultGroup.length > 0) {
+    groupedDocuments.Other = documentsDefaultGroup;
+  }
+  return groupedDocuments;
 }
 
 function decorateFDADocuments(documents) {
