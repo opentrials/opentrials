@@ -21,13 +21,41 @@ describe('contribute-data handler', () => {
     it('adds the ordered data categories to the context', () => {
       let categories;
 
-      return factory.createMany('dataCategory', [{ name: 'z' }, { name: 'a' }])
+      return factory.createMany('dataCategory', [{ name: 'x', group: 'y' }, { name: 'a', group: 'b' }])
         .then(() => new DataCategory().orderBy('name').fetchAll())
         .then((_categories) => (categories = _categories))
         .then(() => server.inject('/contribute-data'))
         .then((response) => {
           const context = response.request.response.source.context;
           should(context.categories).deepEqual(categories.toJSON());
+        });
+    });
+
+    it('changes empty group names to match category name', () => {
+      const result = [
+        { group: 'Category' },
+      ];
+
+      factory.cleanup();
+      return factory.createMany('dataCategory', [{ name: 'Category' }])
+        .then(() => new DataCategory().orderBy('name').fetchAll())
+        .then(() => server.inject('/contribute-data'))
+        .then((response) => {
+          should(response.request.response.source.context.categories[0].group).equal(result[0].group);
+        });
+    });
+
+    it('changes the display name of "Other" category', () => {
+      const result = [
+        { name: 'Other (please describe in the comments section)' },
+      ];
+
+      factory.cleanup();
+      return factory.createMany('dataCategory', [{ name: 'Other' }])
+        .then(() => new DataCategory().orderBy('name').fetchAll())
+        .then(() => server.inject('/contribute-data'))
+        .then((response) => {
+          should(response.request.response.source.context.categories[0].name).equal(result[0].name);
         });
     });
 
