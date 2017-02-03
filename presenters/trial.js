@@ -4,15 +4,13 @@ const _ = require('lodash');
 
 function decorateDocuments(documents) {
   const nonFDADocuments = _.filter(documents, (doc) => doc.source_id !== 'fda');
-  const documentsDefaultGroup = _.remove(nonFDADocuments, (doc) =>
-    _.isUndefined(doc.document_category.group)
-  );
-  const groupedDocuments = _.groupBy(nonFDADocuments, (doc) =>
-    doc.document_category.group
-  );
-  if (documentsDefaultGroup.length > 0) {
-    groupedDocuments.Other = documentsDefaultGroup;
-  }
+  const groupedDocuments = _.groupBy(nonFDADocuments, (doc) => {
+    let groupName = doc.document_category.group;
+    if (_.isUndefined(groupName)) {
+      groupName = doc.document_category.name;
+    }
+    return groupName;
+  });
   return groupedDocuments;
 }
 

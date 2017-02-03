@@ -37,7 +37,7 @@ describe('trial presenter', () => {
       should(trial.documents).deepEqual(expectedTrialDocuments);
     });
 
-    it('places documents without document category group under the default group', () => {
+    it('gives documents without group the name of the category', () => {
       const doc = {
         name: 'Clinical Study Report',
         source_url: 'http://somewhere.com/csr.pdf',
@@ -52,7 +52,7 @@ describe('trial presenter', () => {
         ],
       });
       const expectedTrialDocuments = {
-        Other: [
+        'Clinical Study Report': [
           doc,
         ],
       };
