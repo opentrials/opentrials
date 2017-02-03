@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "OpenTrials.net website",
   "engines": {
-    "node": "5.8.0"
+    "node": "6.9.5"
   },
   "main": "server.js",
   "scripts": {

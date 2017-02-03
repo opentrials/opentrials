@@ -13,8 +13,8 @@ OpenTrials is an app to explore, discover, and submit information on clinical tr
 
 ### Requirements
 
-* Node 5.8
-* PostgreSQL 9.5
+* Node 6.9
+* PostgreSQL 9.4
 * OpenTrials API (see [install notes](https://github.com/opentrials/api))
 
 ### Installing
