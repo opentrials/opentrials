@@ -59,6 +59,9 @@
         {% endif %}
       </td>
       <td>
+        {% if dataContribution.category.group %}
+          {{ dataContribution.category.group }} /
+        {% endif %}
         {{ dataContribution.category.name }}
       </td>
       <td>

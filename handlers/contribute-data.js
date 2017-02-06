@@ -24,9 +24,24 @@ function _getContributeData(request, reply) {
         s3: s3.getSignedFormFields(additionalConditions),
         maxUploadSize: s3.MAX_UPLOAD_SIZE,
         redirectTo: request.headers.referer,
-        categories: categories.toJSON(),
+        categories: _mangleCategories(categories.toJSON()),
       })
     ));
+}
+
+function _mangleCategories(categories) {
+  // Dodging function param reassign by creating a working copy
+  const result = [];
+  categories.forEach((category, index) => {
+    result[index] = category;
+    if (!category.group) {
+      result[index].group = category.name;
+    }
+    if (category.name === 'Other') {
+      result[index].name = 'Other (please describe in the comments section)';
+    }
+  });
+  return result;
 }
 
 function _getDataUrl(s3Response) {

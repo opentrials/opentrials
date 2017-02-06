@@ -53,9 +53,15 @@
     <select id="data_category_id" name="data_category_id">
       <option value="" disabled selected>Which category best describes your contribution?</option>
       {% for group, categories in  categories | sort(false, false, 'group') | groupby("group") %}
+      {% if group %}
       <optgroup label="{{ group }}">
+      {% else %}
+      <optgroup label="{{ category.name }}">
+      {% endif %}
         {% for category in categories %}
-          <option value="{{ category.id }}">{{ category.name }}</option>
+        <option value="{{ category.id }}">
+          {{ category.name | replace("''", "'") }}
+        </option>
         {% endfor %}
       </optgroup>
       {% endfor %}
