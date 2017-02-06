@@ -13,47 +13,53 @@ describe('trial presenter', () => {
   });
 
   describe('documents', () => {
-    it('adds default documents grouped by category and ordered by type', () => {
-      const trial = trialPresenter({});
-      const expectedDocumentTypes = {
-        Paperwork: [
-          'blank_case_report_form',
-          'blank_consent_form',
-          'patient_information_sheet',
-        ],
-        'Regulatory documents': [
-          'csr',
-          'epar_segment',
-        ],
-        Data: [
-          'results',
-        ],
-      };
-
-      Object.keys(expectedDocumentTypes).forEach((category) => {
-        const documentTypes = trial.documents[category].map((doc) => doc.type);
-        const expected = expectedDocumentTypes[category];
-
-        should(documentTypes).deepEqual(expected);
-      });
-      should(Object.keys(trial.documents)).deepEqual(Object.keys(expectedDocumentTypes));
-    });
-
-    it('documents in the trial overwrite default documents', () => {
+    it('groups documents by document category group', () => {
       const doc = {
-        type: 'csr',
         name: 'Clinical Study Report',
         source_url: 'http://somewhere.com/csr.pdf',
+        document_category: {
+          id: 2,
+          group: 'Results',
+          name: 'Clinical Study Report',
+        },
       };
       const trial = trialPresenter({
         documents: [
           doc,
         ],
       });
+      const expectedTrialDocuments = {
+        Results: [
+          doc,
+        ],
+      };
 
-      const regulatoryDocumentsByType = _.groupBy(trial.documents['Regulatory documents'], 'type');
-      should(regulatoryDocumentsByType.csr).deepEqual([doc]);
+      should(trial.documents).deepEqual(expectedTrialDocuments);
     });
+
+    it('gives documents without group the name of the category', () => {
+      const doc = {
+        name: 'Clinical Study Report',
+        source_url: 'http://somewhere.com/csr.pdf',
+        document_category: {
+          id: 2,
+          name: 'Clinical Study Report',
+        },
+      };
+      const trial = trialPresenter({
+        documents: [
+          doc,
+        ],
+      });
+      const expectedTrialDocuments = {
+        'Clinical Study Report': [
+          doc,
+        ],
+      };
+
+      should(trial.documents).deepEqual(expectedTrialDocuments);
+    });
+
 
     it('removes documents from the FDA', () => {
       const trial = trialPresenter({

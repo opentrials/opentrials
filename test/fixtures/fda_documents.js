@@ -5,6 +5,10 @@ const uuid = require('node-uuid');
 const trialFixture = require('./trials');
 
 function getFDADocument() {
+  const documentCategory = {
+    name: 'Other',
+    id: 2,
+  };
   const file = {
     id: uuid.v1(),
     source_url: 'http://example.org/file.pdf',
@@ -42,13 +46,13 @@ function getFDADocument() {
   return {
     id: uuid.v1(),
     name: 'Medical review',
-    type: 'other',
     source_url: file.source_url,
     url: 'http://example.org/documents/document_id',
     source_id: 'fda',
     file,
     trials,
     fda_approval: fdaApproval,
+    document_category: documentCategory,
   };
 }
 
