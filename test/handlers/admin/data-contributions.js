@@ -81,11 +81,18 @@ describe('admin data contributions handler', () => {
     });
 
     it('updates the DataContribution and redirects to /admin/data-contributions', () => {
-      const payload = {
-        approved: true,
-        curation_comments: 'My comments',
-      };
+      let payload;
       let dataContributionId;
+
+      factory.create('dataCategory')
+        .then((dataCategory) => {
+          payload = {
+            approved: true,
+            trial_id: '11111111-1111-1111-1111-111111111111',
+            data_category_id: dataCategory.id,
+            curation_comments: 'My comments',
+          };
+        });
 
       return factory.create('dataContribution')
         .then((dataContribution) => (dataContributionId = dataContribution.attributes.id))

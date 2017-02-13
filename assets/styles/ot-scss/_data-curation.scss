@@ -11,6 +11,20 @@
   tr {
     vertical-align: top;
     overflow: hidden;
+    border-bottom: 0;
+
+    &.unmoderated {
+      background-color: transparent;
+    }
+    &.approve {
+      background-color: rgba($success-colour, .1);
+    }
+    &.reject {
+      background-color: rgba($error-colour, .1);
+    }
+    &.comments {
+      border-bottom: $base-border;
+    }
   }
 
   .comments-col {
