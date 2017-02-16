@@ -193,7 +193,7 @@
   {{ no_data_message('Interventions', thing='"intervention" data') }}
   {% endif %}
 
-  {% if trial.brief_summary.length != 0 %}
+  {% if trial.brief_summary != null %}
   <h2>
     Lay summary
   </h2>
