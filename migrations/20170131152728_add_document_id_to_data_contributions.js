@@ -7,5 +7,7 @@ exports.up = (knex) => (
 );
 
 exports.down = (knex) => (
-  knex.schema.table('data_contributions').dropColumn('document_id')
+  knex.schema.table('data_contributions', (table) =>
+    table.dropColumn('document_id')
+  )
 );
