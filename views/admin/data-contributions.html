@@ -57,10 +57,8 @@
         {% endif %}
       </td>
       <td>
-        {% if dataContribution.category.group %}
-          {{ dataContribution.category.group }} /
-        {% endif %}
-        {{ dataContribution.category.name }}
+        {{ categories | getAttributeById(dataContribution.document_category_id, 'group') }} /
+        {{ categories | getAttributeById(dataContribution.document_category_id, 'name') | replace("''", "'") }}
       </td>
       <td>
         {{ dataContribution.created_at | formatDate }}
@@ -68,12 +66,12 @@
 
       <td>
         <form action="/admin/data-contributions/{{ dataContribution.id }}" method="POST">
-          <select id="data_category_id" name="data_category_id">
+          <select id="document_category_id" name="document_category_id">
             <option value="" disabled selected>Select a new category (optional)</option>
             {% for group, categories in categories | sort(false, false, 'group') | groupby('group') %}
             <optgroup label="{{ group }}">
               {% for category in categories %}
-                {% if category.id === dataContribution.data_category_id %}
+                {% if category.id === dataContribution.document_category_id %}
                   <option selected value="{{ category.id }}">{{ category.name }}</option>
                 {% else %}
                   <option value="{{ category.id }}">{{ category.name }}</option>

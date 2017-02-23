@@ -7,6 +7,7 @@ const underscoresToCapitalized = require('./underscores-to-capitalized');
 const formatObject = require('./format-object');
 const formatBytes = require('./format-bytes');
 const gravatar = require('./gravatar');
+const getAttributeById = require('./get-attribute-by-id');
 
 const filters = {
   revPath,
@@ -16,6 +17,7 @@ const filters = {
   formatObject,
   formatBytes,
   gravatar,
+  getAttributeById,
 };
 
 module.exports = filters;

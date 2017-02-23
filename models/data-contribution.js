@@ -1,7 +1,6 @@
 'use strict';
 
 require('./user');
-require('./data-category');
 
 const bookshelf = require('../config').bookshelf;
 const BaseModel = require('./base');
@@ -13,10 +12,6 @@ const DataContribution = BaseModel.extend({
   user: function user() {
     // istanbul ignore next
     return this.belongsTo('User');
-  },
-  category: function category() {
-    // istanbul ignore next
-    return this.belongsTo('DataCategory', 'data_category_id');
   },
   virtuals: {
     filename: function filename() {
@@ -34,7 +29,6 @@ const DataContribution = BaseModel.extend({
 }, {
   relatedModels: [
     'user',
-    'category',
   ],
 });
 

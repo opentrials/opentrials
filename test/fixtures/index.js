@@ -10,6 +10,7 @@ const searchTrialsByEntity = require('./trials').searchTrialsByEntity;
 const getLocation = require('./locations');
 const getStats = require('./stats');
 const getFDADocument = require('./fda_documents');
+const listDocumentCategories = require('./document_categories');
 
 const fixtures = {
   getCondition,
@@ -22,6 +23,7 @@ const fixtures = {
   getLocation,
   getStats,
   getFDADocument,
+  listDocumentCategories,
 };
 
 module.exports = fixtures;

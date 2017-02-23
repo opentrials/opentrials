@@ -471,57 +471,24 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /document_categories:
+    x-swagger-router-controller: document_categories
+    get:
+      tags:
+        - document_categories
+      description: Returns document categories
+      operationId: listDocumentCategories
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/DocumentCategoryList"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
 definitions:
-  TrialsPerSource:
-    type: object
-    properties:
-      id:
-        type: string
-        description: Source's ID
-      name:
-        type: string
-        description: Source's name
-      count:
-        type: integer
-        description: Number of trials in this source
-
-  TrialsPerYear:
-    type: object
-    properties:
-      year:
-        type: integer
-        description: Registration year for trials
-      count:
-        type: integer
-        description: Number of trials in this year
-
-  TopLocations:
-    type: object
-    properties:
-      id:
-        type: string
-        description: Location's ID
-      name:
-        type: string
-        description: Location's name
-      count:
-        type: integer
-        description: Number of trials in this location
-
-  SourcesLatestUpdatedDate:
-    type: object
-    description: Source with information on when it was last updated
-    properties:
-      id:
-        type: string
-        description: Source's ID
-      name:
-        type: string
-        description: Source's name
-      latest_updated_date:
-        type: string
-        description: Date this source was last updated
-
   Trial:
     type: object
     required:
@@ -569,6 +536,9 @@ definitions:
       has_published_results:
         type: boolean
         description: Trial has its results published (true/false)
+      is_registered:
+        type: boolean
+        description: Whether the trial is registered in a clinical trial registry
       registration_date:
         type: string
         description: Date the trial was registered
@@ -590,6 +560,7 @@ definitions:
           - suspended
           - terminated
           - complete
+          - unknown
           - other
       recruitment_status:
         type: string
@@ -668,6 +639,10 @@ definitions:
 
   TrialSummary:
     type: object
+    required:
+      - id
+      - url
+      - public_title
     properties:
       id:
         type: string
@@ -675,6 +650,9 @@ definitions:
       url:
         type: string
         description: OpenTrials API URL for this trial
+      public_title:
+        type: string
+        description: Title of the record
 
   Location:
     type: object
@@ -852,6 +830,7 @@ definitions:
           - suspended
           - terminated
           - complete
+          - unknown
           - other
       recruitment_status:
         type: string
@@ -861,13 +840,20 @@ definitions:
           - not_recruiting
           - unknown
           - other
+      is_primary:
+        type: boolean
+        description: Is this record the primary source of data for its trial
+      last_verification_date:
+        type: string
+        format: date-time
+        description: Date when the record's data was last verified by provider
       created_at:
         type: string
         format: date-time
-        description: Date When the record was created
+        description: Date when the record was created
       updated_at:
         type: string
-        description: Date When the record was updated
+        description: Date when the record was updated
         format: date-time
 
   Publication:
@@ -926,11 +912,9 @@ definitions:
         type: string
       is_primary:
         type: boolean
-        description: Is the record the primary source of data for its trial
       last_verification_date:
         type: string
         format: date-time
-        description: Date when the record's data was last verified by provided
 
   PublicationSummary:
     type: object
@@ -1098,6 +1082,19 @@ definitions:
       name:
         type: string
         description: Name of document sub-category
+
+  DocumentCategoryList:
+    type: object
+    required:
+      - total_count
+      - items
+    properties:
+      total_count:
+        type: integer
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/DocumentCategory'
 
   DocumentList:
     type: object

@@ -8,23 +8,23 @@ const config = require('../config');
 const s3 = require('../agents/s3');
 const emailNotifier = require('../lib/plugins').sendEmail;
 const DataContribution = require('../models/data-contribution');
-const DataCategory = require('../models/data-category');
+const documentCategories = require('../agents/document_categories');
 
 function _getContributeData(request, reply) {
   const additionalConditions = [
     ['starts-with', '$comments', ''],
     ['starts-with', '$url', ''],
-    ['starts-with', '$data_category_id', ''],
+    ['starts-with', '$document_category_id', ''],
   ];
 
-  return new DataCategory().orderBy('name').fetchAll()
+  return documentCategories.list()
     .then((categories) => (
       reply.view('contribute-data', {
         title: 'Contribute data',
         s3: s3.getSignedFormFields(additionalConditions),
         maxUploadSize: s3.MAX_UPLOAD_SIZE,
         redirectTo: request.headers.referer,
-        categories: _mangleCategories(categories.toJSON()),
+        categories: _mangleCategories(categories.items),
       })
     ));
 }
@@ -88,7 +88,7 @@ function _postContributeData(request, reply) {
         user_id: userId,
         data_url: dataUrl,
         url: payload.url,
-        data_category_id: payload.data_category_id,
+        document_category_id: payload.document_category_id,
         comments: payload.comments,
       }).save();
     })
@@ -148,7 +148,7 @@ module.exports = {
       payload: {
         file: Joi.string().empty(''),
         url: Joi.string().empty(''),
-        data_category_id: Joi.number().integer().empty(''),
+        document_category_id: Joi.number().integer().empty(''),
         response: Joi.string().empty(''),
         responseStatus: Joi.number().integer().default(500),
         comments: Joi.string().empty(''),

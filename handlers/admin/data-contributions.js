@@ -1,16 +1,16 @@
 'use strict';
 
 const Joi = require('joi');
-const DataCategory = require('../../models/data-category');
-const DataContribution = require('../../models/data-contribution');
 const Promise = require('bluebird');
+const DataContribution = require('../../models/data-contribution');
+const documentCategories = require('../../agents/document_categories');
 
 
 function editDataContribution(request, reply) {
   const data = {
     approved: request.payload.approved,
     trial_id: request.payload.trial_id,
-    data_category_id: request.payload.data_category_id,
+    document_category_id: request.payload.document_category_id,
     curation_comments: request.payload.curation_comments,
   };
 
@@ -28,7 +28,7 @@ function editDataContribution(request, reply) {
 }
 
 function listDataContributions(request, reply) {
-  const fetchCategories = new DataCategory().orderBy('name').fetchAll();
+  const fetchCategories = documentCategories.list();
   const fetchContributions = new DataContribution()
         .query('orderBy', 'created_at', 'desc')
         .fetchAll({ withRelated: DataContribution.relatedModels });
@@ -39,7 +39,7 @@ function listDataContributions(request, reply) {
     (categories, dataContributions) => {
       reply.view('admin/data-contributions', {
         title: 'Data contributions',
-        categories: categories.toJSON(),
+        categories: categories.items,
         dataContributions: dataContributions.toJSON(),
       });
     }
@@ -66,7 +66,7 @@ module.exports = {
       },
       payload: {
         trial_id: Joi.string().trim().empty(''),
-        data_category_id: Joi.number().integer(),
+        document_category_id: Joi.number().integer(),
         curation_comments: Joi.string().trim().empty(''),
         approved: Joi.boolean().default(false),
       },
