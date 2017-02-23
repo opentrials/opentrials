@@ -114,6 +114,27 @@
   </div>
 
   <div class="filter">
+    <label for="is_registered">Registration</label>
+    <div class="select">
+      <select name="is_registered" id="is_registered">
+        <option value="">All</option>
+        <option
+          value="true"
+          {% if query.is_registered %}selected{% endif %}
+          >
+          Registered trials
+        </option>
+        <option
+          value="false"
+          {% if query.is_registered == false %}selected{% endif %}
+          >
+          Unregistered trials
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="filter">
     <label for="has_discrepancies">Discrepancies</label>
     <div class="select">
       <select name="has_discrepancies" id="has_discrepancies">
