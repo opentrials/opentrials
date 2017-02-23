@@ -3,14 +3,15 @@
 const Joi = require('joi');
 const DataCategory = require('../../models/data-category');
 const DataContribution = require('../../models/data-contribution');
+const Promise = require('bluebird');
 
 
 function editDataContribution(request, reply) {
   const data = {
     approved: request.payload.approved,
-    trial_id: request.payload.trial_id || null,
+    trial_id: request.payload.trial_id,
     data_category_id: request.payload.data_category_id,
-    curation_comments: request.payload.curation_comments || null,
+    curation_comments: request.payload.curation_comments,
   };
 
   return new DataContribution({ id: request.params.id })
@@ -27,17 +28,22 @@ function editDataContribution(request, reply) {
 }
 
 function listDataContributions(request, reply) {
-  return new DataCategory().orderBy('name').fetchAll()
-    .then((categories) => new DataContribution()
-          .query('orderBy', 'created_at', 'desc')
-          .fetchAll({ withRelated: DataContribution.relatedModels })
-          .then((dataContributions) => {
-            reply.view('admin/data-contributions', {
-              title: 'Data contributions',
-              dataContributions: dataContributions.toJSON(),
-              categories: categories.toJSON(),
-            });
-          }));
+  const fetchCategories = new DataCategory().orderBy('name').fetchAll();
+  const fetchContributions = new DataContribution()
+        .query('orderBy', 'created_at', 'desc')
+        .fetchAll({ withRelated: DataContribution.relatedModels });
+
+  return Promise.join(
+    fetchCategories,
+    fetchContributions,
+    (categories, dataContributions) => {
+      reply.view('admin/data-contributions', {
+        title: 'Data contributions',
+        categories: categories.toJSON(),
+        dataContributions: dataContributions.toJSON(),
+      });
+    }
+  );
 }
 
 module.exports = {

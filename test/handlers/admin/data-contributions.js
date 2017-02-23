@@ -81,17 +81,17 @@ describe('admin data contributions handler', () => {
     });
 
     it('updates the DataContribution and redirects to /admin/data-contributions', () => {
-      let payload;
+      const payload = {
+        approved: true,
+        trial_id: '11111111-1111-1111-1111-111111111111',
+        data_category_id: null,
+        curation_comments: 'My comments',
+      };
       let dataContributionId;
 
       factory.create('dataCategory')
         .then((dataCategory) => {
-          payload = {
-            approved: true,
-            trial_id: '11111111-1111-1111-1111-111111111111',
-            data_category_id: dataCategory.id,
-            curation_comments: 'My comments',
-          };
+          payload.data_category_id = dataCategory.id;
         });
 
       return factory.create('dataContribution')

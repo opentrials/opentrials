@@ -13,9 +13,6 @@
     overflow: hidden;
     border-bottom: 0;
 
-    &.unmoderated {
-      background-color: transparent;
-    }
     &.approve {
       background-color: rgba($success-colour, .1);
     }
