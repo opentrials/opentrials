@@ -65,10 +65,10 @@ module.exports = {
         id: Joi.string().guid(),
       },
       payload: {
-        trial_id: Joi.string().trim().empty(''),
+        trial_id: Joi.string().trim().guid().empty(''),
         document_category_id: Joi.number().integer(),
         curation_comments: Joi.string().trim().empty(''),
-        approved: Joi.boolean().default(false),
+        approved: Joi.boolean(),
       },
     },
   },
