@@ -1,47 +1,57 @@
 .data-curation {
   font-size: .8em;
 
-  td {
-    padding: .5em;
-    word-wrap: break-word;
+  button {
+    &.approve {
+      background-color: $success-colour;
+    }
+
+    &.reject {
+      background-color: $error-colour;
+    }
   }
 
-  td,
-  th,
-  tr {
-    vertical-align: top;
-    overflow: hidden;
-    border-bottom: 0;
+  .data-contribution {
+    @include outer-container;
+    padding: $base-spacing;
+
+    .data-contribution-attributes {
+      @include MQ(L) {
+        @include span-columns(8 of 12);
+      }
+    }
+    .controls {
+      @include MQ(L) {
+        @include span-columns(3 of 12);
+      }
+    }
 
     &.approve {
       background-color: rgba($success-colour, .1);
     }
+
     &.reject {
       background-color: rgba($error-colour, .1);
     }
-    &.comments {
-      border-bottom: $base-border;
+
+    dl,
+    dl > dt:first-child {
+      margin-top: 0;
     }
   }
 
-  .comments-col {
-    width: 25%;
-  }
+  ol {
+    padding: 0;
+    list-style: none;
 
-  button {
-    display: inline-block;
-    width: 100%;
-
-    @media only screen and (min-width: $large-screen) {
-      width: 48%;
+    li {
+      border-bottom: solid 1px $light-gray;
+      padding-bottom: $base-spacing;
+      margin-bottom: $base-spacing;
     }
-  }
 
-  .approve {
-    background-color: $success-colour;
-  }
-
-  .reject {
-    background-color: $error-colour;
+    & > :last-child {
+      border-bottom: none;
+    }
   }
 }
