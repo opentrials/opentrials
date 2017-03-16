@@ -26,7 +26,7 @@ describe('(e2e) contribute-data', function () {
     driver.get(`${SERVER_URL}contribute-data`);
     driver.findElement(By.css('#data')).sendKeys(__filename);
     driver.findElement(By.css('#url')).sendKeys('http://example.org/data.pdf');
-    driver.findElement(By.css('#data_category_id')).sendKeys(webdriver.Key.PAGE_DOWN);
+    driver.findElement(By.css('#document_category_id')).sendKeys(webdriver.Key.PAGE_DOWN);
     driver.findElement(By.css('#comments')).sendKeys('This is a test (3c1bb0cd5d67dddc02fae50bf56d3a3a4cbc7204)');
     driver.findElement(By.css('form')).submit();
 

@@ -7,3 +7,6 @@ A new data contribution with the following details has been submitted to OpenTri
 * URL to data contribution file: {{ data_url }}
 * Data contribution category: {{ category.name }}
 * Data contribution created at: {{ created_at | formatDate }}
+
+View and update submissions by following this link:
+https://explorer.opentrials.net/admin/data-contributions

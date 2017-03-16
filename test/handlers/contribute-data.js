@@ -3,96 +3,89 @@
 const should = require('should');
 const config = require('../../config');
 const DataContribution = require('../../models/data-contribution');
-const DataCategory = require('../../models/data-category');
 
 
 describe('contribute-data handler', () => {
+  const categories = JSON.parse(JSON.stringify(
+    fixtures.listDocumentCategories()
+  ));
   let server;
+  let response;
 
-  before(() => getExplorerServer().then((_server) => (server = _server)));
+  before(() => {
+    apiServer.get('/document_categories').reply(200, categories);
+    return getExplorerServer()
+      .then((_server) => {
+        server = _server;
+        return server.inject('/contribute-data');
+      })
+      .then((_response) => {
+        response = _response;
+      });
+  });
 
   describe('GET /contribute-data', () => {
-    it('is successful and uses the correct template', () => server.inject('/contribute-data')
-        .then((response) => {
-          should(response.statusCode).equal(200);
-          should(response.request.response.source.template).equal('contribute-data');
-        }));
+    it('is successful', () => should(response.statusCode).equal(200));
+
+    it('uses the correct template', () => (
+          should(response.request.response.source.template)
+            .equal('contribute-data')
+        )
+      );
 
     it('adds the ordered data categories to the context', () => {
-      let categories;
-
-      return factory.createMany('dataCategory', [{ name: 'x', group: 'y' }, { name: 'a', group: 'b' }])
-        .then(() => new DataCategory().orderBy('name').fetchAll())
-        .then((_categories) => (categories = _categories))
-        .then(() => server.inject('/contribute-data'))
-        .then((response) => {
-          const context = response.request.response.source.context;
-          should(context.categories).deepEqual(categories.toJSON());
-        });
-    });
-
-    it('changes empty group names to match category name', () => {
-      const result = [
-        { group: 'Category' },
+      const _categories = [
+        { id: 20, name: 'Other (please describe in the comments section)', group: 'Other' },
+        { id: 21, name: 'Journal article', group: 'Results' },
       ];
+      const context = response.request.response.source.context;
 
-      factory.cleanup();
-      return factory.createMany('dataCategory', [{ name: 'Category' }])
-        .then(() => new DataCategory().orderBy('name').fetchAll())
-        .then(() => server.inject('/contribute-data'))
-        .then((response) => {
-          should(response.request.response.source.context.categories[0].group).equal(result[0].group);
-        });
+      should(context.categories).deepEqual(_categories);
     });
+
+    it('changes empty group names to match category name', () => should(
+          response.request.response.source.context.categories[0].group
+        ).equal('Other')
+      );
 
     it('changes the display name of "Other" category', () => {
       const result = [
         { name: 'Other (please describe in the comments section)' },
       ];
 
-      factory.cleanup();
-      return factory.createMany('dataCategory', [{ name: 'Other' }])
-        .then(() => new DataCategory().orderBy('name').fetchAll())
-        .then(() => server.inject('/contribute-data'))
-        .then((response) => {
-          should(response.request.response.source.context.categories[0].name).equal(result[0].name);
-        });
+      should(response.request.response.source.context.categories[0].name).equal(result[0].name);
     });
 
-    it('adds S3\'s signed form fields to the context', () => server.inject('/contribute-data')
-        .then((response) => {
-          const context = response.request.response.source.context;
-          should(context.s3).have.properties([
-            'action',
-            'fields',
-          ]);
-        }));
+    it('adds S3\'s signed form fields to the context', () => {
+      const context = response.request.response.source.context;
+      should(context.s3).have.properties([
+        'action',
+        'fields',
+      ]);
+    });
 
-    it('adds "comments", "url" and "data_category_id" fields to the S3 Policy', () => server.inject('/contribute-data')
-        .then((response) => {
-          const context = response.request.response.source.context;
-          const policyBase64 = context.s3.fields.Policy;
-          const policy = JSON.parse(new Buffer(policyBase64, 'base64'));
+    it('adds "comments", "url" and "data_category_id" fields to the S3 Policy', () => {
+      const context = response.request.response.source.context;
+      const policyBase64 = context.s3.fields.Policy;
+      const policy = JSON.parse(new Buffer(policyBase64, 'base64'));
 
-          should(policy.conditions).containDeep([
-            ['starts-with', '$comments', ''],
-            ['starts-with', '$url', ''],
-            ['starts-with', '$data_category_id', ''],
-          ]);
-        }));
+      should(policy.conditions).containDeep([
+        ['starts-with', '$comments', ''],
+        ['starts-with', '$url', ''],
+        ['starts-with', '$document_category_id', ''],
+      ]);
+    });
   });
 
   describe('POST /contribute-data', () => {
     const originalS3Config = Object.assign({}, config.s3);
 
-    before(clearDB);
-
-    afterEach(() => {
+    beforeEach(() => {
       config.s3 = Object.assign({}, originalS3Config);
       return clearDB();
     });
 
-    it('creates the DataContribution with related User, Trial and DataCategory', () => {
+    it('creates the DataContribution with related User and Trial', () => {
       delete config.s3.customDomain;
       const dataKey = 'uploads/00000000-0000-0000-0000-000000000000/data.pdf';
       const dataUrl = `https://opentrials-test.s3.amazonaws.com/${dataKey}`;
@@ -114,16 +107,14 @@ describe('contribute-data handler', () => {
         },
       };
 
-      return factory.create('dataCategory')
-        .then((category) => (options.payload.data_category_id = category.attributes.id))
-        .then(() => factory.create('user'))
+      return factory.create('user')
         .then((user) => (options.credentials = user.toJSON()))
         .then(() => server.inject(options))
-        .then((response) => {
-          should(response.statusCode).equal(302);
-          should(response.headers.location).equal('/');
-          should(response.request.yar.flash('success')).not.be.empty();
-          should(response.request.yar.flash('error')).be.empty();
+        .then((_response) => {
+          should(_response.statusCode).equal(302);
+          should(_response.headers.location).equal('/');
+          should(_response.request.yar.flash('success')).not.be.empty();
+          should(_response.request.yar.flash('error')).be.empty();
         })
         .then(() => new DataContribution({ data_url: dataUrl }).fetch({ require: true }))
         .then((dataContribution) => {
@@ -131,7 +122,6 @@ describe('contribute-data handler', () => {
             data_url: dataUrl,
             trial_id: trialId,
             user_id: options.credentials.id,
-            data_category_id: options.payload.data_category_id,
             url: options.payload.url,
             comments: options.payload.comments,
           });
@@ -142,7 +132,7 @@ describe('contribute-data handler', () => {
       delete config.s3.customDomain;
       const dataKey = 'uploads/00000000-0000-0000-0000-000000000000/data.pdf';
       const dataUrl = `https://opentrials-test.s3.amazonaws.com/${dataKey}`;
-      const response = `
+      const s3Response = `
         <?xml version="1.0" encoding="UTF-8"?>
         <PostResponse>
           <Location>${dataUrl}</Location>
@@ -153,7 +143,7 @@ describe('contribute-data handler', () => {
         url: '/contribute-data',
         method: 'post',
         payload: {
-          response,
+          response: s3Response,
         },
       };
 
@@ -198,9 +188,9 @@ describe('contribute-data handler', () => {
       };
 
       return server.inject(options)
-        .then((response) => {
-          should(response.statusCode).equal(302);
-          should(response.headers.location).equal('/foo');
+        .then((_response) => {
+          should(_response.statusCode).equal(302);
+          should(_response.headers.location).equal('/foo');
         });
     });
 
@@ -222,11 +212,12 @@ describe('contribute-data handler', () => {
         },
       };
 
+      apiServer.get('/document_categories').reply(200, categories);
       return server.inject(options)
-        .then((response) => {
-          const context = response.request.response.source.context;
+        .then((_response) => {
+          const context = _response.request.response.source.context;
           should(context.flash.error).not.be.empty();
-          should(response.statusCode).equal(Number(responseStatus));
+          should(_response.statusCode).equal(Number(responseStatus));
         });
     });
 
@@ -237,7 +228,7 @@ describe('contribute-data handler', () => {
       };
 
       return server.inject(options)
-        .then((response) => should(response.statusCode).equal(400));
+        .then((_response) => should(_response.statusCode).equal(400));
     });
 
     it('handles invalid XML response errors', () => {
@@ -249,12 +240,13 @@ describe('contribute-data handler', () => {
         },
       };
 
+      apiServer.get('/document_categories').reply(200, categories);
       return server.inject(options)
-        .then((response) => {
-          const context = response.request.response.source.context;
+        .then((_response) => {
+          const context = _response.request.response.source.context;
           should(context.flash.error).not.be.empty();
-          should(response.request.response.source.template).equal('contribute-data');
-          should(response.statusCode).equal(500);
+          should(_response.request.response.source.template).equal('contribute-data');
+          should(_response.statusCode).equal(500);
         });
     });
 
@@ -277,13 +269,14 @@ describe('contribute-data handler', () => {
         },
       };
 
+      apiServer.get('/document_categories').reply(200, categories);
       return new DataContribution({ data_url: dataUrl }).save()
         .then(() => server.inject(options))
-        .then((response) => {
-          const context = response.request.response.source.context;
+        .then((_response) => {
+          const context = _response.request.response.source.context;
           should(context.flash.error).not.be.empty();
-          should(response.request.response.source.template).equal('contribute-data');
-          should(response.statusCode).equal(500);
+          should(_response.request.response.source.template).equal('contribute-data');
+          should(_response.statusCode).equal(500);
         });
     });
 
@@ -292,7 +285,7 @@ describe('contribute-data handler', () => {
       const dataKey = 'uploads/00000000-0000-0000-0000-000000000000/data.pdf';
       const dataUrl = `https://opentrials-test.s3.amazonaws.com/${dataKey}`;
       const expectedUrl = `${config.s3.customDomain}/${dataKey}`;
-      const response = `
+      const s3Response = `
         <?xml version="1.0" encoding="UTF-8"?>
         <PostResponse>
           <Location>${dataUrl}</Location>
@@ -303,7 +296,7 @@ describe('contribute-data handler', () => {
         url: '/contribute-data',
         method: 'post',
         payload: {
-          response,
+          response: s3Response,
         },
       };
 

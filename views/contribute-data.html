@@ -46,11 +46,11 @@
     <input
       id="url"
       name="url"
-      placeholder="It can be a link to the file you're uploading or just an interesting link, like a trial's webpage (e.g. http://www.somewhere.com/data.pdf)"
+      placeholder="It can be a link to the file you're uploading or just an interesting link, like a trial's webpage (e.g. http://www.example.com/data.pdf)"
       />
 
-    <label for="data_category_id">Category</label>
-    <select id="data_category_id" name="data_category_id">
+    <label for="document_category_id">Category</label>
+    <select id="document_category_id" name="document_category_id">
       <option value="" disabled selected>Which category best describes your contribution?</option>
       {% for group, categories in  categories | sort(false, false, 'group') | groupby("group") %}
       {% if group %}
@@ -60,7 +60,7 @@
       {% endif %}
         {% for category in categories %}
         <option value="{{ category.id }}">
-          {{ category.name | replace("''", "'") }}
+          {{ category.name }}
         </option>
         {% endfor %}
       </optgroup>

@@ -2,87 +2,106 @@
 
 {% block main %}
 
-<table class="data-curation">
-  <thead>
-    <tr>
-      <th>Approved?</th>
-      <th>User</th>
-      <th>Trial</th>
-      <th>File / URL</th>
-      <th>Category</th>
-      <th>Date</th>
-      <th class="comments-col">Comments</th>
-      <th class="comments-col">Curator's comments</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for dataContribution in dataContributions %}
-    <tr>
-      <td>
-        {% if dataContribution.approved %}
-          Yes
-        {% else %}
-          No
-        {% endif %}
-      </td>
+<section class="data-curation">
+<ol>
+{% for dataContribution in dataContributions %}
+  {% if dataContribution.approved %}
+    {% set status = 'approve' %}
+  {% elif dataContribution.approved == false %}
+    {% set status = 'reject' %}
+  {% endif %}
+  <li>
+    <article class="data-contribution {{ status }}">
+      <section class="data-contribution-attributes">
+        <dl>
+          <dt>User</dt>
+          <dd>
+            {% if dataContribution.user %}
+              {% if dataContribution.user.email %}
+                <a href="mailto:{{ dataContribution.user.email }}">
+                  {{ dataContribution.user.name }}
+                </a>
+              {% else %}
+                N/A
+              {% endif %}
+            {% endif %}
+          </dd>
 
-      <td>
-        {% if dataContribution.user %}
-          {% if dataContribution.user.email %}
-            <a href="mailto:{{ dataContribution.user.email }}">
-              {{ dataContribution.user.name }}
+          <dt>Trial</dt>
+          <dd>
+            {% if dataContribution.trial_id %}
+            <a href="/trials/{{ dataContribution.trial_id }}">
+              {{ dataContribution.trial_id }}
             </a>
-          {% else %}
-            <span>Anonymous</span>
-          {% endif %}
-        {% endif %}
-      </td>
-      <td>
-        {% if dataContribution.trial_id %}
-          <a href="/trials/{{ dataContribution.trial_id }}">
-            {{ dataContribution.trial_id }}
-          </a>
-        {% endif %}
-      </td>
-      <td>
-        {% if dataContribution.data_url %}
-          <span>File: </span>
-          <a href="{{ dataContribution.data_url }}">
-            {{ dataContribution.filename }}
-          </a><br/>
-        {% endif %}
-        {% if dataContribution.url %}
-          <span>URL: </span>
-          <a href="{{ dataContribution.url }}">
-            {{ dataContribution.url }}
-          </a>
-        {% endif %}
-      </td>
-      <td>
-        {% if dataContribution.category.group %}
-          {{ dataContribution.category.group }} /
-        {% endif %}
-        {{ dataContribution.category.name }}
-      </td>
-      <td>
-        {{ dataContribution.created_at | formatDate }}
-      </td>
-      <td>
-        {{ dataContribution.comments }}
-      </td>
+            {% else %}
+              N/A
+            {% endif %}
+          </dd>
+          <dt>File</dt>
+          <dd>
+            {% if dataContribution.data_url %}
+              <a href="{{ dataContribution.data_url }}">
+                {{ dataContribution.filename }}
+              </a>
+            {% else %}
+              N/A
+            {% endif %}
+          </dd>
 
-      <td>
+          <dt>URL</dt>
+          <dd>
+            {% if dataContribution.url %}
+              <a href="{{ dataContribution.url }}">
+                {{ dataContribution.url }}
+              </a>
+            {% else %}
+              N/A
+            {% endif %}
+          </dd>
+
+          <dt>Date</dt>
+          <dd>{{ dataContribution.created_at | formatDate }}</dd>
+
+          <dt>Comments</dt>
+          <dd>
+            {{ dataContribution.comments or 'N/A' }}
+          </dd>
+        </dl>
+      </section>
+
+      <section class="controls">
         <form action="/admin/data-contributions/{{ dataContribution.id }}" method="POST">
+          <label for="document_category_id">Category</label>
+          <select id="document_category_id" name="document_category_id">
+            <option value="" disabled selected>Select a new category (optional)</option>
+            {% for group, categories in categories | sort(false, false, 'group') | groupby('group') %}
+            <optgroup label="{{ group }}">
+              {% for category in categories %}
+                {% if category.id === dataContribution.document_category_id %}
+                  <option selected value="{{ category.id }}">{{ category.name }}</option>
+                {% else %}
+                  <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endif %}
+              {% endfor %}
+            </optgroup>
+            {% endfor %}
+          </select>
+
+          <label for="trial_id">Trial ID</label>
+          <input name="trial_id" placeholder="Related trial ID (optional)" value="{{ dataContribution.trial_id }}">
+
+          <label for="curation_comments">Curator's comments</label>
           <textarea name="curation_comments" placeholder="Explain your decision.">{{ dataContribution.curation_comments }}</textarea>
 
+          <button type="submit" class="save">Save</button>
           <button type="submit" name="approved" value="true" class="approve">Approve</button>
           <button type="submit" name="approved" value="false" class="reject">Reject</button>
         </form>
-      </td>
-
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+      </section>
+    </article>
+  </li>
+{% endfor %}
+</ol>
+</section>
 
 {% endblock %}

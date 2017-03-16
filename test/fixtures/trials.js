@@ -30,7 +30,7 @@ function searchTrialsByEntity() {
         id: uuid.v1(),
         identifiers: {},
         public_title: 'a public title',
-        brief_summary: 'a brief summaty',
+        brief_summary: 'a brief summary',
         target_sample_size: 2000,
         gender: 'both',
         has_published_results: true,

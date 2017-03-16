@@ -3,6 +3,9 @@
 const should = require('should');
 const DataContribution = require('../../../models/data-contribution');
 
+const categories = JSON.parse(JSON.stringify(
+  fixtures.listDocumentCategories()
+));
 let server;
 
 describe('admin data contributions handler', () => {
@@ -15,15 +18,17 @@ describe('admin data contributions handler', () => {
   afterEach(clearDB);
 
   describe('GET /admin/data-contributions', () => {
-    it('requires a logged in user', () => {
-      const options = {
-        url: '/admin/data-contributions',
-        method: 'GET',
-      };
+    let response;
 
-      return server.inject(options)
-        .then((response) => should(response.statusCode).equal(401));
+    before(() => {
+      apiServer.get('/document_categories').reply(200, categories);
+      return server.inject('/admin/data-contributions')
+        .then((_response) => {
+          response = _response;
+        });
     });
+
+    it('requires a logged in user', () => should(response.statusCode).equal(401));
 
     _itReturnsStatusCodeForRoles(200, ['admin', 'curator'], {
       url: '/admin/data-contributions',
@@ -49,8 +54,8 @@ describe('admin data contributions handler', () => {
                       .fetchAll({ withRelated: DataContribution.relatedModels }))
         .then((_dataContributions) => (dataContributions = _dataContributions))
         .then(() => server.inject(options))
-        .then((response) => {
-          const context = response.request.response.source.context;
+        .then((_response) => {
+          const context = _response.request.response.source.context;
           should(context.dataContributions).deepEqual(dataContributions.toJSON());
         });
     });
@@ -65,7 +70,7 @@ describe('admin data contributions handler', () => {
       };
 
       return server.inject(options)
-        .then((response) => should(response.statusCode).equal(401));
+        .then((_response) => should(_response.statusCode).equal(401));
     });
 
     _itReturnsStatusCodeForRoles(302, ['admin', 'curator'], {
@@ -83,6 +88,8 @@ describe('admin data contributions handler', () => {
     it('updates the DataContribution and redirects to /admin/data-contributions', () => {
       const payload = {
         approved: true,
+        trial_id: '11111111-1111-1111-1111-111111111111',
+        document_category_id: 20,
         curation_comments: 'My comments',
       };
       let dataContributionId;
@@ -95,10 +102,10 @@ describe('admin data contributions handler', () => {
           credentials: factory.buildSync('admin').toJSON(),
           payload,
         }))
-        .then((response) => {
-          should(response.statusCode).equal(302);
-          should(response.headers.location).equal('/admin/data-contributions');
-          should(response.request.yar.flash('success')).not.be.empty();
+        .then((_response) => {
+          should(_response.statusCode).equal(302);
+          should(_response.headers.location).equal('/admin/data-contributions');
+          should(_response.request.yar.flash('success')).not.be.empty();
         })
         .then(() => new DataContribution({ id: dataContributionId }).fetch({ require: true }))
         .then((dataContribution) => should(dataContribution.toJSON()).containDeep(payload));
@@ -113,10 +120,10 @@ describe('admin data contributions handler', () => {
       };
 
       return server.inject(options)
-        .then((response) => {
-          should(response.statusCode).equal(302);
-          should(response.headers.location).equal('/admin/data-contributions');
-          should(response.request.yar.flash('error')).not.be.empty();
+        .then((_response) => {
+          should(_response.statusCode).equal(302);
+          should(_response.headers.location).equal('/admin/data-contributions');
+          should(_response.request.yar.flash('error')).not.be.empty();
         });
     });
   });
@@ -132,8 +139,9 @@ function _itReturnsStatusCodeForRoles(statusCode, roles, options) {
         options
       );
 
+      apiServer.get('/document_categories').reply(200, categories);
       return server.inject(optionsWithCredentials)
-        .then((response) => should(response.statusCode).equal(statusCode));
+        .then((_response) => should(_response.statusCode).equal(statusCode));
     });
   });
 }

@@ -1,36 +1,57 @@
 .data-curation {
   font-size: .8em;
 
-  td {
-    padding: .5em;
-    word-wrap: break-word;
-  }
-
-  td,
-  th,
-  tr {
-    vertical-align: top;
-    overflow: hidden;
-  }
-
-  .comments-col {
-    width: 25%;
-  }
-
   button {
-    display: inline-block;
-    width: 100%;
+    &.approve {
+      background-color: $success-colour;
+    }
 
-    @media only screen and (min-width: $large-screen) {
-      width: 48%;
+    &.reject {
+      background-color: $error-colour;
     }
   }
 
-  .approve {
-    background-color: $success-colour;
+  .data-contribution {
+    @include outer-container;
+    padding: $base-spacing;
+
+    .data-contribution-attributes {
+      @include MQ(L) {
+        @include span-columns(8 of 12);
+      }
+    }
+    .controls {
+      @include MQ(L) {
+        @include span-columns(3 of 12);
+      }
+    }
+
+    &.approve {
+      background-color: rgba($success-colour, .1);
+    }
+
+    &.reject {
+      background-color: rgba($error-colour, .1);
+    }
+
+    dl,
+    dl > dt:first-child {
+      margin-top: 0;
+    }
   }
 
-  .reject {
-    background-color: $error-colour;
+  ol {
+    padding: 0;
+    list-style: none;
+
+    li {
+      border-bottom: solid 1px $light-gray;
+      padding-bottom: $base-spacing;
+      margin-bottom: $base-spacing;
+    }
+
+    & > :last-child {
+      border-bottom: none;
+    }
   }
 }
