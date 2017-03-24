@@ -3,8 +3,16 @@
 
   function setupSelect2For(name) {
     const perPage = 10;
+    const input = $('select[name="' + name + '"]');
+    const form = input.parents('form');
 
-    $('select[name="' + name + '"]').select2({
+    function _submitFormIfPressedEnter(e) {
+      if (e.keyCode === 13) {
+        form.submit();
+      }
+    }
+
+    input.select2({
       ajax: {
         url: OPENTRIALS_API_URL + '/search/autocomplete/' + name,
         dataType: 'json',
@@ -35,6 +43,10 @@
         },
       },
       tags: true,
+    }).on('select2:select', function () {
+      form.off('keyup', '.select2-selection', _submitFormIfPressedEnter);
+    }).on('select2:opening', function () {
+      form.on('keyup', '.select2-selection', _submitFormIfPressedEnter);
     });
   }
 
