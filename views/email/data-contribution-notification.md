@@ -3,8 +3,8 @@ A new data contribution with the following details has been submitted to OpenTri
 * Contributor email: {% if user %} {{ user.email }} {% endif %}
 * Related trial ID: {{ trial_id }}
 * Comments about data contribution: {{ comments }}
-* URL to data contribution: {{ url }}
-* URL to data contribution file: {{ data_url }}
+* URL to data contribution: {{ url | urlencode }}
+* URL to data contribution file: {{ data_url | urlencode }}
 * Data contribution category: {{ category.name }}
 * Data contribution created at: {{ created_at | formatDate }}
 
