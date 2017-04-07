@@ -12,20 +12,21 @@ function getFilters(query) {
     values.map((val) => `"${escapeElasticSearch(val)}"`)
   );
 
-  if (query.condition) {
-    filters.condition = quoteAndEscapeElements(query.condition);
-  }
-  if (query.intervention) {
-    filters.intervention = quoteAndEscapeElements(query.intervention);
-  }
   if (query.location) {
     filters.location = quoteAndEscapeElements(query.location);
   }
+
+  if (query.condition) {
+    filters.condition = escapeElasticSearch(query.condition);
+  }
+  if (query.intervention) {
+    filters.intervention = escapeElasticSearch(query.intervention);
+  }
   if (query.person) {
-    filters.person = quoteAndEscapeElements(query.person);
+    filters.person = escapeElasticSearch(query.person);
   }
   if (query.organisation) {
-    filters.organisation = quoteAndEscapeElements(query.organisation);
+    filters.organisation = escapeElasticSearch(query.organisation);
   }
 
   const registrationDateStart = query.registration_date_start;
@@ -135,10 +136,10 @@ module.exports = {
       ),
       location: Joi.array().single(true).items(Joi.string().empty('')),
       q: Joi.string().empty(''),
-      condition: Joi.array().single(true).items(Joi.string().empty('')),
-      intervention: Joi.array().single(true).items(Joi.string().empty('')),
-      person: Joi.array().single(true).items(Joi.string().empty('')),
-      organisation: Joi.array().single(true).items(Joi.string().empty('')),
+      condition: Joi.string().empty(''),
+      intervention: Joi.string().empty(''),
+      person: Joi.string().empty(''),
+      organisation: Joi.string().empty(''),
       gender: Joi.valid(['male', 'female']).empty(''),
       has_published_results: Joi.boolean().empty(''),
       is_registered: Joi.boolean().empty(''),

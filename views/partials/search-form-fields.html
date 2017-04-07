@@ -24,10 +24,34 @@
   <a href="?advanced_search=true" class="toggle-advanced">Advanced search</a>
 </div>
 <fieldset class="advanced {% if advancedSearchIsVisible %}visible{% endif %}">
-  {{ createSelectMultiple('condition', 'Conditions', 'Disease, disorder, syndrome, illness or injury that is being studied.') }}
-  {{ createSelectMultiple('intervention', 'Interventions', 'Process or action that is the focus of a clinical study. This can include giving participants drugs, medical devices, procedures, vaccines, and other products that are either investigational or already available. Interventions can also include noninvasive approaches such as surveys, education, and interviews.') }}
-  {{ createSelectMultiple('person', 'People') }}
-  {{ createSelectMultiple('organisation', 'Organisations') }}
+  <div class="filter">
+    <label
+        for="condition"
+        class="hastip"
+        title="Disease, disorder, syndrome, illness or injury that is being studied."
+    >Condition</label>
+    <input title="condition" name="condition" value="{{ query.condition }}" />
+  </div>
+
+  <div class="filter">
+    <label
+        for="intervention"
+        class="hastip"
+        title="Process or action that is the focus of a clinical study. This can include giving participants drugs, medical devices, procedures, vaccines, and other products that are either investigational or already available. Interventions can also include noninvasive approaches such as surveys, education, and interviews."
+    >Intervention</label>
+    <input title="intervention" name="intervention" value="{{ query.intervention }}" />
+  </div>
+
+  <div class="filter">
+    <label for="person">People</label>
+    <input title="person" name="person" value="{{ query.person }}" />
+  </div>
+
+  <div class="filter">
+    <label for="organisation">Organisation</label>
+    <input title="organisation" name="organisation" value="{{ query.organisation }}" />
+  </div>
+
   {{ createSelectMultiple('location', 'Locations') }}
 
   <fieldset class="sample size filter">

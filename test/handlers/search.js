@@ -469,65 +469,31 @@ describe('search handler', () => {
     });
   });
 
-  describe('GET /search?condition={condition}&condition={condition}', () => {
+  describe('GET /search?condition={condition}', () => {
     const searchResponse = { total_count: 0, items: [] };
 
-    describe('single condition', () => {
-      it('converts the query condition to an array', () => {
-        mockApiResponses({
-          search: {
-            query: {
-              q: 'condition:("HIV")',
-            },
-            response: searchResponse,
+    it('does the correct query', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'condition:(HIV)',
           },
+          response: searchResponse,
+        },
+      });
+
+      return server.inject('/search?condition=HIV')
+        .then((response) => {
+          const context = response.request.response.source.context;
+          context.query.condition.should.equal('HIV');
         });
-
-        return server.inject('/search?condition=HIV')
-          .then((response) => {
-            const context = response.request.response.source.context;
-            context.query.condition.should.deepEqual(['HIV']);
-          });
-      });
-    });
-
-    describe('multiple conditions', () => {
-      let response;
-
-      before(() => {
-        mockApiResponses({
-          search: {
-            query: {
-              q: 'condition:("HIV" OR "Breast Cancer")',
-            },
-            response: searchResponse,
-          },
-        });
-
-        return server.inject('/search?condition=HIV&condition=Breast+Cancer')
-          .then((_response) => {
-            response = _response;
-          });
-      });
-
-      it('calls the API correctly', () => {
-        const context = response.request.response.source.context;
-
-        context.trials.should.deepEqual(searchResponse);
-      });
-
-      it('adds the conditions to context.query', () => {
-        const context = response.request.response.source.context;
-
-        context.query.condition.should.deepEqual(['HIV', 'Breast Cancer']);
-      });
     });
 
     it('escapes special elasticsearch values', () => {
       mockApiResponses({
         search: {
           query: {
-            q: 'condition:("foo\\(bar\\)")',
+            q: 'condition:(foo\\(bar\\))',
           },
         },
         response: searchResponse,
@@ -540,65 +506,31 @@ describe('search handler', () => {
     });
   });
 
-  describe('GET /search?intervention={intervention}&intervention={intervention}', () => {
+  describe('GET /search?intervention={intervention}', () => {
     const searchResponse = { total_count: 0, items: [] };
 
-    describe('single intervention', () => {
-      it('converts the query intervention to an array', () => {
-        mockApiResponses({
-          search: {
-            query: {
-              q: 'intervention:("Hippocrates")',
-            },
-            response: searchResponse,
+    it('does the correct query', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'intervention:(Hippocrates)',
           },
+          response: searchResponse,
+        },
+      });
+
+      return server.inject('/search?intervention=Hippocrates')
+        .then((response) => {
+          const context = response.request.response.source.context;
+          context.query.intervention.should.equal('Hippocrates');
         });
-
-        return server.inject('/search?intervention=Hippocrates')
-          .then((response) => {
-            const context = response.request.response.source.context;
-            context.query.intervention.should.deepEqual(['Hippocrates']);
-          });
-      });
-    });
-
-    describe('multiple interventions', () => {
-      let response;
-
-      before(() => {
-        mockApiResponses({
-          search: {
-            query: {
-              q: 'intervention:("Placebo" OR "Aspirin")',
-            },
-            response: searchResponse,
-          },
-        });
-
-        return server.inject('/search?intervention=Placebo&intervention=Aspirin')
-          .then((_response) => {
-            response = _response;
-          });
-      });
-
-      it('calls the API correctly', () => {
-        const context = response.request.response.source.context;
-
-        context.trials.should.deepEqual(searchResponse);
-      });
-
-      it('adds the interventions to context.query', () => {
-        const context = response.request.response.source.context;
-
-        context.query.intervention.should.deepEqual(['Placebo', 'Aspirin']);
-      });
     });
 
     it('escapes special elasticsearch values', () => {
       mockApiResponses({
         search: {
           query: {
-            q: 'intervention:("foo\\(bar\\)")',
+            q: 'intervention:(foo\\(bar\\))',
           },
         },
       });
@@ -610,65 +542,31 @@ describe('search handler', () => {
     });
   });
 
-  describe('GET /search?person={person}&person={person}', () => {
+  describe('GET /search?person={person}', () => {
     const searchResponse = { total_count: 0, items: [] };
 
-    describe('single person', () => {
-      it('converts the query person to an array', () => {
-        mockApiResponses({
-          search: {
-            query: {
-              q: 'person:("Hippocrates")',
-            },
-            response: searchResponse,
+    it('does the correct query', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'person:(Hippocrates)',
           },
+          response: searchResponse,
+        },
+      });
+
+      return server.inject('/search?person=Hippocrates')
+        .then((response) => {
+          const context = response.request.response.source.context;
+          context.query.person.should.equal('Hippocrates');
         });
-
-        return server.inject('/search?person=Hippocrates')
-          .then((response) => {
-            const context = response.request.response.source.context;
-            context.query.person.should.deepEqual(['Hippocrates']);
-          });
-      });
-    });
-
-    describe('multiple persons', () => {
-      let response;
-
-      before(() => {
-        mockApiResponses({
-          search: {
-            query: {
-              q: 'person:("Hippocrates" OR "Florence Nightingale")',
-            },
-            response: searchResponse,
-          },
-        });
-
-        return server.inject('/search?person=Hippocrates&person=Florence+Nightingale')
-          .then((_response) => {
-            response = _response;
-          });
-      });
-
-      it('calls the API correctly', () => {
-        const context = response.request.response.source.context;
-
-        context.trials.should.deepEqual(searchResponse);
-      });
-
-      it('adds the persons to context.query', () => {
-        const context = response.request.response.source.context;
-
-        context.query.person.should.deepEqual(['Hippocrates', 'Florence Nightingale']);
-      });
     });
 
     it('escapes special elasticsearch values', () => {
       mockApiResponses({
         search: {
           query: {
-            q: 'person:("foo\\(bar\\)")',
+            q: 'person:(foo\\(bar\\))',
           },
         },
       });
@@ -680,65 +578,31 @@ describe('search handler', () => {
     });
   });
 
-  describe('GET /search?organisation={organisation}&organisation={organisation}', () => {
+  describe('GET /search?organisation={organisation}', () => {
     const searchResponse = { total_count: 0, items: [] };
 
-    describe('single organisation', () => {
-      it('converts the query organisation to an array', () => {
-        mockApiResponses({
-          search: {
-            query: {
-              q: 'organisation:("ACME")',
-            },
-            response: searchResponse,
+    it('does the correct query', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: 'organisation:(ACME)',
           },
+          response: searchResponse,
+        },
+      });
+
+      return server.inject('/search?organisation=ACME')
+        .then((response) => {
+          const context = response.request.response.source.context;
+          context.query.organisation.should.equal('ACME');
         });
-
-        return server.inject('/search?organisation=ACME')
-          .then((response) => {
-            const context = response.request.response.source.context;
-            context.query.organisation.should.deepEqual(['ACME']);
-          });
-      });
-    });
-
-    describe('multiple organisations', () => {
-      let response;
-
-      before(() => {
-        mockApiResponses({
-          search: {
-            query: {
-              q: 'organisation:("ACME" OR "NSA")',
-            },
-            response: searchResponse,
-          },
-        });
-
-        return server.inject('/search?organisation=ACME&organisation=NSA')
-          .then((_response) => {
-            response = _response;
-          });
-      });
-
-      it('calls the API correctly', () => {
-        const context = response.request.response.source.context;
-
-        context.trials.should.deepEqual(searchResponse);
-      });
-
-      it('adds the organisations to context.query', () => {
-        const context = response.request.response.source.context;
-
-        context.query.organisation.should.deepEqual(['ACME', 'NSA']);
-      });
     });
 
     it('escapes special elasticsearch values', () => {
       mockApiResponses({
         search: {
           query: {
-            q: 'organisation:("foo\\(bar\\)")',
+            q: 'organisation:(foo\\(bar\\))',
           },
         },
       });

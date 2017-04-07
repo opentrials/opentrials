@@ -87,10 +87,6 @@
       $(this).toggleClass('expander-hidden');
     });
 
-    setupSelect2For('condition');
-    setupSelect2For('intervention');
-    setupSelect2For('person');
-    setupSelect2For('organisation');
     setupSelect2For('location');
   });
 }());
