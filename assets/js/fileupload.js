@@ -1,6 +1,5 @@
 require('blueimp-file-upload/js/jquery.fileupload');
 
-
 $(function () {
   'use strict';
 
@@ -58,3 +57,9 @@ $(function () {
     };
   }
 });
+
+window._submitContribution = function _submitContribution() {
+  'use strict';
+
+  document.getElementById('contribution-form').submit();
+};

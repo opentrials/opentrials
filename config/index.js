@@ -10,6 +10,8 @@ const config = {
 
   opentrialsApi: require('./opentrials-api'),
 
+  recaptchaSiteKey: process.env.RECAPTCHA_SITE_KEY,
+
   hapi: {
     manifest: require('./glue'),
 

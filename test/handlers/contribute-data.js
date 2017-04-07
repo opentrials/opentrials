@@ -144,6 +144,7 @@ describe('contribute-data handler', () => {
         method: 'post',
         payload: {
           response: s3Response,
+          file: 'data.pdf',
         },
       };
 
@@ -184,6 +185,7 @@ describe('contribute-data handler', () => {
         method: 'post',
         payload: {
           response: s3Response,
+          file: 'data.pdf',
         },
       };
 
@@ -297,6 +299,7 @@ describe('contribute-data handler', () => {
         method: 'post',
         payload: {
           response: s3Response,
+          file: 'data.pdf',
         },
       };
 

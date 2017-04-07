@@ -23,6 +23,7 @@ function _getContributeData(request, reply) {
         title: 'Contribute data',
         s3: s3.getSignedFormFields(additionalConditions),
         maxUploadSize: s3.MAX_UPLOAD_SIZE,
+        recaptchaSiteKey: config.recaptchaSiteKey,
         redirectTo: request.headers.referer,
         categories: _mangleCategories(categories.items),
       })
@@ -83,6 +84,12 @@ function _postContributeData(request, reply) {
       const trialId = request.query.trial_id;
       const userId = (request.auth.credentials || {}).id;
 
+      if (!payload.file && !payload.url) {
+        const err = new Error('no file or URL submitted');
+        err.invalid = true;
+        throw err;
+      }
+
       return new DataContribution({
         trial_id: trialId,
         user_id: userId,
@@ -127,8 +134,11 @@ function _postContributeData(request, reply) {
       return _getContributeData(request, reply)
         .then((response) => response.code(payload.responseStatus));
     })
-    .catch(() => {
-      request.yar.flash('error', 'An internal error occurred, please try again later.');
+    .catch((err) => {
+      const msg = err.invalid ?
+            `Could not process the request: ${err.message}.` :
+            'An internal error occurred, please try again later.';
+      request.yar.flash('error', msg);
       return _getContributeData(request, reply)
         .then((response) => response.code(payload.responseStatus));
     });
@@ -161,6 +171,7 @@ module.exports = {
         'X-Amz-Credential': Joi.string().empty(''),
         'X-Amz-Date': Joi.string().empty(''),
         'X-Amz-Signature': Joi.string().empty(''),
+        'g-recaptcha-response': Joi.string().empty(''),
       },
     },
   },
