@@ -2,6 +2,8 @@
 
 'use strict';
 
+const _ = require('lodash');
+
 const routes = [
   {
     path: '/',
@@ -105,4 +107,21 @@ const routes = [
   },
 ];
 
-module.exports = routes;
+function stripUnknownParamsOnProduction(route) {
+  const inProduction = (process.env.NODE_ENV === 'production');
+  const result = _.cloneDeep(route);
+
+  if (inProduction && result.config && result.config.validate) {
+    const options = result.config.validate.options || {};
+
+    if (!Object.prototype.hasOwnProperty.call(options, 'stripUnknown')) {
+      options.stripUnknown = true;
+    }
+
+    result.config.validate.options = options;
+  }
+
+  return result;
+}
+
+module.exports = routes.map((route) => stripUnknownParamsOnProduction(route));
