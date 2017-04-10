@@ -232,6 +232,21 @@
     </section>
   </p>
 
+  {% if trial.publications.length != 0 %}
+  <h2>Publications</h2>
+  <ul>
+    {% for publication in trial.publications %}
+      <li>
+        <a href="{{ publication.source_url }}" rel="external">
+          {{ publication.title }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  {{ no_data_message('Publications', thing='"publications"') }}
+  {% endif %}
+
   {% if trial.records.length != 0 %}
   <h2>Registries</h2>
   <ul class="overview-list">
@@ -328,21 +343,6 @@
   </dl>
   {% else %}
   {{ no_data_message('Related Organisations', thing='"related organisations"') }}
-  {% endif %}
-
-  {% if trial.publications.length != 0 %}
-  <h2>Publications</h2>
-  <ul>
-    {% for publication in trial.publications %}
-      <li>
-        <a href="{{ publication.source_url }}">
-          {{ publication.title }}
-        </a>
-      </li>
-    {% endfor %}
-  </ul>
-  {% else %}
-  {{ no_data_message('Publications', thing='"publications"') }}
   {% endif %}
 
   {% if trial.research_summaries.length != 0 %}
