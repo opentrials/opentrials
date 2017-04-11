@@ -114,6 +114,9 @@
 @mixin icon-search {
   content: "\e904";
 }
+@mixin icon-database {
+  content: "\e91b";
+}
 
 a.discrepancy {
   $icon-width:20px;

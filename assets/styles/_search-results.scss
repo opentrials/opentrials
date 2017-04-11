@@ -173,6 +173,13 @@ main {
             @include icon-eye;
           }
         }
+        &.database {
+          padding-left: $base-spacing;
+          &:before {
+            @include icon-font();
+            @include icon-database;
+          }
+        }
       }
     }
 
@@ -201,6 +208,9 @@ main {
             ul {
               margin-right: 0;
             }
+          }
+          p {
+            margin-left: $base-spacing * 1;
           }
         }
       }

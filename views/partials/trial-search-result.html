@@ -2,21 +2,29 @@
   <h1 class="title"><a href="/trials/{{ trial.id }}">{{ trial.public_title }}</a></h1>
   <dl class="status meta">
 
+    {% set UNKNOWN = 'Unknown' %}
     <dt title="Registration date" class="date"><span>Registration date:</span></dt>
     <dd>
-      <time datetime="{{ trial.registration_date }}">
-        {{ trial.registration_date | formatDate }}
-      </time>
+      {% if trial.registration_date %}
+        <time datetime="{{ trial.registration_date }}">
+          {{ trial.registration_date | formatDate }}
+        </time>
+      {% else %}
+        {{ UNKNOWN }}
+      {% endif %}
     </dd>
 
-    {% set status = trial.status or 'unknown' %}
+    {% set status = trial.status or UNKNOWN %}
     <dt title="Status" class="progress"><span>Status:</span></dt>
     <dd>{{ status | underscoresToCapitalized }}</dd>
 
-    {% set recruitment_status = trial.recruitment_status or 'unknown' %}
+    {% set recruitment_status = trial.recruitment_status or UNKNOWN %}
     <dt title="Recruitment status" class="recruitment"><span>Recruitment status:</span></dt>
     <dd>{{ recruitment_status | underscoresToCapitalized }}</dd>
 
+    {% set source_name = trial.source.name or UNKNOWN %}
+    <dt title="Source name" class="database"><span>Source name:</span></dt>
+    <dd>{{ source_name }}</dd>
   </dl>
 
   {% if trial.brief_summary.length != 0 %}
@@ -28,20 +36,28 @@
   <dl class="meta lists">
     <dt>Conditions:</dt>
     <dd>
-      <ul>
-        {% for condition in trial.conditions %}
-        <li>{{ condition.name }}</li>
-        {% endfor %}
-      </ul>
+      {% if trial.conditions.length > 0 %}
+        <ul>
+          {% for condition in trial.conditions %}
+            <li>{{ condition.name }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>{{ UNKNOWN }}</p>
+      {% endif %}
     </dd>
 
     <dt>Interventions:</dt>
     <dd>
-      <ul>
-      {% for intervention in trial.interventions %}
-        <li>{{ intervention.name }}</li>
-      {% endfor %}
-      </ul>
+      {% if trial.interventions.length > 0 %}
+        <ul>
+          {% for intervention in trial.interventions %}
+            <li>{{ intervention.name }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>{{ UNKNOWN }}</p>
+      {% endif %}
     </dd>
   </dl>
 </article>
