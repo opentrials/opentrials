@@ -131,13 +131,6 @@ describe('search handler', () => {
           }));
     });
 
-    describe('is_registered', () => {
-      it('rejects values other than "true" and "false"', () => server.inject('/search?is_registered=maybe')
-         .then((_response) => {
-           _response.statusCode.should.equal(400);
-         }));
-    });
-
     describe('has_published_results', () => {
       it('rejects values other than "true" and "false"', () => server.inject('/search?has_published_results=maybe')
           .then((_response) => {
@@ -275,53 +268,6 @@ describe('search handler', () => {
       });
 
       return server.inject('/search?gender=female')
-        .then((_response) => {
-          _response.statusCode.should.equal(200);
-        });
-    });
-  });
-
-  describe('GET /search?is_registered={is_registered}', () => {
-    it('doesnt filter if is_registered is empty', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: undefined,
-          },
-        },
-      });
-
-      return server.inject('/search?is_registered=')
-        .then((_response) => {
-          _response.statusCode.should.equal(200);
-        });
-    });
-
-    it('filter by trials with published results if is_registered is true', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: 'is_registered:(true)',
-          },
-        },
-      });
-
-      return server.inject('/search?is_registered=true')
-        .then((_response) => {
-          _response.statusCode.should.equal(200);
-        });
-    });
-
-    it('filter by trials without published results if is_registered is false', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: 'is_registered:(false)',
-          },
-        },
-      });
-
-      return server.inject('/search?is_registered=false')
         .then((_response) => {
           _response.statusCode.should.equal(200);
         });

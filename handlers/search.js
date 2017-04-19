@@ -47,11 +47,6 @@ function getFilters(query) {
     filters.gender = `${gender} OR both`;
   }
 
-  const isRegistered = (query.is_registered !== undefined);
-  if (isRegistered) {
-    filters.is_registered = query.is_registered;
-  }
-
   const hasPublishedResults = (query.has_published_results !== undefined);
   if (hasPublishedResults) {
     filters.has_published_results = query.has_published_results;
@@ -142,7 +137,6 @@ module.exports = {
       organisation: Joi.string().empty(''),
       gender: Joi.valid(['male', 'female']).empty(''),
       has_published_results: Joi.boolean().empty(''),
-      is_registered: Joi.boolean().empty(''),
       has_publications: Joi.boolean().empty(''),
       has_discrepancies: Joi.boolean().empty(''),
       sample_size_start: Joi.number().integer().empty(''),

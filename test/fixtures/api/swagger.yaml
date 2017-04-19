@@ -61,7 +61,7 @@ paths:
       tags:
         - search
       description: Autocomplete search feature for supported database entities
-                   (`condition`, `intervention`, `location`, `person`, `organisation`).
+                   (`location`).
                    It has the same options as a regular `search` operation, with an extra **required**
                    `in` parameter indicating the entity type to search.
       operationId: autocomplete
@@ -72,11 +72,7 @@ paths:
           description: The entity to search for
           type: string
           enum:
-            - condition
-            - intervention
             - location
-            - person
-            - organisation
         - name: q
           in: query
           description: The search query
@@ -414,7 +410,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  
+
   /documents:
     x-swagger-router-controller: documents
     get:
@@ -536,9 +532,6 @@ definitions:
       has_published_results:
         type: boolean
         description: Trial has its results published (true/false)
-      is_registered:
-        type: boolean
-        description: Whether the trial is registered in a clinical trial registry
       registration_date:
         type: string
         description: Date the trial was registered
@@ -551,6 +544,11 @@ definitions:
         type: string
         description: Date when a certification of exemption has been filed for the trial
         format: date-time
+      study_phase:
+        type: array
+        description: Phases of the study (e.g. `["Phase 2"]` or `["Phase 1", "Phase 2"]`)
+        items:
+          type: string
       status:
         type: string
         description: Completion status of the trial
@@ -1208,6 +1206,7 @@ definitions:
         type: string
         enum:
           - register
+          - journal
           - other
 
   FDADocumentSearchResults:
