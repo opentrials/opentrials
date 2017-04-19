@@ -28,12 +28,13 @@ describe('terms-of-use handler', () => {
           .then((response) => response.request.response.source.template.should.equal('terms-of-use'))
       ));
 
-      it('adds the sources sorted by name to the context', () => (
+      it('adds the external sources sorted by name to the context', () => (
         server.inject('/terms-of-use')
           .then((response) => {
             const context = response.request.response.source.context;
-            const sortedSources = _.sortBy(sources, 'name');
-            context.sources.should.deepEqual(sortedSources);
+            const externalSources = _.reject(sources, { id: 'contribution' });
+            const sortedExternalSources = _.sortBy(externalSources, 'name');
+            context.externalSources.should.deepEqual(sortedExternalSources);
           })
       ));
     });

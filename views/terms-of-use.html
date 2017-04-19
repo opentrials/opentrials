@@ -173,7 +173,7 @@ will take precedence over the general terms.
   <h2>External sources</h2>
 
   <ul>
-    {% for source in sources %}
+    {% for source in externalSources %}
       <li>
         {% if source.source_url %}
           <a href="{{ source.source_url }}">{{ source.name }}</a>

@@ -8,7 +8,7 @@ function termsOfUse(request, reply) {
   sources.list().then((_sources) => (
     reply.view('terms-of-use', {
       title: 'Terms of use',
-      sources: _.sortBy(_sources, 'name'),
+      externalSources: _.sortBy(_.reject(_sources, { id: 'contribution' }), 'name'),
     })
   )).catch((err) => (
     reply(Boom.badGateway('Error accessing OpenTrials API.', err))
