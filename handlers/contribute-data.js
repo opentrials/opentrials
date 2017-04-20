@@ -26,6 +26,7 @@ function _getContributeData(request, reply) {
         recaptchaSiteKey: config.recaptchaSiteKey,
         redirectTo: request.headers.referer,
         categories: _mangleCategories(categories.items),
+        trial_id: request.query.trial_id,
       })
     ));
 }
