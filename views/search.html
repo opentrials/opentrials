@@ -31,6 +31,9 @@
   </section>
   <section class="search-results">
     {% if trials.items.length > 0 %}
+      <section class="sort-order-info">
+        Results ordered by trial registration date, descending.
+      </section>
       {% for trial in trials.items %}
         {% if loop.first %}<ol>{% endif %}
         <li>
