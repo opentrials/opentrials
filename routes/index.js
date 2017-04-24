@@ -16,6 +16,11 @@ const routes = [
     config: require('../handlers/about'),
   },
   {
+    path: '/data',
+    method: 'GET',
+    config: require('../handlers/data'),
+  },
+  {
     path: '/terms-of-use',
     method: 'GET',
     config: require('../handlers/terms-of-use'),

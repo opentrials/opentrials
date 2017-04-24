@@ -14,7 +14,7 @@ describe('S3 Agent', () => {
 
     before(() => {
       clock = sinon.useFakeTimers();
-      sinon.stub(uuid, 'v1', () => '00000000-0000-0000-0000-000000000000');
+      sinon.stub(uuid, 'v1').callsFake(() => '00000000-0000-0000-0000-000000000000');
     });
 
     after(() => {

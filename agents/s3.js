@@ -3,6 +3,7 @@
 const uuid = require('node-uuid');
 const crypto = require('crypto');
 const config = require('../config');
+const S3 = require('aws-sdk/clients/s3');
 
 
 function _hmac(key, string) {
@@ -76,7 +77,6 @@ function _getActionUrl(region, bucket) {
   return actionUrl;
 }
 
-
 function getSignedFormFields(additionalConditions) {
   const key = 'uploads/' + uuid.v1() + '/${filename}'; // eslint-disable-line prefer-template,no-template-curly-in-string
   const form = _s3Params(config.s3, key, additionalConditions || []);
@@ -87,7 +87,20 @@ function getSignedFormFields(additionalConditions) {
   };
 }
 
+function listObjects(prefix) {
+  const s3Client = new S3();
+  const params = {
+    Bucket: config.s3.bucket,
+    Delimiter: '/',
+    Prefix: prefix,
+  };
+  return s3Client
+    .listObjectsV2(params)
+    .promise();
+}
+
 module.exports = {
   getSignedFormFields,
+  listObjects,
   MAX_UPLOAD_SIZE: config.s3.maxUploadSize,
 };

@@ -1,0 +1,76 @@
+{% extends "layouts/one-column.html" %}
+
+{% block breadcrumb %}
+  <li><a href="/">Home</a></li>
+  <li>{{ title | truncate(35) }}</li>
+{% endblock %}
+
+{% block main %}
+  <article>
+    <section>
+      <h2>Overview</h2>
+      <p>
+        The entire OpenTrials database is saved monthly automatically. This
+        is what we use to power our API, and contains everything that you can
+        see on this website. Having the entire database in your local machine
+        allows you to analyze the data using your favorite tool, or even create
+        your own copy of the OpenTrials API.
+      </p>
+      <p>
+        As with any usage of OpenTrials's data, make sure you read and
+        understand our <a href="/terms-of-use">Terms of use</a>.
+      </p>
+    </section>
+    <section>
+      <h2>Download</h2>
+      {% if dumps.length > 0 %}
+        <p>
+          Below are the latest available dumps of our database. Their
+          file names contain the date at which the dump was produced:
+        </p>
+        <ul>
+          {% for dump in dumps | sort(true, false, 'label') %}
+          <li>
+            <a href="{{ dump.url }}" rel="external">
+                {{ dump.label }}
+            </a> ({{ dump.size | formatBytes }})
+          </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>
+          Unfortunately, something went wrong and the list of dumps could
+          not be obtained. Please try again later. If the issue remains,
+          please <a href="/flag-error?url={{ currentURL | urlencode }}">let us
+          know</a>.
+        </p>
+      {% endif %}
+    </section>
+    <section>
+      <h2>How to use</h2>
+      <p>
+        The dump files you can download above were generated using the <a
+        href="https://www.postgresql.org/docs/9.4/static/app-pgdump.html"
+        rel="external">pg_dump</a> command of PostgreSQL 9.4. To load it, you
+        need a local database running PostgreSQL 9.4 or newer.
+      </p>
+
+      <p>
+        Assuming you have a database called <em>DATABASE</em> created in a
+        PostgreSQL 9.4+ server running on <em>HOST</em>, with user
+        <em>USER</em>, you can restore a dump named
+        <em>OPENTRIALS_DUMP.dump</em> by opening a command line and running:
+        <pre>
+    pg_restore --no-owner --no-acl --create --host=HOST --username=USER --dbname=DATABASE OPENTRIALS_DUMP.dump
+        </pre>
+      </p>
+
+      <p>
+        Please refer to the <a
+        href="https://www.postgresql.org/docs/9.4/static/backup-dump.html"
+        rel="external">PostgreSQL documentation</a> for more information about
+        the restoring process.
+      </p>
+    </section>
+  </article>
+{% endblock %}
