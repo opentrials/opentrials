@@ -37,7 +37,7 @@ function data(request, reply) {
 function _parseDumps(dumps) {
   return (dumps.Contents || []).map((dump) => (
     {
-      url: `${config.s3.bucket}/${dump.Key}`,
+      url: `${config.s3.customDomain}/${dump.Key}`,
       label: dump.Key.split('/').pop(),
       size: dump.Size,
     }

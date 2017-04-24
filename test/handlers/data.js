@@ -61,7 +61,7 @@ describe('data handler', () => {
 
           should(dumps).be.deepEqual([
             {
-              url: `${config.s3.bucket}/uploads/opentrials-api-2017-01-01.dump`,
+              url: `${config.s3.customDomain}/uploads/opentrials-api-2017-01-01.dump`,
               label: 'opentrials-api-2017-01-01.dump',
               size: 100,
             },
