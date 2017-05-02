@@ -181,534 +181,258 @@ describe('search handler', () => {
   describe('Query params', () => {
     describe('location', _itHandlesOptionalMultipleStringParams('location'));
     describe('source', _itHandlesOptionalMultipleStringParams('source', 'records.source_id'));
-  });
 
-  describe('GET /search?q={queryStr}', () => {
-    const queryStr = 'foo bar';
-    let response;
+    describe('has_published_results', _itHandlesOptionalBooleanParam('has_published_results'));
 
-    before(() => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: queryStr,
+    describe('has_publications', _itHandlesOptionalBooleanParamThatChecksExistence('has_publications', 'publications'));
+    describe('has_discrepancies', _itHandlesOptionalBooleanParamThatChecksExistence('has_discrepancies', 'discrepancies'));
+
+    describe('condition', _itHandlesOptionalStringParam('condition'));
+    describe('intervention', _itHandlesOptionalStringParam('intervention'));
+    describe('person', _itHandlesOptionalStringParam('person'));
+    describe('organisation', _itHandlesOptionalStringParam('organisation'));
+
+    describe('GET /search?q={queryStr}', () => {
+      const queryStr = 'foo bar';
+      let response;
+
+      before(() => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: queryStr,
+            },
           },
-        },
+        });
+
+        return server.inject(`/search?q=${encodeURIComponent(queryStr)}`)
+          .then((_response) => {
+            response = _response;
+          });
       });
 
-      return server.inject(`/search?q=${encodeURIComponent(queryStr)}`)
-        .then((_response) => {
-          response = _response;
-        });
-    });
-
-    it('adds the query into the context', () => {
-      response.request.response.source.context.query.q.should.equal(queryStr);
-    });
-
-    it('adds advancedSearchIsVisible as false into the context', () => {
-      const context = response.request.response.source.context;
-
-      context.advancedSearchIsVisible.should.equal(false);
-    });
-  });
-
-  describe('GET /search?page={page}', () => {
-    const page = 51;
-    let response;
-
-    before(() => {
-      mockApiResponses({
-        search: {
-          query: {
-            page,
-          },
-          response: apiResponse,
-        },
+      it('adds the query into the context', () => {
+        response.request.response.source.context.query.q.should.equal(queryStr);
       });
 
-      return server.inject(`/search?page=${page}`)
-        .then((_response) => {
-          response = _response;
-        });
+      it('adds advancedSearchIsVisible as false into the context', () => {
+        const context = response.request.response.source.context;
+
+        context.advancedSearchIsVisible.should.equal(false);
+      });
     });
 
-    it('adds the currentPage number into the context', () => {
-      response.request.response.source.context.currentPage.should.equal(page);
-    });
-  });
+    describe('GET /search?page={page}', () => {
+      const page = 51;
+      let response;
 
-  describe('GET /search?gender={gender}', () => {
-    it('doesnt filter if gender is empty', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: undefined,
+      before(() => {
+        mockApiResponses({
+          search: {
+            query: {
+              page,
+            },
+            response: apiResponse,
           },
-        },
+        });
+
+        return server.inject(`/search?page=${page}`)
+          .then((_response) => {
+            response = _response;
+          });
       });
 
-      return server.inject('/search?gender=')
-        .then((_response) => {
-          _response.statusCode.should.equal(200);
-        });
+      it('adds the currentPage number into the context', () => {
+        response.request.response.source.context.currentPage.should.equal(page);
+      });
     });
 
-    it('filter by male or both if gender is male', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: 'gender:(male OR both)',
+    describe('GET /search?gender={gender}', () => {
+      it('doesnt filter if gender is empty', () => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: undefined,
+            },
           },
-        },
+        });
+
+        return server.inject('/search?gender=')
+          .then((_response) => {
+            _response.statusCode.should.equal(200);
+          });
       });
 
-      return server.inject('/search?gender=male')
-        .then((_response) => {
-          _response.statusCode.should.equal(200);
-        });
-    });
-
-    it('filter by female or both if gender is female', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: 'gender:(female OR both)',
+      it('filter by male or both if gender is male', () => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: 'gender:(male OR both)',
+            },
           },
-        },
+        });
+
+        return server.inject('/search?gender=male')
+          .then((_response) => {
+            _response.statusCode.should.equal(200);
+          });
       });
 
-      return server.inject('/search?gender=female')
-        .then((_response) => {
-          _response.statusCode.should.equal(200);
-        });
-    });
-  });
-
-  describe('GET /search?has_published_results={has_published_results}', () => {
-    it('doesnt filter if has_published_results is empty', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: undefined,
+      it('filter by female or both if gender is female', () => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: 'gender:(female OR both)',
+            },
           },
-        },
+        });
+
+        return server.inject('/search?gender=female')
+          .then((_response) => {
+            _response.statusCode.should.equal(200);
+          });
+      });
+    });
+
+    describe('GET /search?sample_size_start={start}&sample_size_end={end}', () => {
+      it('accepts just sample size start', () => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: 'target_sample_size:([100 TO *])',
+            },
+          },
+        });
+
+        return server.inject('/search?sample_size_start=100')
+          .then((_response) => {
+            _response.statusCode.should.equal(200);
+            _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
+          });
       });
 
-      return server.inject('/search?has_published_results=')
-        .then((_response) => {
-          _response.statusCode.should.equal(200);
-        });
-    });
-
-    it('filter by trials with published results if has_published_results is true', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: 'has_published_results:(true)',
+      it('accepts just sample size end', () => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: 'target_sample_size:([* TO 200])',
+            },
           },
-        },
+        });
+
+        return server.inject('/search?sample_size_end=200')
+          .then((_response) => {
+            _response.statusCode.should.equal(200);
+            _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
+          });
       });
 
-      return server.inject('/search?has_published_results=true')
-        .then((_response) => {
-          _response.statusCode.should.equal(200);
+      it('accepts sample size start and end', () => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: 'target_sample_size:([100 TO 200])',
+            },
+          },
         });
+
+        return server.inject('/search?sample_size_start=100&sample_size_end=200')
+          .then((_response) => {
+            _response.statusCode.should.equal(200);
+            _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
+          });
+      });
     });
 
-    it('filter by trials without published results if has_published_results is false', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: 'has_published_results:(false)',
+    describe('GET /search?registration_date_start={start}&registration_date_end={end}', () => {
+      it('accepts just start date', () => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: 'registration_date:([2012-01-01 TO *])',
+            },
           },
-        },
+        });
+
+        return server.inject('/search?registration_date_start=2012-01-01')
+          .then((_response) => {
+            _response.statusCode.should.equal(200);
+            _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
+          });
       });
 
-      return server.inject('/search?has_published_results=false')
-        .then((_response) => {
-          _response.statusCode.should.equal(200);
-        });
-    });
-  });
-
-  describe('GET /search?has_publications={has_publications}', () => {
-    it('doesnt filter if has_publications is empty', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: undefined,
+      it('accepts just end date', () => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: 'registration_date:([* TO 2016-01-01])',
+            },
           },
-        },
+        });
+
+        return server.inject('/search?registration_date_end=2016-01-01')
+          .then((_response) => {
+            _response.statusCode.should.equal(200);
+            _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
+          });
       });
 
-      return server.inject('/search?has_publications=')
-        .then((_response) => {
-          _response.statusCode.should.equal(200);
-        });
-    });
-
-    it('filter by trials with published results if has_publications is true', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: '_exists_:(publications)',
+      it('accepts start and end dates', () => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: 'registration_date:([2015-01-01 TO 2016-01-01])',
+            },
           },
-        },
+        });
+
+        return server.inject('/search?registration_date_start=2015-01-01&registration_date_end=2016-01-01')
+          .then((_response) => {
+            _response.statusCode.should.equal(200);
+            _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
+          });
       });
 
-      return server.inject('/search?has_publications=true')
-        .then((_response) => {
-          _response.statusCode.should.equal(200);
+      it('accepts start and end dates in format MM/DD/YYYY', () => {
+        // FIXME: This shouldn't be needed after
+        // https://github.com/brianblakely/nodep-date-input-polyfill/issues/31 is
+        // fixed
+        mockApiResponses({
+          search: {
+            query: {
+              q: 'registration_date:([2015-01-20 TO 2016-01-20])',
+            },
+          },
         });
+
+        return server.inject('/search?registration_date_start=01/20/2015&registration_date_end=01/20/2016')
+          .then((_response) => {
+            _response.statusCode.should.equal(200);
+            _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
+          });
+      });
     });
 
-    it('filter by trials without published results if has_publications is false', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: '_missing_:(publications)',
-          },
-        },
+    describe('GET /search?advanced_search{advancedSearch}', () => {
+      it('sets advancedSearchIsVisible to true when advanced_search is true', () => {
+        mockApiResponses();
+
+        return server.inject('/search?advanced_search=true')
+          .then((response) => {
+            const context = response.request.response.source.context;
+            should(context.advancedSearchIsVisible).be.true();
+          });
       });
 
-      return server.inject('/search?has_publications=false')
-        .then((_response) => {
-          _response.statusCode.should.equal(200);
-        });
-    });
-  });
+      it('ignores advanced_search when there are filters', () => {
+        mockApiResponses();
 
-  describe('GET /search?has_discrepancies={has_discrepancies}', () => {
-    it('doesnt filter if has_discrepancies is empty', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: undefined,
-          },
-        },
+        return server.inject('/search?advanced_search=false&location=UK')
+          .then((response) => {
+            const context = response.request.response.source.context;
+            should(context.advancedSearchIsVisible).be.true();
+          });
       });
-
-      return server.inject('/search?has_discrepancies=')
-        .then((_response) => {
-          _response.statusCode.should.equal(200);
-        });
-    });
-
-    it('filter by trials with published results if has_discrepancies is true', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: '_exists_:(discrepancies)',
-          },
-        },
-      });
-
-      return server.inject('/search?has_discrepancies=true')
-        .then((_response) => {
-          _response.statusCode.should.equal(200);
-        });
-    });
-
-    it('filter by trials without published results if has_discrepancies is false', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: '_missing_:(discrepancies)',
-          },
-        },
-      });
-
-      return server.inject('/search?has_discrepancies=false')
-        .then((_response) => {
-          _response.statusCode.should.equal(200);
-        });
-    });
-  });
-
-  describe('GET /search?condition={condition}', () => {
-    const searchResponse = { total_count: 0, items: [] };
-
-    it('does the correct query', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: 'condition:(HIV)',
-          },
-          response: searchResponse,
-        },
-      });
-
-      return server.inject('/search?condition=HIV')
-        .then((response) => {
-          const context = response.request.response.source.context;
-          context.query.condition.should.equal('HIV');
-        });
-    });
-
-    it('escapes special elasticsearch values', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: 'condition:(foo\\(bar\\))',
-          },
-        },
-        response: searchResponse,
-      });
-
-      return server.inject('/search?condition=foo(bar)')
-        .then((response) => {
-          response.statusCode.should.equal(200);
-        });
-    });
-  });
-
-  describe('GET /search?intervention={intervention}', () => {
-    const searchResponse = { total_count: 0, items: [] };
-
-    it('does the correct query', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: 'intervention:(Hippocrates)',
-          },
-          response: searchResponse,
-        },
-      });
-
-      return server.inject('/search?intervention=Hippocrates')
-        .then((response) => {
-          const context = response.request.response.source.context;
-          context.query.intervention.should.equal('Hippocrates');
-        });
-    });
-
-    it('escapes special elasticsearch values', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: 'intervention:(foo\\(bar\\))',
-          },
-        },
-      });
-
-      return server.inject('/search?intervention=foo(bar)')
-        .then((response) => {
-          response.statusCode.should.equal(200);
-        });
-    });
-  });
-
-  describe('GET /search?person={person}', () => {
-    const searchResponse = { total_count: 0, items: [] };
-
-    it('does the correct query', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: 'person:(Hippocrates)',
-          },
-          response: searchResponse,
-        },
-      });
-
-      return server.inject('/search?person=Hippocrates')
-        .then((response) => {
-          const context = response.request.response.source.context;
-          context.query.person.should.equal('Hippocrates');
-        });
-    });
-
-    it('escapes special elasticsearch values', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: 'person:(foo\\(bar\\))',
-          },
-        },
-      });
-
-      return server.inject('/search?person=foo(bar)')
-        .then((response) => {
-          response.statusCode.should.equal(200);
-        });
-    });
-  });
-
-  describe('GET /search?organisation={organisation}', () => {
-    const searchResponse = { total_count: 0, items: [] };
-
-    it('does the correct query', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: 'organisation:(ACME)',
-          },
-          response: searchResponse,
-        },
-      });
-
-      return server.inject('/search?organisation=ACME')
-        .then((response) => {
-          const context = response.request.response.source.context;
-          context.query.organisation.should.equal('ACME');
-        });
-    });
-
-    it('escapes special elasticsearch values', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: 'organisation:(foo\\(bar\\))',
-          },
-        },
-      });
-
-      return server.inject('/search?organisation=foo(bar)')
-        .then((response) => {
-          response.statusCode.should.equal(200);
-        });
-    });
-  });
-
-  describe('GET /search?sample_size_start={start}&sample_size_end={end}', () => {
-    it('accepts just sample size start', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: 'target_sample_size:([100 TO *])',
-          },
-        },
-      });
-
-      return server.inject('/search?sample_size_start=100')
-        .then((_response) => {
-          _response.statusCode.should.equal(200);
-          _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
-        });
-    });
-
-    it('accepts just sample size end', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: 'target_sample_size:([* TO 200])',
-          },
-        },
-      });
-
-      return server.inject('/search?sample_size_end=200')
-        .then((_response) => {
-          _response.statusCode.should.equal(200);
-          _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
-        });
-    });
-
-    it('accepts sample size start and end', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: 'target_sample_size:([100 TO 200])',
-          },
-        },
-      });
-
-      return server.inject('/search?sample_size_start=100&sample_size_end=200')
-        .then((_response) => {
-          _response.statusCode.should.equal(200);
-          _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
-        });
-    });
-  });
-
-  describe('GET /search?registration_date_start={start}&registration_date_end={end}', () => {
-    it('accepts just start date', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: 'registration_date:([2012-01-01 TO *])',
-          },
-        },
-      });
-
-      return server.inject('/search?registration_date_start=2012-01-01')
-        .then((_response) => {
-          _response.statusCode.should.equal(200);
-          _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
-        });
-    });
-
-    it('accepts just end date', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: 'registration_date:([* TO 2016-01-01])',
-          },
-        },
-      });
-
-      return server.inject('/search?registration_date_end=2016-01-01')
-        .then((_response) => {
-          _response.statusCode.should.equal(200);
-          _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
-        });
-    });
-
-    it('accepts start and end dates', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: 'registration_date:([2015-01-01 TO 2016-01-01])',
-          },
-        },
-      });
-
-      return server.inject('/search?registration_date_start=2015-01-01&registration_date_end=2016-01-01')
-        .then((_response) => {
-          _response.statusCode.should.equal(200);
-          _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
-        });
-    });
-
-    it('accepts start and end dates in format MM/DD/YYYY', () => {
-      // FIXME: This shouldn't be needed after
-      // https://github.com/brianblakely/nodep-date-input-polyfill/issues/31 is
-      // fixed
-      mockApiResponses({
-        search: {
-          query: {
-            q: 'registration_date:([2015-01-20 TO 2016-01-20])',
-          },
-        },
-      });
-
-      return server.inject('/search?registration_date_start=01/20/2015&registration_date_end=01/20/2016')
-        .then((_response) => {
-          _response.statusCode.should.equal(200);
-          _response.request.response.source.context.advancedSearchIsVisible.should.equal(true);
-        });
-    });
-  });
-
-  describe('GET /search?advanced_search{advancedSearch}', () => {
-    it('sets advancedSearchIsVisible to true when advanced_search is true', () => {
-      mockApiResponses();
-
-      return server.inject('/search?advanced_search=true')
-        .then((response) => {
-          const context = response.request.response.source.context;
-          should(context.advancedSearchIsVisible).be.true();
-        });
-    });
-
-    it('ignores advanced_search when there are filters', () => {
-      mockApiResponses();
-
-      return server.inject('/search?advanced_search=false&location=UK')
-        .then((response) => {
-          const context = response.request.response.source.context;
-          should(context.advancedSearchIsVisible).be.true();
-        });
     });
   });
 });
@@ -788,6 +512,147 @@ function _itHandlesOptionalMultipleStringParams(paramName, _apiParamName) {
       return server.inject(`/search?${paramName}=foo(bar)`)
         .then((response) => {
           response.statusCode.should.equal(200);
+        });
+    });
+  });
+}
+
+function _itHandlesOptionalBooleanParam(paramName, _apiParamName) {
+  const apiParamName = (_apiParamName === undefined) ? paramName : _apiParamName;
+
+  return () => describe(`GET /search?${paramName}={${paramName}}`, () => {
+    it(`doesnt filter if ${paramName} is empty`, () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: undefined,
+          },
+        },
+      });
+
+      return server.inject(`/search?${paramName}=`)
+        .then((_response) => {
+          _response.statusCode.should.equal(200);
+        });
+    });
+
+    it(`filter by trials with published results if ${paramName} is true`, () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: `${apiParamName}:(true)`,
+          },
+        },
+      });
+
+      return server.inject(`/search?${paramName}=true`)
+        .then((_response) => {
+          _response.statusCode.should.equal(200);
+        });
+    });
+
+    it(`filter by trials without published results if ${paramName} is false`, () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: `${apiParamName}:(false)`,
+          },
+        },
+      });
+
+      return server.inject(`/search?${paramName}=false`)
+        .then((_response) => {
+          _response.statusCode.should.equal(200);
+        });
+    });
+  });
+}
+
+function _itHandlesOptionalStringParam(paramName) {
+  return () => describe(`GET /search?${paramName}={${paramName}}`, () => {
+    const searchResponse = { total_count: 0, items: [] };
+
+    it('does the correct query', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: `${paramName}:(Foo Bar)`,
+          },
+          response: searchResponse,
+        },
+      });
+
+      return server.inject(`/search?${paramName}=Foo+Bar`)
+        .then((response) => {
+          const context = response.request.response.source.context;
+          context.query[paramName].should.equal('Foo Bar');
+        });
+    });
+
+    it('escapes special elasticsearch values', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: `${paramName}:(foo\\(bar\\))`,
+          },
+        },
+        response: searchResponse,
+      });
+
+      return server.inject(`/search?${paramName}=foo(bar)`)
+        .then((response) => {
+          response.statusCode.should.equal(200);
+        });
+    });
+  });
+}
+
+function _itHandlesOptionalBooleanParamThatChecksExistence(paramName, _apiParamName) {
+  const apiParamName = (_apiParamName === undefined) ? paramName : _apiParamName;
+
+  return () => describe(`GET /search?${paramName}={${paramName}}`, () => {
+    it(`doesnt filter if ${paramName} is empty`, () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: undefined,
+          },
+        },
+      });
+
+      return server.inject(`/search?${paramName}=`)
+        .then((_response) => {
+          _response.statusCode.should.equal(200);
+        });
+    });
+
+    it(`filter by trials with published results if ${paramName} is true`, () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: `_exists_:(${apiParamName})`,
+          },
+        },
+      });
+
+      return server.inject(`/search?${paramName}=true`)
+        .then((_response) => {
+          _response.statusCode.should.equal(200);
+        });
+    });
+
+    it(`filter by trials without published results if ${paramName} is false`, () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: `_missing_:(${apiParamName})`,
+          },
+        },
+      });
+
+      return server.inject(`/search?${paramName}=false`)
+        .then((_response) => {
+          _response.statusCode.should.equal(200);
         });
     });
   });

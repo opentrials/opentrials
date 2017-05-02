@@ -254,7 +254,7 @@ describe('contribute-data handler', () => {
 
     it('handles general errors', () => {
       delete config.s3.customDomain;
-      const dataKey = 'uploads/00000000-0000-0000-0000-000000000000/data.pdf';
+      const dataKey = 'uploads/00000000-0000-0000-0000-000000000000/data file.pdf';
       const dataUrl = `https://opentrials-test.s3.amazonaws.com/${dataKey}`;
       const s3Response = `
         <?xml version="1.0" encoding="UTF-8"?>
