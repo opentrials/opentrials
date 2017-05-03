@@ -16,12 +16,20 @@
 {% endmacro %}
 
 <fieldset class="search-bar">
-  <label>Trial title, identifier or other keywords</label>
+  <label
+         for="q"
+         class="hastip"
+         title="This searches across ALL advanced fields below (including title, trial identifier, abstract, condition, intervention, people, organisation, locations)"
+  >Trial title, identifier or other keywords</label>
   <input type="search" title="Search" placeholder="e.g. &quot;heart attack&quot;" name="q" value="{{ query.q }}" autofocus />
   <button type="submit"><span>Search</span></button>
 </fieldset>
 <div class="search-controls">
-  <a href="?advanced_search=true" class="toggle-advanced">Advanced search</a>
+  <label
+         class="hastip"
+         title="Use one of the following filters to search just within that field (e.g. searching for 'cancer' within the 'Condition' filter will only return trials which include the word 'cancer' in its list of conditions)"
+  ><a href="?advanced_search=true" class="toggle-advanced">Advanced search</a>
+  </label>
 </div>
 <fieldset class="advanced {% if advancedSearchIsVisible %}visible{% endif %}">
   <div class="filter">
@@ -43,19 +51,32 @@
   </div>
 
   <div class="filter">
-    <label for="person">People</label>
+    <label
+           for="person"
+           class="hastip"
+           title="Principal Investigator or trial contact"
+    >People</label>
     <input title="person" name="person" value="{{ query.person }}" />
   </div>
 
   <div class="filter">
-    <label for="organisation">Organisation</label>
+    <label
+           for="organisation"
+           class="hastip"
+           title="Trial sponsor and related organisations"
+    >Organisation</label>
     <input title="organisation" name="organisation" value="{{ query.organisation }}" />
   </div>
 
-  {{ createSelectMultiple('location', 'Locations') }}
+  {{ createSelectMultiple('location', 'Locations', 'Recruitment country') }}
 
   <fieldset class="sample size filter">
-    <legend>Sample size</legend>
+    <legend>
+      <label
+             class="hastip"
+             title="Number of participants the trial aims to recruit or has recruited"
+      >Sample size</label>
+    </legend>
     <div>
       <input
         type="number"
@@ -79,7 +100,10 @@
   </fieldset>
 
   <div class="filter">
-    <label for="gender">Gender</label>
+    <label for="gender"
+           class="hastip"
+           title="Gender of participants the trial aims to recruit or has recruited"
+    >Gender</label>
     <div class="select">
       <select name="gender" id="gender">
         <option value="">All</option>
@@ -96,7 +120,10 @@
   </div>
 
   <div class="filter">
-    <label for="has_published_results">Study results</label>
+    <label for="has_published_results"
+           class="hastip"
+           title="If the trial has posted results"
+    >Study results</label>
     <div class="select">
       <select name="has_published_results" id="has_published_results">
         <option value="">All</option>
@@ -117,7 +144,10 @@
   </div>
 
   <div class="filter">
-    <label for="has_publications">Publications</label>
+    <label for="has_publications"
+           class="hastip"
+           title="If the trial has any publications on PubMed (found by searching PubMed article abstracts/metadata for the corresponding trial ID). At present this also includes trials with lay summaries available from the UK Health Research Authority (HRA)."
+    >Publications</label>
     <div class="select">
       <select name="has_publications" id="has_publications">
         <option value="">All</option>
@@ -138,7 +168,12 @@
   </div>
 
   <div class="filter">
-    <label for="source" class="hastip" title="Trial source">Sources</label>
+    <label for="source"
+           class="hastip"
+           title="Trial source (including secondary sources)"
+           >
+      Sources
+    </label>
     <div class="select">
       <select name="source" style="width: 100%;" id="source" multiple="multiple">
         {% for item in sourcesList %}
@@ -153,7 +188,10 @@
   </div>
 
   <div class="filter">
-    <label for="has_discrepancies">Discrepancies</label>
+    <label for="has_discrepancies"
+           class="hastip"
+           title="Trial data differences between registries for a particular trial (e.g. recruitment status, number of participants)"
+    >Discrepancies</label>
     <div class="select">
       <select name="has_discrepancies" id="has_discrepancies">
         <option value="">All</option>
@@ -176,7 +214,10 @@
   <fieldset class="registration date">
       <legend style="display:none;">Registration date period</legend>
       <div class="filter">
-        <label for="registration_date_start">Registration period start date</label>
+        <label for="registration_date_start"
+               class="hastip"
+               title="Find trials that were registered on or after this date."
+        >Registration period start date</label>
         <input
           type="date"
           data-format="dd/MMM/yyyy"
@@ -187,7 +228,10 @@
           value="{{ query.registration_date_start }}">
       </div>
       <div class="filter">
-        <label for="registration_date_end">Registration period end date</label>
+        <label for="registration_date_end"
+               class="hastip"
+               title="Find trials that were registered on or before this date."
+        >Registration period end date</label>
         <input
           type="date"
           data-format="dd/MMM/yyyy"
