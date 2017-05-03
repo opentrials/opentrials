@@ -88,5 +88,6 @@
     });
 
     setupSelect2For('location');
+    $('select[name="source"]').select2();
   });
 }());

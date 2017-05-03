@@ -2,6 +2,8 @@
 
 const should = require('should');
 
+let server;
+
 describe('search handler', () => {
   const apiResponse = JSON.parse(JSON.stringify({
     total_count: 2,
@@ -10,7 +12,6 @@ describe('search handler', () => {
       fixtures.getTrial(),
     ],
   }));
-  let server;
 
   before(() => getExplorerServer().then((_server) => (server = _server)));
 
@@ -64,6 +65,7 @@ describe('search handler', () => {
       it('returns error 502', () => {
         mockApiResponses({
           search: { statusCode: 500 },
+          sources: { statusCode: 500 },
         });
 
         return server.inject('/search')
@@ -77,7 +79,9 @@ describe('search handler', () => {
   describe('Validation Errors', () => {
     describe('page', () => {
       it('accepts page 1', () => {
-        mockApiResponses({ search: { query: { page: 1 } } });
+        mockApiResponses({
+          search: { query: { page: 1 } },
+        });
 
         return server.inject('/search?page=1')
           .then((_response) => {
@@ -86,7 +90,9 @@ describe('search handler', () => {
       });
 
       it('accepts page 100', () => {
-        mockApiResponses({ search: { query: { page: 100 } } });
+        mockApiResponses({
+          search: { query: { page: 100 } },
+        });
 
         return server.inject('/search?page=100')
           .then((_response) => {
@@ -170,6 +176,11 @@ describe('search handler', () => {
         .then((_response) => {
           _response.statusCode.should.equal(400);
         }));
+  });
+
+  describe('Query params', () => {
+    describe('location', _itHandlesOptionalMultipleStringParams('location'));
+    describe('source', _itHandlesOptionalMultipleStringParams('source', 'records.source_id'));
   });
 
   describe('GET /search?q={queryStr}', () => {
@@ -560,81 +571,6 @@ describe('search handler', () => {
     });
   });
 
-  describe('GET /search?location={locationID}&location={locationID}', () => {
-    const searchResponse = { total_count: 0, items: [] };
-
-    describe('single location', () => {
-      it('converts the query to an array', () => {
-        mockApiResponses({
-          search: {
-            query: {
-              q: 'location:("Czech Republic")',
-            },
-            response: searchResponse,
-          },
-        });
-
-        return server.inject('/search?location=Czech+Republic')
-          .then((response) => {
-            const context = response.request.response.source.context;
-            context.query.location.should.deepEqual(['Czech Republic']);
-          });
-      });
-    });
-
-    describe('multiple locations', () => {
-      let response;
-      before(() => {
-        mockApiResponses({
-          search: {
-            query: {
-              q: 'location:("Czech Republic" OR "Brazil")',
-            },
-            response: searchResponse,
-          },
-        });
-
-        return server.inject('/search?location=Czech+Republic&location=Brazil')
-          .then((_response) => {
-            response = _response;
-          });
-      });
-
-      it('calls the API correctly', () => {
-        const context = response.request.response.source.context;
-
-        context.trials.should.deepEqual(searchResponse);
-      });
-
-      it('adds the locations to context.query', () => {
-        const context = response.request.response.source.context;
-
-        context.query.location.should.deepEqual(['Czech Republic', 'Brazil']);
-      });
-
-      it('adds advancedSearchIsVisible as true into the context', () => {
-        const context = response.request.response.source.context;
-
-        context.advancedSearchIsVisible.should.equal(true);
-      });
-    });
-
-    it('escapes special elasticsearch values', () => {
-      mockApiResponses({
-        search: {
-          query: {
-            q: 'location:("foo\\(bar\\)")',
-          },
-        },
-      });
-
-      return server.inject('/search?location=foo(bar)')
-        .then((response) => {
-          response.statusCode.should.equal(200);
-        });
-    });
-  });
-
   describe('GET /search?sample_size_start={start}&sample_size_end={end}', () => {
     it('accepts just sample size start', () => {
       mockApiResponses({
@@ -776,3 +712,83 @@ describe('search handler', () => {
     });
   });
 });
+
+
+function _itHandlesOptionalMultipleStringParams(paramName, _apiParamName) {
+  const apiParamName = (_apiParamName === undefined) ? paramName : _apiParamName;
+
+  return () => describe(`GET /search?${paramName}={${paramName}ID}&${paramName}={${paramName}ID}`, () => {
+    const searchResponse = { total_count: 0, items: [] };
+
+    describe(`single ${paramName}`, () => {
+      it('converts the query to an array', () => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: `${apiParamName}:("Foo Bar")`,
+            },
+            response: searchResponse,
+          },
+        });
+
+        return server.inject(`/search?${paramName}=Foo+Bar`)
+          .then((response) => {
+            const context = response.request.response.source.context;
+            context.query[paramName].should.deepEqual(['Foo Bar']);
+          });
+      });
+    });
+
+    describe(`multiple ${paramName}`, () => {
+      let response;
+      before(() => {
+        mockApiResponses({
+          search: {
+            query: {
+              q: `${apiParamName}:("Foo Bar" OR "Baz")`,
+            },
+            response: searchResponse,
+          },
+        });
+
+        return server.inject(`/search?${paramName}=Foo+Bar&${paramName}=Baz`)
+          .then((_response) => {
+            response = _response;
+          });
+      });
+
+      it('calls the API correctly', () => {
+        const context = response.request.response.source.context;
+
+        context.trials.should.deepEqual(searchResponse);
+      });
+
+      it(`adds the ${paramName} to context.query`, () => {
+        const context = response.request.response.source.context;
+
+        context.query[paramName].should.deepEqual(['Foo Bar', 'Baz']);
+      });
+
+      it('adds advancedSearchIsVisible as true into the context', () => {
+        const context = response.request.response.source.context;
+
+        context.advancedSearchIsVisible.should.equal(true);
+      });
+    });
+
+    it('escapes special elasticsearch values', () => {
+      mockApiResponses({
+        search: {
+          query: {
+            q: `${apiParamName}:("foo\\(bar\\)")`,
+          },
+        },
+      });
+
+      return server.inject(`/search?${paramName}=foo(bar)`)
+        .then((response) => {
+          response.statusCode.should.equal(200);
+        });
+    });
+  });
+}

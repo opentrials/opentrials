@@ -37,6 +37,10 @@ function mockApiResponses(responses) {
       response: { total_count: 0, items: [] },
       statusCode: 200,
     },
+    sources: {
+      response: [fixtures.getSource()],
+      statusCode: 200,
+    },
   };
   const theResponses = _.merge({}, defaultResponses, responses);
   if (theResponses.search.query && theResponses.search.query.per_page === undefined) {

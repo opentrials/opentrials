@@ -1,10 +1,12 @@
 'use strict';
 
 const Boom = require('boom');
+const Promise = require('bluebird');
 const Joi = require('joi');
 const escapeElasticSearch = require('../helpers/escape-elastic-search');
 const generatePaginationLinks = require('../helpers/generate-pagination-links');
 const trials = require('../agents/trials');
+const sources = require('../agents/sources');
 
 function getFilters(query) {
   const filters = {};
@@ -14,6 +16,9 @@ function getFilters(query) {
 
   if (query.location) {
     filters.location = quoteAndEscapeElements(query.location);
+  }
+  if (query.source) {
+    filters['records.source_id'] = quoteAndEscapeElements(query.source);
   }
 
   if (query.condition) {
@@ -86,28 +91,37 @@ function searchPage(request, reply) {
   const filters = getFilters(query);
   const advancedSearch = query.advanced_search || (Object.keys(filters).length > 0);
 
-  trials.search(queryStr, page, perPage, filters).then((_trials) => {
-    const currentPage = page || 1;
-    const pagination = generatePaginationLinks(
-      request.url, currentPage,
-      perPage, maxPages,
-      _trials.total_count
-    );
-    const queryDescription = queryStr || 'clinical trial data';
-    const title = `Search results for ${queryDescription} in OpenTrials`;
-    const description = `OpenTrials has ${_trials.total_count} matches for
+  Promise.join(
+    sources.list(),
+    trials.search(queryStr, page, perPage, filters),
+    (_sources, _trials) => {
+      const currentPage = page || 1;
+      const pagination = generatePaginationLinks(
+        request.url, currentPage,
+        perPage, maxPages,
+        _trials.total_count
+      );
+      const queryDescription = queryStr || 'clinical trial data';
+      const title = `Search results for ${queryDescription} in OpenTrials`;
+      const description = `OpenTrials has ${_trials.total_count} matches for
                         ${queryDescription} in its clinical trials database`;
+      const registerAndJournalSources = _sources.filter((src) => (
+        ['register', 'journal'].indexOf(src.type) !== -1
+      ));
 
-    reply.view('search', {
-      title,
-      description,
-      query,
-      currentPage,
-      pagination,
-      advancedSearchIsVisible: advancedSearch,
-      trials: _trials,
-    });
-  }).catch((err) => (
+      reply.view('search', {
+        title,
+        description,
+        query,
+        currentPage,
+        pagination,
+        sourcesList: registerAndJournalSources,
+        advancedSearchIsVisible: advancedSearch,
+        trials: _trials,
+      });
+    }
+  )
+  .catch((err) => (
     reply(
       Boom.badGateway('Error accessing OpenTrials API.', err)
     )
@@ -130,6 +144,7 @@ module.exports = {
         Joi.string().replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2').regex(/\d{4}-\d{2}-\d{2}/)
       ),
       location: Joi.array().single(true).items(Joi.string().empty('')),
+      source: Joi.array().single(true).items(Joi.string().empty('')),
       q: Joi.string().empty(''),
       condition: Joi.string().empty(''),
       intervention: Joi.string().empty(''),

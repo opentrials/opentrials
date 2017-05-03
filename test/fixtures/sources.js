@@ -7,6 +7,7 @@ function getSource() {
     id: `source${count}`,
     name: `Source ${count}`,
     source_url: `http://example.org/source${count}`,
+    type: 'register',
     terms_and_conditions_url: `http://example.org/source${count}`,
   };
 
