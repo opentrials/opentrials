@@ -68,5 +68,27 @@ describe('data handler', () => {
           ]);
         });
     });
+
+    it('adds and empty dumps list if there was some error getting the dump list', () => {
+      s3.listObjects.rejects(new Error());
+
+      return server.inject('/data')
+        .then((response) => {
+          const context = response.request.response.source.context;
+          const dumps = context.dumps;
+
+          response.statusCode.should.equal(200);
+          should(dumps).be.empty();
+        });
+    });
+
+    it('returns HTTP Error code 502 when the result from S3 is invalid', () => {
+      s3.listObjects.resolves(null);
+
+      return server.inject('/data')
+        .then((response) => {
+          response.statusCode.should.equal(502);
+        });
+    });
   });
 });
