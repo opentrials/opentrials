@@ -20,6 +20,10 @@
 
     <link rel="shortcut icon" type="image/png" href="/assets/images/favicon.png">
     <link rel="apple-touch-icon" type="image/png" href="/assets/images/apple-touch-icon.png">
+
+    <!-- Consent Manager -->
+    {% include "partials/consent-manager.html" %}
+
   </head>
   <body>
     <div class="page">
@@ -43,6 +47,5 @@
       {% block scripts %}{% endblock %}
     </div>
 
-    {% include "partials/google-analytics.html" %}
   </body>
 </html>
