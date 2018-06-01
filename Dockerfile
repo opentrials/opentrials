@@ -1,4 +1,4 @@
-FROM node:5.8
+FROM node:6
 MAINTAINER Open Knowledge International
 
 WORKDIR /app
