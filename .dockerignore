@@ -3,6 +3,10 @@
 !assets/*
 !config/*
 !handlers/*
+!helpers/*
+!lib/*
+!models/*
+!presenters/*
 !routes/*
 !tools/*
 !views/*
