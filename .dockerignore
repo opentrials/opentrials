@@ -2,6 +2,7 @@
 !agents/*
 !assets/*
 !config/*
+!dist/*
 !handlers/*
 !helpers/*
 !lib/*

@@ -37,7 +37,7 @@ config/runtime.yaml
 *.db
 
 # Compiled files
-dist/
+# dist/
 
 # Environment file
 .env

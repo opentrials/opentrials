@@ -43,3 +43,7 @@ OPENTRIALS_URL=http://localhost:5000 npm run e2e
 ```
 
 Remember to change the `OPENTRIALS_URL` to where is the OpenTrials URL.
+
+### Notes
+
+Built static files are checked into the git repository for now to simplify Docker workflow.

@@ -7,6 +7,7 @@
   },
   "main": "server.js",
   "scripts": {
+    "build": "gulp build",
     "pretest": "gulp build",
     "test": "node ./node_modules/.bin/istanbul cover _mocha -- --grep e2e --invert --require test/common",
     "posttest": "npm run lint",
@@ -17,7 +18,6 @@
     "migrate": "knex migrate:latest",
     "rollback": "knex migrate:rollback",
     "dev": "gulp dev",
-    "prestart": "gulp build",
     "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 server.js",
     "update_user_role": "node tools/update_user_role.js"
   },
